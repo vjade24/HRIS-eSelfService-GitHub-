@@ -1,0 +1,779 @@
+﻿@*
+    ****Page Created by     :   Jorge Rustom Villanueva
+    ****Page Started date   :   09/04/2020
+    ****Page Description    :   This page is allow to view/add/edit/delete Employee Time Schedule for Self-Service.
+*@
+
+
+@*LAST*@
+
+<script src="~/Angular/ng-cATSDTRApprDetails.js"></script>
+<style type="text/css">
+
+    input[type="checkbox"] {
+        cursor: pointer;
+    }
+    .add-edit-modal {
+        background-color: #1AB394 !important;
+    }
+
+    .cb_check {
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 20px;
+        height: 20px;
+        color: green !important;
+    }
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 730px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .red_font {
+        color: red !important;
+    }
+
+    .approved-bg {
+        color: #1C84C6;
+    }
+
+    .cancel-bg {
+        color: #ED5565;
+    }
+
+    .disapproved-bg {
+        color: #D62728;
+    }
+
+    .new-bg {
+        color: #1AB394;
+    }
+
+    .reviewed-bg {
+        color: #00C5DA;
+    }
+
+    .submitted-bg {
+        color: #F8AC59;
+    }
+
+    .popover.clockpicker-popover {
+        z-index: 2060;
+    }
+
+    .text_area_size {
+        height: 50px !important;
+    }
+
+    .text_area {
+        resize: none !important;
+    }
+
+    span#display_hol {
+        font-weight: bold;
+        color: #f7a54a;
+    }
+
+    .showmeonhover {
+        display: inline;
+    }
+
+    /* Tooltip container */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    }
+
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 6px;
+            /* Position the tooltip text - see examples below! */
+            position: absolute;
+            z-index: 1;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+    .xx_red_sat_sun {
+        color: #ed5565;
+        font-weight: bold;
+    }
+
+
+    #datalist_grid2 tbody tr.even:hover, #datalist_grid2 tbody tr.even td.highlighted {
+        background-color: #507CD1;
+        color: white !important;
+    }
+
+    #datalist_grid2 tbody tr.odd:hover, #datalist_grid2 tbody tr.odd td.highlighted {
+        background-color: #507CD1;
+        color: white !important;
+    }
+
+    #datalist_grid2 tbody td.span td.highlighted {
+        background-color: #507CD1;
+        color: white !important;
+    }
+
+    /*#datalist_grid2 tr.even:hover {
+        background-color: #507CD1;
+        color: white !important;
+    }
+
+        #datalist_grid2 tr.even:hover td.sorting_1 {
+            background-color: #507CD1;
+            color: white !important;
+        }
+
+        #datalist_grid2 tr.even:hover td.sorting_2 {
+            background-color: #507CD1;
+            color: white !important;
+        }
+
+        #datalist_grid2 tr.even:hover td.sorting_3 {
+            background-color: #507CD1;
+            color: white !important;
+        }
+
+    #datalist_grid2 tr.odd:hover {
+        background-color: #507CD1;
+        color: white !important;
+    }
+
+        #datalist_grid2 tr.odd:hover td.sorting_1 {
+            background-color: #507CD1;
+            color: white !important;
+        }
+
+        #datalist_grid2 tr.odd:hover td.sorting_2 {
+            background-color: #507CD1;
+            color: white !important;
+        }
+
+        #datalist_grid2 tr.odd:hover td.sorting_3 {
+            background-color: #507CD1;
+            color: white !important;
+        }*/
+
+</style>
+
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .table-thead-tr {
+        background-color: white;
+        border-bottom: none;
+    }
+
+    .fc-event {
+        font-size: 1.1em; /* EDIT HERE */
+        text-align: center;
+    }
+
+    .fc-scroller {
+        overflow-y: hidden !important;
+    }
+
+    .table-thead-tr {
+        display: none
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 580px;
+        overflow: auto;
+    }
+
+    .my-custom-scrollbar-2 {
+        position: relative;
+        height: 410px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    table.dataTable tbody td {
+        padding: 1.5px !important;
+    }
+
+    .navy-bg {
+        padding-top: 0.5px;
+        padding-bottom: 0.5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .m-b {
+        margin: 0px !important;
+    }
+
+    .xx.input-group {
+        display: block !important;
+    }
+
+    .approved-bg {
+        background-color: #1C84C6;
+    }
+
+    .cancel-bg {
+        background-color: #ED5565;
+    }
+
+    .disapproved-bg {
+        background-color: #D62728;
+    }
+
+    .new-bg {
+        background-color: #1AB394;
+    }
+
+    .reviewed-bg {
+        background-color: #00C5DA;
+    }
+
+    .submitted-bg {
+        background-color: #F8AC59;
+    }
+
+    .holidays-bg {
+        background-color: #F8EE96;
+    }
+
+    .holiday-bg {
+        color: black;
+        font-weight: bold;
+        font-size: 1em;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        background-color: #F8EE96;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 370px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .xxbg.fc-highlight {
+        background-color: red;
+    }
+
+    .xxbtn_today_text {
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .text_area {
+        resize: none !important;
+    }
+
+    .fc-today {
+        background: #F7C2BB !important;
+    }
+
+    .fc-today-button {
+        background: #F7C2BB !important;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view {
+        margin-top: -10px;
+        background-image: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-sizing: content-box;
+    }
+
+    .fc-day-number {
+        font-size: 14px !important;
+        color: white;
+        font-weight: bold;
+        background-color: transparent;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view > table {
+        background: rgba(7, 81, 12, 0.5)
+    }
+
+    .fc-center > h2 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #57560c;
+        cursor: pointer;
+    }
+
+    .fc-day-header.fc-widget-header {
+        color: white !important;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .popover.clockpicker-popover {
+        z-index: 2060;
+    }
+
+
+    .ddl-name-font-size {
+        font-size: 14px !important;
+        position: relative;
+        z-index: 5000;
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    div.holiday {
+        width: 90% !important;
+        margin-top: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: '...';
+        color: white !important;
+    }
+
+    /*.select2-container {
+        border: 1px solid red !important;
+    }*/
+
+
+</style>
+<body>
+    <section ng-app="ng_selfService_App" ng-controller="cATSDTRApprDetails_ctrlr">
+
+        <!-- Inner Modal -->
+        <div class="modal fade" id="inner_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{InnerModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <b><label style="margin-top:9px;">Status:</label></b>
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control text-center" id="ddl_status" ng-model="ddl_status">
+                                    <option value="N">New</option>
+                                    <option value="A">Approved</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="progress mt10">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                        New
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="row">
+                            <div class="col-sm-12">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                                        New
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                        <hr style="margin-top:0px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        <div class="row mt10">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <span class="pull-left" style="margin-top:9px;"><b>Transmittal Nbr.:</b></span>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <b><input class="form-control text-center" id="txtb_transmittal_nbr" ng-model="txtb_transmittal_nbr" disabled /></b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt10">
+                            <div class="col-lg-3">
+                                <span class="pull-left" style="margin-top:9px;"><b>Count:</b></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <b><input class="form-control text-center" id="txtb_employee_nbr" ng-model="txtb_employee_nbr" disabled /></b>
+                            </div>
+                            <div class="col-lg-3">
+                                <span class="pull-left" style="margin-top:9px;"><b>Transmittal Date:</b></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <b><input class="form-control text-center" id="txtb_transmittal_date" ng-model="txtb_transmittal_date" disabled /></b>
+                            </div>
+
+                        </div>
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row mt10">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <span class="pull-left" style="margin-top:9px;"><b>Address to:</b></span>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <select id="ddl_address_to" ng-model="ddl_address_to" class="select2_demo_3 form-control" style="width:100%;">
+                                            <option value="">--Select Here--</option>
+                                            <option ng-repeat="lst in ddl_address_to_list track by $index" ngx-data="{{$index}}" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt10">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <span class="pull-left" style="margin-top:9px;"><b>Description:</b></span>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <b><textarea class="form-control text-left" id="txtb_transmittal_descr" ng-model="txtb_transmittal_descr"></textarea></b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt10">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <span class="pull-left" style="margin-top:9px;"><b>Requested by:</b></span>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <select id="ddl_requested_by" ng-model="ddl_requested_by" class="select2_demo_3 form-control" style="width:100%;">
+                                            <option value="">--Select Here--</option>
+                                            <option ng-repeat="lst in ddl_requested_by_list track by $index" ngx-data="{{$index}}" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                        <button id="addFinal" ng-click="btn_save_click()" type="button" class="btn btn-success"><i id="btn_save_icn" class="fa fa-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Inner Modal-->
+        <!-- List of Schedule Modal -->
+        <div class="modal fade" id="sched_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{InnerModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;">
+                        <div class="row">
+                            <div class="table-wrapper">
+                                <div class="col-sm-12 table-resposive">
+                                    <table id="datalist_grid3" ng-model="datalist_grid3" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">CTRL NO.</th>
+                                                <th width="20%">EFFECTIVE DATE</th>
+                                                <th width="25%">STATUS</th>
+                                                <th width="25%">MONTH - YEAR</th>
+                                                <th width="10%">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Inner Modal-->
+        <!-- Employee Time Schedule Page Header-->
+        <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <h2 class="text-white">DTR Transmittal Details</h2>
+                            </div>
+                            <div class="col-lg-5">
+                                <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid2')" placeholder="Search ....">
+                            </div>
+
+                            <div class="col-lg-3">
+                                <button class="btn btn-primary btn-block font-bold" ng-click="ToDTRHeader()"><i class="fa fa-arrow-left"></i> &nbsp;&nbsp;&nbsp;&nbsp;Back to Transmittal Header</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div>
+                        <div class="ibox-title">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="row">
+                                        <div class="col-lg-2" style="padding-top:5px;">
+                                            <strong><span style="margin-top:10px;margin-right:9px;">Show</span></strong>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <select class="form-control field-select-sm" style="width:40%;float:left;margin-right:9px;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid2')">
+                                                <option value="5">5</option>
+                                                <option value="10" selected>10</option>
+                                                <option value="15">15</option>
+                                                <option value="20">20</option>
+                                                <option value="50">50</option>
+                                            </select>
+                                            <strong><span class="pull-left" style="float:left;margin-top:9px;margin-left:5px;">entries</span></strong>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <b><label style="margin-top:9px;">Month - Year:</label></b>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <input type="text" class="form-control text-center font-bold" id="txtb_sched_monsyr" ng-model="txtb_sched_monsyr" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <b><label style="margin-top:9px;">View Type:</label></b>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <select class="form-control text-center font-bold" id="ddl_viewtype" ng-model="ddl_viewtype" disabled>
+                                                <option value="0">Whole Month</option>
+                                                <option value="1">1st Quincena</option>
+                                                <option value="2">2nd Quincena</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                </div>
+
+                            </div>
+
+                            <div class="row mt10">
+                                <div class="col-sm-3">
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <b><label style="margin-top:9px;">Transmittal Nbr.:</label></b>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <input type="text" class="form-control text-center font-bold" id="txtb_transmittal_nbr" ng-model="txtb_transmittal_nbr" disabled>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <b><label style="margin-top:9px;">Status:</label></b>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="progress mt10">
+                                                <div class="progress progress-striped active">
+                                                    <div id="progress_id" style="width: 100%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-success">
+                                                        <span>{{approval_status}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-1">
+                                </div>
+
+                            </div>
+
+
+                            <div class="row mt10">
+                                <div class="table-wrapper">
+                                    <div class="col-sm-12 table-resposive">
+                                        <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%">INCLUDED</th>
+                                                    <th width="10%">EMPL. ID</th>
+                                                    <th width="65%">EMPLOYEE NAME</th>
+                                                    <th width="15%">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="print_preview_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width:80% !important;">
+                <div class="modal-content animated fadeIn modal-content-add-edit">
+                    <div class="modal-header add-icon add-edit-modal text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
+                    </div>
+                    <div class="modal-body with-background text-center" style="padding-bottom:15px;">
+                        <div class="form-horizontal">
+                            <div class="row margin-top">
+                                <div id="iframe_content" class="col-md-12">
+                                    <div ng-show="loading_r">
+                                        <div class="spiner-example">
+                                            <div class="sk-spinner sk-spinner-chasing-dots">
+                                                <div class="sk-dot1"></div>
+                                                <div class="sk-dot2"></div>
+                                            </div>
+                                        </div>
+                                        <h2><b>{{generate_message}}</b></h2>
+                                        <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                                    </div>
+                                    <center ng-show="!loading_r">
+                                        <iframe id="iframe_print_preview" name="iframe_print_preview" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%" style="border:10px #ffffff"></iframe>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Loading -->
+        <div class="modal fade" id="modal_generating_remittance">
+            <div class="modal-dialog modal-force-center modal-md">
+                <div class="modal-dialog text-center">
+                    <div class="spiner-example">
+                        <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="row">
+                                <div class="spiner-example text-white" style="margin-left:20px;">
+                                    <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                    <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                        <div class="sk-bounce1" style="background-color:white;"></div>
+                                        <div class="sk-bounce2" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                        <div class="sk-bounce3" style="background-color:white;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>

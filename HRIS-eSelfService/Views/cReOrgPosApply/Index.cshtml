@@ -1,0 +1,994 @@
+﻿@*@{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
+
+@*<h2>Index</h2>*@
+<style>
+    .ddo-panel {
+        border: 0.5px solid #5b2703;
+        background-color: #eac41c;
+        color: #5b2703;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+        .ddo-panel .panel-heading {
+            background-color: #5b2703 !important;
+            color: White !important;
+            cursor: pointer !important;
+        }
+
+        .ddo-panel .panel-footer {
+            background-color: #5b2703 !important;
+            color: White !important;
+            padding-top: 3px !important;
+            padding-bottom: 3px !important;
+            padding-right: 3px !important;
+        }
+        /*.ddo-panel .panel-heading.collapsed {
+        background-color: #eac41c !important;
+        color: #5b2703 !important;
+        cursor: pointer !important;
+    }*/
+        .ddo-panel input[disabled] {
+            background-color: lightgray !important;
+            border-color: lightgray !important;
+        }
+
+    #qs_modal div.modal-content {
+        border: 0.5px solid #5b2703;
+        background-color: #eac41c;
+        color: #5b2703;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    #qs_modal .modal-header, #qs_modal .modal-footer {
+        background-color: #5b2703 !important;
+        color: White !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    #qs_modal .modal-body {
+        padding: 5px 10px !important;
+    }
+
+    #qs_modal hr {
+        margin-bottom: 5px !important;
+        margin-top: 5px !important;
+        border-color: white;
+    }
+
+    #qs_modal .tabs-container li a {
+        font-weight: bolder !important;
+        color: #5b2703 !important;
+    }
+</style>
+<script src="~/Angular/ng-cReOrgPosApply.js"></script>
+<section ng-app="ng_selfService_App" ng-controller="cReOrgPosApply_ctrl">
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Budget Year:</b></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtb_budget_code" ng-model="ddl_budget_year" class="form-control text-center" ng-disabled="true">
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="width:37%; float:left;">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>Employment Type:</b></label>
+                            </div>
+                            <div style="width:63%; float:left;">
+                                <select ng-disabled="true" class="form-control field-select-sm" id="ddl_employment_type" ng-model="ddl_employment_type">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in employment_types_list" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                </select>
+                                <label id="lbl_ddl_employment_type_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Department:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control field-select-sm" id="ddl_department" ng-disabled="dis_as_type" ng-model="ddl_department" ng-change="get_plantilla_items()">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in departments_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                            <label id="lbl_ddl_budget_year_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="fund_show" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Fund Charges:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control field-select-sm" id="ddl_fund_charges" ng-model="ddl_fund_charges" ng-change="get_plantilla_items()">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in fundchargest_list" value="{{lst.fund_code}}">{{lst.fund_description}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Search:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 " style="min-height:380px;">
+                            <div class="table-wrapper-scroll-y table-responsive">
+                                <table id="datalist_grid" ng-model="datalist_grid" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">ITEM No.</th>
+                                            <th width="57%">POSITION TITLE</th>
+                                            <th width="18%">MONTHLY RATE</th>
+                                            <th width="10%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Add Modal-->
+    <!--MODAL FOR QS-->
+    <div class="modal fade" id="qs_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">ITEM QUALIFICATIONS</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom:2px !important;">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Position Title:</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <label>{{selected_pos_title}}</label>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <b><small>Monthly Rate: </small><small><span style="color:white">{{selected_pos_sal}}</span></small></b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Assigment:</label>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-1"><small style="font-weight:bold !important;">Departmet:</small></div>
+                                <div class="col-lg-11"><small>{{datalistgrid[curr_selected_pos]["department_name1"]}}</small></div>
+                                <div class="col-lg-1" ng-show="datalistgrid[curr_selected_pos]['division_code'] == '' ? false:true">
+                                    <small style="font-weight:bold !important;">Division:</small>
+                                </div>
+                                <div class="col-lg-11" ng-show="datalistgrid[curr_selected_pos]['division_code'] == '' ? false:true">
+                                    <small>{{datalistgrid[curr_selected_pos]["division_name1"]}}</small>
+                                </div>
+                                <div class="col-lg-1" ng-show="datalistgrid[curr_selected_pos]['section_code'] == '' ? false:true">
+                                    <small style="font-weight:bold !important;">Section:</small>
+                                </div>
+                                <div class="col-lg-11" ng-show="datalistgrid[curr_selected_pos]['section_code'] == '' ? false:true">
+                                    <small>{{datalistgrid[curr_selected_pos]["section_name1"]}}</small>
+                                </div>
+                                <div class="col-lg-1" ng-show="datalistgrid[curr_selected_pos]['unit_code'] == '' ? false:true">
+                                    <small style="font-weight:bold !important;">unit:</small>
+                                </div>
+                                <div class="col-lg-11" ng-show="datalistgrid[curr_selected_pos]['unit_code'] == '' ? false:true">
+                                    <small>{{datalistgrid[curr_selected_pos]["unit_name1"]}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs" id="personnal_ul">
+                                    <li class="active" style="width:25% !important;" ngx-tab-id="1">
+                                        <a data-toggle="tab" href="#tab-1" aria-expanded="true"><i class="fa fa-graduation-cap text-success"></i> <span>EDUCATION </span></a>
+                                    </li>
+                                    <li class="" style="width:25% !important;" ngx-tab-id="2">
+                                        <a data-toggle="tab" href="#tab-2" aria-expanded="false"><i class="fa fa-bar-chart" style="color:blueviolet;"></i> <span>EXPERIENCE </span></a>
+                                    </li>
+                                    <li class="" style="width:25% !important;" ngx-tab-id="3"><a data-toggle="tab" href="#tab-3" aria-expanded="false"><i class="fa fa-star  text-info"></i><span>TRAINING</span></a></li>
+                                    <li class="" style="width:25% !important;" ngx-tab-id="4"><a data-toggle="tab" href="#tab-4" aria-expanded="false"><i class="fa fa-trophy text-warning" style="color:red;"></i><span>ELIGIBILITY</span></a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active">
+                                        <div class="panel-body" style="min-height:250px !important;padding-top:7px !important;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;"><i class="fa fa-info-circle text-info"></i> {{datalistgrid[curr_selected_pos]["qs_eduction"]}}</label>
+                                                </div>
+                                            </div>
+                                            <hr style="border-color: #5b2703;" />
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;">Your Educatioal Background</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <table class="table table-bordered" id="educ_tbl">
+                                                        <tr>
+                                                            <td width="20%" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;" class="text-center font-bold">&nbsp;LEVEL</td>
+                                                            <td width="50%" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;" class="text-center font-bold">&nbsp;NAME OF SCHOOL</td>
+                                                            <td width="30%" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;" class="text-center font-bold">&nbsp;BASIC EDUCATION/DEGREE/COURSE</td>
+                                                        </tr>
+                                                        <tr ng-repeat="lstx in ps_education track by $index">
+                                                            <td id="tdx_{{$index}}" ng-if="($index == 0)" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;">
+                                                                <small style="font-weight:bold;">&nbsp;{{lstx.educ_short_descr}}</small>
+                                                            </td>
+                                                            <td id="tdx_{{$index}}" rowspan="1" class="first_td" ng-init="setCurrent($index)" ng-if="($index > 0 && lstx.educ_type != ps_education[$index-1].educ_type)" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px; vertical-align:middle !important;">
+                                                                <small style="font-weight:bold;">&nbsp;{{lstx.educ_short_descr}}</small>
+                                                            </td>
+                                                            <td style="padding-top:5px;padding-bottom:5px;"><small style="font-weight:bold;font-size:9px;">&nbsp;{{lstx.school_name}}  {{mergeRow($index,lstx.educ_type)}}</small>     </td>
+                                                            <td style="padding-top:5px;padding-bottom:5px;"><small style="font-weight:bold;font-size:9px;">&nbsp;{{lstx.basic_educ_deg}}</small>  </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-2" class="tab-pane">
+                                        <div class="panel-body" style="min-height:250px !important;padding-top:7px !important;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;"><i class="fa fa-info-circle text-info"></i> {{datalistgrid[curr_selected_pos]["qs_work_experience"]}}</label>
+                                                </div>
+                                            </div>
+                                            <hr style="border-color: #5b2703;" />
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;">Your Attached Work Experience</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="table-wrapper-scroll-y table-responsive">
+                                                        <table id="datalist_work_experience" ng-model="ps_workexperience" class="table table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th rowspan="2" width="45%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important;" class="text-center font-bold">POSITION TITLE</th>
+                                                                    <th rowspan="1" colspan="2" width="25%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;" class="text-center font-bold">INCLUSIVE DATES</th>
+                                                                    <th rowspan="2" width="15%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important;" class="text-center font-bold">STATUS</th>
+                                                                    <th rowspan="2" width="15%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important;" class="text-center font-bold"> RATE</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th rowspan="1" width="12.5%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;" class="text-center font-bold">FROM</th>
+                                                                    <th rowspan="1" width="12.5%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;" class="text-center font-bold">TO</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-3" class="tab-pane">
+                                        <div class="panel-body" style="min-height:250px !important;padding-top:7px !important;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;"><i class="fa fa-info-circle text-info"></i> {{datalistgrid[curr_selected_pos]["qs_training"]}}</label>
+                                                </div>
+                                            </div>
+                                            <hr style="border-color: #5b2703;" />
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;">Your Attached Trainings</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="table-wrapper-scroll-y table-responsive">
+                                                        <table id="datalist_training_grid" class="table table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="40%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important; font-size:11px !important;" class="text-center font-bold">
+                                                                        TITLE OF LEARNING AND DEVELOPMENT INTERVENTIONS /
+                                                                        TRAINING PROGRAMS
+                                                                    </th>
+                                                                    <th width="27%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important; font-size:11px !important;" class="text-center font-bold">
+                                                                        CONDUCTED/ SPONSORED BY
+                                                                    </th>
+                                                                    <th width="15%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important;font-size:11px !important;" class="text-center font-bold">
+                                                                        Type of LD
+                                                                        <small style="font-size:9px !important;">(Managerial/Supervisory<br />/Technical/etc)</small>
+                                                                    </th>
+                                                                    <th width="8%" style="background-color:gray !important;color:white !important;padding-top:5px !important;padding-bottom:5px !important;vertical-align:middle !important;font-size:9px !important;" class="text-center font-bold">
+                                                                        NUMBER OF HOURS
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div id="tab-4" class="tab-pane">
+                                        <div class="panel-body" style="min-height:250px !important;padding-top:7px !important;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;"><i class="fa fa-info-circle text-info"></i> {{datalistgrid[curr_selected_pos]["qs_eligibility"]}}</label>
+                                                </div>
+                                            </div>
+                                            <hr style="border-color: #5b2703;" />
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <label style="font-weight:bold;">Your Eligibility</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <table class="table table-bordered" id="educ_tbl">
+                                                        <tr>
+                                                            <td width="90%" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;" class="text-center font-bold">CAREER SERVICE</td>
+                                                            <td width="10%" style="background-color:gray;color:white;padding-top:5px;padding-bottom:5px;" class="text-center font-bold">RATINGS</td>
+                                                        </tr>
+                                                        <tr ng-repeat="lstx in ps_eligibility track by $index">
+                                                            <td style="padding-top:5px;padding-bottom:5px;"><small style="font-weight:bold;font-size:9px;">&nbsp;{{lstx.cscsrvc_ra1080}}</small>  </td>
+                                                            <td style="padding-top:5px;padding-bottom:5px;text-align:center;"><small style="font-weight:bold;font-size:9px;">&nbsp;{{lstx.rating}}</small>  </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 10px 10px 10px !important">
+                    <button id="btn_apply_item" ng-click="btn_apply_click()" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title=""><i class="fa fa-paper-plane-o"></i> APPLY</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--MODAL FOR QS END-->
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal_vacant" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content animated flipInY">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Budget Year:</b></label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" id="txtb_budget_code" ng-model="ddl_budget_year" class="form-control text-center" ng-disabled="true">
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="width:37%; float:left;">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>Employment Type:</b></label>
+                            </div>
+                            <div style="width:63%; float:left;">
+                                <select ng-disabled="true" class="form-control field-select-sm" id="ddl_employment_type" ng-model="ddl_employment_type">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in employment_types_list" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                </select>
+                                <label id="lbl_ddl_employment_type_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Department:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control field-select-sm" id="ddl_department_v" ng-disabled="dis_as_type" ng-model="ddl_department_v" ng-change="get_plantilla_vacant(ddl_budget_year)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in departments_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                            <label id="lbl_ddl_budget_year_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="fund_show" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Fund Charges:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control field-select-sm" id="ddl_fund_charges" ng-model="ddl_fund_charges" ng-change="btn_view_vacant(ddl_budget_year)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in fundchargest_list" value="{{lst.fund_code}}">{{lst.fund_description}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-2">
+                            <label class="pull-left font-bold" style="padding-top:7px;font-size:12px;"><b>Search:</b></label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid_vacant')" placeholder="Search ....">
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12 " style="min-height:380px;">
+                            <div class="table-wrapper-scroll-y table-responsive">
+                                <table id="datalist_grid_vacant" ng-model="datalist_grid" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style="vertical-align:middle;" width="5%">ITEM No.</th>
+                                            <th rowspan="2" style="vertical-align:middle;" width="5%">SG</th>
+                                            <th rowspan="2" style="vertical-align:middle;" width="30%">POSITION TITLE</th>
+                                            <th rowspan="2" style="vertical-align:middle;" width="5%"># OF APPLICANT</th>
+                                            <th rowspan="2" style="vertical-align:middle;" width="10%">RATE</th>
+                                            <th colspan="4" style="vertical-align:middle;" width="45%">QUALIFICATION STANDARD</th>
+                                        </tr>
+                                        <tr>
+                                            <th width="11.25%">EDUCATION</th>
+                                            <th width="11.25%">EXPERIENCE</th>
+                                            <th width="11.25%">TRAINING</th>
+                                            <th width="11.25%">ELIGIBILITY</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Add Modal-->
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (DateTime.Now <= DateTime.Parse("2021-12-27 06:00:00"))
+    {
+        <div class="modal fade" id="modal_announce" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content  modal-content-add-edit">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title" id="modalLabelSmall">ANNOUNCEMENT!</h3>
+                    </div>
+                    <div class="modal-body with-background" ng-init="announce()">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p>
+                                    <b>Hello everyone!</b> Pls be informed that the organizational structure for the Reorganization is already approved, however, the positions have to be funded before they can officially be considered as <b>“created”</b>.  The funding is incorporated in the annual budget for 2022.
+                                    <br />
+                                    <br />
+                                    The annual budget is set to be approved on Monday, Dec 27, hence, the posting and submission of <b>application will start on December 28-31</b>.
+                                    <br />
+                                    <br />
+                                    <b>The deadline for submission of application for Regular is Jan 4, casual Jan 5.</b>
+                                    <br />
+                                    <br />
+                                    May I remind that this is just a “heads up” and to shed light to those asking on the status.
+                                    <br />
+                                    <br />
+                                    There will be a formal announcement after the bugdet will be approved.
+                                    <br />
+                                    <br />
+                                    <b>Stay tuned. Meantime, lets focus our energy sa donation drive :)</b>
+                                    <br />
+                                    <br />
+                                    <b>Thank you.</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox" style="margin-bottom:10px;">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-12"><label style="color:darkgrey;"><small>Personnel Information</small></label></div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:7px;" />
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                @*<div style="background-image:url({{img_p}});border: 1px dashed #18A689 !important;width:100%;height:136.5px;background-repeat:no-repeat;background-position:center;background-size:cover;">
+
+                                    </div>*@
+                                <img class="" src="{{img_p}}" style="border: 1px dashed #18A689 !important;width:100%;height:136.5px;">
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;">
+                                        <label>Employee Name:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <input class="form-control font-bold" id="txtb_personnel_name" ng-model="txtb_personnel_name" disabled />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;padding-left:0px;">
+                                        <label>Employee ID:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-lg-2">
+                                        <input class="form-control text-center font-bold" id="txtb_empl_id" ng-model="txtb_empl_id" disabled />
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Department:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                        <input class="form-control" id="txtb_department_descr" ng-model="txtb_department_descr" disabled />
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Position Title:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6" style="margin-top:5px;">
+                                        <input class="form-control" id="txtb_current_position" ng-model="txtb_current_position" disabled />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;padding-left:0px;margin-top:5px;">
+                                        <label>Employment Type:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-2 col-lg-2" style="margin-top:5px;">
+                                        <input class="form-control" id="txtb_employment_type" ng-model="txtb_employment_type" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel m-b-xs ddo-panel" ng-repeat="lst in applApplication track by $index">
+                    <div class="panel-heading">
+                        <div class="row" style="vertical-align:middle !important;">
+                            <div class="col-lg-7" style="vertical-align:middle !important;padding-top:5px;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{$index}}">
+                                <b>{{lst.reorg_year}}</b><br />
+                                @*<small>Appointed Position : {{lst.position_aquired}}</small>*@
+                            </div>
+                            <div class="col-lg-3 text-right" style="vertical-align:middle !important;padding-top:5px;" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{$index}}">
+                                @if (Session["employment_type"].ToString() == "JO")
+                                {
+
+                                }
+                                else
+                                {
+                                    <span style="vertical-align:middle !important;" class="badge {{lst.appl_status == 'N' ||  lst.appl_status == '' ? 'badge-primary':'badge-warning'}}">{{lst.appl_status_descr}}</span><br />
+                                }
+                            </div>
+                            <div class="col-lg-2 text-right">
+                                @if (Session["log_in_as_AO"].ToString() == "True" || Session["empl_id"].ToString() == "0644")
+                                {
+                                    <div class="input-group-btn text-right">
+                                        <button data-toggle="dropdown" class="btn btn-sm btn-block btn-primary font-bold" style="border-radius:5px !important;" type="button">AO REPORTS <span style="right:0px !important;" class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li style="vertical-align:middle;color:black;"><a ng-click="btn_view_vacant(lst.budget_code)">VIEW PLANTILLA</a></li>
+                                            <li style="vertical-align:middle;color:black;"><a ng-click="btn_print(lst.budget_code,'NO')">LIST OF NO APPLICATION</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-block btn-primary" ng-click="btn_view_vacant(lst.budget_code)">VIEW PLANTILLA</button>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapseOne{{$index}}" class="panel-collapse collapse {{$index == 0 ? 'in':''}}">
+                        <div class="panel-body" style="padding-bottom:5px !important;padding-top:0px !important;">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Primary Position:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7 col-lg-7" style="margin-top:5px;">
+
+                                        <input class="form-control font-bold " id="txtb_primary_descr{{lst.budget_code}}" value="{{lst.primary_position}}" disabled />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Item Nbr.:</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="margin-top:5px;">
+                                        <div class="input-group">
+
+                                            <input type="text" id="txtb_primary_item{{lst.budget_code}}" value="{{ lst.item_no_primary}}" class="form-control text-center font-bold" ng-disabled="true">
+
+                                            @if (Session["employment_type"].ToString() != "JO")
+                                            {
+
+                                                if (Session["department_code"].ToString() == "03"
+                                                && ((DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00")))
+                                                )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-click="show_add_modal('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+
+                                                }
+                                                else if (DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00"))
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+
+                                                }
+                                                else if (Session["employment_type"].ToString() == "RE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-04 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-click="show_add_modal('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (Session["employment_type"].ToString() == "CE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-click="show_add_modal('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+
+                                                }
+
+                                                @*if ((DateTime.Now >= DateTime.Parse("2021-12-15 23:59:00") && Session["employment_type"].ToString() == "RE")
+                                                        || (DateTime.Now >= DateTime.Parse("2021-12-11 11:59:00") && Session["employment_type"].ToString() == "CE"))
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_P{{lst.budget_code}}" ng-click="show_add_modal('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('P',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                        </div>
+                                                    }*@
+
+                                            }
+                                        </div>
+                                        <label id="lbl_txtb_primary_item_req{{lst.budget_code}}" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Secondary Position:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7 col-lg-7" style="margin-top:5px;">
+                                        <input class="form-control font-bold" id="txtb_secondary_descr{{lst.budget_code}}" value="{{lst.secondary_position}}" disabled />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Item Nbr.:</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="margin-top:5px;">
+                                        <div class="input-group">
+                                            <input type="text" id="txtb_secondary_item{{lst.budget_code}}" value="{{lst.item_no_secondary}}" class="font-bold form-control text-center" ng-disabled="true">
+
+                                            @if (Session["employment_type"].ToString() != "JO")
+                                            {
+                                                if (Session["department_code"].ToString() == "03"
+                                                && ((DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00")))
+                                                )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-click="show_add_modal('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00"))
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (Session["employment_type"].ToString() == "RE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-04 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-click="show_add_modal('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (Session["employment_type"].ToString() == "CE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-click="show_add_modal('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+                                                }
+
+
+                                                @*if ((DateTime.Now >= DateTime.Parse("2021-12-15 23:59:00") && Session["employment_type"].ToString() == "RE") || (DateTime.Now >= DateTime.Parse("2021-12-10 11:59:00") && Session["employment_type"].ToString() == "CE"))
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_S{{lst.budget_code}}" ng-click="show_add_modal('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-click="btn_clear_item('S',lst.budget_code)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button">X</button>
+                                                        </div>
+                                                    }*@
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Tertiary Position:</label>
+                                    </div>
+                                    <div class="col-sm-12 col-md-7 col-lg-7" style="margin-top:5px;">
+
+                                        <input class="form-control font-bold" id="txtb_tertiary_descr{{lst.budget_code}}" value="{{lst.item_no_tertiary != '' || lst.item_no_secondary !='' || lst.item_no_primary !='' ? lst.tertiary_position:lst.current_own_position}}" disabled />
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Item Nbr.:</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="margin-top:5px;">
+                                        <div class="input-group">
+
+                                            <input type="text" id="txtb_tertiary_item{{lst.budget_code}}" value="{{lst.item_no_tertiary != '' || lst.item_no_secondary !='' || lst.item_no_primary !='' ? lst.item_no_tertiary:lst.item_no_current_own}}" class="font-bold form-control text-center" ng-disabled="true">
+                                            @if (Session["employment_type"].ToString() != "JO")
+                                            {
+                                                if (Session["department_code"].ToString() == "03"
+                                                && ((DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00")))
+                                                )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="show_add_modal('T',lst.budget_code)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="btn_clear_item('T',lst.budget_code)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00"))
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (Session["employment_type"].ToString() == "RE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-04 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="show_add_modal('T',lst.budget_code)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="btn_clear_item('T',lst.budget_code)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else if (Session["employment_type"].ToString() == "CE"
+                                                        && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                        && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                                    )
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="show_add_modal('T',lst.budget_code)" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="btn_clear_item('T',lst.budget_code)" type="button">X</button>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="input-group-btn open">
+                                                        <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                        <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                    </div>
+                                                }
+
+                                                @*if ((DateTime.Now >= DateTime.Parse("2021-12-15 23:59:00") && Session["employment_type"].ToString() == "RE")
+                                                        || (DateTime.Now >= DateTime.Parse("2021-12-10 11:59:00") && Session["employment_type"].ToString() == "CE"))
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="true" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="true" type="button">X</button>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="input-group-btn open">
+                                                            <button tabindex="-1" id="btn_add_T{{lst.budget_code}}" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="show_add_modal('T',lst.budget_code)" class="btn btn-success font-bold" type="button">+</button>
+                                                            <button tabindex="-1" class="btn btn-danger font-bold" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == ''  || lst.appl_status == 'C' ? false:true)" ng-click="btn_clear_item('T',lst.budget_code)" type="button">X</button>
+                                                        </div>
+                                                    }*@
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-lg-6" style="padding-left:2px;">
+
+                                    @if (Session["employment_type"].ToString() != "JO")
+                                    {
+                                        if (Session["department_code"].ToString() == "03"
+                                            && ((DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00")))
+                                            )
+                                        {
+                                            <span class="btn btn-info font-bold"><i class="fa fa-info-circle"></i> System is currently on pilot testing for HR</span>
+                                        }
+                                        else if (DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00"))
+                                        {
+                                            <span class="btn btn-info font-bold"><i class="fa fa-info-circle"></i> System is currently preparing for the schedule reorg that will start December 21, 2021</span>
+                                        }
+                                        else if (Session["employment_type"].ToString() == "RE"
+                                                && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                && (DateTime.Now <= DateTime.Parse("2022-01-04 23:59:00"))
+                                            )
+                                        {
+
+                                        }
+                                        else if (Session["employment_type"].ToString() == "CE"
+                                                && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                            )
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            <span class="btn btn-info font-bold"><i class="fa fa-info-circle"></i> Upon due date, you no longer to allowed to  apply and update your application!</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="btn btn-info font-bold">  <i class="fa fa-info-circle"></i> Job Order Employee's are not authorize!</span>
+                                    }
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    @*@if (Session["employment_type"].ToString() != "JO")
+                                        {
+                                            if ((DateTime.Now >= DateTime.Parse("2021-12-15 23:59:00") && Session["employment_type"].ToString() == "RE") || (DateTime.Now >= DateTime.Parse("2021-12-10 11:59:00") && Session["employment_type"].ToString() == "CE"))
+                                            {
+                                                <button id="addPrint{{lst.budget_code}}" ng-disabled="true" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            }
+                                            else
+                                            {
+                                                <button id="addPrint{{lst.budget_code}}" ng-click="btn_print(lst.budget_code,lst.empl_id)" ng-disabled="(lst.appl_status == '' ? true:false)" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            }
+
+                                        }*@
+                                    @*<button id="submit{{lst.budget_code}}" ng-click="btn_save_click('S',lst.budget_code,$index)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Data cannot be deleted/updated once submitted"><i class="fa fa-paper-plane-o"></i> Submit</button>*@
+
+
+                                    @if (Session["employment_type"].ToString() != "JO")
+                                    {
+                                        if (Session["department_code"].ToString() == "03"
+                                            && ((DateTime.Now <= DateTime.Parse("2021-12-27 23:59:00")))
+                                            )
+                                        {
+                                            <button id="addPrint{{lst.budget_code}}" ng-click="btn_print(lst.budget_code,lst.empl_id)" ng-disabled="(lst.appl_status == '' ? true:false)" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            <button id="addFinal{{lst.budget_code}}" ng-click="btn_save_click('N',lst.budget_code,$index)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+
+                                        }
+                                        else if (DateTime.Now <= DateTime.Parse("2021-12-27 06:00:00"))
+                                        {
+                                            <button id="addPrint{{lst.budget_code}}" ng-disabled="true" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            <button id="addFinal{{lst.budget_code}}" ng-disabled="true" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                                        }
+                                        else if (Session["employment_type"].ToString() == "RE"
+                                                && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                            )
+                                        {
+                                            <button id="addPrint{{lst.budget_code}}" ng-click="btn_print(lst.budget_code,lst.empl_id)" ng-disabled="(lst.appl_status == '' ? true:false)" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            <button id="addFinal{{lst.budget_code}}" ng-click="btn_save_click('N',lst.budget_code,$index)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                                        }
+                                        else if (Session["employment_type"].ToString() == "CE"
+                                                && (DateTime.Now >= DateTime.Parse("2021-12-27 23:59:00"))
+                                                && (DateTime.Now <= DateTime.Parse("2022-01-05 23:59:00"))
+                                            )
+                                        {
+                                            <button id="addPrint{{lst.budget_code}}" ng-click="btn_print(lst.budget_code,lst.empl_id)" ng-disabled="(lst.appl_status == '' ? true:false)" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            <button id="addFinal{{lst.budget_code}}" ng-click="btn_save_click('N',lst.budget_code,$index)" ng-disabled="(lst.appl_status == 'N' || lst.appl_status == '' || lst.appl_status == 'C' ? false:true)" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                                        }
+                                        else
+                                        {
+                                            <button id="addPrint{{lst.budget_code}}" ng-click="btn_print(lst.budget_code,lst.empl_id)" ng-disabled="(lst.appl_status == '' ? true:false)" type="button" class="btn btn-primary"><i class="fa fa-print"></i> Print</button>
+                                            <button id="addFinal{{lst.budget_code}}" ng-disabled="true" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                                        }
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

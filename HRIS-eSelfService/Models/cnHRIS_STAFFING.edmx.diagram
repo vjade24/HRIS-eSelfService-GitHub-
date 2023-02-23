@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="967a57a3fa494deb8aa9a3eff660e679" Name="Diagram1" ZoomLevel="77">
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.departments_tbl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.divisions_tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.functions_tbl" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.fundcharges_tbl" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.fundsources_tbl" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.plantilla_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.positions_tbl" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.salaries_tbl" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.sections_tbl" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.staffing_users_tbl" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.subdepartments_tbl" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.position_jobdescriptions_tbl" Width="1.5" PointX="11.375" PointY="3.75" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.reorg_jobdescriptions_tbl" Width="1.5" PointX="11.375" PointY="11.75" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.reorg_appl_not_qua_tbl" Width="1.5" PointX="7.375" PointY="12.75" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.vw_vw_personnelnames_tbl_img" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.vw_placement_reorg_appl_list" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HRIS_STAFFINGModel.reorg_appl_tbl" Width="1.5" PointX="3.375" PointY="13.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

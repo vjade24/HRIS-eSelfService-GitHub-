@@ -1,0 +1,800 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS-eSelfService | Committee</title>
+    <base href="/" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+    <link href="~/Content/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+
+
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <link href="~/Content/plugins/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/plugins/slick/slick-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/steps/jquery.steps.css" rel="stylesheet" />
+
+    <style type="text/css">
+
+        body{
+            padding-right:0px !important;
+        }
+
+        .select2-selection__clear {
+            font-size: 14px !important;
+        }
+
+        .select2-close-mask {
+            z-index: 2099;
+        }
+
+        .select2-dropdown {
+            z-index: 3051;
+        }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+            /*border: 1px solid red !important;*/
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+
+        .text_area_size {
+            height: 50px !important;
+        }
+
+        .sl-vl-radio-display-none {
+            display: none;
+        }
+
+        .ddl_padding_xx {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        span.required {
+            border: 1px solid red !important;
+        }
+
+        .swal-footer {
+            text-align: center !important;
+        }
+
+        .swal-text {
+            text-align: center !important;
+        }
+
+        .text-primary {
+            color: #1c84c6 !important;
+        }
+
+        .ddo-bg-1 {
+            background-image: linear-gradient(#472b1a, #211006) !important;
+            color: white !important;
+        }
+
+        .ddo-bg-2 {
+            cursor: pointer !important;
+            background-color: #fdb900 !important;
+            color: saddlebrown !important;
+        }
+
+        .panel-ddo-1 {
+            border-color: #29160b;
+        }
+
+
+        span.details-control {
+            background: url('../../ResourcesImages/show.jpg') no-repeat center center;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        tr.shown span.details-control {
+            background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .brown-bg-1 {
+            background-image: linear-gradient(to right,#ffcb00,#ffb52b) !important
+        }
+    </style>
+
+    <script src="~/Angular/ng-cPlacementCommittee.js"></script>
+</head>
+
+<body ng-app="ng_selfService_App" ng-controller="SharedLayoutCtrlr" id="main-body" ng-click="CheckSession()" class="top-navigation">
+
+    <section ng-app="ng_eSelfService_App" ng-controller="cPlacementCommittee_ctrlr">
+        <div id="wrapper">
+            <div id="page-wrapper" class="brown-bg-1" style="padding:0px !important">
+                <div class="wrapper-content animated fadeInRight ddo-bg-1 " style="padding:5px 20px 5px">
+                    <div class="form-group row with-background">
+
+                        <div class="col-lg-2 b-r">
+                            <div class="form-group row p-xxs">
+                                <div class="col-lg-12">
+                                    <div class="profile-image m-t-sm" ng-click="FilterPageGrid()">
+                                        <img class="m-b-m" src="~/ResourcesImages/ddo logo.png" alt="DDO Profile" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6>Republic of the Philippines</h6>
+                                    <h4 class="m-t-n-sm">Province of Davao de Oro</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="form-group row">
+                                <div class="col-lg-9 text-center">
+                                    <h2 style="color:#fdb900 !important"><strong>Reorganization Placement Committee</strong></h2>
+                                </div>
+                                <div class="col-lg-3 text-right">
+                                    <div class="dropdown profile-element m-t-md">
+                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                            <span class="clear">
+                                                <span class="text-muted text-xs block">Welcome, {{user_firstname}} <b class="caret"></b></span>
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu animated fadeInRight m-t-xs" style="color:#422817 !important">
+                                            <li><a href="cReorgStructure/Index">View Structure</a></li>
+                                            <li class="divider"></li>
+                                            <li><a ng-model="logout" ng-click="logout()">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                            <label>Department:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                            <select class="select2_demo_3 form-control" id="ddl_department_code" ng-model="ddl_department_code" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in dep_lst" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                            <label>Budget Code:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                            <select class="select2_demo_4 form-control" id="ddl_budget_code" ng-model="ddl_budget_code" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in budget_lst" value="{{lst.budget_code}}">{{lst.budget_description}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;padding-left:0px;">
+                                            <label>Employment Type:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                            <select class="select2_demo_5 form-control" id="ddl_employment_type" ng-model="ddl_employment_type" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in empltype_lst" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @*<div class="row" >
+                                <div class="col-lg-8"></div>
+                                <div class="col-lg-4">
+                                    <a aria-expanded="false" role="button" class="btn btn-primary btn-xs bottom-right btn-block" href="cPlacementCommitteeStructure/Index"><i class="fa fa-arrow-left"></i> View Structure</a>
+                                </div>
+                            </div>*@
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <div class="col-lg-6">
+                                            <div class="widget style1  navy-bg" style="margin-top:0px !important;margin-bottom:0px !important;">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <i class="fa fa-star fa-5x"></i>
+                                                    </div>
+                                                    <div class="col-sm-8 text-right">
+                                                        <h1 class="font-bold">{{data_ocpd}}</h1>
+                                                        <h5 class="m-t-n-sm">Occupied</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="widget style1  yellow-bg" style="margin-top:0px !important;margin-bottom:0px !important;">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <i class="fa fa-check fa-5x"></i>
+                                                    </div>
+                                                    <div class="col-sm-8 text-right">
+                                                        <h1 class="font-bold ">{{data_vcnt}}</h1>
+                                                        <h5 class="m-t-n-sm">Vacant</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wrapper-content animated fadeInRight with-background" style="padding:10px 50px 10px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="ibox">
+
+                                        <div class="ibox-title" style="background-color:rgb(0 0 0 / 20%) !important;border-color:rgb(255 255 255 / 15%) !important">
+                                            <div class="form-group row">
+                                                @*<div class="col-lg-12">
+                                                    <img id="image_view{{lstXX.empl_id}}" src="{{encode_idv(lstXX.empl_photo_img)}}" ngx-data="{{lstXX.last_name}}" width="100" height="100" ng-repeat="lstXX in view_img" alt="{{lstXX.last_name}}" >
+                                                </div>*@
+                                                <div class="col-lg-10">
+                                                    <input type="search" class="form-control " ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="&#xF002; Search" style="font-family:'Segoe UI', FontAwesome">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div class="btn-group btn-block">
+                                                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-block"> <i class="fa fa-print"></i> Select Printable</button>
+                                                        <ul class="dropdown-menu ">
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'NO','')">List of No Application</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'EMPL_APPL','')">Employee Reorg Applications Report</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'ITEM_APPL_Y','')">Item Applicant With Incumbent Report</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'ITEM_APPL_N','')">Item Applicant Without Incumbent Report</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'ITEM_ENDORSE','')">Endorsement Per Department Report</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'APPROVED','')">Approved Applicants</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'A2Z_RE','RE')">Permanent A to Z Master List</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'A2Z_CE','RE')">Casual A to Z Master List</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'PLANTILLA','')">Workable Plantilla Report</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'DISPLACED','RE')">Displaced Regular Employees</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'DISPLACED','CE')">Displaced Casual Employees</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'ITEM_UNFILLED','RE')">Unfilled Position/s</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'CONG_E','RE')">Congratulatory To Employee</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'CONG_DEP','RE')">Letter To PG Head</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'POST','RE')">List For Posting</a></li>
+                                                            <li class="dropdown-divider"></li>
+                                                            <li><a class="dropdown-item" ng-click="btn_print(ddl_budget_code,'CASUAL_TO_P','RE')">Employees From Casual To Permanent</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ibox-content" style="padding-bottom:10px !important">
+                                            <table id="datalist_grid" class=" table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th width="5%">ITEM NO</th>
+                                                        <th width="5%">CSC LEVEL</th>
+                                                        <th width="40%">POSITION TITLE</th>
+                                                        <th width="5%"># OF APPLICANTS</th>
+                                                        <th width="30%">STATUS</th>
+                                                        <th width="15%">ACTION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="col-lg-12" ng-show="false">
+                    <div class="panel m-b-xs panel-ddo-1" ng-repeat="lst in data_pos">
+                        <div class="panel-heading ddo-bg-1" style="cursor:pointer !important">
+                            <div class="row">
+                                <div class="col-lg-10" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{lst.item_no}}">
+
+                                    <h3>{{lst.position_long_title}}</h3>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button ng-click="btn_view_action_new(lst)" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="left" title="{{lst.nbr_applicants}} number of Applicants"><span class="label label-danger">{{lst.nbr_applicants}} </span>  &nbsp;&nbsp; View Applicants &nbsp;&nbsp; <i class="fa fa-sign-in"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="collapseOne{{lst.item_no}}" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-4 b-r">
+                                        <h5 class="m-b-n-xxs m-t-n-xxs">Item Number - {{lst.item_no}}</h5>
+                                        <br />
+                                        <h3 class="m-t-n"><strong>{{lst.position_long_title}}</strong></h3>
+                                        <h5 class="m-t-n-xs">{{lst.position_short_title}} - {{lst.position_title2}} </h5>
+                                        <h5 class="m-t-n-xs">Salary Grade {{lst.salary_grade}} </h5>
+
+                                    </div>
+                                    <div class="col-lg-2 b-r">
+                                        <h3><i class="fa fa-graduation-cap text-success"></i> Education</h3>
+                                        <h5 class="m-t-n-xs">
+                                            {{lst.qs_eduction}}
+                                        </h5>
+
+                                    </div>
+                                    <div class="col-lg-2 b-r">
+                                        <h3><i class="fa fa-bar-chart text-primary"></i> Experience</h3>
+
+                                        <h5 class="m-t-n-xs">
+                                            {{lst.qs_work_experience}}
+                                        </h5>
+
+                                    </div>
+                                    <div class="col-lg-2 b-r">
+                                        <h3><i class="fa fa-star text-info"></i> Trainings</h3>
+
+                                        <h5 class="m-t-n-xs">
+                                            {{lst.qs_training}}
+                                        </h5>
+                                    </div>
+                                    <div class="col-lg-2 b-r">
+                                        <h3><i class="fa fa-trophy text-warning"></i> Eligibility</h3>
+
+                                        <h5 class="m-t-n-xs">
+                                            {{lst.qs_eligibility}}
+                                        </h5>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+
+                    </div>
+                </div>
+
+                <div class="modal fade" id="task_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content modal-content-add-edit">
+                            <div class="modal-header modal-header-add-edit text-white">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="modalLabelSmall">{{TaskModalTitle}}</h4>
+                            </div>
+                            <div class="modal-body" style="padding:5px 15px !important;background-color:white;">
+                                <div class="row">
+                                    <div class="col-lg-2">
+
+                                        <strong><span class="pull-left" style="margin-top:9px;">Position Title:&nbsp;</span></strong>
+                                    </div>
+                                    <div class="col-lg-10">
+
+                                        <input class="form-control" ng-model="txtb_position" ng-disabled="true" />
+
+                                    </div>
+                                </div>
+                                <hr style="margin-top:5px; margin-bottom:5px;" />
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <strong><span class="pull-left" style="margin-top:9px;">Search:</span></strong>
+
+                                    </div>
+                                    <div class="col-lg-10">
+
+                                        <input type="search" class="form-control" style="color:black;" ng-model="search_box_task" ng-keyup="search_in_list(search_box_task,'datalist_task_grid')" placeholder="">
+
+                                    </div>
+                                    @*<div class="col-lg-3 text-right">
+                                <button id="add" ng-show="allow_for_this_page" ng-disabled="isSubmitted" class="btn btn-success font-bold" ng-click="btn_add_click()"><i class="fa fa-plus-circle"> </i> Add</button>
+                            </div>*@
+                                </div>
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="col-lg-12">
+                                        <table id="datalist_task_grid" ng-model="datalist_task_grid" class="table table-striped table-bordered table-hover  table-responsive" style="width:100% !important;">
+                                            <thead>
+                                                <tr>
+                                                    @*<th width="11%">CTRL #</th>*@
+                                                    <th width="75%">JOB DESCRIPTION</th>
+                                                    <th width="5%">WEIGHT</th>
+                                                    @*<th width="9%">ACTION</th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="override_employee_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header blue-bg">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h3 class="modal-title" id="modalLabelSmall">Override Applicants</h3>
+                            </div>
+                            <div class="modal-body" style="padding:5px 15px !important;background-color:white;">
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="col-lg-12">
+                                        <label>Applicant/s Name:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <select class="select2_demo_6 form-control" id="ddl_employee_name" ng-model="ddl_employee_name" style="width:100%;">
+                                            <option value="">--Select Here--</option>
+                                            <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.empl_id}} - {{lst.employee_name}}</option>
+                                        </select>
+                                        <a class="pull-right" ng-click="btn_print('','PDS','')">View Personal Data Sheet (PDS)</a>
+                                    </div>
+                                </div>
+                                <div class="row" ng-hide="ddl_employee_name_show" >
+                                    <div class="col-lg-3" style="padding-top: 1%;padding-bottom: 1%;">
+                                        <div class="col-sm-12">
+                                            <div class="profile-image m-t-sm">
+                                                <img id="ItemPreview" src="" class="rounded-circle circle-border m-b-m" alt="profile" style="background-color: #fdb900; ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9" style="padding-top: 1%;padding-bottom: 1%;">
+                                        <div class="form-group row">
+                                            <div class="col-lg-12">
+                                                <div class="vertical-container">
+                                                    <div class="small text-muted">
+                                                        <h5 class="m-b-n-xxs">Also Applied for; </h5>
+                                                        <ul class="tag-list" style="padding: 0;">
+                                                            <li ng-show="txtb_primary   != '' ? true : false"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{txtb_primary}}     </a></li>
+                                                            <li ng-show="txtb_secondary != '' ? true : false"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{txtb_secondary}}   </a> </li>
+                                                            <li ng-show="txtb_tertiary  != '' ? true : false"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{txtb_tertiary}}    </a></li>
+                                                            <h1 ng-show="(txtb_primary == '' && txtb_secondary == '' && txtb_tertiary == '') ? true : false" class="text-danger"><b>NO APPLICATION</b></h1>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <hr style="margin-top:10px !important;margin-bottom:10px !important" />
+                                    @*<div class="col-lg-10">
+                                        <label>Approved Applicants</label>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>ID No.</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            <div class="col-lg-10">
+                                                <input class="form-control" ng-model="txtb_item_occupied_by" ng-disabled="true" style="width:100%;" />
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input class="form-control text-center" ng-model="txtb_item_occupied_by_empl_id" id="txtb_selected_item_no" ng-disabled="true" style="width:100%;" />
+
+                                            </div>
+                                           
+                                        </div>
+                                    </div>*@
+                                    <div class="col-lg-10">
+                                        <label>Assign Position</label>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label>Item No.</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group row">
+                                            
+                                            <div class="col-lg-10">
+                                                <input class="form-control" ng-model="txtb_selected_position_title" ng-disabled="true" style="width:100%;" />
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <input class="form-control text-center" ng-model="txtb_selected_item_no" id="txtb_selected_item_no" ng-disabled="true" style="width:100%;" />
+
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <span style="font-size:11px !important"><span class="fa fa-info-circle text-success"></span>  Note: If you override the Position/Item for this applicant, make sure you review the Qualification Standard (QS) for this Position/Item.</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="row" style="margin-bottom:20px !important">
+
+                                    <hr style="margin-top:10px !important;margin-bottom:10px !important" />
+
+                                    <div class="col-lg-12">
+                                        <label>Aqcuired Item:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control" ng-model="txtb_acquired_item"  id="txtb_acquired_item" ng-disabled="true" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label>Primary Position:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+
+                                        <input class="form-control" ng-model="txtb_primary" id="txtb_primary" ng-disabled="true" style="width:100%;" />
+                                    </div>
+
+                                    <div class="col-lg-12" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                        <label>Secondary Position:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+
+                                        <input class="form-control" ng-model="txtb_secondary" id="txtb_secondary" ng-disabled="true" />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label>Tertiary Position:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control" ng-model="txtb_tertiary"  id="txtb_tertiary" ng-disabled="true" />
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="modal-footer blue-bg text-center">
+                                <button class="btn btn-primary pull-right text-center" ng-click="btn_approve_override()">Approve <i class="fa fa-thumbs-up"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content  modal-content-add-edit">
+                            <div class="modal-header navy-bg text-white">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                            </div>
+                            <div class="modal-body with-background" style="padding:0px !important">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal fade" id="modal_loading">
+                    <div class="modal-dialog">
+                        <div class="modal-dialog text-center">
+                            <div class="spiner-example">
+                                <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="sk-cube"></div>
+                                    <div class="row">
+                                        <div class="spiner-example text-white" style="margin-left:20px;">
+                                            <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                            <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                                <div class="sk-bounce1" style="background-color:white;"></div>
+                                                <div class="sk-bounce2" style="background-color:white;"></div>
+                                                <div class="sk-bounce3" style="background-color:white;"></div>
+                                                <div class="sk-bounce3" style="background-color:white;"></div>
+                                                <div class="sk-bounce3" style="background-color:white;"></div>
+                                                <div class="sk-bounce3" style="background-color:white;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/moment.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    @*<script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>*@
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- slick carousel-->
+    <script src="~/Scripts/plugins/slick/slick.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/plugins/select2/select2.min.js"></script>
+    <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('.clockpicker').clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done',
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('.clockpicker1').clockpicker({
+                placement: 'bottom',
+                align: 'left',
+                donetext: 'Done',
+                twelvehour: true,
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "yyyy-mm-dd"
+            });
+        });
+
+        $('#data_5 .input-daterange').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+
+        $(".select2_demo_3").select2({
+            placeholder: "Select Department. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_4").select2({
+            placeholder: "Select Budget Code. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_5").select2({
+            placeholder: "Select Employment Type. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_6").select2({
+            placeholder: "Select Employee Name. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+    </script>
+
+</body>
+</html>

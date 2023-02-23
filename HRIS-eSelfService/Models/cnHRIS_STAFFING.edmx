@@ -1,0 +1,1857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_STAFFINGModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="departments_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="department_code" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="30" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" />
+          <Property Name="department_name2" Type="varchar" MaxLength="255" />
+          <Property Name="sort_order_dept" Type="int" />
+          <Property Name="print_group" Type="int" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="designation_head1" Type="varchar" MaxLength="100" />
+          <Property Name="designation_head2" Type="varchar" MaxLength="100" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="department_proper_name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="divisions_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="division_code" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="division_short_name" Type="varchar" MaxLength="30" />
+          <Property Name="division_name1" Type="varchar" MaxLength="100" />
+          <Property Name="division_name2" Type="varchar" MaxLength="255" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="sort_order_div" Type="int" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="designation_head1" Type="varchar" MaxLength="100" />
+          <Property Name="designation_head2" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="functions_tbl">
+          <Key>
+            <PropertyRef Name="function_code" />
+          </Key>
+          <Property Name="function_code" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="function_shortname" Type="varchar" MaxLength="30" />
+          <Property Name="function_name" Type="varchar" MaxLength="255" />
+          <Property Name="function_detail" Type="varchar" MaxLength="255" />
+          <Property Name="function_program" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="fundcharges_tbl">
+          <Key>
+            <PropertyRef Name="fund_code" />
+          </Key>
+          <Property Name="fund_code" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="fund_short_description" Type="varchar" MaxLength="30" />
+          <Property Name="fund_description" Type="varchar" MaxLength="255" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="designation_head1" Type="varchar" MaxLength="100" />
+          <Property Name="designation_head2" Type="varchar" MaxLength="100" />
+          <Property Name="empl_id_accountant" Type="varchar" MaxLength="8" />
+          <Property Name="designation_accountant1" Type="varchar" MaxLength="100" />
+          <Property Name="designation_accountant2" Type="varchar" MaxLength="100" />
+          <Property Name="print_type" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="fundsources_tbl">
+          <Key>
+            <PropertyRef Name="fund_source" />
+          </Key>
+          <Property Name="fund_source" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="fund_source_short_descr" Type="varchar" MaxLength="30" />
+          <Property Name="fund_source_descr" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="plantilla_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="item_no_old" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="function_code" Type="varchar" MaxLength="8" />
+          <Property Name="fund_code" Type="varchar" MaxLength="8" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" />
+          <Property Name="step_increment_cy" Type="tinyint" />
+          <Property Name="annual_salary_cy" Type="money" />
+          <Property Name="step_increment_ny" Type="tinyint" />
+          <Property Name="annual_salary_ny" Type="money" />
+          <Property Name="next_step_increment_eff_date" Type="date" />
+          <Property Name="step_increment_annual_amount" Type="money" />
+          <Property Name="monthly_rate" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="flag_bir_tax" Type="bit" />
+          <Property Name="flag_representation_allowance" Type="bit" />
+          <Property Name="flag_transportation_allowance" Type="bit" />
+          <Property Name="flag_13th_14th_month_pay" Type="bit" />
+          <Property Name="flag_cash_gift" Type="bit" />
+          <Property Name="flag_loyalty_bonus" Type="bit" />
+          <Property Name="flag_productivity_ei" Type="bit" />
+          <Property Name="flag_clothing_allowance" Type="bit" />
+          <Property Name="flag_subsistence_allowance" Type="bit" />
+          <Property Name="flag_laundry_allowance" Type="bit" />
+          <Property Name="flag_pera" Type="bit" />
+          <Property Name="flag_gsis" Type="bit" />
+          <Property Name="flag_philhealth" Type="bit" />
+          <Property Name="flag_sif" Type="bit" />
+          <Property Name="flag_hdmf" Type="bit" />
+          <Property Name="flag_hazard_pay" Type="bit" />
+          <Property Name="hazard_pay_override" Type="money" />
+          <Property Name="loyalty_bonus_amount" Type="money" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="employment_status" Type="varchar" MaxLength="1" />
+          <Property Name="date_latest_appointment" Type="date" />
+          <Property Name="effective_date_sg" Type="date" />
+          <Property Name="rate_basis" Type="varchar" MaxLength="1" />
+          <Property Name="effective_date_sg_ny" Type="date" />
+          <Property Name="monthly_rate_ny" Type="money" />
+          <Property Name="daily_rate_ny" Type="money" />
+          <Property Name="hourly_rate_ny" Type="money" />
+        </EntityType>
+        <EntityType Name="position_jobdescriptions_tbl">
+          <Key>
+            <PropertyRef Name="job_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+          </Key>
+          <Property Name="job_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="jobdescr_function" Type="varchar" MaxLength="1000" />
+          <Property Name="jobdescr_percent" Type="float" />
+          <Property Name="jobdescr_type" Type="varchar" MaxLength="1" />
+          <Property Name="comlvl_code" Type="varchar" MaxLength="2" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="positions_tbl">
+          <Key>
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_title1" Type="varchar" MaxLength="150" />
+          <Property Name="position_title2" Type="varchar" MaxLength="255" />
+          <Property Name="position_short_title" Type="varchar" MaxLength="30" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" />
+          <Property Name="csc_level" Type="varchar" MaxLength="1" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="reorg_appl_not_qua_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="remarks" Type="varchar" MaxLength="255" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by_user" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="reorg_appl_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="budget_code" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="item_no_primary" Type="varchar" MaxLength="5" />
+          <Property Name="item_no_secondary" Type="varchar" MaxLength="5" />
+          <Property Name="item_no_tertiary" Type="varchar" MaxLength="5" />
+          <Property Name="appl_status" Type="varchar" MaxLength="1" />
+          <Property Name="acquired_item" Type="varchar" MaxLength="5" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="reorg_jobdescriptions_tbl">
+          <Key>
+            <PropertyRef Name="job_ctrl_nbr" />
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="job_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="4" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="4" />
+          <Property Name="division_code" Type="varchar" MaxLength="4" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="position_title" Type="varchar" MaxLength="500" />
+          <Property Name="jobdescr_function" Type="varchar" MaxLength="1000" />
+          <Property Name="jobdescr_percent" Type="float" />
+          <Property Name="jobdescr_type" Type="varchar" MaxLength="1" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="salaries_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="salary_grade" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="monthly_step1" Type="money" />
+          <Property Name="monthly_step2" Type="money" />
+          <Property Name="monthly_step3" Type="money" />
+          <Property Name="monthly_step4" Type="money" />
+          <Property Name="monthly_step5" Type="money" />
+          <Property Name="monthly_step6" Type="money" />
+          <Property Name="monthly_step7" Type="money" />
+          <Property Name="monthly_step8" Type="money" />
+          <Property Name="daily_rate" Type="money" />
+          <Property Name="hourly_rate" Type="money" />
+          <Property Name="salary_grade_type" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="sections_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="section_code" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="section_short_name" Type="varchar" MaxLength="30" />
+          <Property Name="section_name1" Type="varchar" MaxLength="100" />
+          <Property Name="section_name2" Type="varchar" MaxLength="255" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="4" />
+          <Property Name="sort_order_sect" Type="int" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" />
+          <Property Name="designation_head1" Type="varchar" MaxLength="100" />
+          <Property Name="designation_head2" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="staffing_users_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="department_code" />
+          </Key>
+          <Property Name="user_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="user_status" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="subdepartments_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="subdepartment_code" />
+          </Key>
+          <Property Name="effective_date" Type="date" Nullable="false" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="subdepartment_short_name" Type="varchar" MaxLength="30" />
+          <Property Name="subdepartment_name1" Type="varchar" MaxLength="100" />
+          <Property Name="subdepartment_name2" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_STAFFING.dbo.vw_placement_reorg_appl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_placement_reorg_appl_list">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employee_name" />
+            <PropertyRef Name="employee_name_format2" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="item_no_primary" />
+            <PropertyRef Name="item_no_secondary" />
+            <PropertyRef Name="item_no_tertiary" />
+            <PropertyRef Name="item_no_primary_descr" />
+            <PropertyRef Name="item_no_secondary_descr" />
+            <PropertyRef Name="item_no_tertiary_descr" />
+            <PropertyRef Name="appl_status" />
+            <PropertyRef Name="acquired_item" />
+            <PropertyRef Name="acquired_item_descr" />
+            <PropertyRef Name="created_dttm" />
+            <PropertyRef Name="updated_dttm" />
+            <PropertyRef Name="position_code" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_title1" />
+            <PropertyRef Name="position_title2" />
+            <PropertyRef Name="position_short_title" />
+            <PropertyRef Name="position_long_title" />
+            <PropertyRef Name="salary_grade" />
+            <PropertyRef Name="qs_eduction" />
+            <PropertyRef Name="qs_work_experience" />
+            <PropertyRef Name="qs_training" />
+            <PropertyRef Name="qs_eligibility" />
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="department_name2" />
+            <PropertyRef Name="department_short_name" />
+            <PropertyRef Name="department_proper_name" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" Nullable="false" />
+          <Property Name="employee_name_format2" Type="varchar" MaxLength="217" Nullable="false" />
+          <Property Name="budget_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="item_no_primary" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="item_no_secondary" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="item_no_tertiary" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="item_no_primary_descr" Type="varchar" MaxLength="513" Nullable="false" />
+          <Property Name="item_no_secondary_descr" Type="varchar" MaxLength="513" Nullable="false" />
+          <Property Name="item_no_tertiary_descr" Type="varchar" MaxLength="513" Nullable="false" />
+          <Property Name="appl_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="acquired_item" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="acquired_item_descr" Type="varchar" MaxLength="513" Nullable="false" />
+          <Property Name="created_dttm" Type="datetime" Nullable="false" />
+          <Property Name="updated_dttm" Type="datetime" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="item_no" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="position_title1" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="position_title2" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="position_short_title" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="salary_grade" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="qs_eduction" Type="varchar(max)" Nullable="false" />
+          <Property Name="qs_work_experience" Type="varchar(max)" Nullable="false" />
+          <Property Name="qs_training" Type="varchar(max)" Nullable="false" />
+          <Property Name="qs_eligibility" Type="varchar(max)" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="department_name2" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="department_short_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="department_proper_name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_STAFFING.dbo.vw_vw_personnelnames_tbl_img' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_vw_personnelnames_tbl_img">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="employee_name" Type="varchar" MaxLength="211" />
+          <Property Name="last_name" Type="varchar" MaxLength="100" />
+          <Property Name="first_name" Type="varchar" MaxLength="100" />
+          <Property Name="middle_name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="suffix_name" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="courtisy_title" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="postfix_name" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="employee_name_format2" Type="varchar" MaxLength="217" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="empl_photo_img" Type="image" />
+        </EntityType>
+        <Function Name="sp_autocreate_appointment_regular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_action" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_generate_appl_nbr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_table_name" Type="varchar" Mode="In" />
+          <Parameter Name="p_charlen" Type="int" Mode="In" />
+          <Parameter Name="P_column_name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_latest_item_number" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_placement_empl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_item_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_placement_pos_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_plantilla_tbl_list_reorg_appl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_department" Type="varchar" Mode="In" />
+          <Parameter Name="par_fund_charges" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_plantilla_vacant_reorg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_plantilla22_structure_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_positions_not_in_departmen_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_postion_jobdescription_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_reorg_appl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_reorg_appl_upd_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_item_no" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_reorg_jobdescription_dtl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_reorg_jobdescription_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_reorg_structure" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_STAFFINGModelStoreContainer">
+          <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="divisions_tbl" EntityType="Self.divisions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="functions_tbl" EntityType="Self.functions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fundcharges_tbl" EntityType="Self.fundcharges_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="fundsources_tbl" EntityType="Self.fundsources_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="plantilla_tbl" EntityType="Self.plantilla_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="position_jobdescriptions_tbl" EntityType="Self.position_jobdescriptions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reorg_appl_not_qua_tbl" EntityType="Self.reorg_appl_not_qua_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reorg_appl_tbl" EntityType="Self.reorg_appl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reorg_jobdescriptions_tbl" EntityType="Self.reorg_jobdescriptions_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="salaries_tbl" EntityType="Self.salaries_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sections_tbl" EntityType="Self.sections_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="staffing_users_tbl" EntityType="Self.staffing_users_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="subdepartments_tbl" EntityType="Self.subdepartments_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_placement_reorg_appl_list" EntityType="Self.vw_placement_reorg_appl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_placement_reorg_appl_list].[empl_id] AS [empl_id], 
+    [vw_placement_reorg_appl_list].[employee_name] AS [employee_name], 
+    [vw_placement_reorg_appl_list].[employee_name_format2] AS [employee_name_format2], 
+    [vw_placement_reorg_appl_list].[budget_code] AS [budget_code], 
+    [vw_placement_reorg_appl_list].[item_no_primary] AS [item_no_primary], 
+    [vw_placement_reorg_appl_list].[item_no_secondary] AS [item_no_secondary], 
+    [vw_placement_reorg_appl_list].[item_no_tertiary] AS [item_no_tertiary], 
+    [vw_placement_reorg_appl_list].[item_no_primary_descr] AS [item_no_primary_descr], 
+    [vw_placement_reorg_appl_list].[item_no_secondary_descr] AS [item_no_secondary_descr], 
+    [vw_placement_reorg_appl_list].[item_no_tertiary_descr] AS [item_no_tertiary_descr], 
+    [vw_placement_reorg_appl_list].[appl_status] AS [appl_status], 
+    [vw_placement_reorg_appl_list].[acquired_item] AS [acquired_item], 
+    [vw_placement_reorg_appl_list].[acquired_item_descr] AS [acquired_item_descr], 
+    [vw_placement_reorg_appl_list].[created_dttm] AS [created_dttm], 
+    [vw_placement_reorg_appl_list].[updated_dttm] AS [updated_dttm], 
+    [vw_placement_reorg_appl_list].[position_code] AS [position_code], 
+    [vw_placement_reorg_appl_list].[item_no] AS [item_no], 
+    [vw_placement_reorg_appl_list].[employment_type] AS [employment_type], 
+    [vw_placement_reorg_appl_list].[position_title1] AS [position_title1], 
+    [vw_placement_reorg_appl_list].[position_title2] AS [position_title2], 
+    [vw_placement_reorg_appl_list].[position_short_title] AS [position_short_title], 
+    [vw_placement_reorg_appl_list].[position_long_title] AS [position_long_title], 
+    [vw_placement_reorg_appl_list].[salary_grade] AS [salary_grade], 
+    [vw_placement_reorg_appl_list].[qs_eduction] AS [qs_eduction], 
+    [vw_placement_reorg_appl_list].[qs_work_experience] AS [qs_work_experience], 
+    [vw_placement_reorg_appl_list].[qs_training] AS [qs_training], 
+    [vw_placement_reorg_appl_list].[qs_eligibility] AS [qs_eligibility], 
+    [vw_placement_reorg_appl_list].[department_code] AS [department_code], 
+    [vw_placement_reorg_appl_list].[department_name1] AS [department_name1], 
+    [vw_placement_reorg_appl_list].[department_name2] AS [department_name2], 
+    [vw_placement_reorg_appl_list].[department_short_name] AS [department_short_name], 
+    [vw_placement_reorg_appl_list].[department_proper_name] AS [department_proper_name]
+    FROM [dbo].[vw_placement_reorg_appl_list] AS [vw_placement_reorg_appl_list]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_vw_personnelnames_tbl_img" EntityType="Self.vw_vw_personnelnames_tbl_img" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_vw_personnelnames_tbl_img].[empl_id] AS [empl_id], 
+    [vw_vw_personnelnames_tbl_img].[employee_name] AS [employee_name], 
+    [vw_vw_personnelnames_tbl_img].[last_name] AS [last_name], 
+    [vw_vw_personnelnames_tbl_img].[first_name] AS [first_name], 
+    [vw_vw_personnelnames_tbl_img].[middle_name] AS [middle_name], 
+    [vw_vw_personnelnames_tbl_img].[suffix_name] AS [suffix_name], 
+    [vw_vw_personnelnames_tbl_img].[courtisy_title] AS [courtisy_title], 
+    [vw_vw_personnelnames_tbl_img].[postfix_name] AS [postfix_name], 
+    [vw_vw_personnelnames_tbl_img].[employee_name_format2] AS [employee_name_format2], 
+    [vw_vw_personnelnames_tbl_img].[department_code] AS [department_code], 
+    [vw_vw_personnelnames_tbl_img].[empl_photo_img] AS [empl_photo_img]
+    FROM [dbo].[vw_vw_personnelnames_tbl_img] AS [vw_vw_personnelnames_tbl_img]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_STAFFINGModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="departments_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="department_code" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="department_short_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="department_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="department_name2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sort_order_dept" Type="Int32" />
+          <Property Name="print_group" Type="Int32" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="department_proper_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="divisions_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="division_code" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="division_short_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="division_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="division_name2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="sort_order_div" Type="Int32" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="functions_tbl">
+          <Key>
+            <PropertyRef Name="function_code" />
+          </Key>
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="function_shortname" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="function_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="function_detail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="function_program" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="fundcharges_tbl">
+          <Key>
+            <PropertyRef Name="fund_code" />
+          </Key>
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fund_short_description" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fund_description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id_accountant" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="designation_accountant1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="designation_accountant2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="print_type" Type="Byte" />
+        </EntityType>
+        <EntityType Name="fundsources_tbl">
+          <Key>
+            <PropertyRef Name="fund_source" />
+          </Key>
+          <Property Name="fund_source" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fund_source_short_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fund_source_descr" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="plantilla_tbl">
+          <Key>
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="budget_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="item_no" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="item_no_old" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="function_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="fund_code" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="step_increment_cy" Type="Byte" />
+          <Property Name="annual_salary_cy" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="step_increment_ny" Type="Byte" />
+          <Property Name="annual_salary_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="next_step_increment_eff_date" Type="DateTime" Precision="0" />
+          <Property Name="step_increment_annual_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="flag_bir_tax" Type="Boolean" />
+          <Property Name="flag_representation_allowance" Type="Boolean" />
+          <Property Name="flag_transportation_allowance" Type="Boolean" />
+          <Property Name="flag_13th_14th_month_pay" Type="Boolean" />
+          <Property Name="flag_cash_gift" Type="Boolean" />
+          <Property Name="flag_loyalty_bonus" Type="Boolean" />
+          <Property Name="flag_productivity_ei" Type="Boolean" />
+          <Property Name="flag_clothing_allowance" Type="Boolean" />
+          <Property Name="flag_subsistence_allowance" Type="Boolean" />
+          <Property Name="flag_laundry_allowance" Type="Boolean" />
+          <Property Name="flag_pera" Type="Boolean" />
+          <Property Name="flag_gsis" Type="Boolean" />
+          <Property Name="flag_philhealth" Type="Boolean" />
+          <Property Name="flag_sif" Type="Boolean" />
+          <Property Name="flag_hdmf" Type="Boolean" />
+          <Property Name="flag_hazard_pay" Type="Boolean" />
+          <Property Name="hazard_pay_override" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="loyalty_bonus_amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employment_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="date_latest_appointment" Type="DateTime" Precision="0" />
+          <Property Name="effective_date_sg" Type="DateTime" Precision="0" />
+          <Property Name="rate_basis" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="effective_date_sg_ny" Type="DateTime" Precision="0" />
+          <Property Name="monthly_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate_ny" Type="Decimal" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="positions_tbl">
+          <Key>
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position_title1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="position_title2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="position_short_title" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="csc_level" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="salaries_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="salary_grade" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="salary_grade" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="monthly_step1" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step2" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step3" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step4" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step5" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step6" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step7" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="monthly_step8" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="daily_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="hourly_rate" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="salary_grade_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sections_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="section_code" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="section_short_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="section_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="section_name2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="sort_order_sect" Type="Int32" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="designation_head2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="staffing_users_tbl">
+          <Key>
+            <PropertyRef Name="user_id" />
+            <PropertyRef Name="department_code" />
+          </Key>
+          <Property Name="user_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="department_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="subdepartments_tbl">
+          <Key>
+            <PropertyRef Name="effective_date" />
+            <PropertyRef Name="subdepartment_code" />
+          </Key>
+          <Property Name="effective_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="subdepartment_short_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_name2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_STAFFINGEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="departments_tbl" EntityType="Self.departments_tbl" />
+          <EntitySet Name="divisions_tbl" EntityType="Self.divisions_tbl" />
+          <EntitySet Name="functions_tbl" EntityType="Self.functions_tbl" />
+          <EntitySet Name="fundcharges_tbl" EntityType="Self.fundcharges_tbl" />
+          <EntitySet Name="fundsources_tbl" EntityType="Self.fundsources_tbl" />
+          <EntitySet Name="plantilla_tbl" EntityType="Self.plantilla_tbl" />
+          <EntitySet Name="positions_tbl" EntityType="Self.positions_tbl" />
+          <EntitySet Name="salaries_tbl" EntityType="Self.salaries_tbl" />
+          <EntitySet Name="sections_tbl" EntityType="Self.sections_tbl" />
+          <EntitySet Name="staffing_users_tbl" EntityType="Self.staffing_users_tbl" />
+          <EntitySet Name="subdepartments_tbl" EntityType="Self.subdepartments_tbl" />
+          <FunctionImport Name="sp_generate_appl_nbr" ReturnType="Collection(String)">
+            <Parameter Name="p_table_name" Mode="In" Type="String" />
+            <Parameter Name="p_charlen" Mode="In" Type="Int32" />
+            <Parameter Name="P_column_name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_latest_item_number" ReturnType="Collection(String)">
+            <Parameter Name="par_budget_year" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_positions_not_in_departmen_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_positions_not_in_departmen_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_reorg_jobdescription_tbl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_reorg_jobdescription_tbl_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="position_jobdescriptions_tbl" EntityType="HRIS_STAFFINGModel.position_jobdescriptions_tbl" />
+          <FunctionImport Name="sp_postion_jobdescription_tbl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_postion_jobdescription_tbl_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_reorg_jobdescription_dtl_tbl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_reorg_jobdescription_dtl_tbl_list_Result)">
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_plantilla_tbl_list_reorg_appl" ReturnType="Collection(HRIS_STAFFINGModel.sp_plantilla_tbl_list_reorg_appl_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_department" Mode="In" Type="String" />
+            <Parameter Name="par_fund_charges" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="reorg_jobdescriptions_tbl" EntityType="HRIS_STAFFINGModel.reorg_jobdescriptions_tbl" />
+          <FunctionImport Name="sp_autocreate_appointment_regular" ReturnType="Collection(String)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_item_no" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_action" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_placement_empl_tbl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_placement_empl_tbl_list_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_item_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_plantilla_vacant_reorg" ReturnType="Collection(HRIS_STAFFINGModel.sp_plantilla_vacant_reorg_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_reorg_appl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_reorg_appl_list_Result)">
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="reorg_appl_not_qua_tbl" EntityType="HRIS_STAFFINGModel.reorg_appl_not_qua_tbl" />
+          <FunctionImport Name="sp_plantilla22_structure_report" ReturnType="Collection(HRIS_STAFFINGModel.sp_plantilla22_structure_report_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_reorg_structure" ReturnType="Collection(HRIS_STAFFINGModel.sp_reorg_structure_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_reorg_appl_upd_insert" ReturnType="Collection(HRIS_STAFFINGModel.sp_reorg_appl_upd_insert_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_item_no" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="vw_vw_personnelnames_tbl_img" EntityType="HRIS_STAFFINGModel.vw_vw_personnelnames_tbl_img" />
+          <EntitySet Name="vw_placement_reorg_appl_list" EntityType="HRIS_STAFFINGModel.vw_placement_reorg_appl_list" />
+          <FunctionImport Name="sp_placement_pos_tbl_list" ReturnType="Collection(HRIS_STAFFINGModel.sp_placement_pos_tbl_list_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="reorg_appl_tbl" EntityType="HRIS_STAFFINGModel.reorg_appl_tbl" />
+        </EntityContainer>
+        <ComplexType Name="sp_positions_not_in_departmen_list_Result">
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="150" />
+        </ComplexType>
+        <ComplexType Name="sp_reorg_jobdescription_tbl_list_Result">
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="150" />
+          <Property Type="Double" Name="percent_descr" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="position_jobdescriptions_tbl">
+          <Key>
+            <PropertyRef Name="job_ctrl_nbr" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+          </Key>
+          <Property Name="job_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="jobdescr_function" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="jobdescr_percent" Type="Double" />
+          <Property Name="jobdescr_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="comlvl_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_postion_jobdescription_tbl_list_Result">
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="513" />
+          <Property Type="Double" Name="percent_descr" Nullable="false" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_reorg_jobdescription_dtl_tbl_list_Result">
+          <Property Type="String" Name="job_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="comlvl_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="jobdescr_function" Nullable="false" MaxLength="1000" />
+          <Property Type="Double" Name="jobdescr_percent" Nullable="false" />
+          <Property Type="String" Name="jobdescr_type" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="8" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="false" MaxLength="8" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_plantilla_tbl_list_reorg_appl_Result">
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="item_no_old" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="subdepartment_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="division_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="section_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="function_code" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="fund_code" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="salary_grade" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="rate_basis" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="monthly_rate_ny" Nullable="true" MaxLength="4000" />
+          <Property Type="Decimal" Name="daily_rate_ny" Nullable="true" Precision="19" />
+          <Property Type="Decimal" Name="hourly_rate_ny" Nullable="true" Precision="19" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="position_title2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="unit_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="unit_name2" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="qs_eduction" Nullable="false" />
+          <Property Type="String" Name="qs_eligibility" Nullable="false" />
+          <Property Type="String" Name="qs_training" Nullable="false" />
+          <Property Type="String" Name="qs_work_experience" Nullable="false" />
+          <Property Type="String" Name="position_title" Nullable="true" MaxLength="513" />
+        </ComplexType>
+        <EntityType Name="reorg_jobdescriptions_tbl">
+          <Key>
+            <PropertyRef Name="job_ctrl_nbr" />
+            <PropertyRef Name="position_code" />
+          </Key>
+          <Property Name="job_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="jobdescr_function" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="jobdescr_percent" Type="Double" />
+          <Property Name="jobdescr_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_placement_empl_tbl_list_Result">
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="position_code_current" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_long_title_current" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="qs_eduction" Nullable="true" />
+          <Property Type="String" Name="qs_work_experience" Nullable="true" />
+          <Property Type="String" Name="qs_training" Nullable="true" />
+          <Property Type="String" Name="qs_eligibility" Nullable="true" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="217" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="courtisy_title" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="postfix_name" Nullable="false" MaxLength="35" />
+          <Property Type="String" Name="birth_date" Nullable="true" MaxLength="4000" />
+          <Property Type="Binary" Name="empl_photo_img" Nullable="true" MaxLength="Max" />
+          <Property Type="String" Name="gender" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="civil_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="civil_status_descr" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="mobile_no" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="email_add" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="houselot_nbr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="street" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="purok" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="barangay_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="municipality_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="province_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="zip_code" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="perm_houselot_nbr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="perm_street" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="perm_purok" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="perm_barangay_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="perm_municipality_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="perm_province_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="perm_zip_code" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="item_no_primary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="item_no_secondary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="item_no_tertiary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="item_no_primary_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="item_no_secondary_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="item_no_tertiary_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_occupied" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="item_occupied_from_dep" Nullable="false" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_plantilla_vacant_reorg_Result">
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="fund_code" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="sort_order_dept" Nullable="true" />
+          <Property Type="String" Name="function_code" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="subdepartment_code" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="sort_order_div" Nullable="false" />
+          <Property Type="Int32" Name="sort_order_sect" Nullable="false" />
+          <Property Type="String" Name="salary_grade" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_no_old" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="position_title2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="csc_level" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="division_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="section_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="function_name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="fund_description" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="budget_description" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="unit_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="sort_order_unit" Nullable="false" />
+          <Property Type="String" Name="monthly_rate" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="qs_eduction" Nullable="false" />
+          <Property Type="String" Name="qs_eligibility" Nullable="false" />
+          <Property Type="String" Name="qs_training" Nullable="false" />
+          <Property Type="String" Name="qs_work_experience" Nullable="false" />
+          <Property Type="String" Name="position_title" Nullable="true" MaxLength="513" />
+          <Property Type="Int32" Name="number_of_applicant" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_reorg_appl_list_Result">
+          <Property Type="String" Name="reorg_year" Nullable="true" MaxLength="51" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="item_no_primary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="primary_position" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="item_no_secondary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="secondary_position" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="item_no_tertiary" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="tertiary_position" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="item_aquired" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="position_aquired" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="appl_status_descr" Nullable="true" MaxLength="42" />
+          <Property Type="String" Name="item_no_current_own" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="current_own_position" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <EntityType Name="reorg_appl_not_qua_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="item_no" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_plantilla22_structure_report_Result">
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="fund_code" Nullable="true" MaxLength="8" />
+          <Property Type="Int32" Name="sort_order_dept" Nullable="true" />
+          <Property Type="String" Name="function_code" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="subdepartment_code" Nullable="true" MaxLength="2" />
+          <Property Type="Int32" Name="sort_order_div" Nullable="false" />
+          <Property Type="Int32" Name="sort_order_sect" Nullable="false" />
+          <Property Type="String" Name="salary_grade" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="item_no_old" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="513" />
+          <Property Type="String" Name="position_title2" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="csc_level" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="division_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="section_code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="area_code" Nullable="false" MaxLength="1" />
+          <Property Type="Int32" Name="rep_page_no" Nullable="true" />
+          <Property Type="String" Name="unit_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="sort_order_unit" Nullable="false" />
+          <Property Type="String" Name="BOOK_GROUP" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="parent_item" Nullable="true" MaxLength="4" />
+          <Property Type="Int32" Name="vertical_level" Nullable="false" />
+          <Property Type="String" Name="css_class" Nullable="false" MaxLength="26" />
+        </ComplexType>
+        <ComplexType Name="sp_reorg_structure_Result">
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="unit_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_reorg_appl_upd_insert_Result">
+          <Property Type="String" Name="return_msg_flag" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="return_msg_descr" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <EntityType Name="vw_vw_personnelnames_tbl_img">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="middle_name" />
+            <PropertyRef Name="suffix_name" />
+            <PropertyRef Name="courtisy_title" />
+            <PropertyRef Name="postfix_name" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="middle_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="suffix_name" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="courtisy_title" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="postfix_name" Type="String" Nullable="false" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format2" Type="String" MaxLength="217" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="empl_photo_img" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="vw_placement_reorg_appl_list">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="employee_name" />
+            <PropertyRef Name="employee_name_format2" />
+            <PropertyRef Name="budget_code" />
+            <PropertyRef Name="item_no_primary" />
+            <PropertyRef Name="item_no_secondary" />
+            <PropertyRef Name="item_no_tertiary" />
+            <PropertyRef Name="item_no_primary_descr" />
+            <PropertyRef Name="item_no_secondary_descr" />
+            <PropertyRef Name="item_no_tertiary_descr" />
+            <PropertyRef Name="appl_status" />
+            <PropertyRef Name="acquired_item" />
+            <PropertyRef Name="acquired_item_descr" />
+            <PropertyRef Name="created_dttm" />
+            <PropertyRef Name="updated_dttm" />
+            <PropertyRef Name="position_code" />
+            <PropertyRef Name="item_no" />
+            <PropertyRef Name="employment_type" />
+            <PropertyRef Name="position_title1" />
+            <PropertyRef Name="position_title2" />
+            <PropertyRef Name="position_short_title" />
+            <PropertyRef Name="position_long_title" />
+            <PropertyRef Name="salary_grade" />
+            <PropertyRef Name="qs_eduction" />
+            <PropertyRef Name="qs_work_experience" />
+            <PropertyRef Name="qs_training" />
+            <PropertyRef Name="qs_eligibility" />
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="department_name2" />
+            <PropertyRef Name="department_short_name" />
+            <PropertyRef Name="department_proper_name" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name" Type="String" Nullable="false" MaxLength="211" FixedLength="false" Unicode="false" />
+          <Property Name="employee_name_format2" Type="String" Nullable="false" MaxLength="217" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_primary" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_secondary" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_tertiary" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_primary_descr" Type="String" Nullable="false" MaxLength="513" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_secondary_descr" Type="String" Nullable="false" MaxLength="513" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_tertiary_descr" Type="String" Nullable="false" MaxLength="513" FixedLength="false" Unicode="false" />
+          <Property Name="appl_status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="acquired_item" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="acquired_item_descr" Type="String" Nullable="false" MaxLength="513" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="updated_dttm" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="position_code" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="item_no" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="position_title1" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="position_title2" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="position_short_title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="salary_grade" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="qs_eduction" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_work_experience" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_training" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="qs_eligibility" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="department_name1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="department_name2" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="department_short_name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="department_proper_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_placement_pos_tbl_list_Result">
+          <Property Type="String" Name="item_no" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="position_title1" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="position_title2" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="position_short_title" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="position_long_title" Nullable="false" MaxLength="513" />
+          <Property Type="String" Name="salary_grade" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="csc_level" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="csc_level_descr" Nullable="false" MaxLength="7" />
+          <Property Type="String" Name="qs_eduction" Nullable="false" />
+          <Property Type="String" Name="qs_work_experience" Nullable="false" />
+          <Property Type="String" Name="qs_training" Nullable="false" />
+          <Property Type="String" Name="qs_eligibility" Nullable="false" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_name2" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="department_proper_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="unit_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="item_status" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="item_occupied_by_empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="item_occupied_by" Nullable="false" MaxLength="211" />
+          <Property Type="Int32" Name="nbr_applicants" Nullable="false" />
+          <Property Type="String" Name="item_recent_occupied_by" Nullable="false" MaxLength="211" />
+          <Property Type="Binary" Name="empl_photo_img" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <EntityType Name="reorg_appl_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="budget_code" />
+          </Key>
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="budget_code" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_primary" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_secondary" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="item_no_tertiary" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="appl_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="acquired_item" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_STAFFINGModelStoreContainer" CdmEntityContainer="HRIS_STAFFINGEntities">
+          <EntitySetMapping Name="departments_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.departments_tbl">
+              <MappingFragment StoreEntitySet="departments_tbl">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_name2" ColumnName="department_name2" />
+                <ScalarProperty Name="sort_order_dept" ColumnName="sort_order_dept" />
+                <ScalarProperty Name="print_group" ColumnName="print_group" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="designation_head1" ColumnName="designation_head1" />
+                <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="divisions_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.divisions_tbl">
+              <MappingFragment StoreEntitySet="divisions_tbl">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_short_name" ColumnName="division_short_name" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="division_name2" ColumnName="division_name2" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="sort_order_div" ColumnName="sort_order_div" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="designation_head1" ColumnName="designation_head1" />
+                <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="functions_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.functions_tbl">
+              <MappingFragment StoreEntitySet="functions_tbl">
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="function_shortname" ColumnName="function_shortname" />
+                <ScalarProperty Name="function_name" ColumnName="function_name" />
+                <ScalarProperty Name="function_detail" ColumnName="function_detail" />
+                <ScalarProperty Name="function_program" ColumnName="function_program" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fundcharges_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.fundcharges_tbl">
+              <MappingFragment StoreEntitySet="fundcharges_tbl">
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="fund_short_description" ColumnName="fund_short_description" />
+                <ScalarProperty Name="fund_description" ColumnName="fund_description" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="designation_head1" ColumnName="designation_head1" />
+                <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
+                <ScalarProperty Name="empl_id_accountant" ColumnName="empl_id_accountant" />
+                <ScalarProperty Name="designation_accountant1" ColumnName="designation_accountant1" />
+                <ScalarProperty Name="designation_accountant2" ColumnName="designation_accountant2" />
+                <ScalarProperty Name="print_type" ColumnName="print_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="fundsources_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.fundsources_tbl">
+              <MappingFragment StoreEntitySet="fundsources_tbl">
+                <ScalarProperty Name="fund_source" ColumnName="fund_source" />
+                <ScalarProperty Name="fund_source_short_descr" ColumnName="fund_source_short_descr" />
+                <ScalarProperty Name="fund_source_descr" ColumnName="fund_source_descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="plantilla_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.plantilla_tbl">
+              <MappingFragment StoreEntitySet="plantilla_tbl">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="item_no_old" ColumnName="item_no_old" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="step_increment_cy" ColumnName="step_increment_cy" />
+                <ScalarProperty Name="annual_salary_cy" ColumnName="annual_salary_cy" />
+                <ScalarProperty Name="step_increment_ny" ColumnName="step_increment_ny" />
+                <ScalarProperty Name="annual_salary_ny" ColumnName="annual_salary_ny" />
+                <ScalarProperty Name="next_step_increment_eff_date" ColumnName="next_step_increment_eff_date" />
+                <ScalarProperty Name="step_increment_annual_amount" ColumnName="step_increment_annual_amount" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="flag_bir_tax" ColumnName="flag_bir_tax" />
+                <ScalarProperty Name="flag_representation_allowance" ColumnName="flag_representation_allowance" />
+                <ScalarProperty Name="flag_transportation_allowance" ColumnName="flag_transportation_allowance" />
+                <ScalarProperty Name="flag_13th_14th_month_pay" ColumnName="flag_13th_14th_month_pay" />
+                <ScalarProperty Name="flag_cash_gift" ColumnName="flag_cash_gift" />
+                <ScalarProperty Name="flag_loyalty_bonus" ColumnName="flag_loyalty_bonus" />
+                <ScalarProperty Name="flag_productivity_ei" ColumnName="flag_productivity_ei" />
+                <ScalarProperty Name="flag_clothing_allowance" ColumnName="flag_clothing_allowance" />
+                <ScalarProperty Name="flag_subsistence_allowance" ColumnName="flag_subsistence_allowance" />
+                <ScalarProperty Name="flag_laundry_allowance" ColumnName="flag_laundry_allowance" />
+                <ScalarProperty Name="flag_pera" ColumnName="flag_pera" />
+                <ScalarProperty Name="flag_gsis" ColumnName="flag_gsis" />
+                <ScalarProperty Name="flag_philhealth" ColumnName="flag_philhealth" />
+                <ScalarProperty Name="flag_sif" ColumnName="flag_sif" />
+                <ScalarProperty Name="flag_hdmf" ColumnName="flag_hdmf" />
+                <ScalarProperty Name="flag_hazard_pay" ColumnName="flag_hazard_pay" />
+                <ScalarProperty Name="hazard_pay_override" ColumnName="hazard_pay_override" />
+                <ScalarProperty Name="loyalty_bonus_amount" ColumnName="loyalty_bonus_amount" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employment_status" ColumnName="employment_status" />
+                <ScalarProperty Name="date_latest_appointment" ColumnName="date_latest_appointment" />
+                <ScalarProperty Name="effective_date_sg" ColumnName="effective_date_sg" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="effective_date_sg_ny" ColumnName="effective_date_sg_ny" />
+                <ScalarProperty Name="monthly_rate_ny" ColumnName="monthly_rate_ny" />
+                <ScalarProperty Name="daily_rate_ny" ColumnName="daily_rate_ny" />
+                <ScalarProperty Name="hourly_rate_ny" ColumnName="hourly_rate_ny" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="positions_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.positions_tbl">
+              <MappingFragment StoreEntitySet="positions_tbl">
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="salaries_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.salaries_tbl">
+              <MappingFragment StoreEntitySet="salaries_tbl">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="monthly_step1" ColumnName="monthly_step1" />
+                <ScalarProperty Name="monthly_step2" ColumnName="monthly_step2" />
+                <ScalarProperty Name="monthly_step3" ColumnName="monthly_step3" />
+                <ScalarProperty Name="monthly_step4" ColumnName="monthly_step4" />
+                <ScalarProperty Name="monthly_step5" ColumnName="monthly_step5" />
+                <ScalarProperty Name="monthly_step6" ColumnName="monthly_step6" />
+                <ScalarProperty Name="monthly_step7" ColumnName="monthly_step7" />
+                <ScalarProperty Name="monthly_step8" ColumnName="monthly_step8" />
+                <ScalarProperty Name="daily_rate" ColumnName="daily_rate" />
+                <ScalarProperty Name="hourly_rate" ColumnName="hourly_rate" />
+                <ScalarProperty Name="salary_grade_type" ColumnName="salary_grade_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sections_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.sections_tbl">
+              <MappingFragment StoreEntitySet="sections_tbl">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_short_name" ColumnName="section_short_name" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="section_name2" ColumnName="section_name2" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="sort_order_sect" ColumnName="sort_order_sect" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="designation_head1" ColumnName="designation_head1" />
+                <ScalarProperty Name="designation_head2" ColumnName="designation_head2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="staffing_users_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.staffing_users_tbl">
+              <MappingFragment StoreEntitySet="staffing_users_tbl">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="user_status" ColumnName="user_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subdepartments_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.subdepartments_tbl">
+              <MappingFragment StoreEntitySet="subdepartments_tbl">
+                <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="subdepartment_short_name" ColumnName="subdepartment_short_name" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="subdepartment_name2" ColumnName="subdepartment_name2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_generate_appl_nbr" FunctionName="HRIS_STAFFINGModel.Store.sp_generate_appl_nbr" />
+          <FunctionImportMapping FunctionImportName="sp_get_latest_item_number" FunctionName="HRIS_STAFFINGModel.Store.sp_get_latest_item_number" />
+          <FunctionImportMapping FunctionImportName="sp_positions_not_in_departmen_list" FunctionName="HRIS_STAFFINGModel.Store.sp_positions_not_in_departmen_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_positions_not_in_departmen_list_Result">
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_reorg_jobdescription_tbl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_reorg_jobdescription_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_reorg_jobdescription_tbl_list_Result">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="percent_descr" ColumnName="percent_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="position_jobdescriptions_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.position_jobdescriptions_tbl">
+              <MappingFragment StoreEntitySet="position_jobdescriptions_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="comlvl_code" ColumnName="comlvl_code" />
+                <ScalarProperty Name="jobdescr_type" ColumnName="jobdescr_type" />
+                <ScalarProperty Name="jobdescr_percent" ColumnName="jobdescr_percent" />
+                <ScalarProperty Name="jobdescr_function" ColumnName="jobdescr_function" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="job_ctrl_nbr" ColumnName="job_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_postion_jobdescription_tbl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_postion_jobdescription_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_postion_jobdescription_tbl_list_Result">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="percent_descr" ColumnName="percent_descr" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_reorg_jobdescription_dtl_tbl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_reorg_jobdescription_dtl_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_reorg_jobdescription_dtl_tbl_list_Result">
+                <ScalarProperty Name="job_ctrl_nbr" ColumnName="job_ctrl_nbr" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="comlvl_code" ColumnName="comlvl_code" />
+                <ScalarProperty Name="jobdescr_function" ColumnName="jobdescr_function" />
+                <ScalarProperty Name="jobdescr_percent" ColumnName="jobdescr_percent" />
+                <ScalarProperty Name="jobdescr_type" ColumnName="jobdescr_type" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_plantilla_tbl_list_reorg_appl" FunctionName="HRIS_STAFFINGModel.Store.sp_plantilla_tbl_list_reorg_appl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_plantilla_tbl_list_reorg_appl_Result">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="item_no_old" ColumnName="item_no_old" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="rate_basis" ColumnName="rate_basis" />
+                <ScalarProperty Name="monthly_rate_ny" ColumnName="monthly_rate_ny" />
+                <ScalarProperty Name="daily_rate_ny" ColumnName="daily_rate_ny" />
+                <ScalarProperty Name="hourly_rate_ny" ColumnName="hourly_rate_ny" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="unit_code" ColumnName="unit_code" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+                <ScalarProperty Name="unit_name2" ColumnName="unit_name2" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="reorg_jobdescriptions_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.reorg_jobdescriptions_tbl">
+              <MappingFragment StoreEntitySet="reorg_jobdescriptions_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="jobdescr_type" ColumnName="jobdescr_type" />
+                <ScalarProperty Name="jobdescr_percent" ColumnName="jobdescr_percent" />
+                <ScalarProperty Name="jobdescr_function" ColumnName="jobdescr_function" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="job_ctrl_nbr" ColumnName="job_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_autocreate_appointment_regular" FunctionName="HRIS_STAFFINGModel.Store.sp_autocreate_appointment_regular" />
+          <FunctionImportMapping FunctionImportName="sp_placement_empl_tbl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_placement_empl_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_placement_empl_tbl_list_Result">
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_code_current" ColumnName="position_code_current" />
+                <ScalarProperty Name="position_long_title_current" ColumnName="position_long_title_current" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="civil_status" ColumnName="civil_status" />
+                <ScalarProperty Name="civil_status_descr" ColumnName="civil_status_descr" />
+                <ScalarProperty Name="mobile_no" ColumnName="mobile_no" />
+                <ScalarProperty Name="email_add" ColumnName="email_add" />
+                <ScalarProperty Name="houselot_nbr" ColumnName="houselot_nbr" />
+                <ScalarProperty Name="street" ColumnName="street" />
+                <ScalarProperty Name="purok" ColumnName="purok" />
+                <ScalarProperty Name="barangay_name" ColumnName="barangay_name" />
+                <ScalarProperty Name="municipality_name" ColumnName="municipality_name" />
+                <ScalarProperty Name="province_name" ColumnName="province_name" />
+                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+                <ScalarProperty Name="perm_houselot_nbr" ColumnName="perm_houselot_nbr" />
+                <ScalarProperty Name="perm_street" ColumnName="perm_street" />
+                <ScalarProperty Name="perm_purok" ColumnName="perm_purok" />
+                <ScalarProperty Name="perm_barangay_name" ColumnName="perm_barangay_name" />
+                <ScalarProperty Name="perm_municipality_name" ColumnName="perm_municipality_name" />
+                <ScalarProperty Name="perm_province_name" ColumnName="perm_province_name" />
+                <ScalarProperty Name="perm_zip_code" ColumnName="perm_zip_code" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="item_no_primary" ColumnName="item_no_primary" />
+                <ScalarProperty Name="item_no_secondary" ColumnName="item_no_secondary" />
+                <ScalarProperty Name="item_no_tertiary" ColumnName="item_no_tertiary" />
+                <ScalarProperty Name="item_no_primary_descr" ColumnName="item_no_primary_descr" />
+                <ScalarProperty Name="item_no_secondary_descr" ColumnName="item_no_secondary_descr" />
+                <ScalarProperty Name="item_no_tertiary_descr" ColumnName="item_no_tertiary_descr" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_occupied" ColumnName="item_occupied" />
+                <ScalarProperty Name="item_occupied_from_dep" ColumnName="item_occupied_from_dep" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_plantilla_vacant_reorg" FunctionName="HRIS_STAFFINGModel.Store.sp_plantilla_vacant_reorg">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_plantilla_vacant_reorg_Result">
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="sort_order_dept" ColumnName="sort_order_dept" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="sort_order_div" ColumnName="sort_order_div" />
+                <ScalarProperty Name="sort_order_sect" ColumnName="sort_order_sect" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no_old" ColumnName="item_no_old" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="function_name" ColumnName="function_name" />
+                <ScalarProperty Name="fund_description" ColumnName="fund_description" />
+                <ScalarProperty Name="budget_description" ColumnName="budget_description" />
+                <ScalarProperty Name="unit_code" ColumnName="unit_code" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+                <ScalarProperty Name="sort_order_unit" ColumnName="sort_order_unit" />
+                <ScalarProperty Name="monthly_rate" ColumnName="monthly_rate" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="position_title" ColumnName="position_title" />
+                <ScalarProperty Name="number_of_applicant" ColumnName="number_of_applicant" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_reorg_appl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_reorg_appl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_reorg_appl_list_Result">
+                <ScalarProperty Name="reorg_year" ColumnName="reorg_year" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="item_no_primary" ColumnName="item_no_primary" />
+                <ScalarProperty Name="primary_position" ColumnName="primary_position" />
+                <ScalarProperty Name="item_no_secondary" ColumnName="item_no_secondary" />
+                <ScalarProperty Name="secondary_position" ColumnName="secondary_position" />
+                <ScalarProperty Name="item_no_tertiary" ColumnName="item_no_tertiary" />
+                <ScalarProperty Name="tertiary_position" ColumnName="tertiary_position" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="item_aquired" ColumnName="item_aquired" />
+                <ScalarProperty Name="position_aquired" ColumnName="position_aquired" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="appl_status_descr" ColumnName="appl_status_descr" />
+                <ScalarProperty Name="item_no_current_own" ColumnName="item_no_current_own" />
+                <ScalarProperty Name="current_own_position" ColumnName="current_own_position" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="reorg_appl_not_qua_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.reorg_appl_not_qua_tbl">
+              <MappingFragment StoreEntitySet="reorg_appl_not_qua_tbl">
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="remarks" ColumnName="remarks" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_plantilla22_structure_report" FunctionName="HRIS_STAFFINGModel.Store.sp_plantilla22_structure_report">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_plantilla22_structure_report_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="fund_code" ColumnName="fund_code" />
+                <ScalarProperty Name="sort_order_dept" ColumnName="sort_order_dept" />
+                <ScalarProperty Name="function_code" ColumnName="function_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="sort_order_div" ColumnName="sort_order_div" />
+                <ScalarProperty Name="sort_order_sect" ColumnName="sort_order_sect" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no_old" ColumnName="item_no_old" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="area_code" ColumnName="area_code" />
+                <ScalarProperty Name="rep_page_no" ColumnName="rep_page_no" />
+                <ScalarProperty Name="unit_code" ColumnName="unit_code" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+                <ScalarProperty Name="sort_order_unit" ColumnName="sort_order_unit" />
+                <ScalarProperty Name="BOOK_GROUP" ColumnName="BOOK_GROUP" />
+                <ScalarProperty Name="parent_item" ColumnName="parent_item" />
+                <ScalarProperty Name="vertical_level" ColumnName="vertical_level" />
+                <ScalarProperty Name="css_class" ColumnName="css_class" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_reorg_structure" FunctionName="HRIS_STAFFINGModel.Store.sp_reorg_structure">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_reorg_structure_Result">
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="unit_code" ColumnName="unit_code" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_reorg_appl_upd_insert" FunctionName="HRIS_STAFFINGModel.Store.sp_reorg_appl_upd_insert">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_reorg_appl_upd_insert_Result">
+                <ScalarProperty Name="return_msg_flag" ColumnName="return_msg_flag" />
+                <ScalarProperty Name="return_msg_descr" ColumnName="return_msg_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vw_vw_personnelnames_tbl_img">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.vw_vw_personnelnames_tbl_img">
+              <MappingFragment StoreEntitySet="vw_vw_personnelnames_tbl_img">
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="employee_name_format2" ColumnName="employee_name_format2" />
+                <ScalarProperty Name="postfix_name" ColumnName="postfix_name" />
+                <ScalarProperty Name="courtisy_title" ColumnName="courtisy_title" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_placement_reorg_appl_list">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.vw_placement_reorg_appl_list">
+              <MappingFragment StoreEntitySet="vw_placement_reorg_appl_list">
+                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_name2" ColumnName="department_name2" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="acquired_item_descr" ColumnName="acquired_item_descr" />
+                <ScalarProperty Name="acquired_item" ColumnName="acquired_item" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="item_no_tertiary_descr" ColumnName="item_no_tertiary_descr" />
+                <ScalarProperty Name="item_no_secondary_descr" ColumnName="item_no_secondary_descr" />
+                <ScalarProperty Name="item_no_primary_descr" ColumnName="item_no_primary_descr" />
+                <ScalarProperty Name="item_no_tertiary" ColumnName="item_no_tertiary" />
+                <ScalarProperty Name="item_no_secondary" ColumnName="item_no_secondary" />
+                <ScalarProperty Name="item_no_primary" ColumnName="item_no_primary" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employee_name_format2" ColumnName="employee_name_format2" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_placement_pos_tbl_list" FunctionName="HRIS_STAFFINGModel.Store.sp_placement_pos_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_STAFFINGModel.sp_placement_pos_tbl_list_Result">
+                <ScalarProperty Name="item_no" ColumnName="item_no" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="position_title2" ColumnName="position_title2" />
+                <ScalarProperty Name="position_short_title" ColumnName="position_short_title" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="salary_grade" ColumnName="salary_grade" />
+                <ScalarProperty Name="csc_level" ColumnName="csc_level" />
+                <ScalarProperty Name="csc_level_descr" ColumnName="csc_level_descr" />
+                <ScalarProperty Name="qs_eduction" ColumnName="qs_eduction" />
+                <ScalarProperty Name="qs_work_experience" ColumnName="qs_work_experience" />
+                <ScalarProperty Name="qs_training" ColumnName="qs_training" />
+                <ScalarProperty Name="qs_eligibility" ColumnName="qs_eligibility" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_name2" ColumnName="department_name2" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="department_proper_name" ColumnName="department_proper_name" />
+                <ScalarProperty Name="subdepartment_name1" ColumnName="subdepartment_name1" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="unit_name1" ColumnName="unit_name1" />
+                <ScalarProperty Name="item_status" ColumnName="item_status" />
+                <ScalarProperty Name="item_occupied_by_empl_id" ColumnName="item_occupied_by_empl_id" />
+                <ScalarProperty Name="item_occupied_by" ColumnName="item_occupied_by" />
+                <ScalarProperty Name="nbr_applicants" ColumnName="nbr_applicants" />
+                <ScalarProperty Name="item_recent_occupied_by" ColumnName="item_recent_occupied_by" />
+                <ScalarProperty Name="empl_photo_img" ColumnName="empl_photo_img" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="reorg_appl_tbl">
+            <EntityTypeMapping TypeName="HRIS_STAFFINGModel.reorg_appl_tbl">
+              <MappingFragment StoreEntitySet="reorg_appl_tbl">
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="acquired_item" ColumnName="acquired_item" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="item_no_tertiary" ColumnName="item_no_tertiary" />
+                <ScalarProperty Name="item_no_secondary" ColumnName="item_no_secondary" />
+                <ScalarProperty Name="item_no_primary" ColumnName="item_no_primary" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

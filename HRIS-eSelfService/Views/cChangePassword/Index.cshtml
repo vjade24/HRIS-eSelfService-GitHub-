@@ -1,0 +1,739 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .progress > div {
+        font-size: smaller;
+        background-color: red;
+        width: 0%;
+    }
+</style>
+<script src="~/Angular/ng-cChangePassword.js"></script>
+<section ng-app="ng_selfService_App" id="section_ng" ng-controller="cChangePassword_ctrlr">
+    @*---PRINT OPTIONS MODAL-----*@
+    <div class="modal fade" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-ms">
+            <div class="modal-content animated flipInY modal-content-add-edit" id="upload_body">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">UPLOAD IMAGE</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:10px;">
+                    <div class="row">
+                        <div class="col-sm-12" style="padding-top:-15px !important;">
+                            <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;border: 1px dashed #18A689 !important;width:100%;padding:5px;">
+                                <img id="preview_img" src="{{img_p}}" ng-click="reset_prev();" height="150" width="150" />
+                            </h1>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="file" class="form-chat form-control" name="my_file" id="input_file_upload" onchange="showImage(this);" accept="image/png,image/gif,image/jpeg,image/jpg" />@*accept="image/png,image/gif,image/jpeg,image/jpg"*@
+                            <label id="error_img_msg" class="lbl_required"></label>
+                            <script type="text/javascript">
+                                function showImage(cont) {
+                                    if (cont.files && cont.files[0]) {
+                                        var reader = new FileReader();
+                                        var fileUpload = $('#input_file_upload').get(0);
+                                        var sFileName = $('#input_file_upload').val();
+                                        var files = fileUpload.files;
+                                        var _validFileExtensions = ["jpg", "jpeg", "bmp", "png"];// ".gif",
+                                        var blnValid = false;
+                                        var bValid_size = true;
+                                        var file_size = 0;
+                                        var validation_msg = "";
+                                        reader.onload = function (e) {
+                                            for (var j = 0; j < _validFileExtensions.length; j++) {
+                                                var sCurExtension = _validFileExtensions[j];
+                                                var file_extention = sFileName.split('.')[sFileName.split('.').length - 1];
+                                                if (file_extention.toLowerCase() == sCurExtension.toLowerCase()) {
+                                                    blnValid = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            $('#preview_img').attr('src', e.target.result);
+                                            file_size = (files[0].size / 1024);
+                                            if (blnValid == false) {
+                                                validation_msg = "Invalid Image Format";
+                                            }
+
+                                            if (file_size > 5120) {
+                                                validation_msg = validation_msg.trim() == "" ? "Large file size is loaded, File size should not be greater than 5 MB" : validation_msg + " and a large file size is loaded, File size should not be greater than 5 MB";
+                                                bValid_size = false;
+                                            }
+
+                                            if (blnValid && bValid_size)
+                                            {
+                                                $('#error_img_msg').html("");
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("" + e.target.result.split(',')[e.target.result.split(',').length - 1] + "", true);
+                                            }
+                                            else {
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("", false);
+                                                $('#error_img_msg').html(validation_msg);
+                                            }
+
+                                        }
+
+                                        reader.readAsDataURL(cont.files[0]);
+                                    }
+                                    else {
+                                        $('#preview_img').click();
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="dvProgress" class="progress" ng-show="Progress >= 0">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding-right:10px;">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-close"> </i> Cancel
+                            </button>
+                            <button id="btn_print_rs5" ng-click="UploadFiles(0)" class="btn btn-primary">
+                                <i class="fa fa-save" id="i_save"> </i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_change_initial" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit" id="upload_body_initial">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">UPLOAD IMAGE</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:10px;">
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top:-15px !important;">
+                            <label><b>UPLOADED SIGNATURE</b></label>
+                            <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;border: 1px dashed #18A689 !important;width:100%;padding:5px;">
+                                <img id="preview_img_initial" src="{{img_initial}}" ng-click="reset_prev();" height="150" width="150" />
+                            </h1>
+                        </div>
+                        <div class="col-lg-6">
+                            <label><b>SIGNATURE PREVIEW</b></label>
+                            <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;border: 1px dashed #18A689 !important;width:100%;padding:5px;">
+                                <img id="preview_img_initial_scan" src="{{img_p_scaned}}" ng-click="ScanSignature(1);" height="150" width="150" />
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="file" class="form-chat form-control" name="my_file" id="input_file_upload_initial" onchange="showImage1(this);" accept="image/png,image/gif,image/jpeg,image/jpg" />@*accept="image/png,image/gif,image/jpeg,image/jpg"*@
+                            <label id="error_img_msg_initial" class="lbl_required"></label>
+                            <script type="text/javascript">
+                                function showImage1(cont) {
+                                    if (cont.files && cont.files[0]) {
+                                        var reader      = new FileReader();
+                                        var fileUpload  = $('#input_file_upload_initial').get(0);
+                                        var sFileName   = $('#input_file_upload_initial').val();
+                                        var files       = fileUpload.files;
+                                        var _validFileExtensions = ["jpg", "jpeg", "bmp", "png"];// ".gif",
+                                        var blnValid = false;
+                                        var bValid_size = true;
+                                        var file_size = 0;
+                                        var validation_msg = "";
+                                        reader.onload = function (e) {
+                                            for (var j = 0; j < _validFileExtensions.length; j++) {
+                                                var sCurExtension = _validFileExtensions[j];
+                                                var file_extention = sFileName.split('.')[sFileName.split('.').length - 1];
+                                                if (file_extention.toLowerCase() == sCurExtension.toLowerCase()) {
+                                                    blnValid = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            $('#preview_img_initial').attr('src', e.target.result);
+                                            file_size = (files[0].size / 1024);
+                                            if (blnValid == false) {
+                                                validation_msg = "Invalid Image Format";
+                                            }
+
+                                            if (file_size > 5120) {
+                                                validation_msg = validation_msg.trim() == "" ? "Large file size is loaded, File size should not be greater than 5 MB" : validation_msg + " and a large file size is loaded, File size should not be greater than 5 MB";
+                                                bValid_size = false;
+                                            }
+
+                                            if (blnValid && bValid_size) {
+                                                $('#preview_img_initial_scan').click();
+                                                $('#error_img_msg_initial').html("");
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("" + e.target.result.split(',')[e.target.result.split(',').length - 1] + "", true);
+                                            }
+                                            else {
+                                                
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("", false);
+                                                $('#error_img_msg_initial').html(validation_msg);
+                                            }
+
+                                        }
+
+                                        reader.readAsDataURL(cont.files[0]);
+                                    }
+                                    else {
+                                        $('#preview_img_initial').click();
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="dvProgress_initial" class="progress" ng-show="Progress >= 0">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding-right:10px;">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-close"> </i> Cancel
+                            </button>
+                            <button id="btn_print_rs5" ng-click="UploadFiles(1)" class="btn btn-primary">
+                                <i class="fa fa-save" id="i_save1"> </i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_change_full" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit" id="upload_body_full">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">UPLOAD IMAGE</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:10px;">
+                    <div class="row">
+                        <div class="col-sm-6" style="padding-top:-15px !important;">
+                            <label><b>UPLOADED SIGNATURE</b></label>
+                            <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;border: 1px dashed #18A689 !important;width:100%;padding:5px;">
+                                <img id="preview_img_full" src="{{img_full}}" ng-click="reset_prev();" height="150" width="150" />
+                            </h1>
+                        </div>
+                        <div class="col-lg-6">
+                            <label><b>SIGNATURE PREVIEW</b></label>
+                            <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;border: 1px dashed #18A689 !important;width:100%;padding:5px;">
+                                <img id="preview_img_full_scan" src="{{img_p_scaned}}" ng-click="ScanSignature(2);" height="150" width="150" />
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input type="file" class="form-chat form-control" name="my_file" id="input_file_upload_full" onchange="showImage2(this);" accept="image/png,image/gif,image/jpeg,image/jpg" />@*accept="image/png,image/gif,image/jpeg,image/jpg"*@
+                            <label id="error_img_msg_full" class="lbl_required"></label>
+                            <script type="text/javascript">
+                                function showImage2(cont) {
+                                    if (cont.files && cont.files[0]) {
+                                        var reader = new FileReader();
+                                        var fileUpload = $('#input_file_upload_full').get(0);
+                                        var sFileName = $('#input_file_upload_full').val();
+                                        var files = fileUpload.files;
+                                        var _validFileExtensions = ["jpg", "jpeg", "bmp", "png"];// ".gif",
+                                        var blnValid = false;
+                                        var bValid_size = true;
+                                        var file_size = 0;
+                                        var validation_msg = "";
+                                        reader.onload = function (e) {
+                                            for (var j = 0; j < _validFileExtensions.length; j++) {
+                                                var sCurExtension = _validFileExtensions[j];
+                                                var file_extention = sFileName.split('.')[sFileName.split('.').length - 1];
+                                                if (file_extention.toLowerCase() == sCurExtension.toLowerCase()) {
+                                                    blnValid = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            $('#preview_img_full').attr('src', e.target.result);
+                                            file_size = (files[0].size / 1024);
+                                            if (blnValid == false) {
+                                                validation_msg = "Invalid Image Format";
+                                            }
+
+                                            if (file_size > 5120) {
+                                                validation_msg = validation_msg.trim() == "" ? "Large file size is loaded, File size should not be greater than 5 MB" : validation_msg + " and a large file size is loaded, File size should not be greater than 5 MB";
+                                                bValid_size = false;
+                                            }
+
+                                            if (blnValid && bValid_size) {
+                                                $('#error_img_msg_full').html("");
+                                                $('#preview_img_full_scan').click();
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("" + e.target.result.split(',')[e.target.result.split(',').length - 1] + "", true);
+                                            }
+                                            else {
+                                                angular.element(document.getElementById('section_ng')).scope().SetImageArray("", false);
+                                                $('#error_img_msg_full').html(validation_msg);
+                                            }
+
+                                        }
+
+                                        reader.readAsDataURL(cont.files[0]);
+                                    }
+                                    else {
+                                        $('#preview_img_full').click();
+                                    }
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="dvProgress_full" class="progress" ng-show="Progress >= 0">
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="padding-right:10px;">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                <i class="fa fa-close"> </i> Cancel
+                            </button>
+                            <button id="btn_print_rs5" ng-click="UploadFiles(2)" class="btn btn-primary">
+                                <i class="fa fa-save" id="i_save2"> </i> Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*---END OF PRINT OPTIONS MODAL-----*@
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title" style="background-color:#18A689">
+                        <h2 class="text-white">@Model.menu_name</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content" style="background-color:#FAFAFA">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b text-success">Account Information</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">First Name:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" @*placeholder="Ariel Cabungcal"*@ id="txtb_empl_name" ng-model="txtb_empl_name" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Last Name:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" @*placeholder="Ariel Cabungcal"*@ id="txtb_last_name" ng-model="txtb_last_name" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Middle Name:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" @*placeholder="Ariel Cabungcal"*@ id="txtb_middle_name" ng-model="txtb_middle_name" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Suffix Name:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" @*placeholder="Ariel Cabungcal"*@ id="txtb_suffix_name" ng-model="txtb_suffix_name" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div style="width:100%;margin-top:10px;">
+                                    <img src="{{img_p}}" style="border: 1px dashed #18A689 !important;width:100%;height:136.5px;">
+                                    <i ng-click="btn_change_profile(0);" style="color:#18A689;border:1px solid  #18A689;padding:2px;cursor:pointer;border-radius:2px;float:right;position:absolute;z-index:10;right:18px !important;margin-top:2px;background-color:white;" class="fa fa-pencil"></i>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:60%; float:left;margin-top:5px;">
+                                            <strong><label>USER: {{txtb_user_id}}</label></strong>
+                                            @*<label class="form-control" @*placeholder="U0900"* id="txtb_user_id" ng-model="txtb_user_id" disabled />>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                            <div class="col-sm-3">
+
+                            </div>
+                        </div>
+                    </div>*@
+                        @*<div class="row">
+                        <div class="col-sm-12">
+                            <div style="width:30%; float:left;">
+                                <h4 class="pull-left" style="margin-top:15px;margin-left:25px;"></h4>
+                            </div>
+                        </div>
+                    </div>*@
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b text-success" style="padding-left:15px;">Change Password</h3>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="width:40%; float:left;">
+                                    <h4 class="pull-left" style="margin-top:15px;margin-left:35px;">Current Password:</h4>
+
+                                </div>
+                                <div style="width:53%; float:left; margin-top:9px;">
+                                    <input class="form-control" placeholder="Enter Current Password" tabindex="1" id="txtb_current_pass" ng-model="txtb_current_pass" type="password" style="padding-right:35px;" ng-keyup="validateCurrentPass()" autocomplete="off" />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_current_pass').attr('type', 'text');" onmouseout="$('#txtb_current_pass').attr('type', 'password');" onmouseup="$('#txtb_current_pass').attr('type', 'password');"></span>
+
+                                    @*<label id="lbl_txtb_current_pass_req" class="lbl_required"></label>*@
+                                </div>
+                                <div style="width:7%; float:left; margin-top:15px; padding-left:10px;">
+                                    <div class="i-checks" ng-show="aShow"><input type="radio" checked="" value="option2" name="a"></div>
+                                    @*<div class="spiner-example" style="height:4%;padding-top:0px;margin-top:0px;padding-bottom:0px;margin-bottom:0px;" id="spnr_current_pass" ng-model="spnr_current_pass" ng-show="spnrCPShow">
+                                    <div class="sk-spinner sk-spinner-fading-circle">
+                                        <div class="sk-circle1 sk-circle"></div>
+                                        <div class="sk-circle2 sk-circle"></div>
+                                        <div class="sk-circle3 sk-circle"></div>
+                                        <div class="sk-circle4 sk-circle"></div>
+                                        <div class="sk-circle5 sk-circle"></div>
+                                        <div class="sk-circle6 sk-circle"></div>
+                                        <div class="sk-circle7 sk-circle"></div>
+                                        <div class="sk-circle8 sk-circle"></div>
+                                        <div class="sk-circle9 sk-circle"></div>
+                                        <div class="sk-circle10 sk-circle"></div>
+                                        <div class="sk-circle11 sk-circle"></div>
+                                        <div class="sk-circle12 sk-circle"></div>
+                                    </div>
+                                </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="width:40%; float:left;">
+                                    <h4 class="pull-left" style="margin-top:15px;margin-left:35px;">New Password:</h4>
+                                </div>
+                                <div style="width:53%; float:left; margin-top:9px;">
+                                    <input class="form-control" placeholder="Enter New Password" tabindex="2" type="password" style="padding-right:35px;" autocomplete="off" id="txtb_new_pass" ng-model="txtb_new_pass" ng-disabled="dis_txtb_new_pass" ng-keyup="validateNewPass()" />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_new_pass').attr('type', 'text');" onmouseout="$('#txtb_new_pass').attr('type', 'password');" onmouseup="$('#txtb_new_pass').attr('type', 'password');"></span>
+                                    <label id="lbl_txtb_new_pass_req" class="lbl_required"></label>
+                                </div>
+                                <div style="width:7%; float:left; margin-top:15px; padding-left:10px;">
+                                    <div class="i-checks" ng-show="bShow"><input type="radio" checked="" value="option2" name="b"></div>
+                                    @*<div class="spiner-example" style="height:4%;padding-top:0px;margin-top:0px;padding-bottom:0px;margin-bottom:0px;" id="spnr_new_pass" ng-model="spnr_new_pass" ng-show="spnrNPShow">
+                                    <div class="sk-spinner sk-spinner-fading-circle">
+                                        <div class="sk-circle1 sk-circle"></div>
+                                        <div class="sk-circle2 sk-circle"></div>
+                                        <div class="sk-circle3 sk-circle"></div>
+                                        <div class="sk-circle4 sk-circle"></div>
+                                        <div class="sk-circle5 sk-circle"></div>
+                                        <div class="sk-circle6 sk-circle"></div>
+                                        <div class="sk-circle7 sk-circle"></div>
+                                        <div class="sk-circle8 sk-circle"></div>
+                                        <div class="sk-circle9 sk-circle"></div>
+                                        <div class="sk-circle10 sk-circle"></div>
+                                        <div class="sk-circle11 sk-circle"></div>
+                                        <div class="sk-circle12 sk-circle"></div>
+                                    </div>
+                                </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div style="width:40%; float:left;">
+                                    <h4 class="pull-left" style="margin-top:15px;margin-left:35px;">Confirm New Password:</h4>
+                                </div>
+                                <div style="width:53%; float:left; margin-top:9px;">
+                                    <input class="form-control" placeholder="Enter New Password" tabindex="3" type="password" @*style="padding-right:35px;"*@ autocomplete="off" id="txtb_confirm_new_pass" ng-model="txtb_confirm_new_pass" ng-disabled="dis_txtb_confirm_new_pass" ng-keyup="validateConfirmNP()" />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_confirm_new_pass').attr('type', 'text');" onmouseout="$('#txtb_confirm_new_pass').attr('type', 'password');" onmouseup="$('#txtb_confirm_new_pass').attr('type', 'password');"></span>
+                                </div>
+                                <div style="width:7%; float:left; margin-top:15px; padding-left:10px;">
+                                    <div class="i-checks" ng-show="cShow"><input type="radio" checked="" value="option2" name="c"></div>
+                                    @*<div class="spiner-example" style="height:4%;padding-top:0px;margin-top:0px;padding-bottom:0px;margin-bottom:0px;" id="spnr_new_pass" ng-model="spnr_new_pass" ng-show="spnrCNPShow">
+                                    <div class="sk-spinner sk-spinner-fading-circle">
+                                        <div class="sk-circle1 sk-circle"></div>
+                                        <div class="sk-circle2 sk-circle"></div>
+                                        <div class="sk-circle3 sk-circle"></div>
+                                        <div class="sk-circle4 sk-circle"></div>
+                                        <div class="sk-circle5 sk-circle"></div>
+                                        <div class="sk-circle6 sk-circle"></div>
+                                        <div class="sk-circle7 sk-circle"></div>
+                                        <div class="sk-circle8 sk-circle"></div>
+                                        <div class="sk-circle9 sk-circle"></div>
+                                        <div class="sk-circle10 sk-circle"></div>
+                                        <div class="sk-circle11 sk-circle"></div>
+                                        <div class="sk-circle12 sk-circle"></div>
+                                    </div>
+                                </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button style="margin-top:15px;margin-right:32px;" class="btn btn-sm btn-primary pull-right" id="btn_save" ng-model="btn_save" ng-disabled="dis_btn_save" ng-click="btn_save_click()"><strong>Save Changes</strong></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b text-success" style="padding-left:15px;">Signature Spicemen</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-4">
+                                <div style="width:100%;margin-top:10px;">
+                                    <img src="{{img_initial}}" style="border: 1px dashed #18A689 !important;width:100%;height:136.5px;">
+                                    <i ng-click="btn_change_profile(1);" style="color:#18A689;border:1px solid  #18A689;padding:2px;cursor:pointer;border-radius:2px;float:right;position:absolute;z-index:10;right:18px !important;margin-top:2px;background-color:white;" class="fa fa-pencil"></i>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <strong><label>SIGNATURE INITIAL</label></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div style="width:100%;margin-top:10px;">
+                                    <img src="{{img_full}}" style="border: 1px dashed #18A689 !important;width:100%;height:136.5px;">
+                                    <i ng-click="btn_change_profile(2);" style="color:#18A689;border:1px solid  #18A689;padding:2px;cursor:pointer;border-radius:2px;float:right;position:absolute;z-index:10;right:18px !important;margin-top:2px;background-color:white;" class="fa fa-pencil"></i>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <strong><label>FULL SIGNATURE</label></strong>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content" style="background-color:#FAFAFA">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b text-success">Address Information</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Province:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_province" ng-model="txtb_province" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Minicipality:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_municipality" ng-model="txtb_municipality" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">Barangay:</h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_barangay" ng-model="txtb_barangay" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">
+                                                House/Blk/Lot No.:
+                                            </h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_hse_no" ng-model="txtb_hse_no" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">
+                                                Street
+                                            </h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_street_no" ng-model="txtb_street_no" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">
+                                                Purok/Sub./Village:
+                                            </h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_prk_no" ng-model="txtb_prk_no" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div style="width:35%; float:left;">
+                                            <h4 class="pull-left" style="margin-top:15px;margin-left:15px;">
+                                                Zip Code:
+                                            </h4>
+                                        </div>
+                                        <div style="width:65%; float:right; margin-top:9px;">
+                                            <strong><input class="form-control" id="txtb_zip_code" ng-model="txtb_zip_code" disabled /></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+
+                            </div>
+                            <div class="col-sm-5">
+
+                            </div>
+                            <div class="col-sm-3">
+
+                            </div>
+                        </div>
+                    </div>*@
+                        @*<div class="row">
+                        <div class="col-sm-12">
+                            <div style="width:30%; float:left;">
+                                <h4 class="pull-left" style="margin-top:15px;margin-left:25px;"></h4>
+                            </div>
+                        </div>
+                    </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title" style="background-color:#507CD1">
+                            <h2 class="text-white">User Profile</h2>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-6 b-r">
+                                    <h4>Not a member?</h4>
+                                    <p>You can create an account:</p>
+                                    <p class="text-center">
+                                        <a href="#"><i class="fa fa-sign-in big-icon"></i></a>
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h3 class="m-t-none m-b">Change Password</h3>
+                                    <form role="form">
+                                        <div class="form-group">
+                                            <label>Current Password</label>
+                                            <input type="text" placeholder="" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>New Password</label>
+                                            <input type="text" placeholder="" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Confirm New Password</label>
+                                            <input type="text" placeholder="" class="form-control">
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-primary pull-right" type="submit" style="margin-top:15px;"><strong>Save Changes</strong></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+</section>

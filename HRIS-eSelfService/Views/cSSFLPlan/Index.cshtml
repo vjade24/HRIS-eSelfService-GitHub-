@@ -1,0 +1,583 @@
+﻿@*
+    ****Page Created by     :   Lorraine I. Ale
+    ****Page Started date   :   03/06/2020
+    ****Page Description    :   This page is allow to view/add/edit/delete Force Leave Plan.
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .table-thead-tr {
+        background-color: white;
+        border-bottom: none;
+    }
+    .fc-event {
+        font-size: 1.1em; /* EDIT HERE */
+        text-align: center;
+    }
+
+    .fc-scroller {
+        overflow-y: hidden !important;
+    }
+
+    .table-thead-tr {
+        display:none
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 580px;
+        overflow: auto;
+    }
+    .my-custom-scrollbar-2 {
+        position: relative;
+        height: 410px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    table.dataTable tbody td {
+        padding: 1.5px !important;
+    }
+    /*.navy-bg {
+        padding-top: 0.5px;
+        padding-bottom: 0.5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }*/
+    .m-b {
+        margin:0px !important;
+    }
+    .xx.input-group{
+        display:block !important;
+    }
+    .approved-bg {
+        background-color: #1C84C6;
+    }
+    .cancel-bg {
+        background-color: #ED5565;
+    }
+    .disapproved-bg {
+        background-color: #D62728;
+    }
+    .new-bg {
+        background-color: #1AB394;
+    }
+    .reviewed-bg {
+        background-color: #00C5DA;
+    }
+    .submitted-bg {
+        background-color: #F8AC59;
+    }
+    .holidays-bg {
+        background-color: #F8EE96;
+    }
+    .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .xxbg.fc-highlight {
+        background-color: red;
+    }
+
+    .xxbtn_today_text {
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .text_area {
+        resize: none !important;
+    }
+
+    .fc-today {
+        background: #F7C2BB !important;
+    }
+
+    .fc-today-button {
+        background: #F7C2BB !important;
+    }
+    .holiday-bg {
+        color: black;
+        font-weight: bold;
+        font-size: 1em;
+        padding-top: 5px;
+        padding-bottom: 10px;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view {
+        margin-top: -10px;
+        background-image: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-sizing: content-box;
+    }
+
+    .fc-day-number {
+        font-size: 14px !important;
+        color: white;
+        font-weight: bold;
+        background-color: transparent;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view > table {
+        background: rgba(7, 81, 12, 0.5)
+    }
+
+    .fc-center > h2 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #57560c;
+        cursor: pointer;
+    }
+
+    .fc-day-header.fc-widget-header {
+        color: white !important;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .ddl-name-font-size {
+        font-size: 14px !important;
+    }
+
+    .select2-selection__clear {
+        font-size:14px !important;
+    }
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    div.holiday {
+        width: 90% !important;
+        margin-top: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: '...';
+        color: white !important;
+    }
+
+</style>
+<script src="~/Angular/ng-cSSFLPlan.js?v=2"></script>
+
+<section ng-app="ng_selfService_App" ng-controller="cSSFLPlan_ctrlr">
+    <!-- Info Modal -->
+    @*<div class="modal fade" id="info_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content animated flipInY modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body with-background">
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Holiday</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn holidays-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Today's Date</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn fc-today" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Reviewed</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn reviewed-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Approved</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn approved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">New</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn new-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Submitted</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn submitted-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Cancel Pending</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn cancel-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Disapproved</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn disapproved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:-2px;">
+                            <div class="col-sm-12">
+                                <div style="width:45%; float:left;">
+                                    <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Cancelled</label>
+                                </div>
+                                <div style="width:55%; float:left;">
+                                    <button style="width:100%;margin-top:10px;" type="button" class="btn disapproved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="clear_time_out()"><i class="fa fa-close"></i> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!--End of Info Modal-->
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" style="overflow:scroll;">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Application Nbr.:</label></b>
+                                </div>
+                                <div class="col-lg-6">
+                                    <b><input class="form-control text-center" id="txtb_appl_nbr" ng-model="txtb_appl_nbr" disabled /></b>
+                                    <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Date Applied:</label></b>
+                                </div>
+                                <div class="col-lg-6">
+                                    <b><input class="form-control text-center" id="txtb_date_applied" ng-model="txtb_date_applied" disabled /></b>
+                                    <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Employee Name:</label></b>
+                                </div>
+                                <div class="col-lg-6">
+                                    <b><input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled /></b>
+                                    <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <b><input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled /></b>
+                                    <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Remarks:</label></b>
+                                </div>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control text_area" maxlength="255" ng-model="txtb_remarks" id="txtb_remarks" disabled></textarea>
+                                    <label id="lbl_txtb_description_req" class="lbl_required"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">FL Plan Date:</label></b>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group date" data-provide="datepicker">
+                                        <input type="text" id="txtb_plan_date" maxlength="10" ng-model="txtb_plan_date" class="form-control text-center" ng-disabled="dis_plan_date">
+                                        <span class="input-group-addon">
+                                            <span class="fa fa-calendar pull-right"></span>
+                                        </span>
+                                    </div>
+                                    <label id="lbl_txtb_plan_date_req" class="lbl_required"></label>
+                                </div>
+                                <div class="col-lg-3">
+
+                                    <button id="add2" ng-show="show_calendar_icon" class="btn btn-success pull-right font-bold" ng-click="btn_add_date()">ADD <i class="fa fa-plus-circle" style="padding-top:1px;padding-bottom:1px;padding-left:0px;padding-right:0px;"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px;">
+
+                        <div class="col-sm-12 table-resposive">
+                            <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th width="60%">FORCE LEAVE PLAN DATES</th>
+                                        <th width="30%">STATUS</th>
+                                        <th width="10%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-sm-12 m-t-xs">
+                            <div class="alert alert-success small font-bold" style="margin-bottom:5px !important">
+                                <i class="fa fa-info-circle"></i>
+                                You can Cancel or Disapprove the Application from the Reviewer/Approver to Re-schedule Force Leave Plan.
+                            </div>
+                            <div class="alert alert-success small font-bold" style="margin-bottom:5px !important">
+                                <i class="fa fa-info-circle"></i>
+                                Once this Application Approved, The System will automatic Apply a new Force Leave Application. Please check and Submit the Application under <i><b>My Applications>Leave Application</b></i>  <br /><br />VJA - 2022-06-06 01:57AM.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    @*<button id="cancel" ng-click="btn_cancel_all()" type="button" class="btn btn-danger" ng-show="show_cancel" ng-disabled="dis_del_row_3" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel</button>*@
+                    <button id="submit" ng-click="btn_submit_click()" type="button" class="btn btn-warning" ng-disabled="dis_submit" data-toggle="tooltip" data-placement="top" title="Data cannot be deleted/updated once submitted"><i class="fa fa-paper-plane-o"></i> Submit</button>
+                    @*<button id="addFinal" ng-show="!isEdit" ng-click="btn_save_click()" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>*@
+                    <button id="edit" ng-show="false" ng-click="SaveEdit()" type="button" class="btn btn-success" ng-disabled="dis_edit"><i class="fa fa-save"></i> Save Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Add Modal-->
+    <!-- Force Leave Plan Page-->
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white">{{ menu_name }}</h2>
+                        </div>
+                        <div class="col-lg-8 ddl-name-font-size" ng-show="log_in_as_AO">
+                            <select class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-change="FilterPageGrid()" style="width:100%;">
+                                <option value="">--Select here--</option>
+                                <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                            </select>
+                            <label ng-show="log_in_as_AO" id="lbl_ddl_name_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:80% !important;">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+                        <div class="col-sm-2" style="padding-top:5px">
+                            <label>Report Type :</label>
+                        </div>
+                        <div class="col-sm-3" style="padding-top:5px">
+                            <select class="form-control" id="ddl_report_type" ng-model="ddl_report_type" ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                <option value="NEW">New Format (with Division)</option>
+                                <option value="OLD" selected>Old Format</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-2" style="padding-top:5px">
+                            <label>Department :</label>
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px">
+                            <select class="form-control" id="ddl_dept" ng-model="ddl_dept" disabled ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2" style="padding-top:5px">
+                            <label>Division :</label>
+                        </div>
+                        <div class="col-sm-10" style="padding-top:5px">
+                            <select class="form-control" id="div_dept" ng-model="div_dept" ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in div_list" value="{{lst.division_code}}">{{lst.division_name1}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-sm-2" style="padding-top:5px" ng-show="false">
+                            <label>Sub-Department :</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="ddl_subdept" ng-show="false" ng-model="ddl_subdept" ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in subdept_list" value="{{lst.subdepartment_code}}">{{lst.subdepartment_name1}}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2" style="padding-top:5px" ng-show="false">
+                            <label>Section :</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="sec_dept" ng-show="false" ng-model="sec_dept" ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                <option value="" selected>--Select Here--</option>
+                                <option ng-repeat="lst in sec_list" value="{{lst.section_code}}">{{lst.section_name1}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px !important">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row" ng-show="log_in_as_AO">
+                            <div class="col-lg-12">
+
+                                <div class="btn-group btn-block">
+                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-block"> <i class="fa fa-print"></i> Select Printable <span class="badge badge-danger ">New</span></button>
+                                    <ul class="dropdown-menu" style="z-index:9999">
+                                        <li><a class="dropdown-item" ng-click="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">Schedule Forced Leave Report</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:2px;margin-bottom:0px;">
+                            <div class="col-lg-12">
+                                @*<div style="width:62%;float:left;">
+                </div>*@
+                                <select class="form-control field-select-sm" id="ddl_status" ng-model="ddl_status" ng-change="FilterPageGrid()">
+                                    <option value="" selected>Select All Status</option>
+                                    <option ng-repeat="lst in statusList" value="{{lst.approval_status}}">{{lst.approval_status_descr}}</option>
+                                </select>
+                                <label id="lbl_ddl_status_req" class="lbl_required"></label>
+                                @*<div style="width:38%;float:right;">
+                    <button id="info" class="btn btn-info pull-right font-bold" ng-click="btn_open_info()"><i class="fa fa-info-circle"> </i> Status Info.</button>
+                </div>*@
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom:0px;margin-bottom:0px;">
+                            <div class="col-lg-12">
+                                <div style="width:38%;float:right;">
+                                    <button id="add_force_leave" ng-show="ShowFLP" class="btn btn-default pull-right font-bold" ng-click="add_force_leave()"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar-2">
+                                <div class="col-lg-12" style="padding-top:0px;margin-top:0px;">
+                                    <table border="0" id="datalist_grid" ng-model="datalist_grid" class="table-striped" style="padding-top:-50px;border:0px;width:100% !important;" ng-show="ShowFLP">
+                                        <thead></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                    <table border="0" id="datalist_grid3" ng-model="datalist_grid3" class="table-striped" style="padding-top:-50px;border:0px;width:100% !important;" ng-show="!ShowFLP">
+                                        <thead></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8" style="padding-top:3px;padding-left:0px;">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

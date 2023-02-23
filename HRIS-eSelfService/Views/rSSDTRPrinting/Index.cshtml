@@ -1,0 +1,313 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Angular/ng-rSSDTRPrinting.js"></script>
+
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override {
+            padding: 150px 250px 250px 200px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    .add-edit-modal {
+        background-color: #1AB394 !important;
+    }
+
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+</style>
+<section ng-app="ng_selfService_App" ng-controller="rSSDTRPrinting_ctrlr">
+    <div class="wrapper wrapper-content animated fadeInRight div_content_override">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-heading">
+                        <div class="ibox-title" style="background-color:#1ab394;border-radius:5px 5px 0px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <b>
+                                        <h2 class="text-white">@Model.menu_name</h2>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        @*--------------------- ADDED BY LORRAINE I. ALE , DTR VIEWING FOR HR AO ----------------------------------------*@
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-disabled="is_dtr_AO" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                                <label id="lbl_ddl_dept_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Employee Name :</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-disabled="is_dtr_AO" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                </select>
+                                <label id="lbl_ddl_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-sm-1" style="padding-right:0px;padding-top:5px">
+                                <label>ID: </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control text-center font-bold" disabled id="txtb_empl_id2" ng-model="txtb_empl_id2" />
+                            </div>
+                        </div>
+                        @*-------------------------------------------------------------*@
+                        @*<div class="row">
+                                <div class="col-sm-12">
+                                    <hr style="margin-top:10px;margin-bottom:10px" />
+                                </div>
+                                <div class="col-sm-3" style="padding-top:5px">
+                                    <label>Employee Name :</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control font-bold" disabled id="txtb_empl_name" ng-model="txtb_empl_name" />
+                                </div>
+                                <div class="col-sm-1" style="padding-right:0px;padding-top:5px">
+                                    <label>ID: </label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="form-control text-center font-bold" disabled id="txtb_empl_id" ng-model="txtb_empl_id" />
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Year :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                </select>
+                                <label id="lbl_year_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Month :</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="ddl_month" ng-model="ddl_month">
+                                    <option value="">--Select Here--</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <label id="lbl_month_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>View Type :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="ddl_viewtype" ng-model="ddl_viewtype">
+                                    <option value="0">Whole Month</option>
+                                    <option value="1">1st Quincena</option>
+                                    <option value="2">2nd Quincena</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="ibox-footer text-right">
+                        <div class="row">
+                            <div class="col-lg-6"></div>
+                            <div class="col-lg-3">
+                                <button id="dtr_generation_empl"  ng-show="{{check_generate}}" class="btn btn-warning btn-block" ng-click="btn_generate_empl()"><i class="fa fa-cogs"></i> Generate DTR</button>
+
+
+                            </div>
+                            <div class="col-lg-3">
+                                <button class="btn btn-primary btn-block" ng-click="btn_print()"><i class="fa fa-print" id="dtr_print"></i> Print Preview </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="print_preview_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:80% !important;">
+            <div class="modal-content animated fadeIn modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
+                </div>
+                <div class="modal-body with-background text-center" style="padding-bottom:15px;">
+                    <div class="form-horizontal">
+                        <div class="row margin-top">
+                            <div id="iframe_content" class="col-md-12">
+                                <div ng-show="loading_r">
+                                    <div class="spiner-example">
+                                        <div class="sk-spinner sk-spinner-chasing-dots">
+                                            <div class="sk-dot1"></div>
+                                            <div class="sk-dot2"></div>
+                                        </div>
+                                    </div>
+                                    <h2><b>{{generate_message}}</b></h2>
+                                    <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                                </div>
+                                <center ng-show="!loading_r">
+                                    <iframe id="iframe_print_preview" name="iframe_print_preview" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%" style="border:10px #ffffff"></iframe>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Loading -->
+    <div class="modal fade" id="modal_generating_remittance">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row">
+                            <div class="spiner-example text-white" style="margin-left:20px;">
+                                <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                    <div class="sk-bounce1" style="background-color:white;"></div>
+                                    <div class="sk-bounce2" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="alert_notify" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated fadeIn modal-content-add-edit">
+                <div class="modal-header add-icon text-white" style="background-color:#ed5565;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title"><i class="fa fa-warning"></i>&nbsp;Warning Notification</h4>
+                </div>
+                    <div class="row">
+                        <div class="container my-5 d-flex justify-content-center">
+                            <div class="row justify-content-center ">
+                                <div class="col">
+                                    <div class="card ">
+                                        <div class="card-header pb-0 bg-white border-0 text-center px-sm-4">
+
+
+                                        </div>
+                                        <div class="card-body px-sm-4 mb-3">
+
+                                            <div class="feed-element">
+                                                <a href="#" class="pull-left">
+                                                    <img alt="image" class="img-circle" src="./ResourcesImages/Module Logo/HRIS - DAILY TIME RECORD.png">
+                                                </a>
+                                                <div class="media-body ">
+                                                    <h3><strong><i class="fa fa-warning text-danger"></i>YOU CAN NO LONGER GENERATE THIS DTR.</strong></h3>
+                                                    <h4><strong>This document has been transmitted already.</strong></h4>
+                                                    <i class="fa fa-phone text-success"></i>&nbsp;Please contact <strong class="text-danger">{{contact_personnel}}</strong> to <strong class="text-danger">{{flag_message}}</strong> your transmittal.
+
+                                                    @*<div class="actions">
+                <a class="btn btn-xs btn-white"><i class="fa fa-thumbs-up"></i> Like </a>
+                <a class="btn btn-xs btn-danger"><i class="fa fa-heart"></i> Love</a>
+            </div>*@
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>

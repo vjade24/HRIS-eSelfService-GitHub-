@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override {
+            padding: 150px 250px 250px 200px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+</style>
+<script src="~/Angular/ng-rSSRemitCert.js"></script>
+<section ng-app="ng_eSelfService_App" ng-controller="rSSRemitCert_ctrl">
+    <div class="wrapper wrapper-content animated fadeInRight div_content_override">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-heading">
+                        <div class="ibox-title" style="background-color:#1ab394;border-radius:5px 5px 0px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <b>
+                                        <h2 class="text-white">@Model.menu_name</h2>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Employee Name :</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control font-bold" disabled id="txtb_empl_name" ng-model="txtb_empl_name" />
+                            </div>
+                            <div class="col-sm-1" style="padding-top:5px">
+                                <label>ID: </label>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control text-center font-bold" disabled id="txtb_empl_id" ng-model="txtb_empl_id" />
+                            </div>
+                        </div>
+                        <hr style="margin-top:10px;margin-bottom:10px" />
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Remittance Type :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="ddl_remittance_type" ng-model="ddl_remittance_type">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in remittance_type_list" value="{{lst.remittancetype_code}}">{{lst.remittancetype_descr}}</option>
+                                </select>
+                                <label class="lbl_required block" id="lbl_ddl_remittance_type"></label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3">
+                                <b><span class="pull-left" style="margin-top:9px;">Period From:</span></b>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" id="txtb_period_from" ng-model="txtb_period_from" class="form-control text-center">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                                <label class="lbl_required" id="lbl_txtb_period_from"></label>
+                            </div>
+                            <div class="col-sm-2">
+                                <b><span class="pull-left" style="margin-top:9px;">Period To:</span></b>
+                            </div>
+                            <div class="col-sm-3" style="padding-left:0px;">
+                                <div class="input-group date" data-provide="datepicker">
+                                    <input type="text" id="txtb_period_to" ng-model="txtb_period_to" class="form-control text-center">
+                                    <div class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </div>
+                                </div>
+                                <label class="lbl_required block" id="lbl_txtb_period_to"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-footer text-right">
+                        <button class="btn btn-primary" ng-click="btn_print()"><i class="fa fa-print"></i> Print </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

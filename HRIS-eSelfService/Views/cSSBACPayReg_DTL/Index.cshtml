@@ -1,0 +1,291 @@
+﻿@model HRIS_eSelfService.Models.User_Menu
+<script src="~/Angular/ng-cSSBACPayReg_DTL.js"></script>
+<section ng-app="ng_eSelfService_App" ng-controller="cSSBACPayReg_DTL_ctrl">
+
+    <div class="modal fade" id="modal_loading">
+        <div class="modal-dialog">
+            <div class="modal-dialog text-center">
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-cube-grid" style="width:250px;height:250px;">
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="sk-cube"></div>
+                        <div class="row">
+                            <div class="spiner-example text-white" style="margin-left:20px;">
+                                <span style="float:left;font-size:16px;" id="loading_msg">LOADING</span>
+                                <div style="float:left;width:150px;" class="sk-spinner sk-spinner-three-bounce">
+                                    <div class="sk-bounce1" style="background-color:white;"></div>
+                                    <div class="sk-bounce2" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                    <div class="sk-bounce3" style="background-color:white;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal_print_option" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">REPORT HEADER</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:10px;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Registry Nbr. :</b></span>
+                            <div style="width:45%; float:right;" class="text-center">
+                                <input type="text" class="form-control form-control-sm text-center font-bold" id="txtb_payroll_registry_nbr" ng-model="txtb_payroll_registry_nbr" disabled readonly />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-sm-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;"><b>Description:</b></span>
+                            <div style="width:74%; float:right;">
+                                <input class="form-control form-control-sm font-bold" id="txtb_descr" ng-model="txtb_descr" disabled readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-sm-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Select Report:</b></span><label style="color:red;margin-top:5px;">*</label>
+                            <div style="width:74%; float:right;">
+                                <select id="ddl_reports" class="form-control form-control-sm" ng-model="ddl_reports" ng-change="select_ddl_reports(ddl_reports)">
+                                    <option value="">-- Select Here --</option>
+                                    <option ng-repeat="lst in templist track by $index" value="{{$index}}">{{lst.payrolltemplate_descr}}</option>
+                                </select>
+                                <label class="text-danger small">{{lbl_requiredfield7}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:5px;" ng-hide="true">
+                        <div class="col-sm-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Report Filename:</b></span><label style="color:red;margin-top:5px;">*</label>
+                            <div style="width:74%; float:right;">
+                                <label class="text-danger small">{{lbl_requiredfield7}}</label>
+                            </div>
+                            <input type="text" ng-model="txtb_report_filename" class="form-control form-control-sm font-bold" />
+                            <input type="text" ng-model="txtb_payroll_year" class="form-control form-control-sm font-bold" />
+                            <input type="text" ng-model="txtb_payroll_month" class="form-control form-control-sm font-bold" />
+                            <input type="text" ng-model="txtb_orig_template_code" class="form-control form-control-sm font-bold" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-primary" style="padding:10px;">
+
+                    <button id="btn_print_rs5" ng-click="btn_print_click()" class="btn btn-primary dim"><i class="fa fa-print"> </i> <b>PRINT</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*---ADD MODAL-----*@
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-3" style="padding-right:0px">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>Employee's Name :</b></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" id="txtb_empl_name" ng-model="txtb_empl_name" style="font-weight:bold;" class="form-control form-control-sm" disabled ng-show="!empl_name" />
+                            <select class="form-control" id="ddl_empl_name" ng-model="ddl_empl_name" ng-show="empl_name" ng-change="set_empl_name_index(ddl_empl_name)">
+                                <option value="">-- Select Here -- </option>
+                                <option ng-repeat="lst in emplist track by $index" value="{{$index}}">{{lst.employee_name}}</option>
+                            </select>
+                            <label id="lbl_ddl_empl_name_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;float:left"><b>ID No.:</b></span>
+                            <input type="text" id="txtb_empl_id" ng-model="txtb_empl_id" style="font-weight:bold;float:right;width:50%" class="form-control form-control-sm text-center" disabled />
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>BAC Position:</b></span>
+                        </div>
+                        <div class="col-lg-9">
+                            <input type="text" id="txtb_position" ng-model="txtb_position" style="font-weight:bold;" class="form-control form-control-sm" disabled />
+                        </div>
+
+                    </div>
+                    @*<div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b>BAC Position Class:</b></span>
+                        </div>
+                        <div class="col-lg-9">
+                            <input type="text" id="txtb_position_class" ng-model="txtb_position_class" style="font-weight:bold;" class="form-control form-control-sm" disabled />
+                        </div>
+
+                    </div>*@
+
+                    <div class="row" style="margin-top:5px;">
+
+                        <div class="col-lg-3">
+                            <label class="pull-left font-bold" style="padding-top: 5px;" id="lbl_rate_descr" ng-model="lbl_rate_descr"><b>{{lbl_rate_descr}} :</b></label>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" id="txtb_rate_amount" ng-model="txtb_rate_amount" style="font-weight:bold;" class="form-control form-control-sm text-right" disabled />
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b><span class="text-danger">*</span> Allowance Amount: </b></span>
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control text-right font-bold" id="txtb_allowance_amt" ng-model="txtb_allowance_amt" ng-keyup="calculate_net()" ng-disabled="isdisable"/>
+                            <label id="lbl_txtb_allowance_amt_req" class="lbl_required"></label>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b><span class="text-danger">*</span> W/H Tax (%): </b></span>
+                            <input class="form-control text-center font-bold" id="txtb_wtax_perc" ng-model="txtb_wtax_perc" ng-keyup="calculate_net()"  style="float:right;width:40%"  ng-disabled="isdisable"/>
+                            <label id="lbl_txtb_wtax_perc_req" class="lbl_required" style="float:right;"></label>
+                        </div>
+                        <div class="col-lg-2" style="padding-right:0px">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b><span class="text-danger">*</span> W/H Tax Amount: </b></span>
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control text-right font-bold" id="txtb_wtax_amt" ng-model="txtb_wtax_amt" ng-keyup="calculate_net()" disabled />
+                            <label id="lbl_txtb_wtax_amt_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                    @*<div class="row" style="margin-top:5px;">
+                        
+                        
+                    </div>*@
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <span class="pull-left font-bold" style="padding-top: 5px;"><b><span class="text-danger">*</span> Net Pay: </b></span>
+                        </div>
+                        <div class="col-lg-2">
+                            <input class="form-control text-right font-bold" id="txtb_net_pay" ng-model="txtb_net_pay" disabled ng-keyup="calculate_net()"/>
+                            <label id="lbl_txtb_net_pay_req" class="lbl_required"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <span ng-hide="!isshow" class="pull-left font-bold text-danger small" style="padding-top: 5px;"><b>{{message_descr}}</b></span>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button class="btn btn-success" id="btn_save" ng-model="btn_save" ng-click="btn_save_click()" ng-hide="isshow"><i class="fa fa-save" id="i_save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*---END ADD MODAL-----*@
+
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-heading">
+                        <div class="ibox-title" style="background-color:#507cd1;border-radius:5px 5px 0px 0px;">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <h2 class="text-white">BAC Honorarium Registry<small class="text-white" style="font-size:11px"> (Details)</small></h2>
+                                </div>
+                                <div class="col-lg-8" style="margin-bottom:3px;">
+                                    <input type="search" class="form-control" ng-model="search_box_dochistory" ng-keyup="search_in_list(search_box_dochistory,'datalist_grid')" placeholder="Search ....">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-right:0px">
+                                <span class="pull-left font-bold" style="padding-top: 5px;margin-right:10px;"><b>Show</b></span>
+                                <select class="form-control field-select-sm" style="width:30%;float:left;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="50">50</option>
+                                    <option value="10">100</option>
+                                </select>
+                                <span class="font-bold" style="float:left;padding-top: 5px;margin-left:10px;"><b>entries</b></span>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-3">
+                                <span class="pull-left font-bold" style="padding-top: 5px;margin-right:10px;"><b>Payroll Year : </b></span>
+                                <input class="form-control text-center font-bold" id="txtb_payroll_year" ng-model="txtb_payroll_year" disabled style="float:right;width:40%" />
+                            </div>
+
+                            <div class="col-lg-4">
+                                <span class="pull-left font-bold" style="padding-top: 5px;margin-right:10px;"><b>Payroll Month : </b></span>
+                                <input class="form-control text-center font-bold" id="txtb_payroll_month" ng-model="txtb_payroll_month" disabled style="float:right;width:65%" />
+                            </div>
+
+                            @if (ViewBag.allow_add == 1)
+                            {
+                                <div class="col-sm-1 text-right" style="padding-left:0px;">
+                                    <button class="btn btn-success pull-right" style="margin-left:5px;" ng-click="btn_add_click()" ng-hide="isshow_add"><i class="fa fa-plus-circle"> </i> Add</button>
+                                </div>
+                            }
+
+                        </div>
+                        <div class="row" style="margin-top:5px !important">
+                            <div class="col-lg-3">
+                                <button class="btn btn-primary btn-block" ng-click="btn_back()"> <i class="fa fa-backward"></i> Back to Registry</button>
+                            </div>
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-8">
+                                <span class="pull-left font-bold" style="padding-top: 5px;margin-right:10px;"><b>Payroll Description : </b></span>
+                                @*<input class="form-control text-center font-bold" id="txtb_payroll_descr" ng-model="txtb_payroll_descr" disabled style="float:right;width:82.5%" />*@
+                                <select class="form-control font-bold" id="ddl_payroll_registry" ng-model="ddl_payroll_registry" disabled style="float:right;width:79%" >
+                                    <option ng-repeat="lst in hdrlist" value="{{lst.payroll_registry_nbr}}">{{lst.payroll_registry_descr}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 pull-right text-right">
+                                <span ng-hide="!isshow" class="pull-left font-bold text-danger small" style="padding-top: 0px;float:right !important"><b>{{message_descr}}</b></span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-lg-12 table-resposive">
+                                <table id="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th width="8%">ID NO</th>
+                                            <th width="35%">EMPLOYEE NAME</th>
+                                            <th width="25%">BAC POSITION</th>
+                                            <th width="10%">GROSS PAY</th>
+                                            <th width="10%">NET PAY</th>
+                                            <th width="15%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

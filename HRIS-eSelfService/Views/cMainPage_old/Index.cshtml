@@ -1,0 +1,325 @@
+﻿@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<script src="~/Angular/ng-cMainPage.js"></script>
+<style>
+    .row-height {
+        height: 40px !important;
+    }
+
+    .imgProfile {
+        border-radius: 50%;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: auto;
+        min-height: 80px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .table > thead > tr > th {
+        background-color: transparent !important;
+        color: #676a6c !important;
+        font-weight: bold;  
+    }
+    .table.dataTable.no-footer {
+        border-bottom-color: rgb(221, 221, 221);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+    }
+
+    .table > tbody > tr > td {
+        color: #ed5565 !important;
+        font-weight: bold;
+    }
+
+    .modalXbtn {
+        width: 40px !important;
+        height: 40px !important;
+        background-color: red !important;
+        border-radius: 50% !important;
+        margin-top: -30px !important;
+        margin-right: -30px !important;
+        float: right !important;
+        color: white !important;
+        text-align: center !important;
+        vertical-align: central !important;
+    }
+
+    .XIcon {
+      
+        font-size: 30px !important;
+      
+    }
+
+    .para {
+        font-size: 20px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .announce-body {
+        background-color: white !important;
+        border-radius: 10px !important;
+        padding: 10px !important;
+    }
+
+    .hrline {
+        border-bottom: 2px solid black !important;
+    }
+    
+
+</style>
+<div class="animated fadeInDown" ng-app="ng_eSelfService_App" ng-controller="cMainPageCtrlr">
+
+    <!-- AS Alert Modal -->
+    <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY">
+                <div class="modal-header red-bg" style="padding:15px 10px 15px 10px;margin:0px;">
+                    <span class="fa fa-times pull-right" data-dismiss="modal" style="cursor:pointer;"></span>
+                    <h4 class="modal-title"><span class="fa fa-warning"></span> Needs Action!</h4>
+                </div>
+                <div class="modal-body" >
+                    <div class="row" >
+                        <div class="col-lg-12">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <table class="table table-striped" id="datalist_grid" ng-model="datalist_grid">
+                                    <thead>
+                                        <tr>
+                                            <th width="22%">DATE</th>
+                                            <th width="12%">AM IN</th>
+                                            <th width="17%">AM OUT</th>
+                                            <th width="12%">PM IN</th>
+                                            <th width="17%">PM OUT</th>
+                                            <th width="20%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer red-bg" style="padding:10px 0px 0px 0px; margin:0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-4" ng-repeat="lst1 in MenuList" ng-if="lst1.menu_level == 1 && lst1.menu_level ">
+                <div class="ibox">
+                    <div class="ibox-title" style="cursor:pointer;">
+
+                        <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst1)">{{lst1.menu_name}}<span class=""></span></a>
+
+                        <a ng-if="lst1.hasUrl == 0" ng-click="collapse(lst1.isOpen,lst1.id,lst1.hasUrl)" class="text-muted">
+                            <h5>{{lst1.page_title}}</h5>
+                            <span ng-show="!lst1.isOpen" class="fa fa-angle-right pull-right"></span>
+                            <span ng-show="lst1.isOpen" class="fa fa-angle-down pull-right"></span>
+                        </a>
+                        <br />
+                        <ul class="tranx nav" ng-show="lst1.isOpen" style="position:absolute !important;z-index:9999;background-color:white !important;float:right !important;width:90% !important;right: 15px;color:dodgerblue !important">
+                            <li ng-repeat="lst2 in MenuList" ng-if="lst2.menu_level == 2 && lst2.menu_id_link == lst1.id ">
+                                <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst2)">{{lst2.menu_name}}<span class=""></span></a>
+                                <a ng-if="lst2.hasUrl == 0" ng-click="collapse(lst2.isOpen,lst2.id,lst2.hasUrl)">
+                                    {{lst2.menu_name}}
+                                    <span ng-show="!lst2.isOpen" class="fa fa-angle-right pull-right"></span>
+                                    <span ng-show="lst2.isOpen" class="fa fa-angle-down pull-right"></span>
+                                </a>
+                                <ul class=" nav nav-third-level" ng-show="lst2.isOpen">
+                                    <li ng-repeat="lst3 in MenuList" ng-if="lst3.menu_level == 3 && lst2.id == lst3.menu_id_link ">
+                                        <a href="" ng-click="setActive(lst3)">{{lst3.menu_name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="widget style1 navy-bg">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <i class="{{lst1.menu_icon}} fa-4x"></i>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    <span> {{lst1.page_title}} </span><br />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       @*<div class="row">
+           <div class="col-lg-12 landing-page">
+               <div id="inSlider" class="carousel carousel-fade" style="height:320px;" data-ride="carousel">
+                   <ol class="carousel-indicators">
+                       <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+                       <li data-target="#inSlider" data-slide-to="1"></li>
+                       <li data-target="#inSlider" data-slide-to="2"></li>
+                       <li data-target="#inSlider" data-slide-to="3"></li>
+                       <li data-target="#inSlider" data-slide-to="4"></li>
+                   </ol>
+                   <div class="carousel-inner" style="height:320px !important;" role="listbox">
+                       <div class="item active" style="height:320px !important;background-color:black;">
+                           <div class="container">
+                               <div class="carousel-caption" style="padding-left:60px;">
+
+                               </div>
+                           </div>
+                           <div class="header-back one" style="height:300px;"></div>
+                       </div>
+                       <div class="item" style="height:320px !important;">
+                           <div class="container">
+                               <div class="carousel-caption" style="padding-left:60px;">
+                                   <h1>
+                                       Welcome to HRIS <br />SelfService <br />for All Employee's<br />
+                                   </h1>
+                                   
+                               </div>
+                               
+                           </div>
+                           <div class="header-back two" style="height:300px;"></div>
+                       </div>
+                       <div class="item" style="height:320px !important;">
+                           <div class="container">
+                               <div class="carousel-caption blank" style="padding-left:100px;">
+                                   <h1>DAVAO DE ORO</h1>
+                                   <p>Province of Davao de Oro</p>
+                               </div>
+                           </div>
+                           <div class="header-back three" style="height:300px;"></div>
+                       </div>
+                       <div class="item" style="height:320px !important;">
+                           <div class="container">
+                               <div class="carousel-caption blank" style="margin-left:80px;padding:10px;border-radius:5px;background:rgba(0,0,0,0.6);">
+                                   <div style="opacity:1 !important;z-index:99999999;">
+                                       <h1 style="opacity:100;z-index:9999">HRIS TEAM</h1>
+                                       <p>
+                                           We are the HRIS
+                                           <small>
+                                               Development Team.
+                                           </small>
+                                       </p>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="header-back four" style="height:300px;"></div>
+                       </div>
+                       <div class="item" style="height:320px !important;">
+                           <div class="container">
+                               <div class="carousel-caption blank" style="margin-left:80px;padding:10px;border-radius:5px;background:rgba(0,0,0,0.6);">
+                                   <div style="opacity:1 !important;z-index:99999999;">
+                                       <h1 style="opacity:100;z-index:9999">HRIS TEAM</h1>
+                                       <p>
+                                           Programmer's and Tester's <br />
+                                           <small>With The Project Lead.</small>
+                                       </p>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="header-back five" style="height:300px;"></div>
+                       </div>
+                   </div>
+                   <a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">
+                       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                       <span class="sr-only">Previous</span>
+                   </a>
+                   <a class="right carousel-control" href="#inSlider" role="button" data-slide="next">
+                       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                       <span class="sr-only">Next</span>
+                   </a>
+               </div>
+           </div>
+       </div>
+       <hr style="margin-top:2px; margin-bottom:2px;" />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-content">
+                    <h2><i class="fa fa-info-circle"></i>WHAT YOU CAN DO HERE IN eSELFSERVICE</h2>
+                    <small>This are the list of what you can do:</small>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <ul class="todo-list m-t">
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs">You can <b>Edit</b>, <b>Update</b> and <b>Print</b> your <b>PDS</b>.</span>
+                                </li>
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs"><b>View DTR</b>, <b>Service Record</b>, <b>Pay Slip</b> and <b>Index of Payment.</b></span>
+
+                                </li>
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs">You can change your <b>Profile</b> and <b>Password</b> for account security.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="todo-list m-t">
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs">You can <b>Apply Travel Order, Leave,</b> and <b>OT Request.</b></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs">Set and submit your <b>Force Leave Plan</b> and <b>COC application.</b></span>
+                                </li>
+                                <li>
+                                    <input type="checkbox" value="" name="" class="i-checks" checked />
+                                    <span class="m-l-xs">And <b>Many More..</b></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>*@
+
+
+    </div>
+
+    <div class="modal fade" id="announcement_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg" id="">
+            <div class="col-lg-12">
+                <div class="modal-content modal-content-add-edit">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="modalXbtn" data-dismiss="modal" aria-label="Close"><i aria-hidden="true" class="XIcon fa fa-times"></i></button>
+                        <center><h1 class="modal-title" id="modalLabelSmall"><b>Announcement!</b></h1></center>
+                    </div>
+                    <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                        <div class="announce-body">
+                            <div class="row" ng-repeat="l in announcement">
+                                <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 ">
+                                    <p class="para hrline">{{l.rec_no}}. {{l.announcement}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:20px;" ng-show="!show_footer" />
+                    <div class="modal-footer" ng-show="show_footer" style="padding: 10px 30px 10px 30px !important">
+                        <button id="btn_cancel" ng-click="btn_cancel_click()" ng-show="btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel AS</button>
+                        <button id="btn_cancel_pending" ng-click="btn_cancel_pending_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel Pending</button>
+                        <button id="btn_disapprove" ng-click="btn_disapprove_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-thumbs-down"></i> Disapprove</button>
+                        <button id="btn_approve" ng-click="btn_approve_click()" type="button" class="btn btn-success" ng-show="show_btn_approve" ng-disabled="dis_btn_approve" data-toggle="tooltip" data-placement="top" title="Approved"><i class="fa fa-paper-plane-o"></i>Approved</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

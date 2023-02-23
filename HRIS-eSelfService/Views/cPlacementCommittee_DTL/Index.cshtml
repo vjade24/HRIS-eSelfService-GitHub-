@@ -1,0 +1,994 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS-eSelfService | Committee Details</title>
+    <base href="/" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+    <link href="~/Content/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <link href="~/Content/plugins/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/plugins/slick/slick-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/steps/jquery.steps.css" rel="stylesheet" />
+    <script src="~/Angular/ng-cPlacementCommittee_DTL.js"></script>
+    <style type="text/css">
+
+        body {
+            padding-right: 0px !important;
+        }
+        .select2-selection__clear {
+            font-size: 14px !important;
+        }
+
+        .select2-close-mask {
+            z-index: 2099;
+        }
+
+        .select2-dropdown {
+            z-index: 3051;
+        }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+            /*border: 1px solid red !important;*/
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+
+        .text_area_size {
+            height: 50px !important;
+        }
+
+        .sl-vl-radio-display-none {
+            display: none;
+        }
+
+        .ddl_padding_xx {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .text-primary {
+            color: #1c84c6 !important;
+        }
+
+        .element-detail-box {
+            padding: 0px !important;
+        }
+
+        .ddo-bg-1 {
+            background-image: linear-gradient(#472b1a, #211006) !important;
+            color: white !important;
+        }
+
+        .ddo-bg-2 {
+            cursor: pointer !important;
+            background-color: #fdb900 !important;
+            color: saddlebrown !important;
+        }
+        .brown-bg 
+        {
+            background-color: #3d2415;
+            color: #ffffff;
+        }
+        /*.elements-list .list-group-item.active, .elements-list .list-group-item:hover {
+            background: white !important;
+            color:black !important;
+        }*/
+
+
+        table, table tr {
+            background-color: transparent !important;
+            color:white;
+        }
+
+        table td {
+            padding: 0px !important;
+        }
+        .dataTables_wrapper .dataTables_info{
+            color: white !important;
+        }
+        table{
+            padding-bottom:10px !important
+        }
+
+    </style>
+</head>
+
+<body class="no-skin-config full-height-layout top-navigation " ng-app="ng_selfService_App" ng-controller="SharedLayoutCtrlr" id="main-body" ng-click="CheckSession()">
+
+    <section ng-app="ng_eSelfService_App" ng-controller="cPlacementCommittee_DTL_ctrlr">
+        <div id="wrapper">
+            <div id="page-wrapper" class="brown-bg">
+
+                <div class="row wrapper border-bottom white-bg page-heading ddo-bg-1 " style="min-height:150px !important" ng-show="show_initial_div">
+
+                    <div class="col-lg-12 m-t-xxs ">
+                        <div class="form-group row">
+                            <div class="col-sm-3 b-r">
+                                <h5 class="m-t-n-xxs m-b-n-xxs">Qualification Standards for</h5>
+                                <h2 class="m-t-n-xxs" style="color:#fdb900 !important"><strong>{{position_long_title}} ({{item_no}}) - SG {{salary_grade}}</strong></h2>
+                                <h5 class="m-t-n-xs" style="font-weight:100 !important;font-size:12px !important">{{department_name1}} </h5>
+                                <div class="row ">
+                                    <div class="col-lg-5 ">
+                                        <h5 class="m-t-n-xs">Recently Occupied:</h5>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <h5 class="m-t-n-xs" style="font-weight:100;font-size:10px !important">
+                                            <span class="badge badge-primary"> {{item_recent_occupied_by}} </span>
+                                        </h5>
+                                    </div>
+                                </div>
+                                
+                                <div class="row ">
+                                    <div class="col-lg-4 ">
+                                        <h5 class="m-t-n-xs">{{empltype_lst_count}} applicants </h5>
+                                    </div>
+                                    <div class="col-lg-8 text-right float-right">
+                                        <h5 class="m-t-n-xs" style="font-weight:100;font-size:12px !important">
+                                            Legend:
+                                            <span><span class="fa fa-circle text-danger"></span> Regular </span>
+                                            <span><span class="fa fa-circle text-primary"></span> Casual </span>
+                                            @*<span><span class="fa fa-circle text-warning"></span> Job-Order </span>*@
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <h3 class="m-t-n-xs"><i class="fa fa-graduation-cap text-success"></i> Education</h3>
+                                <h5 class="m-t-n-xs" style="font-weight:100 !important;font-size:19px !important">
+                                    {{qs_eduction}}
+                                </h5>
+                            </div>
+                            <div class="col-sm-3">
+                                <h3 class="m-t-n-xs"><i class="fa fa-bar-chart text-primary"></i> Experience</h3>
+                                <h5 class="m-t-n-xs" style="font-weight:100 !important;font-size:19px !important">
+                                    {{qs_work_experience}}
+                                </h5>
+
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <h3 class="m-t-n-xs"><i class="fa fa-star  text-info"></i> Trainings</h3>
+                                        <h5 class="m-t-n-xs" style="font-weight:100 !important;font-size:19px !important">
+                                            {{qs_training}}
+                                        </h5>
+
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h3 class="m-t-n-xs"><i class="fa fa-trophy text-warning"></i> Eligibility</h3>
+                                        <h5 class="m-t-n-xs" style="font-weight:100 !important;font-size:19px !important">
+                                            {{qs_eligibility}}
+                                        </h5>
+                                        <a aria-expanded="false" role="button" class="btn btn-primary btn-xs bottom-right btn-block" href="cPlacementCommittee/Index"><i class="fa fa-arrow-left"></i> Back to main page</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="fh-breadcrumb" style="height:calc(100% - 150px) !important;margin:0 -15px !important;position:absolute !important" ng-show="show_initial_div">
+                    <div class="fh-column" style="width:20% !important">
+                        <div class="full-height-scroll">
+
+                            <ul class="list-group elements-list ddo-bg-2" ng-show="show_initial_div_dtl">
+
+                                <li class="list-group-item with-background nav-link" id="li_grp_{{lst.empl_id}}" ng-repeat="lst in empltype_lst" ng-click="btn_view_qs(lst.empl_id)" data-toggle="tab" href="#tab-{{lst.empl_id}}">
+                                    <a>
+                                        <span class="float-left pull-left {{lst.employment_type_color}}" data-toggle="tooltip" data-placement="left" title="{{lst.employment_type}} Employee"><span class="fa fa-circle"></span> </span>
+                                        <small>&nbsp; {{lst.empl_id}}</small>
+
+                                        <strong>{{lst.last_name}}, {{lst.first_name}} {{lst.middle_name}} </strong>
+                                        <div class="small m-t-xs">
+                                            <p ng-show="{{lst.appl_status_show}}">
+                                                <span class="label float-right label-primary pull-right"><span class="fa fa-star"></span>  {{lst.appl_status}}</span>
+
+                                            </p>
+                                            <p class="">
+                                                <i class="fa fa-map-marker"></i> {{lst.position_long_title_current}} ({{lst.department_short_name}})
+                                            </p>
+                                            <p class="m-b-none" ng-show="lst.item_occupied != ''">
+                                                <span class="label label-default" style="white-space: normal !important; "><span class="fa fa-info-circle text-success"></span>  Appointed from <i><b>{{lst.item_occupied_from_dep}}</b></i> as <i><b>{{lst.item_occupied}} </b></i></span>
+                                                @*<span class="label label-default">   </span>*@
+                                            </p>
+                                        </div>
+
+                                    </a>
+                                </li>
+                                <li class="list-group-item red-bg">
+                                    <a class="nav-link">
+                                        <span class="text-white">Nothing Follows</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="full-height">
+                        <div class="full-height-scroll with-background">
+                            <div class="element-detail-box">
+                                <div class="tab-content">
+                                    <div id="tab-{{lst.empl_id}}" class="tab-pane" ng-repeat="lst in empltype_lst">
+                                        <div class="row" style="background-color: #00000296;">
+                                            <div class="col-lg-5" style="padding-top: 1%;padding-bottom: 1%;">
+                                                <div class="col-sm-3">
+                                                    <div class="profile-image m-t-sm">
+                                                        <img src="{{imgDataURL}}" class="rounded-circle circle-border m-b-m" alt="profile" style="background-color: #fdb900; ">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9">
+                                                    <h2>
+                                                        <b> {{lst.first_name}} {{lst.middle_name}} {{lst.last_name}}</b>
+                                                    </h2>
+                                                    <h5 class="m-t-n-xs">
+                                                        <i class="fa fa-map-marker text-danger"></i> {{lst.position_long_title_current}}  - Current Position
+                                                    </h5>
+                                                    <h5 class="m-t-n-xs">
+                                                        <i class="fa fa-map-marker text-danger"></i> {{lst.department_name1}}
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7" style="padding-top: 1%;padding-bottom: 1%;">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-8">
+                                                        <div class="vertical-container">
+                                                            <div class="small text-muted">
+                                                                <h5 class="m-b-n-xxs">Also Applied for; </h5>
+                                                                <ul class="tag-list" style="padding: 0;">
+                                                                    <li ng-show="lst.item_no_primary   != ''"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{lst.item_no_primary}}   - {{lst.item_no_primary_descr}}   </a></li>
+                                                                    <li ng-show="lst.item_no_secondary != ''"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{lst.item_no_secondary}} - {{lst.item_no_secondary_descr}} </a> </li>
+                                                                    <li ng-show="lst.item_no_tertiary  != ''"><a href="" style="font-size:11px; font-weight:bold;font-style:normal;color:white;background-color:#1c84c6 !important"><i class="fa fa-tag"></i> {{lst.item_no_tertiary}}  - {{lst.item_no_tertiary_descr}}  </a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="tooltip-demo m-t-md">
+                                                            @*<button class="btn btn-primary btn-sm btn-block dim" data-toggle="tooltip" data-placement="left" title="Approve" ng-show="flag_item_occupied == null || flag_item_occupied == ''" ng-click="btn_open_approve('F',lst)"><i class="fa fa-thumbs-up"></i> Approve</button>*@
+                                                            <button class="btn btn-primary btn-sm btn-block dim" data-toggle="tooltip" data-placement="left" title="Approve" ng-show="lst.appl_status != 'Approved'" ng-click="btn_open_approve('F',lst)"><i class="fa fa-thumbs-up"></i> Approve</button>
+                                                            <button class="btn btn-danger btn-sm btn-block dim" data-toggle="tooltip" data-placement="left" title="Cancel" ng-show="{{lst.appl_status_show}}" ng-click="btn_open_approve('C',lst)"><i class="fa fa-thumbs-down"></i> Cancel</button>
+                                                            <button class="btn btn-primary btn-sm btn-block dim" data-toggle="tooltip" data-placement="left" title="Print Endorsement" ng-show="{{lst.appl_status_show}}" ng-click="btn_print('ITEM_ENDORSE',lst.empl_id,lst.employee_name)"><i class="fa fa-print"></i> Endorsement</button>
+                                                            <button class="btn btn-warning btn-sm btn-block dim" data-toggle="tooltip" data-placement="left" title="Not Qualify" ng-show="lst.appl_status != 'Approved'" ng-click="btn_open_approve('NQ',lst)"><i class="fa fa-thumbs-down"></i> Not Qualified</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-1"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row m-t-sm" style="padding-left:25px ;padding-right:25px">
+                                            <div class="col-lg-4">
+                                                <div class="form-group row">
+                                                    <div class="col-lg-12">
+                                                        <div class="client-detail">
+                                                            <div class="full-height-scroll">
+
+                                                                <h3>Personal Information</h3>
+
+                                                                <ul class="list-group clear-list">
+                                                                    <li class="list-group-item fist-item">
+                                                                        <span class="pull-right"> {{lst.last_name}} </span>
+                                                                        Last Name
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <span class="pull-right  "> {{lst.first_name}}  </span>
+                                                                        First Name
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-lg-8 b-r">
+                                                                                <span class="pull-right"> {{lst.middle_name}} </span>
+                                                                                Middle Name
+                                                                            </div>
+                                                                            <div class="col-lg-4">
+                                                                                <span class="pull-right"> {{lst.suffix_name}} </span>
+                                                                                Extension
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-lg-8 b-r">
+                                                                                <span class="pull-right"> {{lst.civil_status_descr}} </span>
+                                                                                Civil Status
+                                                                            </div>
+                                                                            <div class="col-lg-4">
+                                                                                <span class="pull-right"> {{lst.gender}} </span>
+                                                                                Sex
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+
+                                                                    <li class="list-group-item">
+                                                                        <span class="pull-right"> {{lst.mobile_no}} </span>
+                                                                        Mobile Number
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <span class="pull-right"> {{lst.email_add}} </span>
+                                                                        Email Address
+                                                                    </li>
+
+                                                                    <li class="list-group-item">
+
+                                                                        <div class="form-group row">
+                                                                            <div class="col-lg-4">
+                                                                                Permanent Address
+                                                                            </div>
+                                                                            <div class="col-lg-8">
+                                                                                <span class="pull-right text-right">
+                                                                                    {{lst.perm_houselot_nbr}},
+                                                                                    {{lst.perm_street}},
+                                                                                    {{lst.perm_purok}},
+                                                                                    {{lst.perm_barangay_name}},
+                                                                                    {{lst.perm_municipality_name}},
+                                                                                    {{lst.perm_province_name}},
+                                                                                    {{lst.perm_zip_code}}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </li>
+                                                                    <li class="list-group-item">
+                                                                        <div class="form-grop row">
+                                                                            <div class="col-lg-4">
+                                                                                Residential Address
+                                                                            </div>
+                                                                            <div class="col-lg-8">
+                                                                                <span class="pull-right text-right">
+                                                                                    {{lst.houselot_nbr}},
+                                                                                    {{lst.street}},
+                                                                                    {{lst.purok}},
+                                                                                    {{lst.barangay_name}},
+                                                                                    {{lst.municipality_name}},
+                                                                                    {{lst.province_name}},
+                                                                                    {{lst.zip_code}}
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <hr />
+
+                                                            <h3>Other Information<span class="text-success small"> | Special Skills and Hobbies</span></h3>
+
+                                                            <ul class="list-group clear-list">
+                                                                <li class="list-group-item fist-item" ng-repeat="lst in data_oth">
+                                                                    @*{{lst.seq_no}}.)*@
+                                                                    {{lst.descr}}
+                                                                </li>
+                                                            </ul>
+                                                            <hr />
+                                                            <h3>Other Information<span class="text-success small"> | Voluntary Work</span></h3>
+
+                                                            <ul class="list-group clear-list">
+                                                                <li class="list-group-item fist-item" ng-repeat="lst in data_voluntarywork">
+                                                                    @*{{lst.seq_no}}.)*@
+                                                                    {{lst.name_address_org}} | {{lst.no_of_hrs}} hrs.
+                                                                    <br />
+                                                                    {{lst.position_title}} |  {{lst.voluntarywork_from}} -  {{lst.voluntarywork_to}}
+                                                                </li>
+                                                            </ul>
+                                                            <div class="m-t-lg">
+                                                                <hr />
+                                                                <div class="m-t-lg">
+                                                                    <p>
+                                                                        <span><i class="fa fa-paperclip"></i> 4 attachments - Personal Data Sheet (PDS) </span>
+                                                                    </p>
+
+                                                                    <div class="attachment">
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a ng-click="btn_print('O',lst.empl_id,lst.employee_name)">
+                                                                                    <span class="corner"></span>
+
+                                                                                    <div class="icon">
+                                                                                        <i class="fa fa-file"></i>
+                                                                                    </div>
+                                                                                    <div class="file-name">
+                                                                                        Personal Data Sheet - All page
+                                                                                        <br>
+                                                                                        <small>Personal Basic information and etc.</small>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a ng-click="btn_print('1',lst.empl_id,lst.employee_name)">
+                                                                                    <span class="corner"></span>
+
+                                                                                    <div class="icon">
+                                                                                        <i class="fa fa-file"></i>
+                                                                                    </div>
+                                                                                    <div class="file-name">
+                                                                                        Personal Data Sheet - Page 1
+                                                                                        <br>
+                                                                                        <small>Educational Background</small>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a ng-click="btn_print('2',lst.empl_id,lst.employee_name)">
+                                                                                    <span class="corner"></span>
+
+                                                                                    <div class="icon">
+                                                                                        <i class="fa fa-file"></i>
+                                                                                    </div>
+                                                                                    <div class="file-name">
+                                                                                        Personal Data Sheet - Page 2
+                                                                                        <br>
+                                                                                        <small>Eligibility and Work Experience</small>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a ng-click="btn_print('3',lst.empl_id,lst.employee_name)">
+                                                                                    <span class="corner"></span>
+
+                                                                                    <div class="icon">
+                                                                                        <i class="fa fa-file"></i>
+                                                                                    </div>
+                                                                                    <div class="file-name">
+                                                                                        Personal Data Sheet - Page 3
+                                                                                        <br>
+                                                                                        <small>Learning Development & Other information</small>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-8">
+
+                                                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qualification Standard</h3>
+
+                                                <div id="vertical-timeline" class="vertical-container dark-timeline">
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon navy-bg" data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{lst.empl_id}}" style="cursor:pointer">
+                                                            <i class="fa fa-graduation-cap"></i>
+                                                        </div>
+                                                        <div class="vertical-timeline-content" style="background-color:#1ab394c7  !important;color:white !important">
+                                                            <h2 data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{lst.empl_id}}" style="cursor:pointer">Educational Background</h2>
+                                                            <div id="collapseOne{{lst.empl_id}}" class="panel-collapse collapse in">
+                                                                @*<p ng-repeat="lst in data_educ" style="margin:0em 0 !important;line-height:1.4 !important">
+                                                                        <b>
+                                                                            <i class="fa fa-check"></i>
+                                                                            {{lst.school_name}}
+                                                                        </b>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;<small>{{lst.basic_educ_deg}} </small>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;{{lst.period_from}} - {{lst.period_to}} | <small>{{lst.highest_lvl_earned}} | {{lst.year_graduated}} | </small> <small class="label label-primary">{{lst.schlr_acdmic_rcvd}}</small>
+                                                                    </p>*@
+
+                                                                <table id="datalist_grid_educ_id_{{lst.empl_id}}" style="width:100% !important;font-size:10px !important">
+                                                                    <thead style="display:none !important">
+                                                                        <tr>
+                                                                            <th width="100%">NAME OF SCHOOL</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody style="font-size:10px !important"></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon blue-bg" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo{{lst.empl_id}}" style="cursor:pointer">
+                                                            <i class="fa fa-bar-chart"></i>
+                                                        </div>
+                                                        <div class="vertical-timeline-content" style="background-color:#1c84c6c4 !important;color:white !important">
+                                                            <h2 data-toggle="collapse" data-parent="#accordion" href="#collapseTwo{{lst.empl_id}}" style="cursor:pointer">Work Experience</h2>
+                                                            <div id="collapseTwo{{lst.empl_id}}" class="panel-collapse collapse in">
+
+                                                                @*<p ng-repeat="lst in data_workexp" style="margin:0em 0 !important;line-height:1.4 !important">
+                                                                        <b>
+                                                                            <i class="fa fa-check"></i>
+                                                                            {{lst.position_title}}
+                                                                        </b>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;<small>{{lst.dept_agncy_offc_co}} </small>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;{{lst.workexp_from}} - {{lst.workexp_to}} | <small class="label label-success">{{lst.appt_status}} </small>
+                                                                    </p>*@
+
+                                                                <table id="datalist_grid_work_id_{{lst.empl_id}}" style="width:100% !important;font-size:10px !important">
+                                                                    <thead style="display:none !important">
+                                                                        <tr>
+                                                                            <th width="100%">POSITION TITILE</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody style="font-size:10px !important"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon lazur-bg" data-toggle="collapse" data-parent="#accordion" href="#collapseThree{{lst.empl_id}}" style="cursor:pointer">
+                                                            <i class="fa fa-star"></i>
+                                                        </div>
+                                                        <div class="vertical-timeline-content" style="background-color:#23c6c8c7 !important;color:white !important">
+                                                            <h2 data-toggle="collapse" data-parent="#accordion" href="#collapseThree{{lst.empl_id}}" style="cursor:pointer">Trainings</h2>
+                                                            <div id="collapseThree{{lst.empl_id}}" class="panel-collapse collapse in">
+
+                                                                @*<p ng-repeat="lst in data_lnd" style="margin:0em 0 !important;line-height:1.4 !important">
+                                                                        <b>
+                                                                            <i class="fa fa-check"></i>
+                                                                            {{lst.learn_devt_title}}
+                                                                        </b>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;<small>{{lst.conducted_by}} </small>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;{{lst.learn_devt_from}} - {{lst.learn_devt_to}} | <small class="label label-info">{{lst.learn_devt_type}} </small>
+                                                                    </p>*@
+
+                                                                <table id="datalist_grid_train_id_{{lst.empl_id}}" style="width:100% !important;font-size:10px !important">
+                                                                    <thead style="display:none !important">
+                                                                        <tr>
+                                                                            <th width="100%">TRAINING TITLE</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody style="font-size:10px !important"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon yellow-bg" data-toggle="collapse" data-parent="#accordion" href="#collapseFour{{lst.empl_id}}" style="cursor:pointer">
+                                                            <i class="fa fa-trophy"></i>
+                                                        </div>
+                                                        <div class="vertical-timeline-content" style="background-color:#f8ac59c9 !important;color:white !important">
+                                                            <h2 data-toggle="collapse" data-parent="#accordion" href="#collapseFour{{lst.empl_id}}" style="cursor:pointer">Eligibility </h2>
+                                                            <div id="collapseFour{{lst.empl_id}}" class="panel-collapse collapse in">
+                                                                @*<p ng-repeat="lst in data_csc" style="margin:0em 0 !important;line-height:1.4 !important">
+                                                                        <b>
+                                                                            <i class="fa fa-check"></i>
+                                                                            {{lst.cscsrvc_ra1080}}| {{lst.number}} | <small class="label label-warning"> <b>{{lst.rating}}</b></small>
+                                                                        </b>
+                                                                        <br />
+                                                                        &nbsp;&nbsp;<small>{{lst.examination_place}} | {{lst.validity_date}}</small>
+
+                                                                    </p>*@
+
+                                                                <table id="datalist_grid_elig_id_{{lst.empl_id}}" style="width:100% !important;font-size:10px !important">
+                                                                    <thead style="display:none !important">
+                                                                        <tr>
+                                                                            <th width="80%">ELIGIBILITY TITLE</th>
+                                                                            <th width="20%">RATING</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody style="font-size:10px !important"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content  modal-content-add-edit">
+                    <div class="modal-header navy-bg text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                    </div>
+                    <div class="modal-body with-background" style="padding:0px !important">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal_approve_cancel_id" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center ddo-bg-1 with-background">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <img src="{{imgDataURL}}" class="rounded-circle circle-border m-b-m" alt="profile" style="background-color: #fdb900; width:100px!important;height:100px !important">
+                        @*<i class="fa fa-user modal-icon" style="font-size:10em"></i>*@
+                        <h3 class="modal-title"><small class="font-bold">{{appr_empl_id}}</small> {{appr_employee_name}}</h3>
+                        <small class="font-bold">Applied for {{appr_position_title}} <br /> {{appr_department_name}}</small>
+                    </div>
+                    <div class="modal-body with-background" style="font-size:18px !important;text-align:center !important;background-color: #fdb900 !important;color:black;">
+                        <p>
+                            Are you sure you want to <b class="{{message_appr_status_class}}">{{message_appr_status}}</b> this applicant as
+                            <b><u><i>{{appr_position_title}}</i></u></b> from <b><u><i>{{appr_department_name}}</i></u></b>?
+                        </p>
+                        <p>
+                            {{message_approve_cancel}}
+                        </p>
+
+
+                        <div class="row text-left" style="font-size:11px !important;" ng-show="div_show_approve">
+                            <hr style="margin-bottom:0px;margin-top:0px " />
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                            </div>
+                            <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;text-align:center !important">
+                                <h3 >OVERRIDE ITEM FOR THIS APPLICANT</h3>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                <label>Department:</label>
+                            </div>
+                            <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                <select class=" form-control" id="ddl_department_code" ng-model="ddl_department_code" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in dep_lst" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                <label>Budget Code:</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                <select class=" form-control" id="ddl_budget_code" ng-model="ddl_budget_code" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in budget_lst" value="{{lst.budget_code}}">{{lst.budget_description}}</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;padding-left:0px;">
+                                <label style="font-size:10px !important">Employment Type:</label>
+                            </div>
+                            <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                <select class=" form-control" id="ddl_employment_type" ng-model="ddl_employment_type"  style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in empltype_lst_modal" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                <label>Position Title:</label>
+                            </div>
+                            <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                <select class="form-control" id="ddl_pos" ng-model="ddl_pos" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in pos_lst" value="{{lst.item_no}}">{{lst.position_long_title}} ({{lst.item_no}})</option>
+                                </select>
+                                
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                            </div>
+                            <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                <span><span class="fa fa-info-circle text-success"></span>  Note: If you override the Position/Item for this applicant, make sure you review the Qualification Standard (QS) for this Position/Item.</span>
+                            </div>
+                        </div>
+                        <div class="row text-left" ng-show="show_notqua_btn">
+
+                            <div class="col-lg-12">
+                                <hr />
+                                <label>Not Qualified Remarks:</label>
+                            </div>
+                            <div class="col-lg-12">
+                                <textarea class="form-control" id="txtb_remarks" ng-model="txtb_remarks"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center ddo-bg-1" style="text-align:center !important">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" style="color: #312f2f;">Close</button>
+                        <button type="button" class="btn btn-primary" ng-click="btn_approve_cancel('F')" ng-show="show_approve_btn"><i class="fa fa-thumbs-up"></i> Approve</button>
+                        <button type="button" class="btn btn-danger" ng-click="btn_approve_cancel('C')" ng-show="show_cancel_btn"><i class="fa fa-thumbs-down"></i> Cancel</button>
+                        <button type="button" class="btn btn-warning" ng-click="btn_approve_cancel('NQ')" ng-show="show_notqua_btn"><i class="fa fa-thumbs-down"></i> Not Qualified</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="loading_data">
+            <div class="modal-dialog modal-lg">
+                <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="row" style="padding-top:5px;">
+                        <div class="col-sm-12">
+                            <div style="width:40%; float:left;" class="no-padding">
+                                <span class="pull-left font-bold" style="margin-top:9px;margin-right:10px;color:white" ng-model="loading_descr">LOADING</span>
+                            </div>
+                            <div style="width:60%; float:right;" class="no-padding">
+                                <div class="sk-spinner sk-spinner-three-bounce" style="margin-top:6px;">
+                                    <div class="sk-bounce1" style="background-color:white"></div>
+                                    <div class="sk-bounce2" style="background-color:white"></div>
+                                    <div class="sk-bounce3" style="background-color:white"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/moment.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    @*<script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>*@
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- slick carousel-->
+    <script src="~/Scripts/plugins/slick/slick.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/plugins/select2/select2.min.js"></script>
+    <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+    @*<script>
+            $(document).ready(function () {
+                $('.i-checks').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green',
+                });
+
+                $('.clockpicker').clockpicker({
+                    placement: 'top',
+                    align: 'left',
+                    donetext: 'Done',
+                    upperCaseAmPm: true,
+                    leadingSpaceAmPm: false,
+                    leadingZeroHours: true,
+                });
+
+                $('.clockpicker1').clockpicker({
+                    placement: 'bottom',
+                    align: 'left',
+                    donetext: 'Done',
+                    twelvehour: true,
+                    upperCaseAmPm: true,
+                    leadingSpaceAmPm: false,
+                    leadingZeroHours: true,
+                });
+
+                $('#data_1 .input-group.date').datepicker({
+                    todayBtn: "linked",
+                    keyboardNavigation: false,
+                    forceParse: false,
+                    calendarWeeks: true,
+                    autoclose: true,
+                    format: "yyyy-mm-dd"
+                });
+            });
+
+            $('#data_5 .input-daterange').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "yyyy-mm-dd"
+            });
+
+            $(".select2_demo_3").select2({
+                placeholder: "Select Department. . . ",
+                allowClear: true,
+            });
+            $(".select2_demo_4").select2({
+                placeholder: "Select Budget Code. . . ",
+                allowClear: true,
+            });
+            $(".select2_demo_5").select2({
+                placeholder: "Select Employment Type. . . ",
+                allowClear: true,
+            });
+        </script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+            $('.clockpicker').clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done',
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('.clockpicker1').clockpicker({
+                placement: 'bottom',
+                align: 'left',
+                donetext: 'Done',
+                twelvehour: true,
+                upperCaseAmPm: true,
+                leadingSpaceAmPm: false,
+                leadingZeroHours: true,
+            });
+
+            $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                format: "yyyy-mm-dd"
+            });
+        });
+
+        $('#data_5 .input-daterange').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "yyyy-mm-dd"
+        });
+
+        $(".select2_demo_3").select2({
+            placeholder: "Select Department. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_4").select2({
+            placeholder: "Select Budget Code. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_5").select2({
+            placeholder: "Select Employment Type. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+        $(".select2_demo_6").select2({
+            placeholder: "Select Position Title. . . ",
+            allowClear: true,
+            //dropdownParent: $("#main_modal")
+        });
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Angular/ng-rSSExtractTimeEntries.js"></script>
+
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override {
+            padding: 150px 250px 250px 200px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+</style>
+<section ng-app="ng_selfService_App" ng-controller="rSSExtractTimeEntries_ctrlr" >
+    <div class="wrapper wrapper-content animated fadeInRight div_content_override">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-heading">
+                        <div class="ibox-title" style="background-color:#1ab394;border-radius:5px 5px 0px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <b>
+                                        <h2 class="text-white">Extract Time Entries</h2>
+                                    </b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                        @*<div class="row">
+                                <div class="col-sm-3" style="padding-top:5px">
+                                    <label>Employee Name :</label>
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control font-bold" disabled id="txtb_empl_name" ng-model="txtb_empl_name" />
+                                </div>
+                                <div class="col-sm-1" style="padding-right:0px;padding-top:5px">
+                                    <label>ID: </label>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input class="form-control text-center font-bold" disabled id="txtb_empl_id" ng-model="txtb_empl_id" />
+                                </div>
+                            </div>*@
+
+                        <div class="row">
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Year :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Month :</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control" id="ddl_month" ng-model="ddl_month">
+                                    <option value="">--Select Here--</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @*<div class="col-sm-12">
+                                    <hr style="margin-top:10px;margin-bottom:10px" />
+                                </div
+                                                    @*<div class="col-sm-3" style="padding-top:5px">
+                                    <label>View Type :</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="ddl_viewtype" ng-model="ddl_viewtype">
+                                        <option value="0">Whole Month</option>
+                                        <option value="1">1st Quincena</option>
+                                        <option value="2">2nd Quincena</option>
+                                    </select>
+                                </div>*@
+
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Sub-Department :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_subdepartment" ng-model="ddl_subdepartment" ng-change="getFilteredDivision()" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in subdepartment_list" value="{{lst.subdepartment_code}}">{{lst.subdepartment_short_name}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Division :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_division" ng-model="ddl_division" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in division_list" value="{{lst.division_code}}">{{lst.division_name1}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12">
+                                <hr style="margin-top:10px;margin-bottom:10px" />
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <label>Section :</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_section" ng-model="ddl_section" style="width:100%;">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in section_list" value="{{lst.section_code}}">{{lst.section_name1}}</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="ibox-footer text-right">
+                        <button class="btn btn-primary" ng-click="btn_print()"><i class="fa fa-file-excel-o"></i> Extract </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal - Fetching Data -->
+    <div class="modal fade" id="extracting_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+
+            <div class="spiner-example">
+                <div class="sk-spinner sk-spinner-cube-grid" style="height:250px;width:250px;">
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+                    <div class="sk-cube"></div>
+
+
+                </div>
+
+            </div>
+            <div class="row" style="padding-top:5px;">
+                <div class="col-sm-12">
+                    <span class="pull-left font-bold" style="margin-top:9px;margin-left:260px;color:white">Extracting data. This may take a while please wait</span>
+                    <div class="sk-spinner sk-spinner-three-bounce pull-left" style="margin-top:6px;">
+                        <div class="sk-bounce1" style="background-color:white"></div>
+                        <div class="sk-bounce2" style="background-color:white"></div>
+                        <div class="sk-bounce3" style="background-color:white"></div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

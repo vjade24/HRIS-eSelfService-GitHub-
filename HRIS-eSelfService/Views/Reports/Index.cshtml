@@ -1,0 +1,46 @@
+﻿
+@{
+
+}
+<script src="~/crystalreportviewers13/js/crviewer/crv.js"></script>
+<script src="~/Angular/ng-Reports.js"></script>
+<style>
+    .margin-top {
+        margin-top: 1px;
+    }
+</style>
+<section id="crystal_section" ng-app="ng_selfService_App" ng-controller="cReports_ctrlr">
+    <div class="modal fade" id="modal_generating_report">
+        <div class="modal-dialog">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example">
+                    <div class="sk-spinner sk-spinner-wandering-cubes" style="width:250px;height:250px;">
+                        <div class="sk-cube1" style="width:50px;height:50px;"></div>
+                        <div class="sk-cube2" style="width:50px;height:50px;"></div>
+                    </div>
+                </div>
+                @**@
+            </div>
+        </div>
+    </div>
+    @*<div class="row wrapper border-bottom white-bg page-heading text-white" style="background-color:#507CD1;height:">
+        <div class="col-lg-4">
+            <label class="text-white headerX">Print Preview</label>
+        </div>
+        <div class="col-lg-8">
+              <button class="btn btn-primary pull-right" onclick="window.location.href='@Session["history_page"].ToString()'"><i class="fa fa-arrow-circle-left"></i> Back</button>
+        </div>
+    </div>*@
+    <div class="form-horizontal">
+        
+        <div class="row margin-top">
+            <div id="iframe_content" class="col-md-12" >
+                <center>
+                    <iframe id="ReportFrame" name="ReportFrame" src="" height="90%" width="100%" style="border:10px #ffffff"></iframe>
+                </center>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,427 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<html>
+
+
+<!-- Mirrored from webapplayers.com/inspinia_admin-v2.5/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 May 2016 13:21:22 GMT -->
+<head>
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HRIS-eSelfService | Login</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+    <script src="~/Angular/ng-Login.js?v=1"></script>
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+
+    <style type="text/css">
+        .body-login {
+            padding: 5%;
+            background-image: url('../../ResourcesImages/DDO Building Blur.jpg');
+            background-size: cover;
+        }
+
+        .screen-login {
+            background: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG') no-repeat;
+            background-size: contain;
+            box-shadow: 5px 10px 20px 0px #606060;
+            padding: 15px !important;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            border: 1px solid #f5f5f5;
+        }
+        .swal-footer {
+            text-align:center !important;
+        }
+
+        .swal-text {
+            text-align: center !important;
+        }
+
+    </style>
+</head>
+
+<body class="gray-bg body-login" ng-app="ng_selfService_App" ng-controller="LoginCtrlr" style="background-image: url('../../ResourcesImages/DDO Building Blur.jpg');">
+
+    @*---PRINT OPTIONS MODAL-----*@
+    <div class="modal fade" id="modal_change_password" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">CHANGE PASSWORD</h3>
+                </div>
+                <div id="containerX">
+                    <div class="upper">
+                        <div class="modal-body with-background" style="padding:10px;">
+                            <div class="row">
+                                <div class="col-sm-12" style="padding-top:-15px !important;">
+                                    <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;">
+
+                                        <img src="~/ResourcesImages/HRIS_PICTURES/HRIS LOGO 1.png" height="150" width="150" />
+                                        @*<img src="~/ResourcesImages/HRIS LOGO 1.png" height="150" width="150" />*@
+                                    </h1>
+                                    <p style="text-align:justify;">
+                                        &nbsp;&nbsp;&nbsp;Hi <span id="owner_name"><b>Joseph M. Tombo Jr.</b></span> the system
+                                        detected that  you are required to change your password.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-sm-12">
+                                    @*<span class="font-bold"><b>Current Password:</b></span>*@
+                                    <input type="password" class="form-control form-control-sm font-bold" placeholder="Enter Current Password" id="txtb_current_password" ng-model="txtb_current_password" autofocus />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_current_password').attr('type', 'text');" onmouseout="$('#txtb_current_password').attr('type', 'password');" onmouseup="$('#txtb_current_password').attr('type', 'password');"></span>
+                                    <label id="lbl_txtb_current_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-sm-12">
+                                    @*<span class="font-bold"><b>New Password:</b></span>*@
+                                    <input type="password" class="form-control form-control-sm font-bold" placeholder="Enter New Password" id="txtb_new_password" ng-model="txtb_new_password" />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_new_password').attr('type', 'text');" onmouseout="$('#txtb_new_password').attr('type', 'password');" onmouseup="$('#txtb_new_password').attr('type', 'password');"></span>
+                                    <label id="lbl_txtb_new_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-sm-12">
+                                    @*<span class="font-bold"><b>Confirm Password:</b></span>*@
+                                    <input type="password" class="form-control form-control-sm font-bold" placeholder="Enter Confirm Password" id="txtb_confirm_password" ng-model="txtb_confirm_password" />
+                                    <span class="fa fa-eye pull-right password_eye" onmousedown="$('#txtb_confirm_password').attr('type', 'text');" onmouseout="$('#txtb_confirm_password').attr('type', 'password');" onmouseup="$('#txtb_confirm_password').attr('type', 'password');"></span>
+                                    <label id="lbl_txtb_confirm_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                            <div class="row">
+                                <div class="col-sm-12 pull-left">
+                                    <a href="#" onclick="$('#containerX').addClass('showLower');" class="pull-left"><small style="color:orange;"><i class="fa fa-info-circle"></i> Password rules and policy</small></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                            <div class="row">
+                                <div class="col-sm-12" style="padding-right:10px;">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                        <i class="fa fa-close"> </i> Cancel
+                                    </button>
+                                    <button id="btn_print_rs5" ng-click="btn_save_new_password()" class="btn btn-primary">
+                                        <i class="fa fa-save" id="i_save"> </i> Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lower">
+                        <div class="modal-body with-background" style="padding:10px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h3>Password rules and Policy</h3>
+                                    <p>
+                                        Hi Good day Ma'am/Sir, here are the guidelines on how to create your new password.
+                                    </p>
+                                    <ul>
+                                        <li>Password should be a combination of uppercase, lowercase, number and special characters.</li>
+                                        <li>Required to have atleast 1 uppercase.</li>
+                                        <li>Required to have atleast 1 lowercase.</li>
+                                        <li>Required to have atleast 1 number.</li>
+                                        <li>Required to have atleast 1 special character like (@@ $ % ^ . _ *).</li>
+                                    </ul>
+                                    <p> For a strong password, create a password with a minimum of 8 characters combination from the required rules mention above.</p>
+                                    <hr style="margin-top:5px;margin-bottom:5px;" />
+                                    <p class="text-center"><b>THANK YOU AND ENJOY USING THE HRIS SERVICES!</b></p>
+                                </div>
+                                <div class="col-sm-12 text-center">
+                                    <button class="btn btn-success" onclick="$('#containerX').removeClass('showLower');$('#containerX').removeClass('showUpper');"> BACK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*---END OF PRINT OPTIONS MODAL-----*@
+
+    <div class="middle-box text-center loginscreen animated fadeInDown screen-login">
+        <div style="margin-bottom:5px;">
+            <h1 class="logo-name">
+                <img src="~/ResourcesImages/ddo logo.png" height="200" width="200" />
+            </h1>
+        </div>
+        <div style="font-size:14px;color:darkgoldenrod;margin-top:10px;">
+            <small style="font-size:16px;font-weight:bolder">Welcome to</small>
+            <small style="font-size:16px;font-weight:bolder">@Model.DVName  </small>
+        </div>
+        <hr style="margin-top:4px;margin-bottom:4px;border-color:darkgoldenrod;" />
+        <h2 style="margin-top:3px;"><strong>HRIS - SELF SERVICE </strong></h2>
+        <hr style="margin-top:4px;margin-bottom:0px;border-color:darkgoldenrod;" />
+        <form class="m-t" role="form" style="margin-top:4px;">
+            <div class="form-group">
+                <label id="lbl_txtb_password_req" class="lbl_required text-center" style="width:100%;"></label>
+                <input type="text" id="txtb_username" class="form-control" placeholder="Username" ng-model="txt_username" required="">
+                <label id="lbl_txtb_username_req" class="lbl_required"></label>
+            </div>
+            <div class="form-group">
+                <input type="password" id="txtb_password" class="form-control" placeholder="Password" style="padding-right:33px !important;" ng-model="txt_password" required="">
+                <span class="fa fa-eye-slash pull-right" id="show_pass_icn" onclick="showpassword()" style="margin-top:-32px;margin-right:2px;z-index:1000;background-color:white;padding:8px;cursor:pointer;"></span>
+            </div>
+            <button id="btn_log_in" type="submit" ng-click="btn_Login_Submit()" class="btn btn-primary block full-width "><i id="log_in_icn" class="fa fa-sign-in"></i> Login</button>
+            <br />
+            <div class="row  m-t-n">
+                <a class="text-center" ng-click="forgotPassword()">Forgot Password?</a>
+            </div>
+        </form>
+        <p class="m-t-n"> <small>Provincial Government of Davao de Oro &copy; @DateTime.Now.Year</small> </p>
+    </div>
+
+
+
+
+    <div class="modal fade" id="modal_reset_password" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">RESET PASSWORD</h3>
+                </div>
+                <div id="containerX">
+                    <div class="upper">
+                        <form id="reset_form" novalidate>
+                            <div class="modal-body with-background" style="padding:10px;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="padding-top:-15px !important;">
+                                        <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;">
+
+                                            <img src="~/ResourcesImages/HRIS_PICTURES/HRIS LOGO 1.png" height="150" width="150" />
+                                            @*<img src="~/ResourcesImages/HRIS LOGO 1.png" height="150" width="150" />*@
+                                        </h1>
+                                        <p style="text-align:justify;">
+                                            &nbsp;&nbsp;&nbsp;Hi <span id="owner_name"><b>{{username}}.</b></span> Please enter the
+                                            passcode we have send to your email address to change your password.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="col-sm-12">
+                                        @*<span class="font-bold"><b>Current Password:</b></span>*@
+                                        <input type="text" class="form-control form-control-sm font-bold" placeholder="Enter your Passcode" id="reset_passcode" ng-model="reset_passcode" required autofocus />
+                                        @*<label id="lbl_txtb_current_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>*@
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="col-sm-12">
+                                        @*<span class="font-bold"><b>New Password:</b></span>*@
+                                        <input type="password" class="form-control form-control-sm font-bold" placeholder="Enter New Password" id="reset_new_password" ng-model="reset_new_password" required />
+                                        <span class="fa fa-eye pull-right password_eye" onmousedown="$('#reset_new_password').attr('type', 'text');" onmouseout="    $('#reset_new_password').attr('type', 'password');" onmouseup="    $('#reset_new_password').attr('type', 'password');"></span>
+                                        @*<label id="lbl_txtb_new_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>*@
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:5px;">
+                                    <div class="col-sm-12">
+                                        @*<span class="font-bold"><b>Confirm Password:</b></span>*@
+                                        <input type="password" class="form-control form-control-sm font-bold" placeholder="Enter Confirm Password" id="reset_confirm_password" ng-model="reset_confirm_password" required />
+                                        @*<span class="fa fa-eye pull-right password_eye" onmousedown="$('#reset_confirm_password').attr('type', 'text');" onmouseout="    $('#reset_confirm_password').attr('type', 'password');" onmouseup="    $('#reset_confirm_password').attr('type', 'password');"></span>*@
+                                        @*<label id="lbl_txtb_confirm_password_req" class="lbl_required">{{lbl_requiredfield7}}</label>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="col-sm-12 pull-left">
+                                        <a href="#" onclick="$('#containerX').addClass('showLower');" class="pull-left"><small style="color:orange;"><i class="fa fa-info-circle"></i> Password rules and policy</small></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="padding-right:10px;">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-close"> </i> Cancel
+                                        </button>
+                                        <button id="btn_reset" ng-click="btn_save_reset_password('btn_reset')" class="btn btn-primary">
+                                            <i class="fa fa-save" id="i_save"> </i> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lower">
+                        <div class="modal-body with-background" style="padding:10px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h3>Password rules and Policy</h3>
+                                    <p>
+                                        Hi Good day Ma'am/Sir, here are the guidelines on how to create your new password.
+                                    </p>
+                                    <ul>
+                                        <li>Password should be a combination of uppercase, lowercase, number and special characters.</li>
+                                        <li>Required to have atleast 1 uppercase.</li>
+                                        <li>Required to have atleast 1 lowercase.</li>
+                                        <li>Required to have atleast 1 number.</li>
+                                        <li>Required to have atleast 1 special character like (@@ $ % ^ . _ *).</li>
+                                    </ul>
+                                    <p> For a strong password, create a password with a minimum of 8 characters combination from the required rules mention above.</p>
+                                    <hr style="margin-top:5px;margin-bottom:5px;" />
+                                    <p class="text-center"><b>THANK YOU AND ENJOY USING THE HRIS SERVICES!</b></p>
+                                </div>
+                                <div class="col-sm-12 text-center">
+                                    <button class="btn btn-success" onclick="$('#containerX').removeClass('showLower');$('#containerX').removeClass('showUpper');"> BACK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @*---Forgot Password MODAL-----*@
+
+    <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md1">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header bg-primary text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">FORGOT PASSWORD</h3>
+                </div>
+                <div id="containerX">
+                    <div class="upper">
+                        <div class="modal-body with-background" style="padding:10px;">
+                            <div class="row">
+                                <div class="col-sm-12" style="padding-top:-15px !important;">
+                                    <h1 class="logo-name text-center" style="padding-top:-15px !important;margin-top:0px !important;">
+
+                                        <img src="~/ResourcesImages/HRIS_PICTURES/HRIS LOGO 1.png" height="150" width="150" />
+                                        @*<img src="~/ResourcesImages/HRIS LOGO 1.png" height="150" width="150" />*@
+                                    </h1>
+                                    <p style="text-align:justify;">
+                                        &nbsp;&nbsp;&nbsp;Hi <span id="owner_name"><b>{{username}}.</b></span> You have
+                                        click the forgot password link. Please select one of the recovery method below to retrieve your Password.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:5px;">
+                                <div class="col-sm-12">
+
+                                    <input type="radio" id="rex_email" name="rex_method" value="rex_email">
+                                    <label for="male">Recover with email     {{encry_email}}</label>
+
+                                </div>
+                            </div>
+                            <div class="row" id="whereWarningIs" style="margin-top:5px;">
+                                <div class="col-sm-12">
+
+                                    <input type="radio" id="rex_mobile" name="rex_method" value="rex_mobile">
+                                    <label for="female">Recover with mobile no.   {{encry_mobile}}</label>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer bg-primary" style="padding-top:5px;padding-bottom:5px;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="padding-right:10px;">
+                                        <button type="button" id="rec_cancel_btn" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                                            <i class="fa fa-close"> </i> Cancel
+                                        </button>
+                                        <button id="btn_recover_pass" ng-click="btn_recover_password()" class="btn btn-primary">
+                                            <i class="fa fa-save btn_recover_pass" id="i_save"> </i> Recover
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="redirectddo_hris" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                   
+                    <h3 class="modal-title text-center" id="modalLabelSmall">REDIRECT TO A SECURE HRIS SELFSERVICE SITE</h3>
+                </div>
+                <div id="containerX">
+                    <div class="middle-box text-center animated fadeInDown">
+                        <h1>301</h1>
+                        <h3 class="font-bold">Redirect To HRIS Self Service Secure Site</h3>
+
+                        <div class="error-desc">
+                            Sorry, but the page you are trying to access is now closed. Please click the button below to redirect to <strong>https://ddohris.ph/</strong>.
+                            <form class="form-inline m-t" role="form">
+                                <a type="button" href="https://ddohris.ph/" class="btn btn-primary">Redirect To A Secure Site</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Mainly scripts -->
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function myFunction() {
+            var x = document.getElementById("txtb_password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function showpassword() {
+            var x = document.getElementById("txtb_password");
+            if (x.type === "password") {
+                x.type = "text";
+                $("#show_pass_icn").removeClass('fa-eye-slash');
+                $("#show_pass_icn").addClass('fa-eye');
+            }
+            else {
+                $("#show_pass_icn").removeClass('fa-eye');
+                $("#show_pass_icn").addClass('fa-eye-slash');
+                x.type = "password";
+            }
+        }
+    </script>
+
+</body>
+</html>

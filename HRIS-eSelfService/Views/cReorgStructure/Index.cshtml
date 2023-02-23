@@ -1,0 +1,665 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+
+        function DisableBackButton() {
+            var mySession = '@Session["user_id"]';
+            if (mySession == null || mySession == '') {
+                window.history.forward();
+            }
+        }
+        window.onload = DisableBackButton();
+        window.onpageshow = function (evt) { if (evt.persisted) DisableBackButton() }
+        //window.onunload = function() { void (0) }
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="Expires" CONTENT="0">
+    <meta http-equiv="Cache-Control" CONTENT="no-cache">
+    <meta http-equiv="Pragma" CONTENT="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIS-eSelfService | Organizational Structure</title>
+    <base href="/" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/plugins/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+    <link href="~/Content/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- Data picker -->
+    <link href="~/Content/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+    <link href="~/Content/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" />
+    <link href="~/Content/plugins/dataTables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="~/Content/common.css" rel="stylesheet" />
+    <!-- Toastr style -->
+    <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <!-- Gritter -->
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
+    <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+    <script src="~/Scripts/ngSweetAlert.js"></script>
+    <script src="~/Angular/angular.min.js"></script>
+    <script src="~/Angular/ng-file-upload.min.js"></script>
+    <script src="~/Angular/ngApp.js"></script>
+
+
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <link href="~/Content/plugins/slick/slick.css" rel="stylesheet" />
+    <link href="~/Content/plugins/slick/slick-theme.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/steps/jquery.steps.css" rel="stylesheet" />
+    <link href="~/Content/orgChart/jquery.orgchart.css" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="css/style.css">*@
+    <style type="text/css">
+        #chart-container {
+            height:380px !important;
+        }
+
+        .orgchart {
+            background: white;
+            padding-bottom:20px;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            padding: 1px;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            color: #333333;
+        }
+
+        #chart-container {
+            position: relative;
+            /*height: 420px;*/
+            border: 1px solid #aaa;
+            margin: 0.5rem;
+            overflow: auto;
+            text-align: center;
+        }
+
+        .orgchart {
+            background: #fff;
+        }
+
+            .orgchart td.left, .orgchart td.right, .orgchart td.top {
+                border-color: #aaa;
+            }
+
+            .orgchart td > .down {
+                background-color: #aaa;
+            }
+
+            .orgchart .middle-level .title {
+                background-color: #006699;
+            }
+
+            .orgchart .middle-level .content {
+                border-color: #006699;
+            }
+
+            .orgchart .product-dept .title {
+                background-color: #009933;
+            }
+
+            .orgchart .product-dept .content {
+                border-color: #009933;
+            }
+
+            .orgchart .rd-dept .title {
+                background-color: #993366;
+            }
+
+            .orgchart .rd-dept .content {
+                border-color: #993366;
+            }
+
+            .orgchart .pipeline1 .title {
+                background-color: #996633;
+            }
+
+            .orgchart .pipeline1 .content {
+                border-color: #996633;
+            }
+
+            .orgchart .frontend1 .title {
+                background-color: #cc0066;
+            }
+
+            .orgchart .frontend1 .content {
+                border-color: #cc0066;
+            }
+
+            .orgchart .node .content {
+                box-sizing: border-box;
+                padding: 2px;
+                width: 200px !important;
+                height: 100% !important;
+                font-size: 10px;
+                border: 1px solid rgba(217, 83, 79, 0.8);
+                border-radius: 0 0 4px 4px;
+                text-align: center;
+                background-color: #fff;
+                color: #333;
+                /*overflow:hidden;
+                text-overflow:ellipsis;*/
+                white-space: normal;
+                word-wrap: break-word !important;
+            }
+
+            .orgchart .node .title {
+                box-sizing: border-box !important;
+                padding: 2px;
+                width: 200px;
+                text-align: center;
+                font-size: 0.75rem;
+                font-weight: bold;
+                height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                background-color: rgba(217, 83, 79, 0.8);
+                color: #fff;
+                border-radius: 4px 4px 0 0;
+                vertical-align: middle !important;
+                padding-top: 7px;
+            }
+
+        .oc-export-btn {
+            display: none;
+        }
+        .select2-selection__clear {
+            font-size: 14px !important;
+        }
+
+        .select2-close-mask {
+            z-index: 2099;
+        }
+
+        .select2-dropdown {
+            z-index: 3051;
+        }
+
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+            /*border: 1px solid red !important;*/
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+
+        .text_area_size {
+            height: 50px !important;
+        }
+
+        .sl-vl-radio-display-none {
+            display: none;
+        }
+
+        .ddl_padding_xx {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        span.required {
+            border: 1px solid red !important;
+        }
+
+        .swal-footer {
+            text-align: center !important;
+        }
+
+        .swal-text {
+            text-align: center !important;
+        }
+
+        .text-primary {
+            color: #1c84c6 !important;
+        }
+
+        .ddo-bg-1 {
+            background-image: linear-gradient(#472b1a, #211006) !important;
+            color: white !important;
+        }
+
+        .ddo-bg-2 {
+            cursor: pointer !important;
+            background-color: #fdb900 !important;
+            color: saddlebrown !important;
+        }
+
+        .panel-ddo-1 {
+            border-color: #29160b;
+        }
+
+
+        span.details-control {
+            background: url('../../ResourcesImages/show.jpg') no-repeat center center;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        tr.shown span.details-control {
+            background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
+            background-size: 20px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .brown-bg-1 {
+            background-image: linear-gradient(to right,#ffcb00,#ffb52b) !important
+        }
+        /*unit class*/
+        .node.unit-level-child .content {
+            border-color: rgb(146 146 241) !important;
+        }
+        .node.unit-level-child .title {
+            border-color: rgb(146 146 241) !important;
+            background-color: rgb(146 146 241) !important;
+        }
+        .node.unit-level-parent .title{
+            border-color: rgb(77 77 237) !important;
+            background-color: rgb(77 77 237) !important;
+        }
+        .node.unit-level-parent .content{
+            border-color: rgb(77 77 237) !important;
+        }
+        /*end unit class*/
+
+        /*section class*/
+        .node.section-level-child .content {
+            border-color: rgb(116 181 124) !important;
+        }
+        .node.section-level-child .title {
+            border-color: rgb(116 181 124) !important;
+            background-color: rgb(116 181 124) !important;
+        }
+        .node.section-level-parent .title {
+            border-color: rgb(27 179 46) !important;
+            background-color: rgb(27 179 46) !important;
+        }
+        .node.section-level-parent .content {
+            border-color: rgb(27 179 46) !important;
+        }
+        /*end section class*/
+
+        /*section class*/
+        .node.division-level-child .content {
+            border-color: rgb(4 45 74 / 69%) !important;
+        }
+
+        .node.division-level-child .title {
+            border-color: rgb(4 45 74 / 69%) !important;
+            background-color: rgb(4 45 74 / 69%) !important;
+        }
+
+        .node.division-level-parent .title {
+            border-color: rgb(4 45 74 / 80%) !important;
+            background-color: rgb(4 45 74 / 80%) !important;
+        }
+
+        .node.division-level-parent .content {
+            border-color: rgb(4 45 74 / 80%) !important;
+        }
+        /*end division class*/
+
+
+        /*subdepartment class*/
+        .node.subdepartment-level-child .content {
+            border-color: rgb(211 132 94) !important;
+        }
+
+        .node.subdepartment-level-child .title {
+            border-color: rgb(211 132 94) !important;
+            background-color: rgb(211 132 94) !important;
+        }
+
+        .node.subdepartment-level-parent .title {
+            border-color: rgb(205 76 14 / 80%) !important;
+            background-color: rgb(205 76 14 / 80%) !important;
+        }
+
+        .node.subdepartment-level-parent .content {
+            border-color: rgb(205 76 14 / 80%) !important;
+        }
+        /*end subdepartment class*/
+
+        /*department class*/
+        .node.department-level-child .content {
+            border-color: rgb(69 41 22 / 79%) !important;
+        }
+
+        .node.department-level-child .title {
+            border-color: rgb(69 41 22 / 79%) !important;
+            background-color: rgb(69 41 22 / 79%) !important;
+        }
+
+        .node.department-level-parent .title {
+            border-color: rgb(71 43 25) !important;
+            background-color: rgb(71 43 25) !important;
+        }
+
+        .node.department-level-parent .content, span.department-level-parent {
+            border-color: rgb(71 43 25) !important;
+        }
+        /*end subdepartment class*/
+
+
+        span.unit-level-child {
+            color: rgb(146 146 241) !important;
+        }
+
+        span.unit-level-parent{
+           color: rgb(77 77 237) !important;
+        }
+
+        span.section-level-child {
+            color: rgb(116 181 124) !important;
+        }
+        span.section-level-parent {
+            color: rgb(27 179 46) !important;
+        }
+
+
+        span.division-level-child {
+            color: rgb(4 45 74 / 69%) !important;
+        }
+        span.division-level-parent  {
+            color: rgb(4 45 74 / 80%) !important;
+        }
+        span.subdepartment-level-child{
+            color: rgb(211 132 94) !important;
+        }
+        span.subdepartment-level-parent  {
+            color: rgb(205 76 14 / 80%) !important;
+        }
+
+        span.department-level-child {
+         border-color:white !important;
+         color: rgb(69 41 22 / 79%) !important;
+        }
+        span.department-level-parent {
+            border-color: white !important;
+            color: rgb(71 43 25) !important;
+        }
+        /*end subdepartment class*/
+    </style>
+    <script src="~/Angular/ng-SharedLayout.js"></script>
+    <script src="~/Angular/ng-cReorgStructure.js"></script>
+</head>
+
+<body ng-app="ng_selfService_App" ng-controller="SharedLayoutCtrlr" id="main-body" ng-click="CheckSession()" class="top-navigation">
+    <section ng-app="ng_eSelfService_App" ng-controller="cReorgStructure_ctrlr">
+        <div id="wrapper">
+            <div id="page-wrapper" class="brown-bg-1" style="padding:0px !important">
+                <div class="wrapper-content animated fadeInRight ddo-bg-1 " style="padding:5px 20px 5px">
+                    <div class="form-group row with-background">
+
+                        <div class="col-lg-2 b-r">
+                            <div class="form-group row p-xxs">
+                                <div class="col-lg-12">
+                                    <div class="profile-image m-t-sm">
+                                        <img class="m-b-m" src="~/ResourcesImages/ddo logo.png" alt="DDO Profile" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6>Republic of the Philippines</h6>
+                                    <h4 class="m-t-n-sm">Province of Davao de Oro</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-10">
+                            <div class="form-group row">
+                                <div class="col-lg-9 text-center">
+                                    <h2 style="color:#fdb900 !important"><strong>Automated Organizational Structure</strong></h2>
+                                </div>
+                                <div class="col-lg-3 text-right">
+                                    <div class="dropdown profile-element m-t-md">
+                                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                            <span class="clear">
+                                                <span class="text-muted text-xs block">Welcome, {{user_firstname}} <b class="caret"></b></span>
+                                            </span>
+                                        </a>
+                                        <ul class="dropdown-menu animated fadeInRight m-t-xs" style="color:#422817 !important">
+                                            @*<li><a href="profile.html">Profile</a></li>
+                                    <li class="divider"></li>*@
+                                            <li><a ng-model="logout" ng-click="logout()">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                            <label>Department:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-10 col-lg-10" style="margin-top:5px;">
+                                            <select class="select2_demo_3 form-control" id="ddl_department_code" ng-model="ddl_department_code" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in dep_lst" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;">
+                                            <label>Budget Code:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                            <select class="select2_demo_4 form-control" id="ddl_budget_code" ng-model="ddl_budget_code" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in budget_lst" value="{{lst.budget_code}}">{{lst.budget_description}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2" style="padding-top:7px;padding-right:0px;margin-top:5px;padding-left:0px;">
+                                            <label>Employment Type:</label>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 col-lg-4" style="margin-top:5px;">
+                                            <select class="select2_demo_5 form-control" id="ddl_employment_type" ng-model="ddl_employment_type" ng-change="FilterPageGrid()" style="width:100%;">
+                                                <option value="">--Select Here--</option>
+                                                <option ng-repeat="lst in empltype_lst" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 ">
+
+                                    <div class="form-group row">
+
+                                        @*<div class="col-lg-6">
+                                        </div>*@
+                                        <div class="col-lg-12">
+                                            <div class="widget white-bg" style="margin-top:0px !important;margin-bottom:0px !important;color:black;">
+                                                <div class="row">
+                                                    <div class="col-lg-12" >
+                                                        <table>
+                                                            <tr>
+                                                                <td>Legends:</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><b>Items:</b></td>
+                                                                <td><b><span class="badge" style="font-weight:bold !important;">&nbsp;{{(ddl_department_code =="19" ? (datalistgrid.length - 1):datalistgrid.length)}}</span></b></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Department</td>
+                                                                <td>Sub-Dept.</td>
+                                                                <td>Division</td>
+                                                                <td>Section</td>
+                                                                <td>Unit</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:left">Head:&emsp;<span class="fa fa-circle department-level-parent"></span></td>
+                                                                <td style="text-align:center"> <span class="fa fa-circle subdepartment-level-parent"></span></td>
+                                                                <td style="text-align:center"> <span class="fa fa-circle division-level-parent"></span></td>
+                                                                <td style="text-align:center"> <span class="fa fa-circle section-level-parent"></span></td>
+                                                                <td style="text-align:center"> <span class="fa fa-circle unit-level-parent"></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:left">Child:&emsp;<span class="fa fa-circle department-level-child"></span></td>
+                                                                <td style="text-align:center"><span class="fa fa-circle subdepartment-level-child"></span></td>
+                                                                <td style="text-align:center"><span class="fa fa-circle division-level-child"></span></td>
+                                                                <td style="text-align:center"><span class="fa fa-circle section-level-child"></span></td>
+                                                                <td style="text-align:center"><span class="fa fa-circle unit-level-child"></span></td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    @*<div class="col-sm-4">
+                                                        <i class="fa fa-star fa-5x"></i>
+                                                    </div>
+                                                    <div class="col-sm-8 text-right">
+                                                        <h3 class="font-bold">{{datalistgrid.length}}</h3>
+                                                        <h3 class="m-t-n-sm">Items</h3>
+                                                    </div>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="col-lg-6">
+                                        <div class="widget style1  yellow-bg" style="margin-top:0px !important;margin-bottom:0px !important;">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <i class="fa fa-check fa-5x"></i>
+                                                </div>
+                                                <div class="col-sm-8 text-right">
+                                                    <h1 class="font-bold ">0</h1>
+                                                    <h5 class="m-t-n-sm">Vacant</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox" style="margin-bottom:0px !important;">
+                    <div class="ibox-title" style="background-color:rgb(0 0 0 / 20%) !important;border-color:rgb(255 255 255 / 15%) !important">
+                        <div class="form-group row">
+                            <div class="col-lg-10">
+                                <input type="text" placeholder="Search and Press Enter...." class="form-control" id="key-word">
+                            </div>
+                            <div class="col-lg-2 text-right" style="padding-left:0px !important;">
+                                <button class="btn btn-primary" ng-click="click_export()"><i class="fa fa-share-square-o"></i> EXPORT</button>
+                                <button class="btn btn-success" ng-click="FilterPageGrid()"><i class="fa fa-refresh"></i> RELOAD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart-container"></div>
+                </div>
+            </div>
+    </section>
+
+    @*<div id="edit-panel">
+            <span id="chart-state-panel" class="radio-panel">
+                <input type="radio" name="chart-state" id="rd-view" value="view"><label for="rd-view">View</label>
+                <input type="radio" name="chart-state" id="rd-edit" value="edit" checked="true"><label for="rd-edit">Edit</label>
+            </span>
+            <label class="selected-node-group">selected node:</label>
+            <input type="text" id="selected-node" class="selected-node-group">
+            <label>new node:</label>
+            <ul id="new-nodelist">
+                <li><input type="text" class="new-node"></li>
+            </ul>
+            <button class="btn-inputs" id="btn-add-input">+</button>
+            <button class="btn-inputs" id="btn-remove-input">-</button>
+            <span id="node-type-panel" class="radio-panel">
+                <input type="radio" name="node-type" id="rd-parent" value="parent"><label for="rd-parent">Parent(root)</label>
+                <input type="radio" name="node-type" id="rd-child" value="children"><label for="rd-child">Child</label>
+                <input type="radio" name="node-type" id="rd-sibling" value="siblings"><label for="rd-sibling">Sibling</label>
+            </span>
+            <button type="button" id="btn-add-nodes">Add</button>
+            <button type="button" id="btn-delete-nodes">Delete</button>
+            <button type="button" id="btn-reset">Reset</button>
+        </div>*@
+    <script src="~/Scripts/jquery-2.1.1.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/moment.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/Scripts/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+    <script src="~/Scripts/plugins/dataTables/datatables.min.js"></script>
+
+    <!-- Flot -->
+    <script src="~/Scripts/plugins/flot/jquery.flot.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.tooltip.min.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.spline.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/plugins/flot/jquery.flot.pie.js"></script>
+
+
+    <!-- Peity -->
+    <script src="~/Scripts/plugins/peity/jquery.peity.min.js"></script>
+    <script src="~/Scripts/demo/peity-demo.js"></script>
+
+    <!-- Custom and plugin javascript -->
+
+    <script src="~/Scripts/plugins/pace/pace.min.js"></script>
+
+    <!-- jQuery UI -->
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- GITTER -->
+    @*<script src="~/Scripts/plugins/gritter/jquery.gritter.min.js"></script>*@
+
+    <!-- Sparkline -->
+    <script src="~/Scripts/plugins/sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- slick carousel-->
+    <script src="~/Scripts/plugins/slick/slick.min.js"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="~/Scripts/demo/sparkline-demo.js"></script>
+
+    <!-- ChartJS-->
+    <script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="~/Scripts/plugins/toastr/toastr.min.js"></script>
+
+    <script src="~/Scripts/inspinia.js"></script>
+
+    <!-- iCheck -->
+    <script src="~/Scripts/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- Data picker -->
+    <script src="~/Scripts/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+    <!-- Date range picker -->
+    <script src="~/Scripts/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <script src="~/Scripts/plugins/select2/select2.min.js"></script>
+    <script src="~/Scripts/plugins/steps/jquery.steps.min.js"></script>
+    <script src="~/Scripts/plugins/fullcalendar/fullcalendar.min.js"></script>
+    <script src="~/Scripts/orgChart/html2canvas.min.js"></script>
+    <script src="~/Scripts/orgChart/jspdf.umd.min.js"></script>
+    <script src="~/Scripts/orgChart/jquery.orgchart.js"></script>
+
+</body>
+</html>

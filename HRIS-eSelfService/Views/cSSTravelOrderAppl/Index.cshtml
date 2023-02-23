@@ -1,0 +1,966 @@
+﻿@model HRIS_eSelfService.Models.User_Menu
+
+@*
+    ****Page Created by     :   Jorge Rustom Villanueva
+    ****Page Started date   :   05/09/2020
+    ****Page Description    :   This page is for Travel Application application where you can add/edit/view TO.
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .table-thead-tr {
+        background-color: white;
+        border-bottom: none;
+    }
+
+    .fc-event {
+        font-size: 1.1em; /* EDIT HERE */
+        text-align: center;
+    }
+
+    .fc-scroller {
+        overflow-y: hidden !important;
+    }
+
+    .table-thead-tr {
+        display: none
+    }
+    .m-t-xs {
+    margin-top:0px !important;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 580px;
+        overflow: auto;
+    }
+
+    .my-custom-scrollbar-2 {
+        position: relative;
+        height: 410px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    table.dataTable tbody td {
+        padding: 1.5px !important;
+    }
+
+    /*.navy-bg {
+        padding-top: 0.5px;
+        padding-bottom: 0.5px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }*/
+
+    .m-b {
+        margin: 0px !important;
+    }
+    .padding_unset {
+         padding:unset !important;
+    }
+
+    .xx.input-group {
+        display: block !important;
+    }
+
+    .approved-bg {
+        background-color: #1C84C6;
+    }
+
+    .cancel-bg {
+        background-color: #ED5565;
+    }
+
+    .disapproved-bg {
+        background-color: #D62728;
+    }
+
+    .new-bg {
+        background-color: #1AB394;
+    }
+
+    .reviewed-bg {
+        background-color: #00C5DA;
+    }
+
+    .submitted-bg {
+        background-color: #F8AC59;
+    }
+
+    .holidays-bg {
+        background-color: #F8EE96;
+    }
+    .holiday-bg {
+        color: black;
+        font-weight: bold;
+        font-size: 1em;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        background-color: #F8EE96;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .xxbg.fc-highlight {
+        background-color: red;
+    }
+
+    .xxbtn_today_text {
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+
+    .text_area {
+        resize: none !important;
+    }
+
+    .fc-today {
+        background: #F7C2BB !important;
+    }
+
+    .fc-today-button {
+        background: #F7C2BB !important;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view {
+        margin-top: -10px;
+        background-image: url('../../ResourcesImages/Davao de Oro Provincial Capitol Building.JPG');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-sizing: content-box;
+    }
+
+    .fc-day-number {
+        font-size: 14px !important;
+        color: white;
+        font-weight: bold;
+        background-color: transparent;
+    }
+
+    .fc-view.fc-month-view.fc-basic-view > table {
+        background: rgba(7, 81, 12, 0.5)
+    }
+
+    .fc-center > h2 {
+        font-size: 18px;
+        font-weight: bold;
+        color: #57560c;
+        cursor: pointer;
+    }
+
+    .fc-day-header.fc-widget-header {
+        color: white !important;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
+    .popover.clockpicker-popover {
+        z-index: 2060;
+    }
+
+
+    .ddl-name-font-size {
+        font-size: 14px !important;
+        position: relative;
+        z-index: 5000;
+    }
+
+    .select2-selection__clear 
+    {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    div.holiday {
+        width: 90% !important;
+        margin-top: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: '...';
+        color: white !important;
+    }
+
+    /*.select2-container {
+        border: 1px solid red !important;
+    }*/
+
+    @@media only screen and (max-width: 768px) {
+
+       
+        .navbar-header {
+            width: 20% !important;
+        }
+
+        #page-wrapper {
+            position: inherit;
+            margin: 0 0 0 0;
+            min-height: 1000px;
+        }
+        .form-control,form-control-sm {
+            font-size: 12px !important;
+        }
+        span {
+            font-size: 15px !important;
+        }
+
+        .top-navigation .navbar-header {
+            display: block;
+            float: none;
+        }
+        .padding_unset {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .m-t-xs {
+            margin-top: 3px !important;
+        }
+        .div_100 {
+            width:100% !important;
+        }
+
+        .table-wrapper-scroll-y,my-custom-scrollbar-2 {
+            height: inherit !important;
+        }
+
+        .modal-dialog, modal-lg {
+            width: 80% !important;
+            margin: 0px !important;
+        }
+        .li_check {
+            font-size:12px;
+        }
+
+        .dropdown-menu {
+            top: -10% !important;
+        }
+
+        .fc-scroller.fc-day-grid-container {
+            height: 100% !important;
+        }
+    }
+
+
+</style>
+
+<script src="~/Angular/ng-cSSTravelOrderAppl.js?V=5"></script>
+<section ng-app="ng_selfService_App" ng-controller="cSSTravelOrderAppl_Ctrl">
+
+
+
+    <!-- Info Modal -->
+    <div class="modal fade" id="info_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Holiday</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn holidays-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Today's Date</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn fc-today" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Reviewed</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn reviewed-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Approved</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn approved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">New</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn new-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Submitted</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn submitted-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Cancel Pending</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn cancel-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Disapproved</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn disapproved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top:-2px;">
+                        <div class="col-sm-12">
+                            <div style="width:45%; float:left;">
+                                <label class="pull-left font-bold" style="margin-top:0px;padding-top:5px;">Cancelled</label>
+                            </div>
+                            <div style="width:55%; float:left;">
+                                <button style="width:100%;margin-top:10px;" type="button" class="btn disapproved-bg" data-dismiss="modal" ng-click="clear_time_out()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    @*<button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="clear_time_out()"><i class="fa fa-close"></i> Close</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End of Info Modal-->
+    @*---ADD MODAL-----*@
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" ng-click="CloseModal()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order No.:</b></span>
+                        </div>
+                        <div class="col-lg-5">
+                            <input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_travel_order_nbr_dspl" ng-model="txtb_travel_order_nbr_dspl" disabled readonly />
+                            <label id="lbl_travel_order_nbr_req" class="lbl_required"></label>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>T.O Date Filed:</b></span>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group" id="div_to_date">
+                                <div>
+                                    <input type="text" id="txtb_travel_date_filed_dspl" maxlength="10" ng-model="txtb_travel_date_filed_dspl" class="form-control text-center font-bold" ng-disabled="true">
+                                </div>
+                                @*<div class="input-group date">
+                                        <input type="text" id="txtb_travel_date_filed_dspl" maxlength="10" ng-model="txtb_travel_date_filed_dspl" class="form-control text-center" ng-disabled="true">
+                                        <span id="div_date_filed_disable1" class="input-group-addon" style="padding-left:7.5px;">
+                                            <i id="div_date_filed_disable2" class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>*@
+                            </div>
+                            <label id="lbl_txtb_travel_date_filed_req" class="lbl_required"></label>
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-2">
+                            @*<span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order No:</b></span>*@
+                        </div>
+                        <div class="col-lg-5">
+                            @*<input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_payroll_year_dspl" ng-model="txtb_payroll_year_dspl" disabled readonly />
+                                <label id="lbl_txtb_remittance_ctrl_nbr_req" class="lbl_required"></label>*@
+                        </div>
+                        <div class="col-lg-2">
+                            @*<span class="pull-left font-bold" style="margin-top:9px;"><b>T.O Date Filed:</b></span>*@
+                        </div>
+                        <div class="col-lg-3">
+                            @*<input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_travel_date_filed_dspl" ng-model="txtb_travel_date_filed_dspl" disabled readonly />
+                                <label id="lbl_txtb_travel_date_filed_req" class="lbl_required"></label>*@
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="tabs-container">
+                                <ul class="nav nav-tabs">
+                                    <li ng-click="getActiveTab(0)" class="active li_check"><a data-toggle="tab" href="#tab-1"><i class="fa fa-info fa-2x" style="font-size:13px;"></i> <b>REQUEST INFORMATION</b></a></li>
+                                    <li ng-click="getActiveTab(1)" class="li_check"><a data-toggle="tab" href="#tab-2"><i class="fa fa-users fa-2x" style="font-size:13px;"></i> <b>EMPLOYEE'S</b></a></li>
+                                    <li ng-click="getActiveTab(2)" class="li_check"><a data-toggle="tab" href="#tab-3"><i class="fa fa-calendar fa-2x" style="font-size:13px;"></i> <b>TRAVEL DATE COVERED</b></a></li>
+                                    @*<li class=""><a data-toggle="tab" href="#tab-4">CHILDREN INFO.</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tab-5">PARENT INFO.</a></li>*@
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="tab-1" class="tab-pane active" style="min-height:350px;">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                @*<div class="col-lg-9">
+                <div style="width:29%; float:left;">
+                    <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order Requestor:</b></span>
+                </div>
+                <div style="width:71%; float:right;">
+                    <b><input type="text" class="form-control form-control-sm" id="txtb_travel_requestor_dspl" ng-model="txtb_travel_requestor_dspl" disabled readonly /></b>
+                    <b><input type="text" class="form-control form-control-sm" ng-show="false" id="txtb_travel_requestor_empl_id" ng-model="txtb_travel_requestor_empl_id" disabled readonly /></b>
+                </div>
+            </div>*@
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order Requestor:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <b><input type="text" class="form-control form-control-sm" id="txtb_travel_requestor_dspl" ng-model="txtb_travel_requestor_dspl" disabled readonly /></b>
+                                                    <b><input type="text" class="form-control form-control-sm" ng-show="false" id="txtb_travel_requestor_empl_id" ng-model="txtb_travel_requestor_empl_id" disabled readonly /></b>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-3" style="padding-top:5px;">
+                                                    <label ID="include_history" class="container" style="padding-top: 2px; font-size: 12px !important;">
+                                                        &nbsp;<span class="text-danger">Travel With Claims</span>
+                                                        <input type="checkbox" id="chk_with_claims" ng-model="chk_with_claims" ng-disabled="isDisablechk" />
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-2" style="padding-top:5px;">
+                                                    <label ID="include_history" class="container" style="padding-top: 2px; font-size: 12px !important;">
+                                                        &nbsp;<span class="text-danger">LDNF</span>
+                                                        <input type="checkbox" id="chk_with_ldnf" ng-model="chk_with_ldnf" ng-disabled="isDisablechk" />
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-3" style="padding-top:5px;">
+                                                    <label ID="include_history" class="container" style="padding-top: 2px; font-size: 12px !important;">
+                                                        &nbsp;<span class="text-danger">Emergency</span>
+                                                        <input type="checkbox" id="chk_with_emergency" ng-model="chk_with_emergency" onchange="RemoveClass()" ng-disabled="isDisablechk" />
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span><b>Requesting Department:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <b><input type="text" class="form-control form-control-sm" id="txtb_travel_department_dspl" ng-model="txtb_travel_department_dspl" disabled readonly /></b>
+                                                    <b><input type="text" class="form-control form-control-sm" ng-show="false" id="txtb_travel_department_dspl_hid" ng-model="txtb_travel_department_dspl_hid" disabled readonly /></b>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="font-bold" style="margin-top:9px;"><b>Travel Place to Visit:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <b><input type="text" onchange="RemoveClass('txtb_travel_place_dspl','txtb_travel_place')" class="form-control form-control-sm" id="txtb_travel_place_dspl" ng-model="txtb_travel_place_dspl" ng-disabled="isAbledPlacetoVisit" /></b>
+                                                    <label id="lbl_txtb_travel_place_req" class="lbl_required"></label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="font-bold" style="margin-top:9px;"><b>Travel Form:</b></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <select ng-show="show_in_add" onchange="RemoveClass('ddl_travel_form','ddl_travel_form')" id="ddl_travel_form" ng-model="ddl_travel_form" class="form-control form-control-sm" ng-disabled="isAbledTravelForm">
+                                                        <option value="">--Select Here--</option>
+                                                        <option ng-repeat="lst in travel_form_list track by $index" ngx-data="{{$index}}" value="{{lst.travel_form_code}}">{{lst.travel_form_descr}}</option>
+                                                    </select>
+                                                    <input type="text" ng-show="show_in_edit" class="form-control form-control-sm" id="txtb_travel_form" ng-model="txtb_travel_form" disabled readonly />
+                                                    <label id="lbl_ddl_travel_form_req" class="lbl_required"></label>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Travel Type:</b></span>
+                                                </div>
+                                                <div class="col-lg-3">
+
+                                                    <select ng-show="show_in_add" onchange="RemoveClass('ddl_travel_type','ddl_travel_type')" id="ddl_travel_type" ng-model="ddl_travel_type" class="form-control form-control-sm" ng-disabled="isAbledTravelType">
+                                                        <option value="">--Select Here--</option>
+                                                        <option ng-repeat="lst in travel_type_list track by $index" ngx-data="{{$index}}" value="{{lst.travel_type_code}}">{{lst.travel_type_descr}}</option>
+                                                    </select>
+                                                    <input type="text" ng-show="show_in_edit" class="form-control form-control-sm" id="txtb_travel_type" ng-model="txtb_travel_type" disabled readonly />
+                                                    <label id="lbl_ddl_travel_type_req" class="lbl_required"></label>
+
+                                                </div>
+                                            </div>
+                                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Subject/Purpose:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <b><input type="text" class="form-control form-control-sm" onchange="RemoveClass('txtb_travel_purpose_dspl','txtb_travel_purpose')" id="txtb_travel_purpose_dspl" ng-disabled="isAbledSubject" ng-model="txtb_travel_purpose_dspl" /></b>
+                                                    <label id="lbl_txtb_travel_purpose_req" class="lbl_required"></label>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Travel Justification:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <textarea class="form-control form-control-sm" id="txtb_travel_justification_dspl" ng-disabled="isAbledJustification" ng-model="txtb_travel_justification_dspl"></textarea>
+                                                    <label id="lbl_txtb_travel_justification_req" class="lbl_required"></label>
+                                                </div>
+                                                <div class="col-lg-3" ng-hide="isShowCancelReason" style="margin-top:3px;">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Reason:</b></span>
+                                                </div>
+                                                <div class="col-lg-9" ng-hide="isShowCancelReason" style="margin-top:3px;">
+                                                    <textarea class="form-control form-control-sm" id="txtb_cancellation_dspl" ng-disabled="true" ng-model="txtb_cancellation_dspl"></textarea>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Justification:</b>&nbsp;<i class="text-danger">(For late application):</i></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <textarea class="form-control form-control-sm" id="txtb_late_justi" ng-disabled="isAbledJustification" ng-model="txtb_late_justi"></textarea>
+                                                    <label id="lbl_txtb_late_justi_req" class="lbl_required"></label>
+                                                </div>
+                                            </div>
+                                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                                            <div class="row" style="margin-top:5px;" id="rec_approver">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left font-bold" style="margin-top:9px;"><b><label id="lbl_rec_appr">Recommending Approver:</label></b></span>
+
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <select id="ddl_rec_appr_dspl" ng-model="ddl_rec_appr_to_dspl" class="select2_demo_3 form-control" style="width:100%;">
+                                                        <option value="">--Select Here--</option>
+                                                        <option ng-repeat="lst in ddl_address_to_list track by $index" ngx-data="{{$index}}" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                                    </select>
+                                                    <label id="lbl_ddl_rec_appr_req" class="lbl_required"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:5px;" id="first_approver">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left font-bold" style="margin-top:9px;"><b><label id="lbl_first_appr">First Approver:</label></b></span>
+
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <select id="ddl_first_appr_dspl" ng-model="ddl_first_appr_dspl" class="select2_demo_3 form-control" style="width:100%;">
+                                                        <option value="">--Select Here--</option>
+                                                        <option ng-repeat="lst in ddl_address_to_list track by $index" ngx-data="{{$index}}" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                                    </select>
+                                                    <label id="lbl_ddl_first_appr_req" class="lbl_required"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" style="margin-top:5px;" id="final_approver">
+                                                <div class="col-lg-12">
+                                                    <div style="width:21.5%; float:left;">
+                                                        <span class="pull-left font-bold" style="margin-top:9px;"><b><label id="lbl_final_appr">Final Approver:</label></b></span>
+                                                    </div>
+                                                    <div style="width:78.5%; float:right;">
+                                                        <select id="ddl_final_appr_dspl" ng-model="ddl_final_appr_dspl" class="select2_demo_3 form-control" style="width:100%;">
+                                                            <option value="">--Select Here--</option>
+                                                            <option ng-repeat="lst in ddl_address_to_list track by $index" ngx-data="{{$index}}" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                                        </select>
+
+                                                        <label id="lbl_txtb_final_appr_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-2" class="tab-pane" style="min-height:350px;">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Employee's Name:</b></span>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <select ng-show="true" class="select2_demo_3 form-control" id="ddl_name_dspl" ng-model="ddl_name_dspl" ng-disabled="isAbledEmplname" style="width:100%;">
+                                                        <option value="" ngx-rowid="0">--Select here--</option>
+                                                        <option ng-repeat="lst in employees_list" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                                    </select>
+                                                    <label id="lbl_ddl_name_req" class="lbl_required"></label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row" style="margin-top:5px;">
+                                                <div class="col-lg-3">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Position:</b></span>
+                                                </div>
+                                                <div class="col-lg-7">
+
+                                                    <b><input type="text" class="form-control form-control-sm" id="txtb_position_dspl" ng-model="txtb_position_dspl" disabled readonly /></b>
+                                                    <label id="lbl_txtb_position_dspl_req" class="lbl_required"></label>
+                                                    <label id="lbl_txtb_employee_name_req" class="lbl_required"></label>
+                                                </div>
+                                                <div class="col-lg-2 text-right m-t-xs">
+                                                    @if (Model.allow_add == 1)
+                                                    {
+                                                        <button class="btn btn-success pull-right" style="margin-left:5px;" ng-show="isShowAddEmployee" ng-click="btn_click_employee('A')"><i class="fa fa-plus-circle"> </i> Add</button>
+                                                    }
+
+                                                    @if (Model.allow_edit == 1)
+                                                    {
+
+                                                        <button class="btn btn-info pull-right" style="margin-left:5px;" ng-show="isShowUpdateEmployee" ng-click="btn_click_employee('U')"><i class="fa fa-edit"> </i>Update</button>
+                                                    }
+
+                                                    @*<button class="btn btn-success pull-right" style="margin-left:5px;" ng-click="btn_add_click_employee()"><i class="fa fa-plus-circle"> </i> Add</button>*@
+
+                                                </div>
+
+                                            </div>
+                                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                                            <div class="row table-responsive">
+                                                <div class="col-12 table-responsive" style="padding-left:12px;padding-right:12px;padding-top:6px;">
+                                                    <table id="datalist_gridEmployee" class="table table-striped table-bordered table-hover table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="15%">ID NBR</th>
+                                                                <th width="40%">EMPLOYEE NAME</th>
+                                                                <th width="30%">POSITION</th>
+                                                                <th width="15%">ACTION</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-3" class="tab-pane" style="min-height:350px;">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-2 div_100">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Period From:</b></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group" id="div_to_date">
+                                                        <div class="input-group date">
+                                                            <input type="text" onchange="RemoveClass('txtb_travel_date_dspl','txtb_travel_date')" id="txtb_travel_date_dspl" maxlength="10" ng-model="txtb_travel_date_dspl" ng-disabled="isAbledTraveldate" class="form-control text-center" style="padding-right:20px;">
+                                                            <span id="div_travel_date_disable1" class="input-group-addon" style="padding-left:7.5px;">
+                                                                <i id="div_travel_date_disable2" class="fa fa-calendar"></i>
+                                                            </span>
+
+                                                        </div>
+                                                        <label id="lbl_txtb_travel_date_req" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1 padding_unset">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Start Time:</b></span>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div id="startclockpicker" class="input-group clockpicker1" data-autoclose="true">
+                                                        <input type="text" class="form-control" onchange="RemovePMAMStart(this.value)" maxlength="5" id="txtb_travel_start_dspl" ng-disabled="isAbledStarttime" ng-model="txtb_travel_start_dspl">
+
+                                                        <span id="startclockpickerspan" class="input-group-addon">
+                                                            <span id="startclockpickerclock" class="fa fa-clock-o"></span>
+                                                        </span>
+
+                                                    </div>
+                                                    <label id="lbl_txtb_travel_start_req" class="lbl_required"></label>
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>AM/PM:</b></span>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <select id="ddl_start_time" ng-disabled="isAbledStarttimeAMPM" class="form-control form-control-sm">
+                                                        <option value="AM" selected>AM</option>
+                                                        <option value="PM">PM</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-1">
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-top:5px;">
+                                                <div class="col-lg-2">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>Period To:</b></span>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group" id="div_to_date">
+                                                        <div class="input-group date">
+                                                            <input type="text" onchange="RemoveClass('txtb_travel_date_to_dspl','txtb_travel_date_to')" id="txtb_travel_date_to_dspl" maxlength="10" ng-model="txtb_travel_date_to_dspl" ng-disabled="isAbledTraveldate" class="form-control text-center" style="padding-right:20px;">
+                                                            <span id="div_travel_date_to_disable1" class="input-group-addon" style="padding-left:7.5px;">
+                                                                <i id="div_travel_date_to_disable2" class="fa fa-calendar"></i>
+                                                            </span>
+
+                                                        </div>
+                                                        <label id="lbl_txtb_travel_date_to_req" style="padding-top:-100px;" class="lbl_required"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 padding_unset">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>End Time:</b></span>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div id="endclockpicker" class="input-group clockpicker1" data-autoclose="true">
+                                                        <input type="text" class="form-control" onchange="RemovePMAMEnd(this.value)" maxlength="5" id="txtb_travel_end_dspl" ng-disabled="isAbledEndtime" ng-model="txtb_travel_end_dspl">
+                                                        <span id="endclockpickerspan" class="input-group-addon">
+                                                            <span id="endclockpickerclock" class="fa fa-clock-o"></span>
+                                                        </span>
+                                                    </div>
+                                                    <label id="lbl_txtb_travel_end_req" class="lbl_required"></label>
+                                                </div>
+
+                                                <div class="col-lg-1">
+                                                    <span class="pull-left" style="margin-top:9px;"><b>AM/PM:</b></span>
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <select id="ddl_end_time" ng-model="ddl_end_time" ng-disabled="isAbledEndtimeAMPM" class="form-control form-control-sm">
+                                                        <option value="AM" selected>AM</option>
+                                                        <option value="PM">PM</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-1 m-t-xs">
+                                                    @if (Model.allow_add == 1)
+                                                    {
+                                                        <button class="btn btn-success pull-right" style="margin-left:5px;" ng-show="isShowAddDates" ng-click="btn_click_dates('A')"><i class="fa fa-plus-circle"> </i>Add</button>
+                                                    }
+                                                    @if (Model.allow_edit == 1)
+                                                    {
+                                                        <button class="btn btn-info pull-right" style="margin-left:5px;" ng-show="isShowUpdateDates" ng-click="btn_click_dates('U')"><i class="fa fa-edit"> </i>Update</button>
+                                                    }
+
+
+                                                </div>
+                                            </div>
+                                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                                            <div class="row table-responsive">
+                                                <div class="col-12 table-responsive" style="padding-left:12px;padding-right:12px;padding-top:6px;">
+                                                    <table id="datalist_gridDates" class="table table-striped table-bordered table-hover table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="15%">DATE</th>
+                                                                <th width="35%">START TIME</th>
+                                                                <th width="35%">END TIME</th>
+                                                                <th width="15%">ACTIONS</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    @*<button type="button" class="btn btn-danger"  ng-click="CloseModal()" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>*@
+                    @*<button id="cancel" ng-click="btn_del_row2()" type="button" class="btn btn-danger" ng-show="show_cancel" data-toggle="tooltip" data-placement="top" title="Cancel Application"><i class="fa fa-ban"></i> Cancel</button>*@
+                    <button class="btn btn-primary pull-left" ng-click="btn_print_row()"><i class="fa fa-print" id="dtr_print"></i> Print Preview </button>
+                    <button id="withdrawSubmission" ng-show="showRecall" ng-click="btn_withdraw_submission()" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Recall Submission">                               <i class="fa fa-rotate-left"></i> Recall Submission</button>
+                    <button id="submit" ng-show="isShowSubmit" ng-click="btn_submit_click('S')" type="button" class="btn btn-warning" ng-disabled="dis_submit" data-toggle="tooltip" data-placement="top" title="Data cannot be deleted/updated once submitted"><i id="i_submit" class="fa fa-paper-plane-o"></i> Submit</button>
+                    <button id="btn_save" ng-show="isShowSubmit" ng-click="btn_submit_click('N')" type="button" class="btn btn-success">                              <i class="fa fa-save" id="i_save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*---END ADD MODAL-----*@
+    <!-- Force Leave Plan Page-->
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-8">
+                            <select ng-show="true" class="select2_demo_3 form-control" id="ddl_name_header" ng-model="ddl_name_header" style="width:100%;">
+                                <option value="">--Select here--</option>
+                                <option ng-repeat="lst in employees_list_header" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row" style="margin-bottom:0px;">
+                            <div class="col-lg-12">
+                                @*<div style="width:62%;float:left;">
+                                    </div>*@
+                                <select class="form-control field-select-sm" id="ddl_status" ng-model="ddl_status" ng-change="getEmployeeInfoHeader()">
+                                    <option value="" selected>Select All Status</option>
+                                    <option ng-repeat="lst in statusList" value="{{lst.approval_status}}">{{lst.approval_status_descr}}</option>
+                                </select>
+                                <label id="lbl_ddl_status_req" class="lbl_required"></label>
+
+                                @*<div style="width:38%;float:right;">
+                                        <button id="info" class="btn btn-info pull-right font-bold" ng-click="btn_open_info()"><i class="fa fa-info-circle"> </i> Status Info.</button>
+                                    </div>*@
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-bottom:0px;margin-bottom:0px;">
+                            <div class="col-lg-12">
+                                <div style="width:38%;float:right;">
+                                    <button id="add_travel_order" ng-show="false" class="btn btn-default pull-right font-bold" ng-click="btn_open_modal('C')"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar-2">
+                                <div class="col-lg-12" style="padding-top:0px;margin-top:0px;">
+                                    <table border="0" id="datalist_grid" ng-model="datalist_grid" class="table-striped" style="padding-top:-50px;border:0px;width:100% !important;">
+                                        <thead></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8" style="padding-top:3px;padding-left:0px;">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div id="calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Loading -->
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:60% !important">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="loading_data" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                    <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+

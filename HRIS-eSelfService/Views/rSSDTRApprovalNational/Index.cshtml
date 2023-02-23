@@ -1,0 +1,259 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/crystalreportviewers13/js/crviewer/crv.js"></script>
+<script src="~/Angular/ng-rSSDTRApprovalNational.js"></script>
+<style type="text/css">
+    @@media only screen and (min-width: 1300px) {
+        .div_content_override 
+        {
+            padding: 10px 10px 130px 10px;
+        }
+    }
+
+    @@media only screen and (max-width: 769px) {
+        .div_content_override {
+            padding-top: 10px !important;
+        }
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    /*.table > thead > tr > th {
+        background-color: #1AB394 !important;
+    }
+
+    table#datalist_grid {
+        font-weight: bold;
+    }
+
+    #datalist_grid tbody tr.even:hover, #datalist_grid tbody tr.even td.highlighted {
+        background-color: #0d7b65;
+        color: white !important;
+    }
+
+    #datalist_grid tbody tr.odd:hover, #datalist_grid tbody tr.odd td.highlighted {
+        background-color: #0d7b65;
+        color: white !important;
+    }
+
+    #datalist_grid tbody td.span td.highlighted {
+        background-color: #1AB394;
+        color: white !important;
+    }*/
+
+    span.required {
+        border: 1px solid red !important;
+    }
+
+    .add-edit-modal {
+        background-color: #1AB394 !important;
+    }
+
+    .atsfield {
+        border: 1px solid #5c5 !important;
+        font-size: 15px !important;
+        background-color: white !important;
+    }
+
+    textarea.required {
+        border-color: red !important;
+    }
+
+    .popover.clockpicker-popover {
+        z-index: 99999;
+    }
+
+    input.required {
+        border: 1px solid red !important;
+        font-size: 15px !important;
+        background-color: white !important;
+    }
+    div.swal-text 
+    {
+        text-align:center !important;
+    }
+</style>
+
+<section ng-app="ng_selfService_App" ng-controller="rSSDTRApprovalNational_ctrlr">
+
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <h4 class="modal-title" id="exchange_modal_title"> Please Wait...</h4>
+                </div>
+                <div class="modal-body with-background text-center" style="padding-bottom:0px;">
+
+                    <div class="spiner-example">
+                        <div class="sk-spinner sk-spinner-chasing-dots">
+                            <div class="sk-dot1"></div>
+                            <div class="sk-dot2"></div>
+                        </div>
+                    </div>
+                    <h2><b>{{generate_message}}</b></h2>
+                    <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="print_preview_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
+                </div>
+                <div class="modal-body with-background text-center" style="padding-bottom:15px;">
+                    <div class="form-horizontal">
+                        <div class="row margin-top">
+                            <div id="iframe_content" class="col-md-12">
+                                <div ng-show="loading_r">
+                                    <div class="spiner-example">
+                                        <div class="sk-spinner sk-spinner-chasing-dots">
+                                            <div class="sk-dot1"></div>
+                                            <div class="sk-dot2"></div>
+                                        </div>
+                                    </div>
+                                    <h2><b>{{generate_message}}</b></h2>
+                                    <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                                </div>
+                                <center ng-show="!loading_r" >
+                                    <iframe id="ReportFrame" name="ReportFrame" alt="Please Wait.. Initializing Report Source" src="" height="500vh" width="100%" style="border:10px #ffffff"></iframe>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- End of Print DTR Modal -->
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#1ab394;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h2 class="text-white" id="session_container" dataX='@Session["user_id"].ToString()'>@*DTR Overrides*@ @Session["menu_name"].ToString()</h2>
+                        </div>
+                        <div class="col-lg-8 text-right">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                            @*<span ng-show="show_dtr_status" class="btn btn-block btn-warning pull-right"><i class="fa fa-info-circle"></i> <b> {{dtr_status_descr}}</b></span>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label>Month - Year :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control text-left" data-provide="datepicker" id="txtb_dtr_mon_year" ng-model="txtb_dtr_mon_year">
+                                <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                <label id="lbl_txtb_dtr_mon_year2_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-sm-7 text-right">
+                                @*<button id="dtr_print" class="btn btn-primary" ng-disabled="!allowPrint" ng-click="btn_print()"><i class="fa fa-print"></i> Print DTR</button>&nbsp;
+                                    <button id="btn_save_generate_dtr" class="btn btn-success" ng-click="btn_save_generate_dtr()"><i class="fa fa-save"></i> Save</button>
+                                    <button id="btn_submit" ng-disabled="!allowSubmit" class="btn btn-warning" ng-click="btn_submit_click()"><i class="fa fa-send"></i> Submit</button>*@
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:3px;">
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-control field-select-sm" id="ddl_dept" ng-model="ddl_dept" ng-change="ddl_dept_chane() ">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Employment Type :</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="select2_demo_3 form-control" id="ddl_employment_type" ng-model="ddl_employment_type" ng-change="FilterPageGrid()" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in empltype_list track by $index" ngx-data="{{$index}}" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                </select>
+                                <label id="lbl_ddl_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2"></div>
+                            <div class="col-sm-2 text-right" style="padding-top:5px">
+                                <label>Show Option:</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="ddl_showoption" ng-model="ddl_showoption" ng-change="FilterPageGrid()" style="width:100%;">
+                                    <option value="S" selected>For Approval Only</option>
+                                    <option value="F">Approved Only</option>
+                                </select>
+                                <label id="lbl_ddl_showoption_req" class="lbl_required"></label>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table id="datalist_grid" ng-model="datalist_grid" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                        <thead>
+                                            <tr style="background-color: #1AB394 !important;">
+                                                <th width="10%">EMPL. ID</th>
+                                                <th width="55%">EMPLOYEE NAME</th>
+                                                <th width="20%">DTR TYPE</th>
+                                                @*<th width="10%">STATUS</th>*@
+                                                <th width="15%">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

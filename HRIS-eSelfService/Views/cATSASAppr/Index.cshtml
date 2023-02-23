@@ -1,0 +1,815 @@
+﻿@*
+    ****Page Created by     :   Joseph M. Tombo Jr.
+    ****Page Started date   :   06/01/2020
+    ****Page Description    :   Approval Page design for Authorization slip
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    span.details-control {
+        background: url('../../ResourcesImages/show.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    tr.shown span.details-control {
+        background: url('../../ResourcesImages/unshow.jpg') no-repeat center center;
+        background-size: 20px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+
+    .modal {
+        overflow: auto !important;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .table-thead-tr {
+        background-color: white;
+        border-bottom: none;
+    }
+
+    .fc-event {
+        font-size: 1.1em; /* EDIT HERE */
+        text-align: center;
+    }
+
+    .fc-scroller {
+        overflow-y: hidden !important;
+    }
+
+    .padding-adjust-left {
+        padding-left: 0px !important;
+    }
+
+    .table-thead-tr {
+        display: none
+    }
+
+
+    #btn-text_action {
+        display: block !important;
+    }
+
+    #btn-icon_action {
+        display: none !important;
+    }
+
+    .input-group-btn {
+        padding-left: 50px !important;
+    }
+
+    .m-t-xs {
+        margin-top: 0px !important;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        /*height: 580px;*/
+        overflow: auto;
+    }
+
+    .my-custom-scrollbar-2 {
+        position: relative;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    table.dataTable tbody td {
+        padding: 1.5px !important;
+    }
+
+    .my-custom-scrollbar-2 {
+        overflow: hidden !important;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+    .padding-adjust-left {
+        padding-left: 0px !important;
+    }
+
+    .approved-bg {
+        color: #1C84C6;
+    }
+
+    .cancel-bg {
+        color: #EC4758;
+    }
+
+    .disapproved-bg {
+        color: #D62728;
+    }
+
+    .new-bg {
+        color: #1AB394;
+    }
+
+    .reviewed-bg {
+        color: #00C5DA;
+    }
+
+    .submitted-bg {
+        color: #F8AC59;
+    }
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        #btn-text_action {
+            display: none !important;
+        }
+
+        #btn-icon_action {
+            display: block !important;
+        }
+        .my-custom-scrollbar-2 {
+            position: relative;
+            overflow: auto !important;
+        }
+
+        .navbar-header {
+            width: 20% !important;
+            padding-right:20px !important;
+        }
+
+        .padding-adjust-left {
+            position: relative !important;
+            min-height: 1px !important;
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .btn {
+            width:100% !important;
+        }
+
+        .mt-adjust-top {
+            margin-top: 3px !important;
+        }
+
+        #page-wrapper {
+            position: inherit;
+            margin: 0 0 0 0;
+            min-height: 1000px;
+        }
+
+        .form-control, form-control-sm {
+            font-size: 12px !important;
+        }
+
+
+        .top-navigation .navbar-header {
+            display: block;
+            float: none;
+        }
+
+        .padding_unset {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .m-t-xs {
+            margin-top: 3px !important;
+        }
+
+        .div_100 {
+            width: 100% !important;
+        }
+
+        /*.table-wrapper-scroll-y, my-custom-scrollbar-2 {
+            height: 300px !important;
+        }*/
+
+        .modal-dialog, modal-lg {
+            width: 80% !important;
+            margin: 0px !important;
+        }
+
+        .li_check {
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            top: -10% !important;
+        }
+
+        .fc-scroller.fc-day-grid-container {
+            height: 100% !important;
+        }
+
+        thead tr th {
+            font-size: 11px !important;
+        }
+
+        tbody tr td {
+            font-size: 12px !important;
+        }
+
+        .panel-body {
+            min-height: 50% !important;
+        }
+    }
+
+</style>
+<script src="~/Angular/ng-cATSASAppr.js?v=1"></script>
+<section ng-app="ng_selfService_App" ng-controller="cATSASAppr_Ctrl">
+    <!-- Modal Loading -->
+
+    <div class="modal fade" id="modal_generating_remittance" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                    <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="col-lg-12">
+                <div class="modal-content animated modal-content-add-edit">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                    </div>
+                    <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <b>AUTHORIZATION SLIP INFORMATION</b>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Application Nbr.:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-center" id="txtb_appl_nbr" ng-model="txtb_appl_nbr" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Date Applied:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_date_applied" ng-model="txtb_date_applied" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Employee's Name:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">ID Nbr.:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_empl_id" ng-model="txtb_empl_id" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Reviewed By:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_reviewer_name" ng-model="txtb_reviewer_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Reviewed Date: </label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_reviewed_date" ng-model="txtb_reviewed_date" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Lvl. 1 Approver:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_level_name" ng-model="txtb_level_name" disabled /></b>
+                                <label id="lbl_txtb_sig1_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Approved Date:</label></b>
+                            </div>
+                            <div class="col-lg-2">
+                                <b><input class="form-control text-center" id="txtb_level_date" ng-model="txtb_level_date" disabled /></b>
+                                <label id="lbl_txtb_empl_id_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Created By:</label></b>
+                            </div>
+                            <div class="col-lg-6">
+                                <b><input class="form-control text-left" id="txtb_created_by" ng-model="txtb_created_by" disabled /></b>
+                                <label id="lbl_txtb_creator_name_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-4">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">Remarks:</label></b>
+                            </div>
+                            <div class="col-lg-10">
+                                <textarea class="form-control text_area" maxlength="255" rows="1" ng-model="txtb_remarks" id="txtb_remarks" ng-disabled="dis_remarks"></textarea>
+                                <label id="lbl_txtb_remarks_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <label style="padding-top:7px;"><b>DTR DATE ENTRY:</b></label>
+                            </div>
+                            <div class="col-lg-3 mt10">
+                                <div class="form-group" id="div_dtr_date">
+                                    <div class="input-group date">
+                                        <input type="text" id="txtb_dtr_date" maxlength="10" ng-model="txtb_dtr_date" class="form-control text-center" ng-disabled="true">
+                                        <span class="input-group-addon dtr_date" ng-show="false" style="padding-left:7.5px;">
+                                            <i class="fa fa-calendar dtr_date"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <label id="lbl_txtb_dtr_date_req" class="lbl_required"></label>
+                            </div>
+
+                            <div class="col-lg-2 mt10">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>A.S Description:</b></label>
+                            </div>
+                            <div class="col-lg-3" style="padding-top:7px;">
+                                <select class="form-control field-select-sm" id="ddl_as_type" ng-hide="hr_enable_only" ng-model="ddl_as_type">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in as_type_list" value="{{lst.astype_code}}">{{lst.astype_descr}}</option>
+                                </select>
+
+                                <input type="text" id="txtb_astype_descr" maxlength="10" ng-show="hr_enable_only" ng-model="txtb_astype_descr" class="form-control text-center" ng-disabled="true">
+                                <label id="lbl_ddl_as_type_req" class="lbl_required"></label>
+                            </div>
+                            <div class="col-lg-1">
+                                <button id="add1" ng-show="true" class="btn btn-success font-bold" ng-click="btn_update_inputs()" style="padding-left:4px;padding-right:4px;">UPDATE</button>
+                            </div>
+                            <div class="col-lg-1">
+                                <button id="add2" ng-show="true" class="btn btn-danger font-bold" ng-click="btn_clear_inputs()" style="padding-left:4px;padding-right:4px;">CLEAR</button>
+                            </div>
+
+                        </div>
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label style="padding-top:7px;">AM TIME<i class="text-danger">(actual)</i></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="true" class="form-control text-success" maxlength="5" placeholder="TIME IN" id="txtb_am_in_act" ng-model="txtb_am_in_act">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="true" class="form-control text-danger" maxlength="5" placeholder="TIME OUT" id="txtb_am_out_act" ng-model="txtb_am_out_act">
+                            </div>
+                            <div class="col-lg-2">
+                                <label style="float:left;padding-top:7px;">PM TIME<i class="text-danger">(actual)</i></label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="true" class="form-control text-success" maxlength="5" placeholder="TIME IN" id="txtb_pm_in_act" ng-model="txtb_pm_in_act">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="true" class="form-control text-danger" maxlength="5" placeholder="TIME OUT" id="txtb_pm_out_act" ng-model="txtb_pm_out_act">
+                            </div>
+
+                        </div>
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label style="float:left;padding-top:7px;">AM TIME ENTRY:</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="{{isEdit}}" class="form-control text-success" maxlength="7" placeholder="TIME IN" id="txtb_am_in" ng-model="txtb_am_in">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="{{isEdit}}" class="form-control text-danger" maxlength="7" placeholder="TIME OUT" id="txtb_am_out" ng-model="txtb_am_out">
+                            </div>
+                            <div class="col-lg-2">
+                                <label style="float:left;padding-top:7px;">PM TIME ENTRY:</label>
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="{{isEdit}}" class="form-control text-success ng-pristine" maxlength="7" placeholder="TIME IN" id="txtb_pm_in" ng-model="txtb_pm_in">
+                            </div>
+                            <div class="col-lg-2">
+                                <input type="text" ng-disabled="{{isEdit}}" class="form-control text-danger ng-pristine" maxlength="7" placeholder="TIME OUT" id="txtb_pm_out" ng-model="txtb_pm_out">
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>AS Reason:</b></label>
+                            </div>
+                            <div class="col-lg-10">
+                                <select class="form-control field-select-sm" ng-hide="hr_enable_only" id="ddl_reason" ng-model="ddl_reason">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in reason_list" value="{{lst.reason_code}}">{{lst.reason_descr}}</option>
+                                </select>
+
+                                <input type="text" id="txtb_reason_descr" ng-show="hr_enable_only"  maxlength="100" ng-model="txtb_reason_descr" class="form-control text-center" ng-disabled="true">
+                                <label id="lbl_ddl_reason_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <label class="pull-left font-bold" style="padding-top:7px;"><b>AS Venue:</b></label>
+                            </div>
+                            <div class="col-lg-10">
+                                <b><input ng-disabled="true" class="form-control text-left" id="txtb_as_venue" ng-model="txtb_as_venue" /></b>
+                                <label id="lbl_txtb_as_venue_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-2">
+                                <b><label class="pull-left" style="margin-top:0px;padding-top:5px;">AS Comment:</label></b>
+                            </div>
+                            <div class="col-lg-10">
+                                <textarea ng-disabled="dtl_enable" class="form-control text_area" rows="1" maxlength="255" id="txtb_as_comment" ng-model="txtb_as_comment"></textarea>
+                                <label id="lbl_txtb_as_comment_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                        <div class="row" style="padding-top:5px;">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <div class="col-sm-12 table-resposive">
+                                    <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">DTR DATE</th>
+                                                <th width="30%">AS TYPE</th>
+                                                <th width="13%">AM IN|OUT</th>
+                                                <th width="13%">PM IN|OUT</th>
+                                                <th width="15%">STATUS</th>
+                                                <th width="14%">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:20px;" ng-show="!show_footer" />
+                    <div class="modal-footer" ng-show="show_footer" style="padding: 10px 30px 10px 30px !important">
+                        <button id="btn_cancel" ng-click="btn_cancel_click()" ng-show="btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top"><i class="fa fa-ban"></i> Cancel AS</button>
+                        <button id="btn_cancel_pending" ng-click="btn_cancel_pending_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="top"><i class="fa fa-ban"></i> Cancel Pending</button>
+                        <button id="btn_disapprove" ng-click="btn_disapprove_click()" ng-show="!btn_show_cancel" type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top"><i class="fa fa-thumbs-down"></i> Disapprove</button>
+                        <button id="btn_approve" ng-click="btn_approve_click()" type="button" class="btn btn-success" ng-show="show_btn_approve" ng-disabled="dis_btn_approve" data-toggle="tooltip" data-placement="top"><i class="fa fa-paper-plane-o"></i>Approved</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--End of Add Modal-->
+    <!-- Leave Sub Type Page Header-->
+    <div class="wrapper wrapper-content fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="input-group">
+                                <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                                <div class="input-group-btn">
+                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><i class="fa fa-cog"></i>Options<span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a ng-click="btn_click_search_as()">A.S Application Per Employee </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search AS Application Page Header-->
+    <div class="modal fade" id="AS_search_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form id="search_to_dates">
+                <div class="modal-content animated">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalLabelSmall">AS Application Per Employee</h4>
+                    </div>
+                    <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-3">
+                                <span style="margin-top:9px;"><b>Employee's Name:</b></span>
+                            </div>
+                            <div class="col-lg-9">
+
+                                <select style="width:100%;float:right;" id="ddl_search_empl_name" ng-model="ddl_search_empl_name" class="select2_demo_3 form-control">
+                                    <option value="">--Select here--</option>
+                                    <option ng-repeat="lst in ddl_search_empl_name_list" value="{{lst.empl_id}}">{{lst.employee_name1}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-3">
+                                <span style="margin-top:9px;"><b>AS Year:</b></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="form-control field-select-sm text-center" id="ddl_search_as_year" ng-model="ddl_search_as_year">
+                                    <option value="" selected>-Select Year-</option>
+                                    <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                </select>
+
+                            </div>
+                            <div class="col-lg-3">
+                                <span style="margin-top:9px;"><b>Month Applied:</b></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <select class="form-control field-select-sm" id="ddl_search_as_month" ng-model="ddl_search_as_month">
+                                    <option value="" selected>-Select Month-</option>
+                                    <option value="01" selected>January</option>
+                                    <option value="02" selected>February</option>
+                                    <option value="03" selected>March</option>
+                                    <option value="04" selected>April</option>
+                                    <option value="05" selected>May</option>
+                                    <option value="06" selected>June</option>
+                                    <option value="07" selected>July</option>
+                                    <option value="08" selected>August</option>
+                                    <option value="09" selected>September</option>
+                                    <option value="10" selected>October</option>
+                                    <option value="11" selected>November</option>
+                                    <option value="12" selected>December</option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        <div class="ibox-content table-resposive">
+                            <div class="row table-wrapper-scroll-y my-custom-scrollbar-2">
+                                <table id="datalist_grid_search" ng-model="datalist_grid_search" class="table table-striped table-bordered table-hover table-responsive ">
+                                    <thead>
+                                        <tr>
+                                            <th width="2%"></th>
+                                            <th width="8%">A.S NBR</th>
+                                            <th width="50%">DESCRIPTION</th>
+                                            <th width="40%">PERIOD COVERED</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close" data-toggle="tooltip" data-placement="top" title="close"><i class="fa fa-times"></i>Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+
+                                <div class="row">
+                                    <div class="col-lg-2" style="padding-top:5px;">
+                                        <strong><span style="margin-top:10px;margin-right:9px;">Show</span></strong>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control field-select-sm" style="width:40%;float:left;margin-right:9px;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <strong><span class="pull-left" style="float:left;margin-top:9px;margin-left:5px;">entries</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <b><label class="pull-left" style="margin-top:9px;">AS Year:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-7 padding-adjust-left">
+                                        <select class="form-control field-select-sm" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Year--</option>
+                                            <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <b><label style="margin-top:9px;">Month Applied:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-7 padding-adjust-left">
+                                        <select class="form-control field-select-sm" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Month--</option>
+                                            <option value="01" selected>January</option>
+                                            <option value="02" selected>February</option>
+                                            <option value="03" selected>March</option>
+                                            <option value="04" selected>April</option>
+                                            <option value="05" selected>May</option>
+                                            <option value="06" selected>June</option>
+                                            <option value="07" selected>July</option>
+                                            <option value="08" selected>August</option>
+                                            <option value="09" selected>September</option>
+                                            <option value="10" selected>October</option>
+                                            <option value="11" selected>November</option>
+                                            <option value="12" selected>December</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-1">
+
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3">
+
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <b><label style="margin-top:9px;">Emplymt. Type:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control field-select-sm" id="ddl_empl_type" ng-model="ddl_empl_type" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in empl_type_list" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                        </select>
+
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3">
+                                <label id="lbl_show_approved" class="container" style="padding-top:3px; font-size: 14px !important;">
+                                    &nbsp;Show Actioned List
+                                    <input type="checkbox" id="chk_show_approved" ng-click="FilterPageGrid()" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <b><label style="margin-top:9px;">Department:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select ng-show="true" class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" style="width:100%;" ng-disabled="hr_enable_only">
+                                            <option value="">--Select here--</option>
+                                            <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row table-wrapper-scroll-y my-custom-scrollbar-2">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+
+                                        <th width="15%">APPLICATION NBR</th>
+                                        <th width="10%">ID NBR</th>
+                                        <th width="15%">DATE APPLIED</th>
+                                        <th width="30%">EMPLOYEE NAME</th>
+                                        <th width="15%">STATUS</th>
+                                        <th width="15%">WORKLIST ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,838 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HRIS_KMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="training_empl_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_dt_completed" Type="date" />
+        </EntityType>
+        <EntityType Name="training_info_tbl">
+          <Key>
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_descr" Type="varchar" MaxLength="500" />
+          <Property Name="train_descr_short" Type="varchar" MaxLength="50" />
+          <Property Name="train_details" Type="varchar(max)" />
+          <Property Name="train_link" Type="varchar" MaxLength="500" />
+          <Property Name="train_mode" Type="varchar" MaxLength="3" />
+          <Property Name="train_type" Type="varchar" MaxLength="3" />
+          <Property Name="train_dt_fr" Type="date" />
+          <Property Name="train_dt_to" Type="date" />
+          <Property Name="train_dt_4completion" Type="date" />
+          <Property Name="train_filename_vid" Type="varchar" MaxLength="255" />
+          <Property Name="train_filename_pdf" Type="varchar" MaxLength="255" />
+          <Property Name="train_required" Type="varchar" MaxLength="1" />
+          <Property Name="train_coverage" Type="varchar" MaxLength="1" />
+          <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="30" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <EntityType Name="training_mode_tbl">
+          <Key>
+            <PropertyRef Name="train_mode" />
+          </Key>
+          <Property Name="train_mode" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="training_type_tbl">
+          <Key>
+            <PropertyRef Name="train_type" />
+          </Key>
+          <Property Name="train_type" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_empl_tbl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_empl_tbl_list">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_dt_completion" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="train_dt_completed" Type="nvarchar" MaxLength="4000" />
+          <Property Name="empl_train_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_descr" Type="varchar" MaxLength="500" />
+          <Property Name="train_descr_short" Type="varchar" MaxLength="50" />
+          <Property Name="train_details" Type="varchar(max)" />
+          <Property Name="train_mode" Type="varchar" MaxLength="3" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type" Type="varchar" MaxLength="3" />
+          <Property Name="train_coverage" Type="varchar" MaxLength="1" />
+          <Property Name="train_coverage_descr" Type="varchar" MaxLength="25" />
+          <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+          <Property Name="rcrd_status_descr" Type="varchar" MaxLength="15" />
+          <Property Name="train_year" Type="int" />
+          <Property Name="train_month" Type="int" />
+          <Property Name="train_dt_completion" Type="date" Nullable="false" />
+          <Property Name="train_link" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_empl_tbl_list_completed' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_empl_tbl_list_completed">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="train_dt_completed" Type="nvarchar" MaxLength="4000" />
+          <Property Name="empl_train_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_descr" Type="varchar" MaxLength="500" />
+          <Property Name="train_descr_short" Type="varchar" MaxLength="50" />
+          <Property Name="train_details" Type="varchar(max)" />
+          <Property Name="train_mode" Type="varchar" MaxLength="3" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type" Type="varchar" MaxLength="3" />
+          <Property Name="train_filename_vid" Type="varchar" MaxLength="255" />
+          <Property Name="train_filename_pdf" Type="varchar" MaxLength="255" />
+          <Property Name="train_coverage" Type="varchar" MaxLength="1" />
+          <Property Name="train_coverage_descr" Type="varchar" MaxLength="25" />
+          <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+          <Property Name="rcrd_status_descr" Type="varchar" MaxLength="15" />
+          <Property Name="train_year" Type="int" />
+          <Property Name="train_month" Type="int" />
+          <Property Name="train_dt_4completion" Type="varchar" MaxLength="10" />
+          <Property Name="train_link" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_empl_tbl_list_not_started' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_empl_tbl_list_not_started">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="train_dt_completed" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="train_dt_completed" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="empl_train_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_descr" Type="varchar" MaxLength="500" />
+          <Property Name="train_descr_short" Type="varchar" MaxLength="50" />
+          <Property Name="train_details" Type="varchar(max)" />
+          <Property Name="train_mode" Type="varchar" MaxLength="3" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type" Type="varchar" MaxLength="3" />
+          <Property Name="train_filename_vid" Type="varchar" MaxLength="255" />
+          <Property Name="train_filename_pdf" Type="varchar" MaxLength="255" />
+          <Property Name="train_coverage" Type="varchar" MaxLength="1" />
+          <Property Name="train_coverage_descr" Type="varchar" MaxLength="25" />
+          <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+          <Property Name="rcrd_status_descr" Type="varchar" MaxLength="15" />
+          <Property Name="train_year" Type="int" />
+          <Property Name="train_month" Type="int" />
+          <Property Name="train_dt_4completion" Type="varchar" MaxLength="10" />
+          <Property Name="train_link" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_info_tbl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_info_tbl_list">
+          <Key>
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="train_code" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="train_descr" Type="varchar" MaxLength="500" />
+          <Property Name="train_descr_short" Type="varchar" MaxLength="50" />
+          <Property Name="train_details" Type="varchar(max)" />
+          <Property Name="train_link" Type="varchar" MaxLength="500" />
+          <Property Name="train_mode" Type="varchar" MaxLength="3" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+          <Property Name="train_type" Type="varchar" MaxLength="3" />
+          <Property Name="train_dt_fr" Type="nvarchar" MaxLength="4000" />
+          <Property Name="train_dt_to" Type="nvarchar" MaxLength="4000" />
+          <Property Name="train_dt_completion" Type="nvarchar" MaxLength="4000" />
+          <Property Name="train_required" Type="varchar" MaxLength="1" />
+          <Property Name="train_required_descr" Type="varchar" MaxLength="25" />
+          <Property Name="train_coverage" Type="varchar" MaxLength="1" />
+          <Property Name="train_coverage_descr" Type="varchar" MaxLength="25" />
+          <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
+          <Property Name="rcrd_status_descr" Type="varchar" MaxLength="15" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="30" />
+          <Property Name="updated_dttm" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_mode_tbl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_mode_tbl_list">
+          <Key>
+            <PropertyRef Name="train_mode" />
+          </Key>
+          <Property Name="train_mode" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="train_mode_descr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_KMS.dbo.vw_training_type_tbl_list' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_training_type_tbl_list">
+          <Key>
+            <PropertyRef Name="train_type" />
+          </Key>
+          <Property Name="train_type" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="train_type_descr" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="sp_training_type_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_user_login_KMS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_user_menu_access_role_list_KMS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_KMSModelStoreContainer">
+          <EntitySet Name="training_empl_tbl" EntityType="Self.training_empl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="training_info_tbl" EntityType="Self.training_info_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="training_mode_tbl" EntityType="Self.training_mode_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="training_type_tbl" EntityType="Self.training_type_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_training_empl_tbl_list" EntityType="Self.vw_training_empl_tbl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_empl_tbl_list].[empl_id] AS [empl_id], 
+    [vw_training_empl_tbl_list].[train_dt_completed] AS [train_dt_completed], 
+    [vw_training_empl_tbl_list].[empl_train_status] AS [empl_train_status], 
+    [vw_training_empl_tbl_list].[empl_train_status_descr] AS [empl_train_status_descr], 
+    [vw_training_empl_tbl_list].[train_code] AS [train_code], 
+    [vw_training_empl_tbl_list].[train_descr] AS [train_descr], 
+    [vw_training_empl_tbl_list].[train_descr_short] AS [train_descr_short], 
+    [vw_training_empl_tbl_list].[train_details] AS [train_details], 
+    [vw_training_empl_tbl_list].[train_mode] AS [train_mode], 
+    [vw_training_empl_tbl_list].[train_mode_descr] AS [train_mode_descr], 
+    [vw_training_empl_tbl_list].[train_type_descr] AS [train_type_descr], 
+    [vw_training_empl_tbl_list].[train_type] AS [train_type], 
+    [vw_training_empl_tbl_list].[train_coverage] AS [train_coverage], 
+    [vw_training_empl_tbl_list].[train_coverage_descr] AS [train_coverage_descr], 
+    [vw_training_empl_tbl_list].[rcrd_status] AS [rcrd_status], 
+    [vw_training_empl_tbl_list].[rcrd_status_descr] AS [rcrd_status_descr], 
+    [vw_training_empl_tbl_list].[train_year] AS [train_year], 
+    [vw_training_empl_tbl_list].[train_month] AS [train_month], 
+    [vw_training_empl_tbl_list].[train_dt_completion] AS [train_dt_completion], 
+    [vw_training_empl_tbl_list].[train_link] AS [train_link]
+    FROM [dbo].[vw_training_empl_tbl_list] AS [vw_training_empl_tbl_list]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_training_empl_tbl_list_completed" EntityType="Self.vw_training_empl_tbl_list_completed" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_empl_tbl_list_completed].[empl_id] AS [empl_id], 
+    [vw_training_empl_tbl_list_completed].[train_dt_completed] AS [train_dt_completed], 
+    [vw_training_empl_tbl_list_completed].[empl_train_status] AS [empl_train_status], 
+    [vw_training_empl_tbl_list_completed].[empl_train_status_descr] AS [empl_train_status_descr], 
+    [vw_training_empl_tbl_list_completed].[train_code] AS [train_code], 
+    [vw_training_empl_tbl_list_completed].[train_descr] AS [train_descr], 
+    [vw_training_empl_tbl_list_completed].[train_descr_short] AS [train_descr_short], 
+    [vw_training_empl_tbl_list_completed].[train_details] AS [train_details], 
+    [vw_training_empl_tbl_list_completed].[train_mode] AS [train_mode], 
+    [vw_training_empl_tbl_list_completed].[train_mode_descr] AS [train_mode_descr], 
+    [vw_training_empl_tbl_list_completed].[train_type_descr] AS [train_type_descr], 
+    [vw_training_empl_tbl_list_completed].[train_type] AS [train_type], 
+    [vw_training_empl_tbl_list_completed].[train_filename_vid] AS [train_filename_vid], 
+    [vw_training_empl_tbl_list_completed].[train_filename_pdf] AS [train_filename_pdf], 
+    [vw_training_empl_tbl_list_completed].[train_coverage] AS [train_coverage], 
+    [vw_training_empl_tbl_list_completed].[train_coverage_descr] AS [train_coverage_descr], 
+    [vw_training_empl_tbl_list_completed].[rcrd_status] AS [rcrd_status], 
+    [vw_training_empl_tbl_list_completed].[rcrd_status_descr] AS [rcrd_status_descr], 
+    [vw_training_empl_tbl_list_completed].[train_year] AS [train_year], 
+    [vw_training_empl_tbl_list_completed].[train_month] AS [train_month], 
+    [vw_training_empl_tbl_list_completed].[train_dt_4completion] AS [train_dt_4completion], 
+    [vw_training_empl_tbl_list_completed].[train_link] AS [train_link]
+    FROM [dbo].[vw_training_empl_tbl_list_completed] AS [vw_training_empl_tbl_list_completed]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_training_empl_tbl_list_not_started" EntityType="Self.vw_training_empl_tbl_list_not_started" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_empl_tbl_list_not_started].[empl_id] AS [empl_id], 
+    [vw_training_empl_tbl_list_not_started].[train_dt_completed] AS [train_dt_completed], 
+    [vw_training_empl_tbl_list_not_started].[empl_train_status] AS [empl_train_status], 
+    [vw_training_empl_tbl_list_not_started].[empl_train_status_descr] AS [empl_train_status_descr], 
+    [vw_training_empl_tbl_list_not_started].[train_code] AS [train_code], 
+    [vw_training_empl_tbl_list_not_started].[train_descr] AS [train_descr], 
+    [vw_training_empl_tbl_list_not_started].[train_descr_short] AS [train_descr_short], 
+    [vw_training_empl_tbl_list_not_started].[train_details] AS [train_details], 
+    [vw_training_empl_tbl_list_not_started].[train_mode] AS [train_mode], 
+    [vw_training_empl_tbl_list_not_started].[train_mode_descr] AS [train_mode_descr], 
+    [vw_training_empl_tbl_list_not_started].[train_type_descr] AS [train_type_descr], 
+    [vw_training_empl_tbl_list_not_started].[train_type] AS [train_type], 
+    [vw_training_empl_tbl_list_not_started].[train_filename_vid] AS [train_filename_vid], 
+    [vw_training_empl_tbl_list_not_started].[train_filename_pdf] AS [train_filename_pdf], 
+    [vw_training_empl_tbl_list_not_started].[train_coverage] AS [train_coverage], 
+    [vw_training_empl_tbl_list_not_started].[train_coverage_descr] AS [train_coverage_descr], 
+    [vw_training_empl_tbl_list_not_started].[rcrd_status] AS [rcrd_status], 
+    [vw_training_empl_tbl_list_not_started].[rcrd_status_descr] AS [rcrd_status_descr], 
+    [vw_training_empl_tbl_list_not_started].[train_year] AS [train_year], 
+    [vw_training_empl_tbl_list_not_started].[train_month] AS [train_month], 
+    [vw_training_empl_tbl_list_not_started].[train_dt_4completion] AS [train_dt_4completion], 
+    [vw_training_empl_tbl_list_not_started].[train_link] AS [train_link]
+    FROM [dbo].[vw_training_empl_tbl_list_not_started] AS [vw_training_empl_tbl_list_not_started]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_training_info_tbl_list" EntityType="Self.vw_training_info_tbl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_info_tbl_list].[train_code] AS [train_code], 
+    [vw_training_info_tbl_list].[train_descr] AS [train_descr], 
+    [vw_training_info_tbl_list].[train_descr_short] AS [train_descr_short], 
+    [vw_training_info_tbl_list].[train_details] AS [train_details], 
+    [vw_training_info_tbl_list].[train_link] AS [train_link], 
+    [vw_training_info_tbl_list].[train_mode] AS [train_mode], 
+    [vw_training_info_tbl_list].[train_mode_descr] AS [train_mode_descr], 
+    [vw_training_info_tbl_list].[train_type_descr] AS [train_type_descr], 
+    [vw_training_info_tbl_list].[train_type] AS [train_type], 
+    [vw_training_info_tbl_list].[train_dt_fr] AS [train_dt_fr], 
+    [vw_training_info_tbl_list].[train_dt_to] AS [train_dt_to], 
+    [vw_training_info_tbl_list].[train_dt_completion] AS [train_dt_completion], 
+    [vw_training_info_tbl_list].[train_required] AS [train_required], 
+    [vw_training_info_tbl_list].[train_required_descr] AS [train_required_descr], 
+    [vw_training_info_tbl_list].[train_coverage] AS [train_coverage], 
+    [vw_training_info_tbl_list].[train_coverage_descr] AS [train_coverage_descr], 
+    [vw_training_info_tbl_list].[rcrd_status] AS [rcrd_status], 
+    [vw_training_info_tbl_list].[rcrd_status_descr] AS [rcrd_status_descr], 
+    [vw_training_info_tbl_list].[created_by] AS [created_by], 
+    [vw_training_info_tbl_list].[created_dttm] AS [created_dttm], 
+    [vw_training_info_tbl_list].[updated_by] AS [updated_by], 
+    [vw_training_info_tbl_list].[updated_dttm] AS [updated_dttm]
+    FROM [dbo].[vw_training_info_tbl_list] AS [vw_training_info_tbl_list]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_training_mode_tbl_list" EntityType="Self.vw_training_mode_tbl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_mode_tbl_list].[train_mode] AS [train_mode], 
+    [vw_training_mode_tbl_list].[train_mode_descr] AS [train_mode_descr]
+    FROM [dbo].[vw_training_mode_tbl_list] AS [vw_training_mode_tbl_list]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_training_type_tbl_list" EntityType="Self.vw_training_type_tbl_list" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_training_type_tbl_list].[train_type] AS [train_type], 
+    [vw_training_type_tbl_list].[train_type_descr] AS [train_type_descr]
+    FROM [dbo].[vw_training_type_tbl_list] AS [vw_training_type_tbl_list]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_KMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="training_empl_tbl">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_dt_completed" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="training_info_tbl">
+          <Key>
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_descr_short" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="train_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_dt_fr" Type="DateTime" Precision="0" />
+          <Property Name="train_dt_to" Type="DateTime" Precision="0" />
+          <Property Name="train_dt_4completion" Type="DateTime" Precision="0" />
+          <Property Name="train_filename_vid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_filename_pdf" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_required" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="training_mode_tbl">
+          <Key>
+            <PropertyRef Name="train_mode" />
+          </Key>
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="training_type_tbl">
+          <Key>
+            <PropertyRef Name="train_type" />
+          </Key>
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_training_empl_tbl_list">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_dt_completion" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_dt_completed" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="empl_train_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_descr_short" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage_descr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status_descr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="train_year" Type="Int32" />
+          <Property Name="train_month" Type="Int32" />
+          <Property Name="train_dt_completion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="train_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_training_empl_tbl_list_completed">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_dt_completed" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="empl_train_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_descr_short" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_filename_vid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_filename_pdf" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage_descr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status_descr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="train_year" Type="Int32" />
+          <Property Name="train_month" Type="Int32" />
+          <Property Name="train_dt_4completion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="train_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_training_empl_tbl_list_not_started">
+          <Key>
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="train_dt_completed" />
+            <PropertyRef Name="empl_train_status" />
+            <PropertyRef Name="empl_train_status_descr" />
+            <PropertyRef Name="train_code" />
+            <PropertyRef Name="train_link" />
+          </Key>
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_dt_completed" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_train_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_train_status_descr" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_descr_short" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_filename_vid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_filename_pdf" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage_descr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status_descr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="train_year" Type="Int32" />
+          <Property Name="train_month" Type="Int32" />
+          <Property Name="train_dt_4completion" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="train_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_training_info_tbl_list">
+          <Key>
+            <PropertyRef Name="train_code" />
+          </Key>
+          <Property Name="train_code" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_descr" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_descr_short" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_details" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="train_link" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="train_dt_fr" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="train_dt_to" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="train_dt_completion" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Name="train_required" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_required_descr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="train_coverage_descr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="rcrd_status_descr" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="vw_training_mode_tbl_list">
+          <Key>
+            <PropertyRef Name="train_mode" />
+          </Key>
+          <Property Name="train_mode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_mode_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_training_type_tbl_list">
+          <Key>
+            <PropertyRef Name="train_type" />
+          </Key>
+          <Property Name="train_type" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="train_type_descr" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_KMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="training_empl_tbl" EntityType="Self.training_empl_tbl" />
+          <EntitySet Name="training_info_tbl" EntityType="Self.training_info_tbl" />
+          <EntitySet Name="training_mode_tbl" EntityType="Self.training_mode_tbl" />
+          <EntitySet Name="training_type_tbl" EntityType="Self.training_type_tbl" />
+          <EntitySet Name="vw_training_empl_tbl_list" EntityType="Self.vw_training_empl_tbl_list" />
+          <EntitySet Name="vw_training_empl_tbl_list_completed" EntityType="Self.vw_training_empl_tbl_list_completed" />
+          <EntitySet Name="vw_training_empl_tbl_list_not_started" EntityType="Self.vw_training_empl_tbl_list_not_started" />
+          <EntitySet Name="vw_training_info_tbl_list" EntityType="Self.vw_training_info_tbl_list" />
+          <EntitySet Name="vw_training_mode_tbl_list" EntityType="Self.vw_training_mode_tbl_list" />
+          <EntitySet Name="vw_training_type_tbl_list" EntityType="Self.vw_training_type_tbl_list" />
+          <FunctionImport Name="sp_training_type_tbl_list" ReturnType="Collection(HRIS_KMSModel.sp_training_type_tbl_list_Result)" />
+          <FunctionImport Name="sp_user_login_KMS" ReturnType="Collection(HRIS_KMSModel.sp_user_login_KMS_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_user_password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_user_menu_access_role_list_KMS" ReturnType="Collection(HRIS_KMSModel.sp_user_menu_access_role_list_KMS_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_training_type_tbl_list_Result">
+          <Property Type="String" Name="train_type" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="train_type_descr" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_user_login_KMS_Result">
+          <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="last_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="first_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="empl_photo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="211" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="Boolean" Name="locked_account" Nullable="true" />
+          <Property Type="Boolean" Name="change_password" Nullable="true" />
+          <Property Type="String" Name="log_in_flag" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="log_in_flag_descr" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="log_in_as_AO" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_user_menu_access_role_list_KMS_Result">
+          <Property Type="String" Name="user_id" Nullable="true" MaxLength="30" />
+          <Property Type="Int32" Name="status" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="true" />
+          <Property Type="String" Name="menu_name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="menu_id_link" Nullable="true" />
+          <Property Type="Int32" Name="menu_level" Nullable="true" />
+          <Property Type="String" Name="menu_icon" Nullable="true" MaxLength="150" />
+          <Property Type="Int32" Name="menu_sort_order" Nullable="true" />
+          <Property Type="String" Name="url_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="page_title" Nullable="true" MaxLength="150" />
+          <Property Type="Byte" Name="module_id" Nullable="true" />
+          <Property Type="String" Name="role_id" Nullable="false" MaxLength="3" />
+          <Property Type="Int32" Name="allow_add" Nullable="false" />
+          <Property Type="Int32" Name="allow_edit" Nullable="false" />
+          <Property Type="Int32" Name="allow_delete" Nullable="false" />
+          <Property Type="Int32" Name="allow_print" Nullable="false" />
+          <Property Type="Int32" Name="allow_view" Nullable="false" />
+          <Property Type="Int32" Name="allow_edit_history" Nullable="false" />
+          <Property Type="Int32" Name="favorites_mode" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_KMSModelStoreContainer" CdmEntityContainer="HRIS_KMSEntities">
+          <EntitySetMapping Name="training_empl_tbl">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.training_empl_tbl">
+              <MappingFragment StoreEntitySet="training_empl_tbl">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_dt_completed" ColumnName="train_dt_completed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="training_info_tbl">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.training_info_tbl">
+              <MappingFragment StoreEntitySet="training_info_tbl">
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_descr" ColumnName="train_descr" />
+                <ScalarProperty Name="train_descr_short" ColumnName="train_descr_short" />
+                <ScalarProperty Name="train_details" ColumnName="train_details" />
+                <ScalarProperty Name="train_link" ColumnName="train_link" />
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_dt_fr" ColumnName="train_dt_fr" />
+                <ScalarProperty Name="train_dt_to" ColumnName="train_dt_to" />
+                <ScalarProperty Name="train_dt_4completion" ColumnName="train_dt_4completion" />
+                <ScalarProperty Name="train_filename_vid" ColumnName="train_filename_vid" />
+                <ScalarProperty Name="train_filename_pdf" ColumnName="train_filename_pdf" />
+                <ScalarProperty Name="train_required" ColumnName="train_required" />
+                <ScalarProperty Name="train_coverage" ColumnName="train_coverage" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="training_mode_tbl">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.training_mode_tbl">
+              <MappingFragment StoreEntitySet="training_mode_tbl">
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="training_type_tbl">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.training_type_tbl">
+              <MappingFragment StoreEntitySet="training_type_tbl">
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_empl_tbl_list">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_empl_tbl_list">
+              <MappingFragment StoreEntitySet="vw_training_empl_tbl_list">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="train_dt_completed" ColumnName="train_dt_completed" />
+                <ScalarProperty Name="empl_train_status" ColumnName="empl_train_status" />
+                <ScalarProperty Name="empl_train_status_descr" ColumnName="empl_train_status_descr" />
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_descr" ColumnName="train_descr" />
+                <ScalarProperty Name="train_descr_short" ColumnName="train_descr_short" />
+                <ScalarProperty Name="train_details" ColumnName="train_details" />
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_coverage" ColumnName="train_coverage" />
+                <ScalarProperty Name="train_coverage_descr" ColumnName="train_coverage_descr" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
+                <ScalarProperty Name="train_year" ColumnName="train_year" />
+                <ScalarProperty Name="train_month" ColumnName="train_month" />
+                <ScalarProperty Name="train_dt_completion" ColumnName="train_dt_completion" />
+                <ScalarProperty Name="train_link" ColumnName="train_link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_empl_tbl_list_completed">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_empl_tbl_list_completed">
+              <MappingFragment StoreEntitySet="vw_training_empl_tbl_list_completed">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="train_dt_completed" ColumnName="train_dt_completed" />
+                <ScalarProperty Name="empl_train_status" ColumnName="empl_train_status" />
+                <ScalarProperty Name="empl_train_status_descr" ColumnName="empl_train_status_descr" />
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_descr" ColumnName="train_descr" />
+                <ScalarProperty Name="train_descr_short" ColumnName="train_descr_short" />
+                <ScalarProperty Name="train_details" ColumnName="train_details" />
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_filename_vid" ColumnName="train_filename_vid" />
+                <ScalarProperty Name="train_filename_pdf" ColumnName="train_filename_pdf" />
+                <ScalarProperty Name="train_coverage" ColumnName="train_coverage" />
+                <ScalarProperty Name="train_coverage_descr" ColumnName="train_coverage_descr" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
+                <ScalarProperty Name="train_year" ColumnName="train_year" />
+                <ScalarProperty Name="train_month" ColumnName="train_month" />
+                <ScalarProperty Name="train_dt_4completion" ColumnName="train_dt_4completion" />
+                <ScalarProperty Name="train_link" ColumnName="train_link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_empl_tbl_list_not_started">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_empl_tbl_list_not_started">
+              <MappingFragment StoreEntitySet="vw_training_empl_tbl_list_not_started">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="train_dt_completed" ColumnName="train_dt_completed" />
+                <ScalarProperty Name="empl_train_status" ColumnName="empl_train_status" />
+                <ScalarProperty Name="empl_train_status_descr" ColumnName="empl_train_status_descr" />
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_descr" ColumnName="train_descr" />
+                <ScalarProperty Name="train_descr_short" ColumnName="train_descr_short" />
+                <ScalarProperty Name="train_details" ColumnName="train_details" />
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_filename_vid" ColumnName="train_filename_vid" />
+                <ScalarProperty Name="train_filename_pdf" ColumnName="train_filename_pdf" />
+                <ScalarProperty Name="train_coverage" ColumnName="train_coverage" />
+                <ScalarProperty Name="train_coverage_descr" ColumnName="train_coverage_descr" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
+                <ScalarProperty Name="train_year" ColumnName="train_year" />
+                <ScalarProperty Name="train_month" ColumnName="train_month" />
+                <ScalarProperty Name="train_dt_4completion" ColumnName="train_dt_4completion" />
+                <ScalarProperty Name="train_link" ColumnName="train_link" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_info_tbl_list">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_info_tbl_list">
+              <MappingFragment StoreEntitySet="vw_training_info_tbl_list">
+                <ScalarProperty Name="train_code" ColumnName="train_code" />
+                <ScalarProperty Name="train_descr" ColumnName="train_descr" />
+                <ScalarProperty Name="train_descr_short" ColumnName="train_descr_short" />
+                <ScalarProperty Name="train_details" ColumnName="train_details" />
+                <ScalarProperty Name="train_link" ColumnName="train_link" />
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_dt_fr" ColumnName="train_dt_fr" />
+                <ScalarProperty Name="train_dt_to" ColumnName="train_dt_to" />
+                <ScalarProperty Name="train_dt_completion" ColumnName="train_dt_completion" />
+                <ScalarProperty Name="train_required" ColumnName="train_required" />
+                <ScalarProperty Name="train_required_descr" ColumnName="train_required_descr" />
+                <ScalarProperty Name="train_coverage" ColumnName="train_coverage" />
+                <ScalarProperty Name="train_coverage_descr" ColumnName="train_coverage_descr" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_mode_tbl_list">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_mode_tbl_list">
+              <MappingFragment StoreEntitySet="vw_training_mode_tbl_list">
+                <ScalarProperty Name="train_mode" ColumnName="train_mode" />
+                <ScalarProperty Name="train_mode_descr" ColumnName="train_mode_descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_training_type_tbl_list">
+            <EntityTypeMapping TypeName="HRIS_KMSModel.vw_training_type_tbl_list">
+              <MappingFragment StoreEntitySet="vw_training_type_tbl_list">
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_training_type_tbl_list" FunctionName="HRIS_KMSModel.Store.sp_training_type_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_KMSModel.sp_training_type_tbl_list_Result">
+                <ScalarProperty Name="train_type" ColumnName="train_type" />
+                <ScalarProperty Name="train_type_descr" ColumnName="train_type_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_user_login_KMS" FunctionName="HRIS_KMSModel.Store.sp_user_login_KMS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_KMSModel.sp_user_login_KMS_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="empl_photo" ColumnName="empl_photo" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="locked_account" ColumnName="locked_account" />
+                <ScalarProperty Name="change_password" ColumnName="change_password" />
+                <ScalarProperty Name="log_in_flag" ColumnName="log_in_flag" />
+                <ScalarProperty Name="log_in_flag_descr" ColumnName="log_in_flag_descr" />
+                <ScalarProperty Name="log_in_as_AO" ColumnName="log_in_as_AO" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_user_menu_access_role_list_KMS" FunctionName="HRIS_KMSModel.Store.sp_user_menu_access_role_list_KMS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_KMSModel.sp_user_menu_access_role_list_KMS_Result">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="menu_name" ColumnName="menu_name" />
+                <ScalarProperty Name="menu_id_link" ColumnName="menu_id_link" />
+                <ScalarProperty Name="menu_level" ColumnName="menu_level" />
+                <ScalarProperty Name="menu_icon" ColumnName="menu_icon" />
+                <ScalarProperty Name="menu_sort_order" ColumnName="menu_sort_order" />
+                <ScalarProperty Name="url_name" ColumnName="url_name" />
+                <ScalarProperty Name="page_title" ColumnName="page_title" />
+                <ScalarProperty Name="module_id" ColumnName="module_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="allow_add" ColumnName="allow_add" />
+                <ScalarProperty Name="allow_edit" ColumnName="allow_edit" />
+                <ScalarProperty Name="allow_delete" ColumnName="allow_delete" />
+                <ScalarProperty Name="allow_print" ColumnName="allow_print" />
+                <ScalarProperty Name="allow_view" ColumnName="allow_view" />
+                <ScalarProperty Name="allow_edit_history" ColumnName="allow_edit_history" />
+                <ScalarProperty Name="favorites_mode" ColumnName="favorites_mode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

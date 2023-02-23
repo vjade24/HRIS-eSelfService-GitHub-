@@ -1,0 +1,938 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRIS_HRDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="empl_jobfunddescr_dtl_tbl">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+            <PropertyRef Name="fjd_code" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fjd_code" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="fjd_descr" Type="varchar" MaxLength="255" />
+          <Property Name="fjd_flag" Type="bit" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="30" />
+          <Property Name="fjd_percent_weight" Type="money" />
+          <Property Name="fjd_type" Type="varchar" MaxLength="1" />
+          <Property Name="fjd_orig_added" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="empl_jobfunddescr_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="approval_id" Type="varchar" MaxLength="15" />
+          <Property Name="approval_status" Type="varchar" MaxLength="1" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="jobfunddescr_task_empl_tbl">
+          <Key>
+            <PropertyRef Name="task_ctrl_nbr" />
+            <PropertyRef Name="fjd_code" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="task_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="fjd_code" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="task_descr" Type="varchar" MaxLength="255" />
+          <Property Name="task_add_mode" Type="varchar" MaxLength="1" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="30" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HRIS_HRD.dbo.vw_empl_jd_pos' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_empl_jd_pos">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="division_code" />
+            <PropertyRef Name="division_name1" />
+            <PropertyRef Name="subdepartment_code" />
+            <PropertyRef Name="section_code" />
+            <PropertyRef Name="section_name1" />
+            <PropertyRef Name="approval_status" />
+            <PropertyRef Name="approval_status_descr" />
+            <PropertyRef Name="approval_id" />
+            <PropertyRef Name="action_x" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="department_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="department_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="division_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="division_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="subdepartment_code" Type="varchar" MaxLength="2" Nullable="false" />
+          <Property Name="section_code" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="section_name1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="position_code" Type="varchar" MaxLength="4" />
+          <Property Name="position_long_title" Type="varchar" MaxLength="255" />
+          <Property Name="employment_type" Type="varchar" MaxLength="2" />
+          <Property Name="employmenttype_description" Type="varchar" MaxLength="50" />
+          <Property Name="approval_status" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="approval_status_descr" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="approval_id" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="action_x" Type="varchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_add_to_common" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_fjd_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_ctrl_nbr" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_approval_status_hrd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_common_task_per_jobdescription_add_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_fjd_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_department_trans_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_transaction_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_jobfun_approval_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_division_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_approve_only" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_jobfunddescr_dtl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_status" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_jobfunddescr_hdr_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_applcode" Type="varchar" Mode="In" />
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_list_with_masterdata_list_hrd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_division_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_generate_appl_nbr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_table_name" Type="varchar" Mode="In" />
+          <Parameter Name="p_charlen" Type="int" Mode="In" />
+          <Parameter Name="P_column_name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_generate_appl_nbr_task" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_table_name" Type="varchar" Mode="In" />
+          <Parameter Name="p_charlen" Type="int" Mode="In" />
+          <Parameter Name="P_column_name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_generate_jobfunction_hdr_key_code" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_generate_key_jobfunc_dtl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_fjd_keycode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_common_jobfunddescr_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_division_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_applcode" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_get_employeemaster_information_hrd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_jobdescription_task_empl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_fjd_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_add_mode" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_jobfdn_employee_combo_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_budget_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_divion_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_validate_empl_job_percentage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_applcode" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_validate_employee_jobfunc_hdr_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_applcode" Type="varchar" Mode="In" />
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_division_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_budget_year" Type="varchar" Mode="In" />
+          <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_action" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_validate_jobfunc_hdr_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_division_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_section_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_position_code" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="HRIS_HRDModelStoreContainer">
+          <EntitySet Name="empl_jobfunddescr_dtl_tbl" EntityType="Self.empl_jobfunddescr_dtl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="empl_jobfunddescr_hdr_tbl" EntityType="Self.empl_jobfunddescr_hdr_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="jobfunddescr_task_empl_tbl" EntityType="Self.jobfunddescr_task_empl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_empl_jd_pos" EntityType="Self.vw_empl_jd_pos" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_empl_jd_pos].[empl_ctrl_nbr] AS [empl_ctrl_nbr], 
+    [vw_empl_jd_pos].[empl_id] AS [empl_id], 
+    [vw_empl_jd_pos].[department_code] AS [department_code], 
+    [vw_empl_jd_pos].[department_name1] AS [department_name1], 
+    [vw_empl_jd_pos].[division_code] AS [division_code], 
+    [vw_empl_jd_pos].[division_name1] AS [division_name1], 
+    [vw_empl_jd_pos].[subdepartment_code] AS [subdepartment_code], 
+    [vw_empl_jd_pos].[section_code] AS [section_code], 
+    [vw_empl_jd_pos].[section_name1] AS [section_name1], 
+    [vw_empl_jd_pos].[position_code] AS [position_code], 
+    [vw_empl_jd_pos].[position_long_title] AS [position_long_title], 
+    [vw_empl_jd_pos].[employment_type] AS [employment_type], 
+    [vw_empl_jd_pos].[employmenttype_description] AS [employmenttype_description], 
+    [vw_empl_jd_pos].[approval_status] AS [approval_status], 
+    [vw_empl_jd_pos].[approval_status_descr] AS [approval_status_descr], 
+    [vw_empl_jd_pos].[approval_id] AS [approval_id], 
+    [vw_empl_jd_pos].[action_x] AS [action_x]
+    FROM [dbo].[vw_empl_jd_pos] AS [vw_empl_jd_pos]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRIS_HRDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="empl_jobfunddescr_hdr_tbl">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="vw_empl_jd_pos">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+            <PropertyRef Name="empl_id" />
+            <PropertyRef Name="department_code" />
+            <PropertyRef Name="department_name1" />
+            <PropertyRef Name="division_code" />
+            <PropertyRef Name="division_name1" />
+            <PropertyRef Name="subdepartment_code" />
+            <PropertyRef Name="section_code" />
+            <PropertyRef Name="section_name1" />
+            <PropertyRef Name="approval_status" />
+            <PropertyRef Name="approval_status_descr" />
+            <PropertyRef Name="approval_id" />
+            <PropertyRef Name="action_x" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="empl_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="department_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="department_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="division_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="division_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="subdepartment_code" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="section_code" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="section_name1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="position_code" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="position_long_title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="employment_type" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="employmenttype_description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="approval_status_descr" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="approval_id" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="action_x" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="HRIS_HRDEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="empl_jobfunddescr_hdr_tbl" EntityType="Self.empl_jobfunddescr_hdr_tbl" />
+          <EntitySet Name="vw_empl_jd_pos" EntityType="Self.vw_empl_jd_pos" />
+          <FunctionImport Name="sp_employee_jobfunddescr_hdr_tbl" ReturnType="Collection(HRIS_HRDModel.sp_employee_jobfunddescr_hdr_tbl_Result)">
+            <Parameter Name="par_applcode" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_generate_appl_nbr" ReturnType="Collection(String)">
+            <Parameter Name="p_table_name" Mode="In" Type="String" />
+            <Parameter Name="p_charlen" Mode="In" Type="Int32" />
+            <Parameter Name="P_column_name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_generate_jobfunction_hdr_key_code" ReturnType="Collection(String)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_generate_key_jobfunc_dtl" ReturnType="Collection(String)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+            <Parameter Name="par_fjd_keycode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_employeemaster_information_hrd" ReturnType="Collection(HRIS_HRDModel.sp_get_employeemaster_information_hrd_Result)">
+          <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_jobfdn_employee_combo_list" ReturnType="Collection(HRIS_HRDModel.sp_jobfdn_employee_combo_list_Result)">
+            <Parameter Name="par_budget_code" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_divion_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_validate_employee_jobfunc_hdr_tbl" ReturnType="Collection(String)">
+            <Parameter Name="par_applcode" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_division_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+            <Parameter Name="par_budget_year" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_action" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_validate_jobfunc_hdr_tbl" ReturnType="Collection(String)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_division_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="empl_jobfunddescr_dtl_tbl" EntityType="HRIS_HRDModel.empl_jobfunddescr_dtl_tbl" />
+          <FunctionImport Name="sp_department_trans_list" ReturnType="Collection(HRIS_HRDModel.sp_department_trans_list_Result)">
+            <Parameter Name="par_transaction_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_get_common_jobfunddescr_list" ReturnType="Collection(HRIS_HRDModel.sp_get_common_jobfunddescr_list_Result)">
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_division_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+            <Parameter Name="par_applcode" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_validate_empl_job_percentage" ReturnType="Collection(HRIS_HRDModel.sp_validate_empl_job_percentage_Result)">
+          <Parameter Name="par_applcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_add_to_common" ReturnType="Collection(String)">
+            <Parameter Name="par_fjd_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_ctrl_nbr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_employee_jobfun_approval_list" ReturnType="Collection(HRIS_HRDModel.sp_employee_jobfun_approval_list_Result)">
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_division_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_approve_only" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_employee_list_with_masterdata_list_hrd" ReturnType="Collection(HRIS_HRDModel.sp_employee_list_with_masterdata_list_hrd_Result)">
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_division_code" Mode="In" Type="String" />
+            <Parameter Name="par_section_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_employee_jobfunddescr_dtl_tbl_list" ReturnType="Collection(HRIS_HRDModel.sp_employee_jobfunddescr_dtl_tbl_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_empl_status" Mode="In" Type="String" />
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_approval_status_hrd" ReturnType="Collection(HRIS_HRDModel.sp_approval_status_hrd_Result)">
+            <Parameter Name="par_position_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="jobfunddescr_task_empl_tbl" EntityType="HRIS_HRDModel.jobfunddescr_task_empl_tbl" />
+          <FunctionImport Name="sp_common_task_per_jobdescription_add_list" ReturnType="Collection(HRIS_HRDModel.sp_common_task_per_jobdescription_add_list_Result)">
+            <Parameter Name="par_fjd_code" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_generate_appl_nbr_task" ReturnType="Collection(String)">
+            <Parameter Name="p_table_name" Mode="In" Type="String" />
+            <Parameter Name="p_charlen" Mode="In" Type="Int32" />
+            <Parameter Name="P_column_name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_jobdescription_task_empl_tbl_list" ReturnType="Collection(HRIS_HRDModel.sp_jobdescription_task_empl_tbl_list_Result)">
+            <Parameter Name="par_fjd_code" Mode="In" Type="String" />
+            <Parameter Name="par_add_mode" Mode="In" Type="String" />
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_employee_jobfunddescr_hdr_tbl_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="applcode" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="6" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_get_employeemaster_information_hrd_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_jobfdn_employee_combo_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="empl_jobfunddescr_dtl_tbl">
+          <Key>
+            <PropertyRef Name="empl_ctrl_nbr" />
+            <PropertyRef Name="fjd_code" />
+          </Key>
+          <Property Name="empl_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_code" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_descr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_flag" Type="Boolean" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_percent_weight" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="fjd_type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_orig_added" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_department_trans_list_Result">
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_name2" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="transaction_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="workflow_authority" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_get_common_jobfunddescr_list_Result">
+          <Property Type="String" Name="applcode" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="fjd_code" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="fjd_descr" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="fjd_flag" Nullable="true" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="11" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="include_flag" Nullable="false" MaxLength="1" />
+          <Property Type="Decimal" Name="fjd_percent_weight" Nullable="true" Precision="19" />
+        </ComplexType>
+        <ComplexType Name="sp_validate_empl_job_percentage_Result">
+          <Property Type="Decimal" Name="total_percent" Nullable="true" Precision="19" />
+          <Property Type="String" Name="percent_status" Nullable="true" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_employee_jobfun_approval_list_Result">
+          <Property Type="String" Name="empl_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="worklist_action" Nullable="false" MaxLength="9" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="next_status" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_employee_list_with_masterdata_list_hrd_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="first_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="last_name" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="middle_name" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="suffix_name" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="division_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="section_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="position_long_title" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="employment_type" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="employmenttype_description" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_employee_jobfunddescr_dtl_tbl_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="division_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="subdepartment_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="section_code" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="position_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="applcode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="budget_code" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="created_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="true" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="fjd_code" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="fjd_descr" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="fjd_flag" Nullable="true" />
+          <Property Type="String" Name="created_by_dtl" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm_dtl" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by_dtl" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm_dtl" Nullable="true" Precision="23" />
+          <Property Type="Decimal" Name="fjd_percent_weight" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="fjd_percent_summary" Nullable="true" Precision="19" />
+          <Property Type="String" Name="fjd_orig_added" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="fjd_type" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_approval_status_hrd_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="position_code" Nullable="false" MaxLength="4" />
+        </ComplexType>
+        <EntityType Name="jobfunddescr_task_empl_tbl">
+          <Key>
+            <PropertyRef Name="task_ctrl_nbr" />
+            <PropertyRef Name="fjd_code" />
+            <PropertyRef Name="empl_id" />
+          </Key>
+          <Property Name="task_ctrl_nbr" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="fjd_code" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="task_descr" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="task_add_mode" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_common_task_per_jobdescription_add_list_Result">
+          <Property Type="String" Name="fjd_code" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="task_add_mode" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="task_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="task_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="task_action" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="sp_jobdescription_task_empl_tbl_list_Result">
+          <Property Type="String" Name="fjd_code" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="task_add_mode" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="task_ctrl_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="task_descr" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="updated_by" Nullable="false" MaxLength="30" />
+          <Property Type="DateTime" Name="updated_dttm" Nullable="true" Precision="23" />
+          <Property Type="String" Name="task_action" Nullable="false" MaxLength="1" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRIS_HRDModelStoreContainer" CdmEntityContainer="HRIS_HRDEntities">
+          <EntitySetMapping Name="empl_jobfunddescr_hdr_tbl">
+            <EntityTypeMapping TypeName="HRIS_HRDModel.empl_jobfunddescr_hdr_tbl">
+              <MappingFragment StoreEntitySet="empl_jobfunddescr_hdr_tbl">
+                <ScalarProperty Name="empl_ctrl_nbr" ColumnName="empl_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_empl_jd_pos">
+            <EntityTypeMapping TypeName="HRIS_HRDModel.vw_empl_jd_pos">
+              <MappingFragment StoreEntitySet="vw_empl_jd_pos">
+                <ScalarProperty Name="empl_ctrl_nbr" ColumnName="empl_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="action_x" ColumnName="action_x" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_jobfunddescr_hdr_tbl" FunctionName="HRIS_HRDModel.Store.sp_employee_jobfunddescr_hdr_tbl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_employee_jobfunddescr_hdr_tbl_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+                <ScalarProperty Name="applcode" ColumnName="applcode" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_generate_appl_nbr" FunctionName="HRIS_HRDModel.Store.sp_generate_appl_nbr" />
+          <FunctionImportMapping FunctionImportName="sp_generate_jobfunction_hdr_key_code" FunctionName="HRIS_HRDModel.Store.sp_generate_jobfunction_hdr_key_code" />
+          <FunctionImportMapping FunctionImportName="sp_generate_key_jobfunc_dtl" FunctionName="HRIS_HRDModel.Store.sp_generate_key_jobfunc_dtl" />
+          <FunctionImportMapping FunctionImportName="sp_get_employeemaster_information_hrd" FunctionName="HRIS_HRDModel.Store.sp_get_employeemaster_information_hrd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_get_employeemaster_information_hrd_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_jobfdn_employee_combo_list" FunctionName="HRIS_HRDModel.Store.sp_jobfdn_employee_combo_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_jobfdn_employee_combo_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_validate_employee_jobfunc_hdr_tbl" FunctionName="HRIS_HRDModel.Store.sp_validate_employee_jobfunc_hdr_tbl" />
+          <FunctionImportMapping FunctionImportName="sp_validate_jobfunc_hdr_tbl" FunctionName="HRIS_HRDModel.Store.sp_validate_jobfunc_hdr_tbl" />
+          <EntitySetMapping Name="empl_jobfunddescr_dtl_tbl">
+            <EntityTypeMapping TypeName="HRIS_HRDModel.empl_jobfunddescr_dtl_tbl">
+              <MappingFragment StoreEntitySet="empl_jobfunddescr_dtl_tbl">
+                <ScalarProperty Name="fjd_orig_added" ColumnName="fjd_orig_added" />
+                <ScalarProperty Name="fjd_type" ColumnName="fjd_type" />
+                <ScalarProperty Name="fjd_percent_weight" ColumnName="fjd_percent_weight" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="fjd_flag" ColumnName="fjd_flag" />
+                <ScalarProperty Name="fjd_descr" ColumnName="fjd_descr" />
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="empl_ctrl_nbr" ColumnName="empl_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_department_trans_list" FunctionName="HRIS_HRDModel.Store.sp_department_trans_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_department_trans_list_Result">
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_name2" ColumnName="department_name2" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="transaction_code" ColumnName="transaction_code" />
+                <ScalarProperty Name="workflow_authority" ColumnName="workflow_authority" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_get_common_jobfunddescr_list" FunctionName="HRIS_HRDModel.Store.sp_get_common_jobfunddescr_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_get_common_jobfunddescr_list_Result">
+                <ScalarProperty Name="applcode" ColumnName="applcode" />
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="fjd_descr" ColumnName="fjd_descr" />
+                <ScalarProperty Name="fjd_flag" ColumnName="fjd_flag" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="include_flag" ColumnName="include_flag" />
+                <ScalarProperty Name="fjd_percent_weight" ColumnName="fjd_percent_weight" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_validate_empl_job_percentage" FunctionName="HRIS_HRDModel.Store.sp_validate_empl_job_percentage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_validate_empl_job_percentage_Result">
+                <ScalarProperty Name="total_percent" ColumnName="total_percent" />
+                <ScalarProperty Name="percent_status" ColumnName="percent_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_add_to_common" FunctionName="HRIS_HRDModel.Store.sp_add_to_common" />
+          <FunctionImportMapping FunctionImportName="sp_employee_jobfun_approval_list" FunctionName="HRIS_HRDModel.Store.sp_employee_jobfun_approval_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_employee_jobfun_approval_list_Result">
+                <ScalarProperty Name="empl_ctrl_nbr" ColumnName="empl_ctrl_nbr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+                <ScalarProperty Name="worklist_action" ColumnName="worklist_action" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="next_status" ColumnName="next_status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_list_with_masterdata_list_hrd" FunctionName="HRIS_HRDModel.Store.sp_employee_list_with_masterdata_list_hrd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_employee_list_with_masterdata_list_hrd_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="middle_name" ColumnName="middle_name" />
+                <ScalarProperty Name="suffix_name" ColumnName="suffix_name" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="division_name1" ColumnName="division_name1" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="section_name1" ColumnName="section_name1" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="position_long_title" ColumnName="position_long_title" />
+                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
+                <ScalarProperty Name="employmenttype_description" ColumnName="employmenttype_description" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_jobfunddescr_dtl_tbl_list" FunctionName="HRIS_HRDModel.Store.sp_employee_jobfunddescr_dtl_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_employee_jobfunddescr_dtl_tbl_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="division_code" ColumnName="division_code" />
+                <ScalarProperty Name="subdepartment_code" ColumnName="subdepartment_code" />
+                <ScalarProperty Name="section_code" ColumnName="section_code" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+                <ScalarProperty Name="applcode" ColumnName="applcode" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="budget_code" ColumnName="budget_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="fjd_descr" ColumnName="fjd_descr" />
+                <ScalarProperty Name="fjd_flag" ColumnName="fjd_flag" />
+                <ScalarProperty Name="created_by_dtl" ColumnName="created_by_dtl" />
+                <ScalarProperty Name="created_dttm_dtl" ColumnName="created_dttm_dtl" />
+                <ScalarProperty Name="updated_by_dtl" ColumnName="updated_by_dtl" />
+                <ScalarProperty Name="updated_dttm_dtl" ColumnName="updated_dttm_dtl" />
+                <ScalarProperty Name="fjd_percent_weight" ColumnName="fjd_percent_weight" />
+                <ScalarProperty Name="fjd_percent_summary" ColumnName="fjd_percent_summary" />
+                <ScalarProperty Name="fjd_orig_added" ColumnName="fjd_orig_added" />
+                <ScalarProperty Name="fjd_type" ColumnName="fjd_type" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_approval_status_hrd" FunctionName="HRIS_HRDModel.Store.sp_approval_status_hrd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_approval_status_hrd_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="position_code" ColumnName="position_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="jobfunddescr_task_empl_tbl">
+            <EntityTypeMapping TypeName="HRIS_HRDModel.jobfunddescr_task_empl_tbl">
+              <MappingFragment StoreEntitySet="jobfunddescr_task_empl_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="task_add_mode" ColumnName="task_add_mode" />
+                <ScalarProperty Name="task_descr" ColumnName="task_descr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="task_ctrl_nbr" ColumnName="task_ctrl_nbr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_common_task_per_jobdescription_add_list" FunctionName="HRIS_HRDModel.Store.sp_common_task_per_jobdescription_add_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_common_task_per_jobdescription_add_list_Result">
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="task_add_mode" ColumnName="task_add_mode" />
+                <ScalarProperty Name="task_ctrl_nbr" ColumnName="task_ctrl_nbr" />
+                <ScalarProperty Name="task_descr" ColumnName="task_descr" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="task_action" ColumnName="task_action" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_generate_appl_nbr_task" FunctionName="HRIS_HRDModel.Store.sp_generate_appl_nbr_task" />
+          <FunctionImportMapping FunctionImportName="sp_jobdescription_task_empl_tbl_list" FunctionName="HRIS_HRDModel.Store.sp_jobdescription_task_empl_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_HRDModel.sp_jobdescription_task_empl_tbl_list_Result">
+                <ScalarProperty Name="fjd_code" ColumnName="fjd_code" />
+                <ScalarProperty Name="task_add_mode" ColumnName="task_add_mode" />
+                <ScalarProperty Name="task_ctrl_nbr" ColumnName="task_ctrl_nbr" />
+                <ScalarProperty Name="task_descr" ColumnName="task_descr" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="task_action" ColumnName="task_action" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

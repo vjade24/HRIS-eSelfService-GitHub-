@@ -1,0 +1,186 @@
+﻿@*@{
+    ViewBag.Title = "Index";
+}*@
+
+<script src="~/Angular/ng-cMainPage.js?v=3"></script>
+<style>
+    .row-height {
+        height: 40px !important;
+    }
+
+    .imgProfile {
+        border-radius: 50%;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: auto;
+        min-height: 80px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .table > thead > tr > th {
+        background-color: transparent !important;
+        color: #676a6c !important;
+        font-weight: bold;  
+    }
+    .table.dataTable.no-footer {
+        border-bottom-color: rgb(221, 221, 221);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+    }
+
+    .table > tbody > tr > td {
+        color: #ed5565 !important;
+        font-weight: bold;
+    }
+
+    .modalXbtn {
+        width: 40px !important;
+        height: 40px !important;
+        background-color: red !important;
+        border-radius: 50% !important;
+        margin-top: -30px !important;
+        margin-right: -30px !important;
+        float: right !important;
+        color: white !important;
+        text-align: center !important;
+        vertical-align: central !important;
+    }
+
+    .XIcon {
+      
+        font-size: 30px !important;
+      
+    }
+
+    .para {
+        font-size: 20px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .announce-body {
+        background-color: white !important;
+        border-radius: 10px !important;
+        padding: 10px !important;
+    }
+
+    .hrline {
+        border-bottom: 2px solid black !important;
+    }
+    
+
+</style>
+<div class="animated fadeInDown" ng-app="ng_eSelfService_App" ng-controller="cMainPageCtrlr">
+
+    <!-- AS Alert Modal -->
+    @*<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header red-bg" style="padding:15px 10px 15px 10px;margin:0px;">
+                    <span class="fa fa-times pull-right" data-dismiss="modal" style="cursor:pointer;"></span>
+                    <h4 class="modal-title"><span class="fa fa-warning"></span> Needs Action!</h4>
+                </div>
+                <div class="modal-body" style="padding:0px;margin:0px;">
+                    <div class="row" style="padding:10px;margin:0px;">
+                        <div class="col-lg-12">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                <table class="table table-striped" id="datalist_grid" ng-model="datalist_grid">
+                                    <thead>
+                                        <tr>
+                                            <th width="22%">DATE</th>
+                                            <th width="12%">AM IN</th>
+                                            <th width="17%">AM OUT</th>
+                                            <th width="12%">PM IN</th>
+                                            <th width="17%">PM OUT</th>
+                                            <th width="20%">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-4" ng-repeat="lst1 in MenuList" ng-if="lst1.menu_level == 1 && lst1.menu_level ">
+                <div class="ibox">
+                    <div class="ibox-title" style="cursor:pointer;">
+
+                        <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst1)">{{lst1.menu_name}}<span class=""></span></a>
+
+                        <a ng-if="lst1.hasUrl == 0" ng-click="collapse(lst1.isOpen,lst1.id,lst1.hasUrl)" class="text-muted">
+                            <h5>{{lst1.page_title}}</h5>
+                            <span ng-show="!lst1.isOpen" class="fa fa-angle-right pull-right"></span>
+                            <span ng-show="lst1.isOpen" class="fa fa-angle-down pull-right"></span>
+                        </a>
+                        <br />
+                        <ul class="tranx nav" ng-show="lst1.isOpen" style="position:absolute !important;z-index:9999;background-color:white !important;float:right !important;width:90% !important;right: 15px;color:dodgerblue !important">
+                            <li ng-repeat="lst2 in MenuList" ng-if="lst2.menu_level == 2 && lst2.menu_id_link == lst1.id ">
+                                <a ng-if="lst2.hasUrl == 1" href="" ng-click="setActive(lst2)">{{lst2.menu_name}}<span class=""></span></a>
+                                <a ng-if="lst2.hasUrl == 0" ng-click="collapse(lst2.isOpen,lst2.id,lst2.hasUrl)">
+                                    {{lst2.menu_name}}
+                                    <span ng-show="!lst2.isOpen" class="fa fa-angle-right pull-right"></span>
+                                    <span ng-show="lst2.isOpen" class="fa fa-angle-down pull-right"></span>
+                                </a>
+                                <ul class=" nav nav-third-level" ng-show="lst2.isOpen">
+                                    <li ng-repeat="lst3 in MenuList" ng-if="lst3.menu_level == 3 && lst2.id == lst3.menu_id_link ">
+                                        <a href="" ng-click="setActive(lst3)">{{lst3.menu_name}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="widget style1 navy-bg">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <i class="{{lst1.menu_icon}} fa-4x"></i>
+                                </div>
+                                <div class="col-xs-8 text-right">
+                                    <span> {{lst1.page_title}} </span><br />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal inmodal" id="announcement_modal"  tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content animated tada" style="background-color: #273A4A;border-radius:20px !important;" id="modal_content">
+                <div class="modal-header">
+
+                    <i class="fa fa-bullhorn modal-icon"></i>
+                    <h4 class="modal-title text-white">Announcement</h4>
+                    <small style="color: #369AFD;font-size:11pt;font-weight:bold;">Human Resource</small><small style="color: #FE6500;font-size:11pt;font-weight:bold;"> Information System</small>
+                </div>
+                <div class="modal-body">
+                    <div class="row" ng-repeat="l in announcement">
+                        <div class="col-lg-12 col-xs-12 col-sm-12 col-md-12 ">
+                            <p class="para hrline" style="font-size: 14px !important;text-align:justify !important">{{l.rec_no}}. {{l.announcement}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-rounded center-block" data-dismiss="modal">Got it</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

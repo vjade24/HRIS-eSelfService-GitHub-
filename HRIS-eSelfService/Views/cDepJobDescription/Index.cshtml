@@ -1,0 +1,428 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+    /*#addPlantilla {
+        background-color: #6e4203; 
+        background-image: linear-gradient(#6e4203, #dba828);
+    }*/
+</style>
+<script src="~/Angular/ng-cDepJobDescription.js"></script>
+<section ng-app="ng_selfService_App" ng-controller="cDepJobDescription_Ctrl">
+
+    <div class="modal fade" id="print_preview_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
+                </div>
+                <div class="modal-body with-background text-center" style="padding-bottom:15px;">
+                    <div class="form-horizontal">
+                        <div class="row margin-top">
+                            <div id="iframe_content" class="col-md-12">
+                                <center>
+                                    <iframe id="ReportFrame" style="border:10px #ffffff;" name="ReportFrame" height="480vh" width="100%"></iframe>
+                                </center>
+                                <div id="loading_r" style="position:absolute;z-index:999;top:30%;width:100%;">
+                                    <center>
+                                        <div class="spiner-example">
+                                            <div class="sk-spinner sk-spinner-chasing-dots">
+                                                <div class="sk-dot1"></div>
+                                                <div class="sk-dot2"></div>
+                                            </div>
+                                        </div>
+                                        <h2><b>{{generate_message}}</b></h2>
+                                        <label class="text-right"><i class="fa fa-info-circle"></i><small> If it takes too long, you can refresh the page by Pressing Ctrl +F5 Key at the same Time.</small></label>
+                                    </center>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="task_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{TaskModalTitle}}</h4>
+                </div>
+                <div class="modal-body" style="padding:5px 15px !important;background-color:white;">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <strong><span class="pull-left" style="margin-top:9px;">Position :&nbsp;</span></strong>
+                            <div style="width:88.8%;float:right;">
+                                <input class="form-control" ng-model="txtb_position" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px; margin-bottom:5px;" />
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <strong><span class="pull-left" style="margin-top:9px;">Search :</span></strong>
+                            <div style="width:88.8%;float:right;">
+                                <input type="search" class="form-control" style="color:black;" ng-model="search_box_task" ng-keyup="search_in_list(search_box_task,'datalist_task_grid')" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <button id="add" ng-show="allow_for_this_page" ng-disabled="isSubmitted" class="btn btn-success font-bold" ng-click="btn_add_click()"><i class="fa fa-plus-circle"> </i> Add</button>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-12">
+                            <table id="datalist_task_grid" ng-model="datalist_task_grid" class="table table-striped table-bordered table-hover  table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th width="11%">CTRL #</th>
+                                        <th width="75%">JOB DESCRIPTION</th>
+                                        <th width="5%">WEIGHT</th>
+                                        <th width="9%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 15px 10px 15px !important">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row" style="margin-top:3px;">
+                        <div class="col-sm-3">
+                            <label style="margin-top:7px;"><b>Position</b><small style="color:red">*</small><b>:</b></label>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="form-control" ng-model="txtb_position" ng-disabled="true" />
+                            <label class="lbl_required" id="lbl_txtb_position_val_add_req"></label>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:5px;border-color:black;" />
+                    <div class="row" ng-hide="true">
+                        <div class="col-sm-7">
+                            <label style="margin-top:7px;"><b>Ctrl #</b><small style="color:red">*</small><b>:</b></label>
+                            <div style="float:right;width:53.2%;">
+                                <input class="form-control" id="txtb_fjd_code" ng-model="txtb_fjd_code" ng-disabled="true" />
+                                <label class="lbl_required" id="lbl_txtb_fjd_code_req"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:3px;">
+                        <div class="col-sm-7">
+                            <label style="margin-top:7px;"><b>F.J.D Type</b><small style="color:red">*</small><b>:</b></label>
+                            <div style="float:right;width:53.2%;">
+                                <select class="form-control field-select-sm" id="ddl_fjd_type" ng-model="ddl_fjd_type" ng-disabled="!editTable">
+                                    <option value="">--Select Here----</option>
+                                    <option value="C">Core </option>
+                                    <option value="L">Leadership </option>
+                                    <option value="F">Functional </option>
+                                    <option value="T">Technical </option>
+                                </select>
+                                <label class="lbl_required" id="lbl_ddl_fjd_type_req"></label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <label style="margin-top:7px;"><b>Percent Weight</b><small style="color:red">*</small><b>:</b></label>
+                            <div style="float:right;width:40.5%;">
+                                <input class="form-control text-right" id="txtb_percent_weight" placeholder="0.00" ng-model="txtb_percent_weight" ng-disabled="(!editTable && !editPercent)" />
+                                <label class="lbl_required" id="lbl_txtb_percent_weight_req"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:3px;">
+                        <div class="col-sm-3" style="padding-right:0px;">
+                            <label style="margin-top:7px;"><b>Job Description</b><small style="color:red">*</small><b>:</b></label>
+                        </div>
+                        <div class="col-sm-9">
+                            <textarea class="form-control " id="txtb_function_description" ng-disabled="!editTable" ng-model="txtb_function_description"></textarea>
+                            <label class="lbl_required" id="lbl_txtb_function_description_req"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button id="addFinal" ng-show="isAdd && allow_for_this_page" ng-click="btn_save_click('A')" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    <button id="edit" ng-show="(!isAdd) &&  allow_for_this_page " ng-click="btn_save_click('U')" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="position_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <strong><span class="pull-left" style="margin-top:9px;">Department :&nbsp;</span></strong>
+                            <div style="width:83.1%;float:right;">
+                                <input class="form-control field-select-sm" id="ddl_department_val_descr" ng-model="ddl_department_val_descr" ng-disabled="true" />
+                                <label class="lbl_required" id="lbl_ddl_department_val_descr_req"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="false" style="margin-top:4px;">
+                        <div class="col-lg-12">
+                            <strong><span class="pull-left" style="margin-top:9px;">Division :&nbsp;</span></strong>
+                            <div style="width:83.1%;float:right;">
+                                <input class="form-control field-select-sm" id="ddl_division_val_descr" ng-model="ddl_division_val_descr" ng-disabled="true" />
+                                <label class="lbl_required" id="lbl_ddl_division_val_req"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"  ng-show="false" style="margin-top:4px;">
+                        <div class="col-lg-12">
+                            <strong><span class="pull-left" style="margin-top:9px;">Section :&nbsp;</span></strong>
+                            <div style="width:83.1%;float:right;">
+                                <input class="form-control field-select-sm" id="ddl_section_val_descr" ng-model="ddl_section_val_descr" ng-disabled="true" />
+                                <label class="lbl_required" id="lbl_ddl_section_val_descr_req"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:5px;border-color:black;" />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <strong><span class="pull-left" style="margin-top:9px;">Position :&nbsp;</span></strong>
+                            <div style="width:83.1%;float:right;">
+                                <input class="form-control" ng-show="!isAddPos" ng-model="txtb_position" ng-disabled="true" />
+                                <select class="select2_demo_3 form-control" ng-show="isAddPos" id="ddl_positions" ng-model="ddl_positions" style="width:100%;">
+                                    <option value="">--Select Here--</option>
+                                    <option ng-repeat="lst in positions_list track by $index" value="{{lst.position_code}}">{{lst.position_title1}}</option>
+                                </select>
+                                <label id="lbl_ddl_positions_req" class="lbl_required"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button id="addFinalPosition" ng-show="isAddPos" ng-click="btn_save_postion_click('A')" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="warning_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header add-icon add-edit-modal text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exchange_modal_title">{{Modal_title}}</h4>
+                </div>
+                <div class="modal-body with-background text-center" style="padding-bottom:15px;">
+                    <div class="form-horizontal">
+                        <div class="row margin-top">
+                            <div id="iframe_content" class="col-md-12">
+                                <center>
+                                    <iframe id="ReportFrame" style="border:10px #ffffff;" name="ReportFrame" height="480vh" width="100%"></iframe>
+                                </center>
+                                <div id="loading_r" style="position:absolute;z-index:999;top:30%;width:100%;">
+                                    <center>
+                                        <h2><i class="fa fa-info-circle"></i></h2>
+                                        <h2><b>Welcome to this Page.</b></h2><br>
+                                    </center>
+                                    <h3><b>You can only View Positions under your department and each Job Functions.</b></h3>
+                                    <h3><b>You are not authorize to ADD, EDIT OR DELETE any entry for this page.</b></h3>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer center">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">OK!</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title blue-bg">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-7">
+                            <input type="search" class="form-control" style="color:black;" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                        </div>
+                        <div class="col-lg-2 text-right">
+                            <button id="addPlantilla" ng-show="allow_for_this_page && false" ng-disabled="isSubmitted" class="btn btn-warning font-bold" ng-click="btn_add_position()"><i class="fa fa-plus-circle"> </i> Add Position</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="padding-right:0px;">
+                                <div style="float:left;width:100%;">
+                                    <strong><span class="pull-left" style="margin-top:9px;">Show&nbsp;</span></strong>
+                                    <select class="form-control field-select-sm" style="width:40%;float:left;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                        <option value="5">5</option>
+                                        <option value="10" selected>10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <strong><span class="pull-left" style="float:left;margin-top:9px;">&nbsp;entries</span></strong>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <strong><span class="pull-left" style="margin-top:9px;">Budget Year:&nbsp;</span></strong>
+                                <div style="width:63%;float:right;">
+                                    <select class="form-control field-select-sm" id="ddl_budget_year" ng-model="ddl_budget_year" ng-change="getDataGrid_list()">
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="lst in budge_years track by $index" ngx-id="{{$index}}" value="{{lst.budget_code}}">{{lst.budget_description}}</option>
+                                    </select>
+                                    <label class="lbl_required" id="lbl_ddl_employmenttype_val_req"></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong><span class="pull-left" style="margin-top:9px;">Employment Type :&nbsp;</span></strong>
+                                <div style="width:55%;float:right;">
+                                    <select class="form-control field-select-sm" id="ddl_employmenttype_val" ng-model="ddl_employmenttype_val" ng-change="getDataGrid_list()">
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="lst in empl_type_list track by $index" ngx-id="{{$index}}" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                    </select>
+                                    <label class="lbl_required" id="lbl_ddl_employmenttype_val_req"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px;">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-7">
+                                <strong><span class="pull-left" style="margin-top:9px;">Department :&nbsp;</span></strong>
+                                <div style="width:85%;float:right;">
+                                    <input class="form-control field-select-sm" id="ddl_department_val_descr" ng-show="!ifHR" ng-model="ddl_department_val_descr" ng-disabled="true" />
+                                    <select class="form-control field-select-sm" id="ddl_dep" ng-show="ifHR" ng-model="ddl_dep" ng-change="getDataGrid_list()">
+                                        <option value="">--Select Here--</option>
+                                        <option ng-repeat="lst in department_list track by $index" ngx-id="{{$index}}" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                    </select>
+                                    <label class="lbl_required" id="lbl_ddl_department_val_descr_req"></label>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row" style="margin-top:4px;">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-9">
+                                    <strong><span class="pull-left" style="margin-top:9px;">Division :&nbsp;</span></strong>
+                                    <div style="width:83.1%;float:right;">
+                                        <input class="form-control field-select-sm" id="ddl_division_val_descr" ng-model="ddl_division_val_descr" ng-disabled="true" />
+                                        <label class="lbl_required" id="lbl_ddl_division_val_req"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:4px;">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-9">
+                                    <strong><span class="pull-left" style="margin-top:9px;">Section :&nbsp;</span></strong>
+                                    <div style="width:83.1%;float:right;">
+                                        <input class="form-control field-select-sm" id="ddl_section_val_descr" ng-model="ddl_section_val_descr" ng-disabled="true" />
+                                        <label class="lbl_required" id="lbl_ddl_section_val_descr_req"></label>
+                                    </div>
+                                </div>
+                            </div>*@
+                        @*<hr style="margin-top:5px !important;margin-bottom:5px !important;" />
+                            <div class="row" style="margin-top:2px;">
+                                <div class="col-lg-3">
+                                </div>
+                                <div class="col-lg-5 col-md-2 col-sm-2">
+                                    <strong><span class="pull-left" style="margin-top:9px;">Employment Type:&nbsp;</span></strong>
+                                    <div style="width:68.7%;float:right;">
+                                        <select class="form-control field-select-sm" id="ddl_employmenttype_val" ng-model="ddl_employmenttype_val" ng-change="ddl_employmenttype_val_change()">
+                                            <option value="">--Select Here--</option>
+                                            <option ng-repeat="lst in empl_type_list track by $index" ngx-id="{{$index}}" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                        </select>
+                                        <label class="lbl_required" id="lbl_ddl_employmenttype_val_req"></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 text-right">*@
+                        @*<button id="btn_print" ng-show="allowAdd" ng-disabled="!allowPrint" class="btn btn-primary font-bold" ng-click="btn_print_click()"><i class="fa fa-print"> </i> Print</button>*@
+                        @*<button id="addCommon" ng-show="allowAdd" ng-disabled="isSubmitted" class="btn btn-success font-bold" ng-click="btn_addcommon_click()"><i class="fa fa-plus-circle"> </i> Add From Common</button>
+                        *@
+                        @*<button id="add" ng-show="allowAdd" ng-disabled="isSubmitted" class="btn btn-success font-bold" ng-click="btn_add_click()"><i class="fa fa-plus-circle"> </i> Add</button>*@
+                        @*<div class="btn-group">
+                                <button data-toggle="dropdown" ng-show="allowAdd" ng-disabled="isSubmitted" class="btn btn-success dropdown-toggle" aria-expanded="true"><i class="fa fa-plus-circle"></i> Add Function <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a ng-click="btn_add_click()" class="font-bold">Add Function Manually</a></li>
+                                    <li><a ng-click="btn_addcommon_click()" class="font-bold">Add From Common</a></li>
+                                </ul>
+                            </div>*@
+                        @*</div>
+                            </div>*@
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-12 table-responsive">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th width="5%"> ITEM NO</th>
+                                        <th width="50%">POSITIONS UNDER DEPARTMENT</th>
+                                        <th width="29%">ASSIGNMENT</th>
+                                        <th width="8%">TOTAL WEIGHT</th>
+                                        <th width="8%">ACTION  </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

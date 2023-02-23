@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b0e530d877f444b1bea30ed7e874bfc1" Name="Diagram1" ZoomLevel="67">
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_route_funds_tbl" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_route_tbl" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_route_users_tbl" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_tracking_link_tbl" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_tracking_nbrs_tbl" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_tracking_tbl" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.document_type_tbl" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_cashadv_fund_sub_tbl_TRK" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_cashadv_list" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_department_tbl_list_TRK" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_document_tracking_link_tbl" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_document_tracking_tbl_2be_rcvd_07" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_document_tracking_tbl_2be_rcvd_oth" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_document_tracking_tbl_2be_rlsd_03" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_document_tracking_tbl_2be_rlsd_07" Width="1.5" PointX="6.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_payregistry_CA_info_list" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_payrollemployeegroupings_HRIS_TRK" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_payrollregistry_info2_HRIS_TRK" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.modules_assign_tbl" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.tck_log_tbl" Width="1.5" PointX="13.375" PointY="6.75" />
+        <EntityTypeShape EntityType="HRIS_TRKModel.vw_modules_assign_tbl" Width="1.5" PointX="5.375" PointY="7.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

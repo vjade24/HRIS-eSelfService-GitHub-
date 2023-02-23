@@ -1,0 +1,722 @@
+﻿@*
+    ****Page Created by     :   Lorraine I. Ale
+    ****Page Started date   :   04/03/2020
+    ****Page Description    :   This page is allow to view/add/edit/delete cash advance fund.
+*@
+
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .approved-bg {
+        color: #1C84C6;
+    }
+
+    .cancel-bg {
+        color: #EC4758;
+    }
+
+    .disapproved-bg {
+        color: #D62728;
+    }
+
+    .new-bg {
+        color: #1AB394;
+    }
+
+    .reviewed-bg {
+        color: #00C5DA;
+    }
+
+    .submitted-bg {
+        color: #F8AC59;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        #btn-text_action {
+            display: none !important;
+        }
+
+        .btn {
+            width: 100% !important;
+        }
+
+        #btn-icon_action {
+            display: block !important;
+        }
+
+        .my-custom-scrollbar-2 {
+            position: relative;
+            overflow: auto !important;
+        }
+
+        .navbar-header {
+            width: 20% !important;
+            padding-right: 20px !important;
+        }
+
+        .padding-adjust-left {
+            position: relative !important;
+            min-height: 1px !important;
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .mt-adjust-top {
+            margin-top: 3px !important;
+        }
+
+        #page-wrapper {
+            position: inherit;
+            margin: 0 0 0 0;
+            min-height: 1000px;
+        }
+
+        .form-control, form-control-sm {
+            font-size: 12px !important;
+        }
+
+        .top-navigation .navbar-header {
+            display: block;
+            float: none;
+        }
+
+        .padding_unset {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .m-t-xs {
+            margin-top: 3px !important;
+        }
+
+        .div_100 {
+            width: 100% !important;
+        }
+
+        .table-wrapper-scroll-y, my-custom-scrollbar-2 {
+            height: 300px !important;
+        }
+
+        .modal-dialog, modal-lg {
+            width: 80% !important;
+            margin: 0px !important;
+        }
+
+        .li_check {
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            top: -10% !important;
+        }
+
+        .fc-scroller.fc-day-grid-container {
+            height: 100% !important;
+        }
+
+
+        thead tr th {
+            font-size: 11px !important;
+        }
+
+        tbody tr td {
+            font-size: 12px !important;
+        }
+    }
+</style>
+<script src="~/Angular/ng-cATSFLPlanAppr.js"></script>
+<section ng-app="ng_selfService_App" ng-controller="cATSFLPlanAppr_ctrlr">
+    <!-- Modal Loading -->
+    <div class="modal fade" id="modal_generating_remittance" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+        <div class="modal-dialog modal-force-center modal-md">
+            <div class="modal-dialog text-center">
+                @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+                <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                    <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                        <div class="sk-circle1 sk-circle"></div>
+                        <div class="sk-circle2 sk-circle"></div>
+                        <div class="sk-circle3 sk-circle"></div>
+                        <div class="sk-circle4 sk-circle"></div>
+                        <div class="sk-circle5 sk-circle"></div>
+                        <div class="sk-circle6 sk-circle"></div>
+                        <div class="sk-circle7 sk-circle"></div>
+                        <div class="sk-circle8 sk-circle"></div>
+                        <div class="sk-circle9 sk-circle"></div>
+                        <div class="sk-circle10 sk-circle"></div>
+                        <div class="sk-circle11 sk-circle"></div>
+                        <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="main_modal_fl_list" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">Force Leave Plan List</h4>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <input type="search" class="form-control" ng-model="search_box_fl" ng-keyup="search_in_list(search_box_fl,'datalistgrid_fl_hdr')" placeholder="Search ....">
+                        </div>
+                        <div class="col-lg-3 text-right">
+                            <button class="btn btn-primary" ng-click="btn_add_fl_hdr()"><i class="fa fa-plus-square-o"></i> Add New Report</button>
+                        </div>
+                        <div class="col-lg-12 m-t-sm">
+                            <table id="datalistgrid_fl_hdr" ng-model="datalistgrid_fl_hdr" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">YEAR</th>
+                                        <th width="10%">CTRL NO</th>
+                                        <th width="20%">OFFICE</th>
+                                        <th width="5%">COUNT</th>
+                                        <th width="30%">STATUS</th>
+                                        <th width="25%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="main_modal_fl_dtl" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">Employee with Force Leave Plan</h4>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+
+                        <div class="col-lg-2">
+                            <label>Ctrl No:</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <input class="form-control" id="fl_plan_rep_ctrlno_add_dtl" ng-model="fl_plan_rep_ctrlno_add_dtl" disabled />
+                        </div>
+                        <div class="col-lg-1">
+                            <label>Year:</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="form-control" id="fl_plan_rep_year_add_dtl" ng-model="fl_plan_rep_year_add_dtl" disabled />
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr />
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalistgrid_fl_dtl')" placeholder="Search ....">
+                        </div>
+                        <div class="col-lg-12 m-t-sm">
+
+                            @*<button class="btn btn-primary btn-block" ng-click="btn_select_all()"> Select All </button>*@
+                            <table id="datalistgrid_fl_dtl" ng-model="datalistgrid_fl_dtl" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+                                        <th>ID NO</th>
+                                        <th>NAME</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="main_modal_fl_add" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md ">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">Employee with Force Leave Plan</h4>
+                </div>
+                <div class="modal-body with-background">
+                    <div class="row">
+
+                        <div class="col-lg-9">
+                            <div class="form-grop row">
+                                <div class="col-lg-12">
+                                    <label>Ctrl No:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control" id="fl_plan_rep_ctrlno" ng-model="fl_plan_rep_ctrlno" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Year:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="fl_plan_rep_year" ng-model="fl_plan_rep_year" disabled>
+                                        <option ng-repeat="l in year" value="{{l.year}}">{{l.year}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <label>Department:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="ddl_dept_fl_plan" ng-model="ddl_dept_fl_plan" ng-disabled="dis_dept_fl_plan">
+                                        <option value="" selected>--Select Here--</option>
+                                        <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Division:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="ddl_div_fl_plan" ng-model="ddl_div_fl_plan" ng-disabled="dis_dept_fl_plan">
+                                        <option value="" selected>--Select Here--</option>
+                                        <option ng-repeat="lst in div_list" value="{{lst.division_code}}">{{lst.division_name1}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-12">
+                                    <hr />
+                                    <label>Prepared By:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control " id="prepared_name" ng-model="prepared_name" maxlength="150" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Prepared By Designation:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control " id="prepare_desig" ng-model="prepare_desig" maxlength="150" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Approved By:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control " id="approved_name" ng-model="approved_name" maxlength="150" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <label>Approved By Designation:</label>
+                                </div>
+                                <div class="col-lg-12">
+                                    <input class="form-control " id="approved_desig" ng-model="approved_desig" maxlength="150" />
+                                </div>
+                                <div class="col-lg-12">
+                                    <hr />
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> <i class="fa fa-history"></i> History</a>
+                                    </h5>
+
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse">
+                                    <div class="col-lg-12">
+                                        <hr />
+                                        <label>Created By:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="created_employee_name" ng-model="created_employee_name" disabled />
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Created Date/Time:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="user_created_dttm" ng-model="user_created_dttm" disabled />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label>Released By:</label>
+
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="user_id_rlsd_employee_name" ng-model="user_id_rlsd_employee_name" disabled />
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Released Date/Time:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="rlsd_dttm" ng-model="rlsd_dttm" disabled />
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <label>Received By:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="user_id_rcvd_employee_name" ng-model="user_id_rcvd_employee_name" disabled />
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label>Received Date/Time:</label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <input class="form-control " id="rcvd_dttm" ng-model="rcvd_dttm" disabled />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn btn-primary" ng-click="btn_save_fl_rep()"><i class="fa fa-print"></i> Save and Preview</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:80% !important;">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background">
+                    @*<div class="row">
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Report Type :</label>
+                            </div>
+                            <div class="col-sm-3" style="padding-top:5px">
+                                <select class="form-control" id="ddl_report_type" ng-model="ddl_report_type" ng-change="btn_print('','@Session["department_code"].ToString()','@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                    <option value="NEW">New Format (with Division)</option>
+                                    <option value="OLD" selected>Old Format</option>
+                                </select>
+                            </div>
+                        </div>*@
+                    <div class="row">
+
+                        @*<div class="col-sm-2" style="padding-top:5px">
+                                <label>Department :</label>
+                            </div>
+                            <div class="col-sm-10" style="padding-top:5px">
+                                <select class="form-control" id="ddl_dept" ng-model="ddl_dept" disabled ng-change="btn_print('','@Session["department_code"].ToString()','@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2" style="padding-top:5px">
+                                <label>Division :</label>
+                            </div>
+                            <div class="col-sm-10" style="padding-top:5px">
+                                <select class="form-control" id="div_dept" ng-model="div_dept" ng-change="btn_print('','@Session["department_code"].ToString()','@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in div_list" value="{{lst.division_code}}">{{lst.division_name1}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-sm-2" style="padding-top:5px" ng-show="false">
+                                <label>Sub-Department :</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="ddl_subdept" ng-show="false" ng-model="ddl_subdept" ng-change="btn_print('','@Session["department_code"].ToString()','@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in subdept_list" value="{{lst.subdepartment_code}}">{{lst.subdepartment_name1}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2" style="padding-top:5px" ng-show="false">
+                                <label>Section :</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="sec_dept" ng-show="false" ng-model="sec_dept" ng-change="btn_print('','@Session["department_code"].ToString()','@Session["empl_id"].ToString()','AN',ddl_report_type)">
+                                    <option value="" selected>--Select Here--</option>
+                                    <option ng-repeat="lst in sec_list" value="{{lst.section_code}}">{{lst.section_name1}}</option>
+                                </select>
+                            </div>*@
+                        <div class="col-lg-12" style="padding:0px !important">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <span class="pull-left" style="margin-top:9px;"><b>Application Nbr.:</b></span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <b><input class="form-control text-center" id="txtb_appl_nbr" ng-model="txtb_appl_nbr" disabled /></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group row">
+                                <div class="col-lg-5">
+                                    <span class="pull-left" style="margin-top:9px;"><b>Date Applied:</b></span>
+                                </div>
+                                <div class="col-lg-7">
+                                    <b><input class="form-control text-center" id="txtb_date_applied" ng-model="txtb_date_applied" disabled /></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" style="display:none">
+                            <div class="form-group row">
+                                <div class="col-lg-3" style="padding-right:0px !important">
+                                    <span class="pull-left" style="margin-top:9px;"><b>Employment Type:</b></span>
+                                </div>
+                                <div class="col-lg-9">
+                                    <b><input class="form-control" id="txtb_empl_type" ng-model="txtb_empl_type" disabled /></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <span class="pull-left" style="margin-top:9px;"><b>Status:</b></span>
+                                </div>
+                                <div class="col-lg-9">
+                                    <b><input class="form-control" id="txtb_status" ng-model="txtb_status" disabled /></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;">Department:</label></b>
+                                </div>
+                                <div class="col-lg-9">
+                                    <b><input class="form-control text-left" id="txtb_dept" ng-model="txtb_dept" disabled style="font-size:11px !important" /></b>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;">Employee Name:</label></b>
+                                </div>
+                                <div class="col-lg-9">
+                                    <b><input class="form-control text-left" id="txtb_empl_name" ng-model="txtb_empl_name" disabled /></b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px;padding-bottom:5px;">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <div class="col-sm-12 table-resposive">
+                                <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                    <thead>
+                                        <tr>
+                                            <th width="50%">FORCE LEAVE PLAN DATES</th>
+                                            <th width="50%">STATUS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:5px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="alert alert-success small font-bold" style="margin-bottom:5px !important">
+                                <i class="fa fa-info-circle"></i>
+                                Auto Create new Leave Application - Once this Application Approved, the system will auto create Force Leave Application if the VL and FL have balances, Please remind this employee to submit their Leave Application under <i><b>My Applications>Leave Application.</b></i> <br /><br />VJA - 2022-06-06 01:57AM
+                            </div>
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
+                    <div class="row" style="padding-top:5px">
+
+                        <div class="col-lg-12">
+
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <b><label class="pull-left" style="margin-top:0px;">Comment <br /><small style="font-size:70% !important">for Disapprove :</small></label></b>
+                                </div>
+                                <div class="col-lg-9">
+                                    <textarea class="form-control" maxlength="255" ng-model="txtb_description" id="txtb_description"></textarea>
+                                    <label id="lbl_txtb_description_req" class="lbl_required"></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    @*<button id="cancel_pending" ng-click="btn_cancel_pending()" ng-disabled="dis_action" type="button" class="btn btn-warning pull-left"><i class="fa fa-ban"></i> Cancel Pending</button>*@
+                    <button id="disapprove" ng-click="btn_disapprove()" ng-disabled="dis_action" type="button" class="btn btn-danger"><i class="fa fa-thumbs-o-down"></i> Disapprove</button>
+                    <button id="approve" ng-click="btn_approve()" ng-disabled="dis_action" ng-show="show_approve" type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up"></i> Approve</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Leave Sub Type Page Header-->
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h2 class="text-white">{{ menu_name }}</h2>
+                        </div>
+                        <div class="col-lg-7">
+                            <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                        </div>
+                        <div class="col-lg-2">
+                            <button ng-show="log_in_as_AO" class="btn btn-primary btn-block" ng-click="btn_show_fl_hdr()"> <i class="fa fa-print"></i> Create Force Leave Plan Report </button>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="float-e-margins">
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <strong><span class="pull-left" style="margin-top:9px;margin-right:9px;">Show</span></strong>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <select class="form-control field-select-sm" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <strong><span class="pull-left" style="float:left;margin-top:9px;margin-left:5px;">entries</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="form-group row">
+                                    <div class="col-lg-2">
+                                        <b><label class="pull-left" style="margin-top:9px;">Department:</label></b>
+
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control field-select-sm" id="ddl_dept" ng-model="ddl_dept" ng-change="FilterPageGrid()" disabled>
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-lg-3" >
+
+                                    
+                            </div>
+                            <div class="col-sm-9">
+                                <div class="form-group row">
+                                    <div class="col-lg-2" style="padding-right:0px !important">
+                                        <b><label class="pull-left" style="margin-top:9px;">Employment Type:</label></b>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select class="form-control field-select-sm" id="ddl_empl_type" ng-model="ddl_empl_type" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in empl_type_list" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <b><label class="pull-left" style="margin-top:9px;">Year:</label></b>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <select class="form-control field-select-sm" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Here--</option>
+                                            <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <b><label class="pull-left" style="margin-top:9px;">Status:</label></b>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select class="form-control field-select-sm " id="ddl_status" ng-model="ddl_status" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select All Status--</option>
+                                            <option ng-repeat="lst in appr_status" value="{{lst.approval_status}}">{{lst.approval_status_descr}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="col-12 table-responsive">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+
+                                        <th width="15%">APPLICATION NBR</th>
+                                        <th width="15%">DATE APPLIED</th>
+                                        <th width="5%">ID #</th>
+                                        <th width="45%">EMPLOYEE NAME</th>
+                                        <th width="15%">STATUS</th>
+                                        <th width="5%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

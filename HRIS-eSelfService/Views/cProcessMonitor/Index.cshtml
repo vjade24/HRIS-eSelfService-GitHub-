@@ -1,0 +1,724 @@
+﻿@model HRIS_eSelfService.Models.User_Menu
+
+@*
+    ****Page Created by     :   Jorge Rustom Villanueva
+    ****Page Started date   :   05/09/2020
+    ****Page Description    :   This page is for Travel Application application where you can add/edit/view TO.
+*@
+@{
+    ViewBag.Title = "Index";
+}
+<style type="text/css">
+    .field {
+        border-radius: 3px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    .field-arrow {
+        font-size: 26px;
+    }
+
+    .require-field {
+        border: 1px solid red !important;
+    }
+
+    .approved-bg {
+        color: #1C84C6;
+    }
+
+    .cancel-bg {
+        color: #EC4758;
+    }
+
+    .disapproved-bg {
+        color: #D62728;
+    }
+
+    .new-bg {
+        color: #1AB394;
+    }
+
+    .reviewed-bg {
+        color: #00C5DA;
+    }
+
+    .submitted-bg {
+        color: #F8AC59;
+    }
+
+
+    .select2-selection__clear {
+        font-size: 14px !important;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 580px;
+        overflow: auto;
+    }
+
+    .my-custom-scrollbar-2 {
+        position: relative;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    table.dataTable tbody td {
+        padding: 1.5px !important;
+    }
+
+    .select2-close-mask {
+        z-index: 2099;
+    }
+
+    .select2-dropdown {
+        z-index: 3051;
+    }
+
+
+
+    .select2-selection__rendered {
+        line-height: 31px !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px !important;
+        /*border: 1px solid red !important;*/
+    }
+
+    .select2-selection__arrow {
+        height: 34px !important;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        #btn-text_action {
+            display: none !important;
+        }
+
+        .btn {
+            width: 100% !important;
+        }
+
+        #btn-icon_action {
+            display: block !important;
+        }
+
+        .my-custom-scrollbar-2 {
+            position: relative;
+            overflow: auto !important;
+        }
+
+        .navbar-header {
+            width: 20% !important;
+            padding-right: 20px !important;
+        }
+
+        .padding-adjust-left {
+            position: relative !important;
+            min-height: 1px !important;
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .mt-adjust-top {
+            margin-top: 3px !important;
+        }
+
+        #page-wrapper {
+            position: inherit;
+            margin: 0 0 0 0;
+            min-height: 1000px;
+        }
+
+        .form-control, form-control-sm {
+            font-size: 12px !important;
+        }
+
+        .top-navigation .navbar-header {
+            display: block;
+            float: none;
+        }
+
+        .padding_unset {
+            padding-right: 15px !important;
+            padding-left: 15px !important;
+        }
+
+        .m-t-xs {
+            margin-top: 3px !important;
+        }
+
+        .div_100 {
+            width: 100% !important;
+        }
+
+        .table-wrapper-scroll-y, my-custom-scrollbar-2 {
+            height: 300px !important;
+        }
+
+        .modal-dialog, modal-lg {
+            width: 80% !important;
+            margin: 0px !important;
+        }
+
+        .li_check {
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            top: -10% !important;
+        }
+
+        .fc-scroller.fc-day-grid-container {
+            height: 100% !important;
+        }
+
+
+        thead tr th {
+            font-size: 11px !important;
+            text-align: center;
+        }
+
+        tbody tr td {
+            font-size: 12px !important;
+        }
+
+        .modal-footer .btn {
+            margin-left: 0px !important;
+        }
+    }
+</style>
+<script src="~/Angular/ng-cProcessMonitor.js?v=1"></script>
+<section ng-app="ng_selfService_App" ng-controller="cProcessMonitor_ctrl">
+ 
+    @*---ADD MODAL-----*@
+    <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">{{ModalTitle}}</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Process Nbr:</b></span>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <input type="text" style="font-weight:bold; padding:0px;" class="form-control form-control-sm text-center" id="txtb_process_nbr_dspl" ng-model="txtb_process_nbr_dspl" disabled readonly />
+                            <label id="lbl_travel_order_nbr_req" class="lbl_required"></label>
+                        </div>
+
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Process ID:</b></span>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+
+                            <input class="form-control text-center" id="txtb_process_id_dspl" ng-model="txtb_process_id_dspl" ng-disabled="true" />
+
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        </div>
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Run Start:</b></span>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <input class="form-control text-center" id="txtb_run_start_dspl" ng-model="txtb_run_start_dspl" ng-disabled="true" />
+                        </div>
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Run End:</b></span>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <input class="form-control text-center" id="txtb_run_end_dspl" ng-model="txtb_run_end_dspl" ng-disabled="true" />
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        </div>
+
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Process Name:</b></span>
+                        </div>
+                        <div class="col-lg-10" style="padding:1px;">
+                            <input class="form-control" id="txtb_process_name_dspl" ng-model="txtb_process_name_dspl" ng-disabled="true" />
+                        </div>
+
+
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Parameter(s):</b></span>
+                        </div>
+                        <div class="col-lg-10" style="padding:1px;">
+                            <textarea class="form-control" id="txtb_parameter_dspl" ng-model="txtb_parameter_dspl" ng-disabled="true" cols="15"></textarea>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        </div>
+
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Status:</b></span>
+                        </div>
+                        <div class="col-lg-10" style="padding:1px;">
+                            <input class="form-control" id="txtb_status_dspl" ng-model="txtb_status_dspl" ng-disabled="true" />
+                        </div>
+
+                        <div class="col-lg-2" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Status Details:</b></span>
+                        </div>
+                        <div class="col-lg-10" style="padding:1px;">
+                            <input class="form-control" id="txtb_status_details_dspl" ng-model="txtb_status_details_dspl" ng-disabled="true" />
+                        </div>
+
+                        @*<div class="col-lg-2">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Approval Status:</b></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_travel_apprvl_status_dspl" ng-model="txtb_travel_apprvl_status_dspl" disabled readonly />
+                                <label id="lbl_txtb_travel_apprvl_status_req" class="lbl_required"></label>
+                            </div>*@
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-2">
+                            @*<span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order No:</b></span>*@
+                        </div>
+                        <div class="col-lg-5">
+                            @*<input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_payroll_year_dspl" ng-model="txtb_payroll_year_dspl" disabled readonly />
+                                <label id="lbl_txtb_remittance_ctrl_nbr_req" class="lbl_required"></label>*@
+                        </div>
+                        <div class="col-lg-2">
+                            @*<span class="pull-left font-bold" style="margin-top:9px;"><b>T.O Date Filed:</b></span>*@
+                        </div>
+                        <div class="col-lg-3">
+                            @*<input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="txtb_travel_date_filed_dspl" ng-model="txtb_travel_date_filed_dspl" disabled readonly />
+                                <label id="lbl_txtb_travel_date_filed_req" class="lbl_required"></label>*@
+                        </div>
+                    </div>
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" ng-show="prc_status == 'E'" class="btn btn-success pull-left" ng-click="btn_bio_extract_modal()"><i class="fa fa-rocket"></i>&nbsp;Re-run Extract</button>*@
+                    <button type="button" class="btn btn-success pull-left" ng-click="btn_bio_extract_modal()"><i id="re_run_icon" class="fa fa-rocket"></i>&nbsp;Re-run Extract</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Leave Sub Type Page Header-->
+    <div class="wrapper wrapper-content fadeInRight" style="padding:10px 0px 0px 0px!important">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox-title" style="background-color:#507CD1;border-radius:5px 5px 0px 0px;">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <h2 class="text-white">@Model.menu_name</h2>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="input-group">
+                                <input type="search" class="form-control" ng-model="search_box" ng-keyup="search_in_list(search_box,'datalist_grid')" placeholder="Search ....">
+                                <div class="input-group-btn">
+                                    <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle"><i class="fa fa-cog"></i>Options<span class="caret"></span></button>
+                                    <ul class="dropdown-menu">
+                                        <li><a ng-click="btn_click_generate_dtr()">GENERATE DTR</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight" style="padding:0px !important;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <div class="ibox-title">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-lg-2" style="padding-top:5px;">
+                                        <strong><span style="margin-top:10px;margin-right:9px;">Show</span></strong>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select class="form-control field-select-sm" style="width:40%;float:left;margin-right:9px;" ng-model="rowLen" ng-change="setNumOfRow(rowLen,'datalist_grid')">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="15">15</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <strong><span class="pull-left" style="float:left;margin-top:9px;margin-left:5px;">entries</span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <b><label style="margin-top:9px;">Year:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <select class="form-control field-select-sm text-center" id="ddl_year" ng-model="ddl_year" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Year--</option>
+                                            <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <b><label style="margin-top:9px;">Month:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <select class="form-control field-select-sm" id="ddl_month" ng-model="ddl_month" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select Month--</option>
+                                            <option value="01" selected>January</option>
+                                            <option value="02" selected>February</option>
+                                            <option value="03" selected>March</option>
+                                            <option value="04" selected>April</option>
+                                            <option value="05" selected>May</option>
+                                            <option value="06" selected>June</option>
+                                            <option value="07" selected>July</option>
+                                            <option value="08" selected>August</option>
+                                            <option value="09" selected>September</option>
+                                            <option value="10" selected>October</option>
+                                            <option value="11" selected>November</option>
+                                            <option value="12" selected>December</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <b><label style="margin-top:9px;">UserID:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <select ng-show="true" class="select2_demo_3 form-control" id="ddl_user_id" ng-model="ddl_user_id" style="width:100%;" data-placeholder="Select UserID">
+                                            <option value="">--Select here--</option>
+                                            <option ng-repeat="lst in user_list" value="{{lst.prc_runby_user_id}}">{{lst.prc_runby_user_id}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:5px;">
+                            <div class="col-sm-3">
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <b><label style="margin-top:9px;">Status:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <select ng-show="true" class="form-control field-select-sm" id="ddl_status" ng-model="ddl_status" style="width:100%;" data-placeholder="Select Status">
+                                            <option value="">--Select here--</option>
+                                            <option ng-repeat="lst in status_list" value="{{lst.prc_status}}">{{lst.prc_status_descr}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-3">
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <b><label style="margin-top:9px;">Module:&nbsp;</label></b>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <select ng-show="true" class="select2_demo_3 form-control" id="ddl_module" ng-model="ddl_module" style="width:100%;" data-placeholder="Select Module">
+                                            <option value="">--Select here--</option>
+                                            <option ng-repeat="lst in module_list" value="{{lst.module_id}}">{{lst.module_short_name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-sm-4">
+                                    <div style="width:40%;float:left;">
+                                        <b><label class="pull-left" style="margin-top:9px;">Approval Status:</label></b>
+                                    </div>
+                                    <div style="width:60%;float:left;">
+                                        <select class="form-control field-select-sm" id="ddl_status" ng-model="ddl_status" ng-change="FilterPageGrid()">
+                                            <option value="" selected>--Select All Status--</option>
+                                            <option ng-repeat="lst in appr_status" value="{{lst.approval_status}}">{{lst.approval_status_descr}}</option>
+                                        </select>
+                                        <label id="lbl_ddl_leave_type_req" class="lbl_required"></label>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="ibox-content table-resposive">
+                        <div class="col-12 table-responsive" style="padding-left:12px;padding-right:12px;padding-top:6px;">
+                            <table id="datalist_grid" ng-model="datalist_grid" class="table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                <thead>
+                                    <tr>
+
+                                        <th width="15%">PRC.#</th>
+                                        <th width="21%">PROCESS NAME</th>
+                                        <th width="17%">RUN START</th>
+                                        <th width="17%">RUN END</th>
+                                        <th width="15%">RUN STATUS</th>
+                                        <th width="15%">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*---ADD MODAL-----*@
+    <div class="modal fade" id="rerun_bio_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" and data-keyboard="false">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">RE-RUN BIOMETRICS</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-4" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>IP ADDRESS:</b></span>
+                        </div>
+                        <div class="col-lg-8" style="padding:1px;">
+                            <input type="text" style="font-weight:bold; padding:0px;" class="form-control form-control-sm text-center" id="ip_address_re" ng-model="ip_address_re" disabled readonly />
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>FROM:</b></span>
+                        </div>
+
+                        <div class="col-lg-8 input-group date" style="padding:1px;" data-provide="datepicker">
+                            <input type="text" id="date_from" ng-model="date_from" placeholder="YYYY-MM-DD" maxlength="20" class="form-control text-center" />
+                            <div class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>TO:</b></span>
+                        </div>
+                        <div class="col-lg-8 input-group date" style="padding:1px;" data-provide="datepicker">
+                            <input type="text" id="date_to" ng-model="date_to" placeholder="YYYY-MM-DD" maxlength="20" class="form-control text-center" />
+                            <div class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="padding:1px;">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>EMPLOYEE ID:</b></span>
+                        </div>
+
+                        <div class="col-lg-8 " style="padding:1px;">
+                            <input type="text" id="empl_id" ng-model="empl_id" placeholder="Employee id" maxlength="20" class="form-control text-center" />
+                        </div>
+                    </div>
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btn_extract_icon" class="btn btn-success pull-left" ng-click="btn_bio_extract()"><i id="icon_extract_icon" class="fa fa-rocket"></i>&nbsp;Re-run</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="rerun_bio_grid_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" and data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4 class="modal-title" id="modalLabelSmall">RE-RUN BIO INFORMATION GRID</h4>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <input type="search" style="color:black!important;" class="form-control headerSearch" tableref="machineinfo_grid" placeholder="Search ....">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+
+                    <div class="col-12 table-resposive">
+                        <table id="machineinfo_grid" ng-model="machineinfo_grid" class="table table-striped table-bordered table-hover table-responsive">
+                            <thead>
+                                <tr>
+
+                                    <th width="15%">TERMINAL.#</th>
+                                    <th width="21%">EMPL_ID</th>
+                                    <th width="17%">DATE</th>
+                                    <th width="17%">TIME</th>
+                                    <th width="15%">IN-OUT MODE</th>
+                                    @*<th width="15%">ACTION</th>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*---ADD MODAL-----*@
+    <div class="modal fade" id="generate_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" and data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">GENERATE DTR BY DEPARTMENT</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+
+                        <div class="col-lg-3">
+                            <b><label style="margin-top:9px;">Department:&nbsp;</label></b>
+                        </div>
+                        <div class="col-lg-9">
+                            <select ng-show="true" class="form-control field-select-sm text-center" id="ddl_dept" ng-model="ddl_dept">
+                                <option value="">--Select here--</option>
+                                <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <b><label style="margin-top:9px;">Year:&nbsp;</label></b>
+                        </div>
+
+                        <div class="col-lg-9">
+                            <select class="form-control field-select-sm text-center" id="ddl_year_generate" ng-model="ddl_year_generate">
+                                <option value="" selected>--Select Year--</option>
+                                <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <b><label style="margin-top:9px;">Month:&nbsp;</label></b>
+                        </div>
+
+                        <div class="col-lg-9">
+                            <select class="form-control field-select-sm text-center" id="ddl_month_generate" ng-model="ddl_month_generate">
+                                <option value="" selected>--Select Month--</option>
+                                <option value="01" selected>January</option>
+                                <option value="02" selected>February</option>
+                                <option value="03" selected>March</option>
+                                <option value="04" selected>April</option>
+                                <option value="05" selected>May</option>
+                                <option value="06" selected>June</option>
+                                <option value="07" selected>July</option>
+                                <option value="08" selected>August</option>
+                                <option value="09" selected>September</option>
+                                <option value="10" selected>October</option>
+                                <option value="11" selected>November</option>
+                                <option value="12" selected>December</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <b><label style="margin-top:9px;">Employment:&nbsp;</label></b>
+                        </div>
+
+                        <div class="col-lg-9">
+                            <select class="form-control field-select-sm text-center" id="ddl_empl_type" ng-model="ddl_empl_type">
+                                <option value="" selected>--Select here--</option>
+                                <option ng-repeat="lst in empl_type_list" value="{{lst.employment_type}}">{{lst.employmenttype_description}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row" style="margin-top:5px;">
+                        <div class="col-lg-3">
+                            <b><label style="margin-top:9px;">Shifting Schedule&nbsp;</label></b>
+                        </div>
+
+                        <div class="col-lg-9">
+                            <select class="form-control field-select-sm text-center" id="ddl_sched" ng-model="ddl_sched">
+                                <option value="1" selected>Regular Schedule</option>
+                                <option value="2" selected>Flexi Schedule</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                    <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success pull-left" ng-click="btn_bio_generate_click()"><i id="generate_icon" class="fa fa-wrench"></i>&nbsp;GENERATE</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal Loading -->
+<!-- Modal Loading -->
+
+
+<div class="modal fade" id="modal_generating_remittance" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
+    <div class="modal-dialog modal-force-center modal-md">
+        <div class="modal-dialog text-center">
+            @*<span class="fa fa-spinner fa-spin fa-3x text-white"></span>*@
+            <div class="spiner-example" style="padding:0px; margin:0px; height:auto !important;">
+                <div class="sk-spinner sk-spinner-fading-circle" style="width:150px;height:150px; margin-top:150px !important;">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
