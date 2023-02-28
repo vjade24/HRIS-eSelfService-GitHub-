@@ -232,7 +232,19 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     
                     if (d.data.sp_dtr_transmittal_addressto_list.length > 0)
                     {
-                        s.ddl_address_to_list = d.data.sp_dtr_transmittal_addressto_list
+                        if (d.data.dept_code == "18") {
+
+                            var dta = d.data.sp_dtr_transmittal_addressto_list.filter(function (k,v) {
+                                return k.empl_id == "2994" || k.empl_id == "7610"
+                            })
+                         
+                            s.ddl_address_to_list = dta
+
+                        }
+                        else {
+                            s.ddl_address_to_list = d.data.sp_dtr_transmittal_addressto_list
+                        }
+                       
                     }
                     else
                     {
@@ -2421,7 +2433,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             if ($("#txtb_travel_department_dspl_hid").val() == "18") { // IF VGO FINAL APPROVER SHOULD ALWAYS BE THE VICE-GOVERNOR
 
                // $("#ddl_first_appr_dspl").prop("disabled", true);
-                $("#ddl_final_appr_dspl").prop("disabled", true);
+               // $("#ddl_final_appr_dspl").prop("disabled", true);
             }
 
             
@@ -2617,7 +2629,6 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
-
                 })
             }
 
@@ -3484,8 +3495,8 @@ function RemoveClass(value, field) {
   
     if ($("#txtb_travel_department_dspl_hid").val() == "18") {
        
-        $("#ddl_first_appr_dspl").prop("disabled", true);
-        $("#ddl_final_appr_dspl").prop("disabled", true);
+       // $("#ddl_first_appr_dspl").prop("disabled", true);
+       // $("#ddl_final_appr_dspl").prop("disabled", true);
     }
 
     //if ($("#ddl_travel_form").val() == "1") {
