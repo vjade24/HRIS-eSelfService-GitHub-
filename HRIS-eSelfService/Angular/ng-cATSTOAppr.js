@@ -1880,7 +1880,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
       
 
         var s5 = s.datalistgrid[row_id].user_id_final_approver
-       
+        
         if (s5 == "" || s5 == undefined) {
             $("#div_final").addClass("hidden")
             $("#lbl_final").text("")
@@ -1890,7 +1890,9 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
 
         else {
             $("#div_final").removeClass("hidden")
+           
             var s6 = s5.substring(1);
+          
             $("#lbl_final").text(s.empl_name_list.select(s6, "empl_id").employee_name)
             $("#lbl_lbl_final_date").text("Final approval date: " + s.datalistgrid[row_id].final_approval_date)
         }
@@ -1953,7 +1955,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     ,p_dtr_month: $("#ddl_month").val()
                 }).then(function (d) {
                     if (d.data.message == "success") {
-                        console.log(d.data.travelorder_hdr_tbl)
+                      
                         if (d.data.travelorder_hdr_tbl.length > 0)
                         {
                          
@@ -2385,7 +2387,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 });
         }
         
-
+        
         if (s.btn_print_check == "1") 
         {
 

@@ -37,6 +37,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     header_status = ""
     btn_grid_action = ""
     s.ddl_address_to_list = []
+    s.ddl_address_to_list_raw = []
     s.travel_form_list = [
         { travel_form_code: '1', travel_form_descr: 'W/in the Province' },
         { travel_form_code: '2', travel_form_descr: 'Outside the Province (w/in Davao Region)' },
@@ -2419,7 +2420,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
             if ($("#txtb_travel_department_dspl_hid").val() == "18") { // IF VGO FINAL APPROVER SHOULD ALWAYS BE THE VICE-GOVERNOR
 
-                $("#ddl_first_appr_dspl").prop("disabled", true);
+               // $("#ddl_first_appr_dspl").prop("disabled", true);
                 $("#ddl_final_appr_dspl").prop("disabled", true);
             }
 
