@@ -1721,7 +1721,6 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
-                var message = "";
                 var query = db_ats.leave_application_cancel_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id).ToList();
                 for (int i = 0; i < query.Count; i++)
                 {
@@ -1734,7 +1733,7 @@ namespace HRIS_eSelfService.Controllers
                     //query[i].leave_cancel_type     = data.leave_cancel_type;
                 }
                 db_ats.SaveChangesAsync();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = "success"}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

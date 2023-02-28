@@ -705,7 +705,7 @@
                                     lv_status_descr = "Final Approved"
                                 }
 
-                                cell.prepend("<div class='holiday' data-toggle='tooltip' data-placement='top' title='CANCELLATION (" + lv_status_descr + ")'><i class='fa fa-send text-danger'></i><small style='color:white;'> CANCELLATION (" + lv_status_descr + ")</small></div>");
+                                cell.prepend("<div class='holiday' data-toggle='tooltip' data-placement='top' title='(" + lv_status_descr + ") - CANCELLATION'><i class='fa fa-send text-danger'></i><small style='color:white;'>  (" + lv_status_descr + ") CANCELLATION</small></div>");
                             }
                         }
                         
@@ -4232,7 +4232,7 @@
                                     leave_cancel_type_descr = "Work Suspension"
                                 }
                                 if (full["leave_cancel_type"] == "FL_TRNFR") {
-                                    leave_cancel_type_descr = "Transfer Force Leave"
+                                    leave_cancel_type_descr = "Transfer Leave"
                                 }
                                 return "<span class='text-center btn-block'>" + leave_cancel_type_descr + "</span>"
                             }
