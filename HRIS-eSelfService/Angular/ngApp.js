@@ -224,7 +224,7 @@ ng_selfService_App.service("commonScript", ["$compile", "$filter", function (c, 
                 element[pN][rC](element);
                 this.insertAfter(div, el);
             }
-
+            console.log("required")
 
         },
 

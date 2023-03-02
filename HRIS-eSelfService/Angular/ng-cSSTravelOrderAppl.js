@@ -37,6 +37,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     header_status = ""
     btn_grid_action = ""
     s.ddl_address_to_list = []
+    s.ddl_address_to_list1 = []
     s.ddl_address_to_list_raw = []
     s.travel_form_list = [
         { travel_form_code: '1', travel_form_descr: 'W/in the Province' },
@@ -232,6 +233,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     
                     if (d.data.sp_dtr_transmittal_addressto_list.length > 0)
                     {
+                        s.ddl_address_to_list1 = d.data.sp_dtr_transmittal_addressto_list
                         if (d.data.dept_code == "18") {
 
                             var dta = d.data.sp_dtr_transmittal_addressto_list.filter(function (k,v) {
@@ -249,6 +251,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     else
                     {
                         s.ddl_address_to_list = []
+                        s.ddl_address_to_list1 = []
                     }
 
                     if (d.data.sp_travelorder_hdr_tbl_list.length > 0)
@@ -1399,10 +1402,21 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         var header_info = getValueFromHeader()
         var empl_name = []
         var travel_date = []
-
+        var fsapprover = $("#ddl_first_appr_dspl").val()
+        var fnapprover = $("#ddl_final_appr_dspl").val()
        
+
         try
         {
+             
+           
+            if(fnapprover == "" || fnapprover == undefined)
+            {
+                
+                 alert("Final Approver is required")
+                 return
+            }
+
 
             if (s.isActionSubNew == "S")
             {
@@ -1415,8 +1429,10 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 $("#i_save").removeClass("fa fa-save");
                 $("#i_save").addClass("fa fa-spinner fa-spin");
             }
+            
+            
+  
            
-
             if (isdataValidateHeader()) {
 
                 swal({
