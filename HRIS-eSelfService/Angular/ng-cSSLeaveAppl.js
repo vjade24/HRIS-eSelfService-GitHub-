@@ -4250,6 +4250,21 @@
                             }
                         },
                         {
+                            //"mData": "returned_remarks",
+                            "mRender": function (data, type, full, row)
+                            {
+                                if (full["returned_remarks"].toString().trim() != "")
+                                {
+                                    return "<small><span class=' btn-block'>Remarks: " + full["returned_remarks"] + "</span>" + "<br/><span class=' btn-block'> Returned by: " + full["returned_employee_name"] + "</span></small>"
+                                }
+                                else
+                                {
+                                    return ""
+                                }
+
+                            }
+                        },
+                        {
                             "mData": "cancel_flag", "mRender": function (data, type, full, row) {
                                 var checked = ""
 

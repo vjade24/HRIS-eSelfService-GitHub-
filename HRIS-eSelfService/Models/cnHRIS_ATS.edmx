@@ -425,6 +425,9 @@
           <Property Name="submitted_user" Type="varchar" MaxLength="30" />
           <Property Name="final_approved_dttm" Type="datetime" />
           <Property Name="final_approved_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_dttm" Type="datetime" />
+          <Property Name="returned_remarks" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
@@ -3483,10 +3486,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_division_code" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_fl_plan_hdr_rep_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_fl_plan_hdr_rep_tbl_list_Result)" />
-          <FunctionImport Name="sp_leave_application_cancel_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_generate_key" ReturnType="Collection(HRIS_ATSModel.sp_generate_key_Result)">
             <Parameter Name="p_table_name" Mode="In" Type="String" />
             <Parameter Name="p_key_field" Mode="In" Type="String" />
@@ -3508,6 +3507,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_to_year" Mode="In" Type="String" />
             <Parameter Name="par_to_month" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_leave_application_cancel_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -6709,6 +6712,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
           <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
+          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_fl_plan_dtl_rep_tbl_list_Result">
           <Property Type="String" Name="fl_plan_rep_ctrlno" Nullable="false" MaxLength="15" />
@@ -6740,32 +6746,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="DateTime" Name="rlsd_dttm" Nullable="false" Precision="23" />
           <Property Type="String" Name="user_id_rcvd_employee_name" Nullable="false" MaxLength="211" />
           <Property Type="DateTime" Name="rcvd_dttm" Nullable="false" Precision="23" />
-        </ComplexType>
-        <ComplexType Name="sp_leave_application_cancel_tbl_list_Result">
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="247" />
-          <Property Type="String" Name="leave_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="DateTime" Name="leave_date_from" Nullable="false" />
-          <Property Type="DateTime" Name="leave_date_to" Nullable="false" />
-          <Property Type="String" Name="rcrd_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="cancel_flag" Nullable="false" MaxLength="1" />
-          <Property Type="DateTime" Name="leave_cancel_date" Nullable="false" />
-          <Property Type="DateTime" Name="leave_transfer_date" Nullable="false" />
-          <Property Type="String" Name="reason" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leave_cancel_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="leave_cancel_status_descr" Nullable="true" MaxLength="14" />
-          <Property Type="String" Name="approved_by" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="approved_by_desig" Nullable="false" MaxLength="150" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="created_user" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="created_employee_name" Nullable="false" MaxLength="247" />
-          <Property Type="DateTime" Name="submitted_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="submitted_user" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="submitted_employee_name" Nullable="false" MaxLength="247" />
-          <Property Type="DateTime" Name="final_approved_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="final_approved_user" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="final_approved_employee_name" Nullable="false" MaxLength="247" />
-          <Property Type="String" Name="leave_cancel_type" Nullable="false" MaxLength="10" />
         </ComplexType>
         <ComplexType Name="sp_generate_key_Result">
           <Property Type="String" Name="key_value" Nullable="true" MaxLength="20" />
@@ -6841,6 +6821,36 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="user_id_level2_approver" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="final_approval_date" Nullable="true" MaxLength="36" />
           <Property Type="String" Name="user_id_final_approver" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_leave_application_cancel_tbl_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="String" Name="leave_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="leave_date_from" Nullable="false" />
+          <Property Type="DateTime" Name="leave_date_to" Nullable="false" />
+          <Property Type="String" Name="rcrd_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="cancel_flag" Nullable="false" MaxLength="1" />
+          <Property Type="DateTime" Name="leave_cancel_date" Nullable="false" />
+          <Property Type="DateTime" Name="leave_transfer_date" Nullable="false" />
+          <Property Type="String" Name="reason" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="leave_cancel_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="leave_cancel_status_descr" Nullable="true" MaxLength="14" />
+          <Property Type="String" Name="approved_by" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="approved_by_desig" Nullable="false" MaxLength="150" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="created_user" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="created_employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="DateTime" Name="submitted_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="submitted_user" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="submitted_employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="DateTime" Name="final_approved_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="final_approved_user" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="final_approved_employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="String" Name="leave_cancel_type" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="returned_user" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="returned_employee_name" Nullable="false" MaxLength="247" />
+          <Property Type="DateTime" Name="returned_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="returned_remarks" Nullable="false" MaxLength="255" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10620,6 +10630,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySetMapping Name="leave_application_cancel_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
               <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
                 <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
                 <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
                 <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
@@ -10674,36 +10687,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="rlsd_dttm" ColumnName="rlsd_dttm" />
                 <ScalarProperty Name="user_id_rcvd_employee_name" ColumnName="user_id_rcvd_employee_name" />
                 <ScalarProperty Name="rcvd_dttm" ColumnName="rcvd_dttm" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_application_cancel_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_cancel_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result">
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="leave_ctrl_no" ColumnName="leave_ctrl_no" />
-                <ScalarProperty Name="leave_date_from" ColumnName="leave_date_from" />
-                <ScalarProperty Name="leave_date_to" ColumnName="leave_date_to" />
-                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
-                <ScalarProperty Name="cancel_flag" ColumnName="cancel_flag" />
-                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
-                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
-                <ScalarProperty Name="reason" ColumnName="reason" />
-                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
-                <ScalarProperty Name="leave_cancel_status_descr" ColumnName="leave_cancel_status_descr" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
-                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_user" ColumnName="created_user" />
-                <ScalarProperty Name="created_employee_name" ColumnName="created_employee_name" />
-                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
-                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
-                <ScalarProperty Name="submitted_employee_name" ColumnName="submitted_employee_name" />
-                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
-                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
-                <ScalarProperty Name="final_approved_employee_name" ColumnName="final_approved_employee_name" />
-                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -10792,6 +10775,40 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="user_id_level2_approver" ColumnName="user_id_level2_approver" />
                 <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
                 <ScalarProperty Name="user_id_final_approver" ColumnName="user_id_final_approver" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_leave_application_cancel_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_cancel_tbl_list">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="leave_ctrl_no" ColumnName="leave_ctrl_no" />
+                <ScalarProperty Name="leave_date_from" ColumnName="leave_date_from" />
+                <ScalarProperty Name="leave_date_to" ColumnName="leave_date_to" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="cancel_flag" ColumnName="cancel_flag" />
+                <ScalarProperty Name="leave_cancel_date" ColumnName="leave_cancel_date" />
+                <ScalarProperty Name="leave_transfer_date" ColumnName="leave_transfer_date" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="leave_cancel_status" ColumnName="leave_cancel_status" />
+                <ScalarProperty Name="leave_cancel_status_descr" ColumnName="leave_cancel_status_descr" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="approved_by_desig" ColumnName="approved_by_desig" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_user" ColumnName="created_user" />
+                <ScalarProperty Name="created_employee_name" ColumnName="created_employee_name" />
+                <ScalarProperty Name="submitted_dttm" ColumnName="submitted_dttm" />
+                <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
+                <ScalarProperty Name="submitted_employee_name" ColumnName="submitted_employee_name" />
+                <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
+                <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
+                <ScalarProperty Name="final_approved_employee_name" ColumnName="final_approved_employee_name" />
+                <ScalarProperty Name="leave_cancel_type" ColumnName="leave_cancel_type" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
+                <ScalarProperty Name="returned_employee_name" ColumnName="returned_employee_name" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
