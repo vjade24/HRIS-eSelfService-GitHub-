@@ -2987,19 +2987,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_fl_plan_hdr_rep_tbl_list_Result>("sp_fl_plan_hdr_rep_tbl_list");
         }
     
-        public virtual ObjectResult<sp_leave_application_cancel_tbl_list_Result> sp_leave_application_cancel_tbl_list(string par_empl_id, string par_leave_ctrlno)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
-                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
-                new ObjectParameter("par_leave_ctrlno", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_cancel_tbl_list_Result>("sp_leave_application_cancel_tbl_list", par_empl_idParameter, par_leave_ctrlnoParameter);
-        }
-    
         public virtual ObjectResult<sp_generate_key_Result> sp_generate_key(string p_table_name, string p_key_field, Nullable<int> p_key_size)
         {
             var p_table_nameParameter = p_table_name != null ?
@@ -3073,6 +3060,19 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_employment_type", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_approval_worklist_travel_order_Result>("sp_approval_worklist_travel_order", par_user_idParameter, par_department_codeParameter, par_to_yearParameter, par_to_monthParameter, par_employment_typeParameter);
+        }
+    
+        public virtual ObjectResult<sp_leave_application_cancel_tbl_list_Result> sp_leave_application_cancel_tbl_list(string par_empl_id, string par_leave_ctrlno)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_leave_ctrlnoParameter = par_leave_ctrlno != null ?
+                new ObjectParameter("par_leave_ctrlno", par_leave_ctrlno) :
+                new ObjectParameter("par_leave_ctrlno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_cancel_tbl_list_Result>("sp_leave_application_cancel_tbl_list", par_empl_idParameter, par_leave_ctrlnoParameter);
         }
     }
 }

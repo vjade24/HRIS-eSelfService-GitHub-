@@ -37,5 +37,9 @@ namespace HRIS_eSelfService.Models
         public string final_approved_user { get; set; }
         public string final_approved_employee_name { get; set; }
         public string leave_cancel_type { get; set; }
+        public string returned_user { get; set; }
+        public string returned_employee_name { get; set; }
+        public System.DateTime returned_dttm { get; set; }
+        public string returned_remarks { get; set; }
     }
 }
