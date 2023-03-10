@@ -1411,8 +1411,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         var fsapprover = $("#ddl_first_appr_dspl").val()
         var fnapprover = $("#ddl_final_appr_dspl").val()
 
-        console.log(fsapprover)
-        console.log(fnapprover)
+       
 
         try
         {
@@ -1425,7 +1424,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                  return
             }
 
-            return
+            
             if (s.isActionSubNew == "S")
             {
                 $("#i_submit").removeClass("fa fa-paper-plane-o");
