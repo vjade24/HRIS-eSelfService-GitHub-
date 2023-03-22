@@ -2553,7 +2553,7 @@
             console.log(s.datalistgrid3[row_id])
             if ((s.datalistgrid3[row_id].approval_status == "F"
                 &&
-                s.datalistgrid3[row_id].posting_status == true)
+                (s.datalistgrid3[row_id].posting_status == true || s.datalistgrid3[row_id].posting_status == false))
                 ||
                 (s.datalistgrid3[row_id].leave_type_code == "FL" &&
                 (s.datalistgrid3[row_id].approval_status == "N" || s.datalistgrid3[row_id].approval_status == "C")
@@ -2750,7 +2750,7 @@
 
             if ((s.datalistgrid[row_id].approval_status == "F"
                 &&
-                s.datalistgrid[row_id].posting_status == true)
+                (s.datalistgrid[row_id].posting_status == true || s.datalistgrid[row_id].posting_status == false ))
                 ||
                 (s.datalistgrid[row_id].leave_type_code == "FL" &&
                 (s.datalistgrid[row_id].approval_status == "N" || s.datalistgrid[row_id].approval_status == "C") 
