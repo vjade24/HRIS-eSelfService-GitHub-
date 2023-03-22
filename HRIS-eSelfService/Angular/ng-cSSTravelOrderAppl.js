@@ -9,6 +9,7 @@
 //----------------------------------------------------------------------------------
 // JORGE RUSTOM VILLANUEVA       06/01/2020      Code Creation
 //**********************************************************************************
+//TEST
 
 ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,$scope, $compile, $http, $filter) {
     var s = $scope
@@ -1152,7 +1153,9 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             s.dis_delete2 = false;
             s.available_leave = 0;
             s.isAction  = "ADD"
-           
+
+            console.log(s.isShowAddEmployee)
+
             $('.popover').popover('hide');
             
             s.txtb_travel_requestor_dspl = s.travel_order_requestor
@@ -1162,28 +1165,32 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             s.ddl_name_dspl = s.travel_order_requestor_empl_id
 
             $("#ddl_rec_appr_to_dspl").val("")
+
             s.ddl_rec_appr_to_dspl = ""
             
             if (s.txtb_travel_department_dspl_hid == "18")
             {
                 $("#ddl_first_appr_dspl").val("7610")
                 s.ddl_first_appr_dspl = "7610"
+                $("#ddl_first_appr_dspl").trigger('change')
             }
             else if (s.txtb_travel_department_dspl_hid == "19") {
                 $("#ddl_first_appr_dspl").val("")
                 s.ddl_first_appr_dspl = ""
+                $("#ddl_first_appr_dspl").trigger('change')
             }
             else
             {
                 $("#ddl_first_appr_dspl").val("10063")
                 s.ddl_first_appr_dspl = "10063"
+                $("#ddl_first_appr_dspl").trigger('change')
             }
             
-            //$("#ddl_final_appr_dspl").val("")
+            // $("#ddl_final_appr_dspl").val("")
 
-            $("#ddl_rec_appr_to_dspl").trigger('change')
-            $("#ddl_first_appr_dspl").trigger('change')
-            //$("#ddl_final_appr_dspl").trigger('change')
+             $("#ddl_rec_appr_to_dspl").trigger('change')
+            // $("#ddl_first_appr_dspl").trigger('change')
+            // $("#ddl_final_appr_dspl").trigger('change')
 
            
             $('#main_modal').modal('show');  // #myModal (id of modal box)
@@ -1404,20 +1411,21 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         var travel_date = []
         var fsapprover = $("#ddl_first_appr_dspl").val()
         var fnapprover = $("#ddl_final_appr_dspl").val()
+
        
 
         try
         {
              
            
-            if(fnapprover == "" || fnapprover == undefined)
+            if(fsapprover == "" || fsapprover == undefined)
             {
                 
                  alert("Final Approver is required")
                  return
             }
 
-
+            
             if (s.isActionSubNew == "S")
             {
                 $("#i_submit").removeClass("fa fa-paper-plane-o");
@@ -2134,53 +2142,58 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         $("#txtb_travel_end_dspl").val(s.datalistgridDates[row_id].travel_endtime)
         $("#ddl_end_time").val(s.datalistgridDates[row_id].travel_endtime_ampm)
         $("#txtb_travel_date_to_dspl").val(s.datalistgridDates[row_id].travel_date_to)
-        $("#ddl_rec_appr_dspl ").val(s.datalistgridDates[row_id].recappr_empl)
+        $("#ddl_rec_appr_dspl ").val(s.datalistgrid[s.temp_row_id].recappr_empl)
 
-        if (s.datalistgridDates[row_id].firstappr_empl_id != undefined) {
-            $("#ddl_first_appr_dspl ").val(s.datalistgridDates[row_id].firstappr_empl_id)
+
+        if (s.datalistgrid[s.temp_row_id].firstappr_empl_id != undefined) {
+            $("#ddl_first_appr_dspl ").val(s.datalistgrid[s.temp_row_id].firstappr_empl_id)
         }
        
         
-        $("#ddl_final_appr_dspl ").val(s.datalistgridDates[row_id].finalappro_empl_id)
+        $("#ddl_final_appr_dspl ").val(s.datalistgrid[s.temp_row_id].firstappr_empl_id)
 
-        $("#ddl_rec_appr_dspl ").trigger('change')
-        $("#ddl_first_appr_dspl ").trigger('change')
-        $("#ddl_final_appr_dspl ").trigger('change')
+        //$("#ddl_rec_appr_dspl ").trigger('change')
+        //$("#ddl_first_appr_dspl ").trigger('change')
+        //$("#ddl_final_appr_dspl ").trigger('change')
 
-        console.log(s.datalistgridDates[row_id].firstappr_empl_id)
-        console.log(s.datalistgridDates[row_id].travel_form_code)
+      
+       
 
 
         //s.txtb_travel_department_dspl_hid 
 
+        console.log(s.datalistgrid[s.temp_row_id].travel_form_type)
 
-        if (s.datalistgridDates[row_id].travel_form_code == undefined) {
+        if (s.datalistgrid[s.temp_row_id].travel_form_type == undefined) {
 
             travel_form_code = $("#ddl_travel_form").val()
         }
         else {
 
-            travel_form_code = s.datalistgridDates[row_id].travel_form_code
+            travel_form_code = s.datalistgrid[s.temp_row_id].travel_form_type
         }
 
-        console.log(travel_form_code)
+      
 
         if (travel_form_code == "1") {
 
             if (s.txtb_travel_department_dspl_hid != "18") {
-                $("#rec_approver").removeClass("hidden")
-                $("#first_approver").addClass("hidden")
-                $("#final_approver").addClass("hidden")
 
-                $("#lbl_rec_appr").text("Final Approver")
-                $("#lbl_first_appr").text("")
-                $("#lbl_final_appr").text("")
+                
 
-                $("#ddl_first_appr_dspl").val("")
-                $("#ddl_final_appr_dspl").val("")
+                //$("#rec_approver").removeClass("hidden")
+                //$("#first_approver").addClass("hidden")
+                //$("#final_approver").addClass("hidden")
 
-                $("#ddl_first_appr_dspl ").trigger('change')
-                $("#ddl_final_appr_dspl ").trigger('change')
+                //$("#lbl_rec_appr").text("Final Approver")
+                ////$("#lbl_first_appr").text("")
+                //$("#lbl_final_appr").text("")
+
+                //$("#ddl_first_appr_dspl").val("")
+                //$("#ddl_final_appr_dspl").val("")
+
+                //$("#ddl_first_appr_dspl ").trigger('change')
+                //$("#ddl_final_appr_dspl ").trigger('change')
             }
            
 
@@ -2298,6 +2311,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     //**********************************// 
     function edit_action(row_id, isCreator)
     {
+
         try {
             s.temp_row_id = row_id;
             isCreatorGridAction = isCreator

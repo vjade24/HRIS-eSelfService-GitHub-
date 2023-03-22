@@ -606,7 +606,8 @@
                                                         <option value="">--Select Here--</option>
                                                         <option ng-repeat="lst in travel_type_list track by $index" ngx-data="{{$index}}" value="{{lst.travel_type_code}}">{{lst.travel_type_descr}}</option>
                                                     </select>
-                                                    <b><input type="text" ng-show="true" class="form-control form-control-sm" id="txtb_travel_type" ng-model="txtb_travel_type" disabled readonly /></b>
+                                                    <b>
+                                                    <input type="text" ng-show="true" class="form-control form-control-sm" id="txtb_travel_type" ng-model="txtb_travel_type" disabled readonly /></b>
                                                     <label id="lbl_ddl_travel_type_req" class="lbl_required"></label>
                                                 </div>
 
