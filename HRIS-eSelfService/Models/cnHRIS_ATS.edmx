@@ -935,6 +935,15 @@
           <Property Name="travel_date_to" Type="date" />
           <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'HRIS_ATS.dbo.travelpurpose_tbl' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="travelpurpose_tbl">
+          <Property Name="ctrl_no" Type="int" />
+          <Property Name="travel_purpose" Type="varchar" MaxLength="300" />
+          <Property Name="with_claims" Type="bit" />
+          <Property Name="with_ldnf" Type="bit" />
+          <Property Name="with_emergency" Type="bit" />
+        </EntityType>-->
         <EntityType Name="traveltype_tbl">
           <Key>
             <PropertyRef Name="travel_type_code" />

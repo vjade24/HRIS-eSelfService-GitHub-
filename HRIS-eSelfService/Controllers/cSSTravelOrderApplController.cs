@@ -120,6 +120,7 @@ namespace HRIS_eSelfService.Controllers
                 var status                      = db_ats.sp_approval_status_list().ToList();
                 var travel_type_list            = db_ats.traveltype_tbl.ToList();
 
+                //var emergencypurpose            = db_ats.tra
 
                 // var empl_name_list              = db_dev.sp_employee_list_dept_travel(dept_code);
                 //var empl_name_list = db_dev.sp_employee_list_dept(empl_id); --REMOVE NO POSITION TITLE

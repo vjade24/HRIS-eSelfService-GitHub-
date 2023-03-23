@@ -47,6 +47,9 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         
     ]
 
+    s.withrecommending = false
+    s.withLdnf = false
+
     s.isShowAddDates        = false
     s.isShowUpdateDates     = false
     s.isShowAddEmployee     = false
@@ -3592,3 +3595,72 @@ function RemoveClass(value, field) {
 
    
 }
+//02
+//18
+//19
+//20
+//21
+//22
+//23
+//24
+
+ng_selfService_App.directive('ngLdnf', ["commonScript", function (cs) {
+   
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (elem[0].checked) {
+                    if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
+                        scope.withrecommending = true
+                       
+                        $("#rec_approver").prop("hidden", false)
+                    }
+                    else {
+                        scope.withrecommending = false
+                        $("#rec_approver").prop("hidden",true)
+                    }
+                    scope.withLdnf = true
+                } else {
+                    scope.withrecommending = false
+                    scope.withLdnf = false
+                    $("#rec_approver").prop("hidden", true)
+                }
+            })
+        }
+    }
+}])
+
+ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) {
+
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (scope.withLdnf) {
+                    if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
+                        scope.withrecommending = true
+                        $("#rec_approver").prop("hidden", false)
+                    }
+                    else {
+                        scope.withrecommending = false
+                        $("#rec_approver").prop("hidden", true)
+                    }
+                }
+                else {
+                    scope.withrecommending = false
+                    $("#rec_approver").prop("hidden", true)
+                }
+               
+            })
+        }
+    }
+}])

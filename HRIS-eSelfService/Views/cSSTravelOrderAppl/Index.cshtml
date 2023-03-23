@@ -505,7 +505,7 @@
                                                 <div class="col-lg-2" style="padding-top:5px;">
                                                     <label ID="include_history" class="container" style="padding-top: 2px; font-size: 12px !important;">
                                                         &nbsp;<span class="text-danger">LDNF</span>
-                                                        <input type="checkbox" id="chk_with_ldnf" ng-model="chk_with_ldnf" ng-disabled="isDisablechk" />
+                                                        <input type="checkbox" id="chk_with_ldnf" ng-model="chk_with_ldnf" ng-ldnf ng-disabled="isDisablechk" />
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -533,7 +533,7 @@
                                                     <span class="font-bold" style="margin-top:9px;"><b>Travel Place to Visit:</b></span>
                                                 </div>
                                                 <div class="col-lg-9">
-                                                    <b><input type="text" onchange="RemoveClass('txtb_travel_place_dspl','txtb_travel_place')" class="form-control form-control-sm" id="txtb_travel_place_dspl" ng-model="txtb_travel_place_dspl" ng-disabled="isAbledPlacetoVisit" /></b>
+                                                    <b><input type="text" onchange="RemoveClass('txtb_travel_place_dspl','txtb_travel_place')" class="form-control form-control-sm" id="txtb_travel_place_dspl" ng-model="txtb_travel_place_dspl" ng-disabled="isAbledPlacetoVisit" with-recommending /></b>
                                                     <label id="lbl_txtb_travel_place_req" class="lbl_required"></label>
                                                 </div>
 
@@ -543,7 +543,7 @@
                                                     <span class="font-bold" style="margin-top:9px;"><b>Travel Form:</b></span>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <select ng-show="show_in_add" onchange="RemoveClass('ddl_travel_form','ddl_travel_form')" id="ddl_travel_form" ng-model="ddl_travel_form" class="form-control form-control-sm" ng-disabled="isAbledTravelForm">
+                                                    <select ng-show="show_in_add" onchange="RemoveClass('ddl_travel_form','ddl_travel_form')" id="ddl_travel_form" ng-model="ddl_travel_form" class="form-control form-control-sm" ng-disabled="isAbledTravelForm" with-recommending>
                                                         <option value="">--Select Here--</option>
                                                         <option ng-repeat="lst in travel_form_list track by $index" ngx-data="{{$index}}" value="{{lst.travel_form_code}}">{{lst.travel_form_descr}}</option>
                                                     </select>
