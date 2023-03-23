@@ -76,6 +76,7 @@
         <EntityTypeShape EntityType="HRIS_ATSModel.fl_plan_hdr_rep_tbl" Width="1.5" PointX="28.375" PointY="10.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.leave_application_cancel_tbl" Width="1.5" PointX="28.375" PointY="15.75" />
         <EntityTypeShape EntityType="HRIS_ATSModel.to_final_approver_tbl" Width="1.5" PointX="28.375" PointY="20.75" />
+        <EntityTypeShape EntityType="HRIS_ATSModel.travelpurpose_tbl" Width="1.5" PointX="28.375" PointY="23.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

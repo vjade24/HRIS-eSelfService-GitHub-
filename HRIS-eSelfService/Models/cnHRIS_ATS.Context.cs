@@ -98,6 +98,7 @@ namespace HRIS_eSelfService.Models
         public virtual DbSet<fl_plan_hdr_rep_tbl> fl_plan_hdr_rep_tbl { get; set; }
         public virtual DbSet<leave_application_cancel_tbl> leave_application_cancel_tbl { get; set; }
         public virtual DbSet<to_final_approver_tbl> to_final_approver_tbl { get; set; }
+        public virtual DbSet<travelpurpose_tbl> travelpurpose_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "func_ob_start_end_time")]
         public virtual IQueryable<func_ob_start_end_time_Result> func_ob_start_end_time(string empl_id, Nullable<System.DateTime> dtr_date)
