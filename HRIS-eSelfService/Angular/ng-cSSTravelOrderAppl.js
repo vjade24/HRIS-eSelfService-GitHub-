@@ -29,7 +29,8 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     s.datalistgridEmployee = []
     s.oTableDates       = null;
     s.datalistgridDates = []
-    s.isActionSubNew    = ""
+    s.isActionSubNew = ""
+    s.ddl_travelpurpose = ""
     s.travel_order_requestor = ""
     s.par_month = ""
     s.par_year  = ""
@@ -40,6 +41,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     s.ddl_address_to_list = []
     s.ddl_address_to_list1 = []
     s.ddl_address_to_list_raw = []
+    s.emergencypurpose = []
     s.travel_form_list = [
         { travel_form_code: '1', travel_form_descr: 'W/in the Province' },
         { travel_form_code: '2', travel_form_descr: 'Outside the Province (w/in Davao Region)' },
@@ -49,6 +51,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
     s.withrecommending = false
     s.withLdnf = false
+    s.withEmergency = false
 
     s.isShowAddDates        = false
     s.isShowUpdateDates     = false
@@ -78,7 +81,14 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     tname = ""
     s.show_cancel           = false;
 
-    s.isShowCancelReason    = true;
+    s.isShowCancelReason = true;
+
+    s.selectTravelPurpose = function (x) {
+
+        $("#txtb_travel_purpose_dspl").val($("#ddl_travelpurpose").val())
+
+    }
+   
 
     function init() {
         try
@@ -87,7 +97,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
             $('#div_to_date .input-group.date').datepicker({
                 todayBtn: "linked",
-                keyboardNavigation: false,
+                keyboardNavigation: false,       
                 forceParse: false,
                 calendarWeeks: true,
                 autoclose: true,
@@ -105,6 +115,9 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 s.SelectTimeSched();
             })
             
+            $("#ddl_travelpurpose").select2().on('change', function (e) {
+                s.selectTravelPurpose();
+            })
 
 
             $("#ddl_name_header").select2().on('change', function (e) {
@@ -143,7 +156,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 if (d.data.message == "success")
                 {
                     s.txtb_travel_date_filed_dspl = d.data.current_date
-                  
+                    s.emergencypurpose = d.data.emergencypurpose
                     $("#ddl_name_dspl").select2().on('change', function (e) {
                         s.getEmployeeInfo()
                     })
@@ -1141,9 +1154,10 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             s.oTableEmployee.fnClearTable();
             ToogleDisabledRemove()
             $('#main_modal').on('shown.bs.modal', function () {
-
                 $('.nav-tabs a[href="#tab-1"]').tab('show');
-
+                $("#ddl_tp").addClass("hidden")
+                $("#inp_tp").removeClass("hidden")
+                $("#txtb_travel_purpose_dspl").val("")
             });
 
             tname = "oTableDates"
@@ -1419,7 +1433,15 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
         try
         {
-             
+            if (s.withEmergency) {
+                var we = $("#ddl_travelpurpose").val()
+                if (we == "" || we == undefined) {
+                    cs.required2("ddl_travelpurpose", "Required field!")
+                }
+                else {
+                    cs.notrequired2("ddl_travelpurpose")
+                }
+            }
            
             if(fsapprover == "" || fsapprover == undefined)
             {
@@ -2057,7 +2079,11 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             $("#lbl_txtb_travel_date_to_req").text("");
 
         }
+        
+
     }
+
+
    
 
 
@@ -3660,6 +3686,32 @@ ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) 
                     $("#rec_approver").prop("hidden", true)
                 }
                
+            })
+        }
+    }
+}])
+
+ng_selfService_App.directive('withEmergency', ["commonScript", function (cs) {
+
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (elem[0].checked) {
+                    $("#ddl_tp").removeClass("hidden")
+                    $("#inp_tp").addClass("hidden")
+                    scope.withEmergency = true
+                  
+                } else {
+                    $("#ddl_tp").addClass("hidden")
+                    $("#inp_tp").removeClass("hidden")
+                    $("#txtb_travel_purpose_dspl").val("")
+                    scope.withEmergency = false
+                }
             })
         }
     }

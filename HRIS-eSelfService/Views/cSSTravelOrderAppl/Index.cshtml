@@ -9,6 +9,9 @@
     ViewBag.Title = "Index";
 }
 <style type="text/css">
+    .hidden {
+        display: none;
+    }
     .field {
         border-radius: 3px;
         height: 35px;
@@ -512,7 +515,7 @@
                                                 <div class="col-lg-3" style="padding-top:5px;">
                                                     <label ID="include_history" class="container" style="padding-top: 2px; font-size: 12px !important;">
                                                         &nbsp;<span class="text-danger">Emergency</span>
-                                                        <input type="checkbox" id="chk_with_emergency" ng-model="chk_with_emergency" onchange="RemoveClass()" ng-disabled="isDisablechk" />
+                                                        <input type="checkbox" id="chk_with_emergency" ng-model="chk_with_emergency" onchange="RemoveClass()" ng-disabled="isDisablechk" with-emergency />
                                                         <span class="checkmark"></span>
                                                     </label>
                                                 </div>
@@ -569,7 +572,15 @@
                                                 <div class="col-lg-3">
                                                     <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Subject/Purpose:</b></span>
                                                 </div>
-                                                <div class="col-lg-9">
+                                                <div id="ddl_tp" class="col-lg-9 hidden">
+                                                    <b>
+                                                        <select id="ddl_travelpurpose" ng-model="ddl_travelpurpose" class="form-control form-control-sm" ng-change="selectTravelPurpose(ddl_travelpurpose)" style="width:100%;">
+                                                            <option value="">--Select Here--</option>
+                                                            <option ng-repeat="lst in emergencypurpose track by $index" ngx-data="{{$index}}" value="{{lst.travel_purpose}}">{{lst.travel_purpose}}</option>
+                                                        </select>
+                                                    </b>
+                                                </div>
+                                                <div id="inp_tp" class="col-lg-9">
                                                     <b><input type="text" class="form-control form-control-sm" onchange="RemoveClass('txtb_travel_purpose_dspl','txtb_travel_purpose')" id="txtb_travel_purpose_dspl" ng-disabled="isAbledSubject" ng-model="txtb_travel_purpose_dspl" /></b>
                                                     <label id="lbl_txtb_travel_purpose_req" class="lbl_required"></label>
                                                 </div>
@@ -587,9 +598,7 @@
                                                 </div>
                                                 <div class="col-lg-9" ng-hide="isShowCancelReason" style="margin-top:3px;">
                                                     <textarea class="form-control form-control-sm" id="txtb_cancellation_dspl" ng-disabled="true" ng-model="txtb_cancellation_dspl"></textarea>
-
                                                 </div>
-
                                             </div>
 
                                             <div class="row" style="margin-top:5px;">
