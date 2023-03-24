@@ -1158,6 +1158,9 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 $("#ddl_tp").addClass("hidden")
                 $("#inp_tp").removeClass("hidden")
                 $("#txtb_travel_purpose_dspl").val("")
+                $("#ddl_travelpurpose").val("").trigger('change')
+                s.ddl_travelpurpose = ""
+                
             });
 
             tname = "oTableDates"
@@ -2458,7 +2461,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
             s.txtb_late_justi = s.datalistgrid[row_id].late_justification
             $("#txtb_late_justi").val(s.datalistgrid[row_id].late_justification)
-
+            $("#txtb_travel_purpose_dspl ").val(s.datalistgrid[row_id].travel_purpose)
             $("#ddl_rec_appr_dspl ").val(s.datalistgrid[row_id].recappr_empl)
             $("#ddl_first_appr_dspl ").val(s.datalistgrid[row_id].firstappr_empl_id)
             $("#ddl_final_appr_dspl ").val(s.datalistgrid[row_id].finalappro_empl_id)
@@ -2778,7 +2781,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     //**********************************// 
     s.btn_edit_action = function (row_id, isCreator) {
       
-    edit_action(row_id, isCreator);
+           (row_id, isCreator);
     }
 
 
@@ -3499,6 +3502,15 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
 
 })
+function setFinalApprover(dep)
+{
+    if (dep == "18" || dep == "19")
+    {
+       s.ddl_first_appr_dspl
+    }
+    
+    
+}
 
 function RemovePMAMStart(val)
 {
@@ -3654,7 +3666,7 @@ ng_selfService_App.directive('ngLdnf', ["commonScript", function (cs) {
                 } else {
                     scope.withrecommending = false
                     scope.withLdnf = false
-                    $("#rec_approver").prop("hidden", true)
+                    $("#rec_approver").prop("hidden", false)
                 }
             })
         }
@@ -3683,7 +3695,7 @@ ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) 
                 }
                 else {
                     scope.withrecommending = false
-                    $("#rec_approver").prop("hidden", true)
+                    $("#rec_approver").prop("hidden", false)
                 }
                
             })

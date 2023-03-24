@@ -1041,7 +1041,16 @@ ng_selfService_App.service("commonScript", ["$compile", "$filter", function (c, 
                 }
             }
             return retval == 0 ? true : false;
-        }
+        },
+        finalApprover: function (dep) {
+            if (dep == "18" || dep == "19") {
+                return "7610"
+            }
+            else {
+                return "10063"
+            }
+                
+        },
     }
 
 }])
