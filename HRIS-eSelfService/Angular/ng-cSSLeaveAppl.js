@@ -4406,30 +4406,38 @@
             swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, Approved by and Approve by Designation is required!",{ icon: "warning" });
             return;
         }
-
-        s.btn_print_cancel();
-        var data = {
-             leave_ctrlno           : s.txtb_appl_nbr
-            ,empl_id                : s.txtb_empl_id
-            //,reason                 : s.reason     
-            ,approved_by            : s.approved_by          
-            ,approved_by_desig      : s.approved_by_desig    
-            ,leave_cancel_status    : "S"
-            //, leave_cancel_type     : s.leave_cancel_type
-        }
-        h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+        
+        for (var i = 0; i < s.datalist_grid_cancell.length; i++)
         {
-            if (d.data.message == "success")
+            if (s.datalist_grid_cancell[i].reason.toString() == "")
             {
-                swal("Successfully Submitted!", { icon: "success" });
-                $('#modal_cancellation').modal("hide");
+                swal("Please input Reason Remarks for cancellation!", { icon: "warning" });
+                break;
             }
             else
             {
-                swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
+                var data = {
+                    leave_ctrlno            : s.txtb_appl_nbr
+                    ,empl_id                : s.txtb_empl_id  
+                    ,approved_by            : s.approved_by          
+                    ,approved_by_desig      : s.approved_by_desig    
+                    ,leave_cancel_status    : "S"
+                }
+                h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
+                        swal("Successfully Submitted!", { icon: "success" });
+                        $('#modal_cancellation').modal("hide");
+                        s.btn_print_cancel();
+                    }
+                    else
+                    {
+                        swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
+                    }
+                })
             }
-        })
-
+        }
     }
 
     s.btn_submit_cancel_pending = function ()
