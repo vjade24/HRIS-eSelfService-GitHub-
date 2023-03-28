@@ -29,7 +29,8 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     s.datalistgridEmployee = []
     s.oTableDates       = null;
     s.datalistgridDates = []
-    s.isActionSubNew    = ""
+    s.isActionSubNew = ""
+    s.ddl_travelpurpose = ""
     s.travel_order_requestor = ""
     s.par_month = ""
     s.par_year  = ""
@@ -40,12 +41,17 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     s.ddl_address_to_list = []
     s.ddl_address_to_list1 = []
     s.ddl_address_to_list_raw = []
+    s.emergencypurpose = []
     s.travel_form_list = [
         { travel_form_code: '1', travel_form_descr: 'W/in the Province' },
         { travel_form_code: '2', travel_form_descr: 'Outside the Province (w/in Davao Region)' },
         { travel_form_code: '3', travel_form_descr: 'Outside Davao Region/Seminar'}
         
     ]
+
+    s.withrecommending = false
+    s.withLdnf = false
+    s.withEmergency = false
 
     s.isShowAddDates        = false
     s.isShowUpdateDates     = false
@@ -75,7 +81,14 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     tname = ""
     s.show_cancel           = false;
 
-    s.isShowCancelReason    = true;
+    s.isShowCancelReason = true;
+
+    s.selectTravelPurpose = function (x) {
+
+        $("#txtb_travel_purpose_dspl").val($("#ddl_travelpurpose").val())
+
+    }
+   
 
     function init() {
         try
@@ -84,7 +97,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
             $('#div_to_date .input-group.date').datepicker({
                 todayBtn: "linked",
-                keyboardNavigation: false,
+                keyboardNavigation: false,       
                 forceParse: false,
                 calendarWeeks: true,
                 autoclose: true,
@@ -102,6 +115,9 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 s.SelectTimeSched();
             })
             
+            $("#ddl_travelpurpose").select2().on('change', function (e) {
+                s.selectTravelPurpose();
+            })
 
 
             $("#ddl_name_header").select2().on('change', function (e) {
@@ -140,7 +156,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 if (d.data.message == "success")
                 {
                     s.txtb_travel_date_filed_dspl = d.data.current_date
-                  
+                    s.emergencypurpose = d.data.emergencypurpose
                     $("#ddl_name_dspl").select2().on('change', function (e) {
                         s.getEmployeeInfo()
                     })
@@ -1138,9 +1154,13 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             s.oTableEmployee.fnClearTable();
             ToogleDisabledRemove()
             $('#main_modal').on('shown.bs.modal', function () {
-
                 $('.nav-tabs a[href="#tab-1"]').tab('show');
-
+                $("#ddl_tp").addClass("hidden")
+                $("#inp_tp").removeClass("hidden")
+                $("#txtb_travel_purpose_dspl").val("")
+                $("#ddl_travelpurpose").val("").trigger('change')
+                s.ddl_travelpurpose = ""
+                
             });
 
             tname = "oTableDates"
@@ -1416,7 +1436,15 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
         try
         {
-             
+            if (s.withEmergency) {
+                var we = $("#ddl_travelpurpose").val()
+                if (we == "" || we == undefined) {
+                    cs.required2("ddl_travelpurpose", "Required field!")
+                }
+                else {
+                    cs.notrequired2("ddl_travelpurpose")
+                }
+            }
            
             if(fsapprover == "" || fsapprover == undefined)
             {
@@ -2054,7 +2082,11 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
             $("#lbl_txtb_travel_date_to_req").text("");
 
         }
+        
+
     }
+
+
    
 
 
@@ -2429,7 +2461,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
             s.txtb_late_justi = s.datalistgrid[row_id].late_justification
             $("#txtb_late_justi").val(s.datalistgrid[row_id].late_justification)
-
+            $("#txtb_travel_purpose_dspl ").val(s.datalistgrid[row_id].travel_purpose)
             $("#ddl_rec_appr_dspl ").val(s.datalistgrid[row_id].recappr_empl)
             $("#ddl_first_appr_dspl ").val(s.datalistgrid[row_id].firstappr_empl_id)
             $("#ddl_final_appr_dspl ").val(s.datalistgrid[row_id].finalappro_empl_id)
@@ -2749,7 +2781,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     //**********************************// 
     s.btn_edit_action = function (row_id, isCreator) {
       
-    edit_action(row_id, isCreator);
+           (row_id, isCreator);
     }
 
 
@@ -3470,6 +3502,15 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
 
 })
+function setFinalApprover(dep)
+{
+    if (dep == "18" || dep == "19")
+    {
+       s.ddl_first_appr_dspl
+    }
+    
+    
+}
 
 function RemovePMAMStart(val)
 {
@@ -3592,3 +3633,98 @@ function RemoveClass(value, field) {
 
    
 }
+//02
+//18
+//19
+//20
+//21
+//22
+//23
+//24
+
+ng_selfService_App.directive('ngLdnf', ["commonScript", function (cs) {
+   
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (elem[0].checked) {
+                    if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
+                        scope.withrecommending = true
+                       
+                        $("#rec_approver").prop("hidden", false)
+                    }
+                    else {
+                        scope.withrecommending = false
+                        $("#rec_approver").prop("hidden",true)
+                    }
+                    scope.withLdnf = true
+                } else {
+                    scope.withrecommending = false
+                    scope.withLdnf = false
+                    $("#rec_approver").prop("hidden", false)
+                }
+            })
+        }
+    }
+}])
+
+ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) {
+
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (scope.withLdnf) {
+                    if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
+                        scope.withrecommending = true
+                        $("#rec_approver").prop("hidden", false)
+                    }
+                    else {
+                        scope.withrecommending = false
+                        $("#rec_approver").prop("hidden", true)
+                    }
+                }
+                else {
+                    scope.withrecommending = false
+                    $("#rec_approver").prop("hidden", false)
+                }
+               
+            })
+        }
+    }
+}])
+
+ng_selfService_App.directive('withEmergency', ["commonScript", function (cs) {
+
+    //************************************// 
+    //*** this directive remove the required warning if fields is not empty
+    //************************************// 
+    return {
+        restrict: 'A',
+        link: function (scope, elem, attrs) {
+            elem.on('click', function () {
+                var dep = scope.txtb_travel_department_dspl_hid
+                if (elem[0].checked) {
+                    $("#ddl_tp").removeClass("hidden")
+                    $("#inp_tp").addClass("hidden")
+                    scope.withEmergency = true
+                  
+                } else {
+                    $("#ddl_tp").addClass("hidden")
+                    $("#inp_tp").removeClass("hidden")
+                    $("#txtb_travel_purpose_dspl").val("")
+                    scope.withEmergency = false
+                }
+            })
+        }
+    }
+}])

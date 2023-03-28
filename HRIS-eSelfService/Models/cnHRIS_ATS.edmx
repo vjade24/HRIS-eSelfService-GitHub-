@@ -935,6 +935,16 @@
           <Property Name="travel_date_to" Type="date" />
           <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
         </EntityType>
+        <EntityType Name="travelpurpose_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+          </Key>
+          <Property Name="ctrl_no" Type="int" Nullable="false" />
+          <Property Name="travel_purpose" Type="varchar" MaxLength="300" />
+          <Property Name="with_claims" Type="bit" />
+          <Property Name="with_ldnf" Type="bit" />
+          <Property Name="with_emergency" Type="bit" />
+        </EntityType>
         <EntityType Name="traveltype_tbl">
           <Key>
             <PropertyRef Name="travel_type_code" />
@@ -2107,6 +2117,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySet Name="travelorder_empl_dtl_tbl" EntityType="Self.travelorder_empl_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelorder_hdr_tbl" EntityType="Self.travelorder_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelordertype_empl_dtl_tbl" EntityType="Self.travelordertype_empl_dtl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="travelpurpose_tbl" EntityType="Self.travelpurpose_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="traveltype_tbl" EntityType="Self.traveltype_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tse_check_tbl" EntityType="Self.tse_check_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="vl_fractionconvertion_tbl" EntityType="Self.vl_fractionconvertion_tbl" Schema="dbo" store:Type="Tables" />
@@ -3512,6 +3523,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="travelpurpose_tbl" EntityType="HRIS_ATSModel.travelpurpose_tbl" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -6852,6 +6864,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="DateTime" Name="returned_dttm" Nullable="false" Precision="23" />
           <Property Type="String" Name="returned_remarks" Nullable="false" MaxLength="255" />
         </ComplexType>
+        <EntityType Name="travelpurpose_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+          </Key>
+          <Property Name="ctrl_no" Type="Int32" Nullable="false" />
+          <Property Name="travel_purpose" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="with_claims" Type="Boolean" />
+          <Property Name="with_ldnf" Type="Boolean" />
+          <Property Name="with_emergency" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10812,6 +10834,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="travelpurpose_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.travelpurpose_tbl">
+              <MappingFragment StoreEntitySet="travelpurpose_tbl">
+                <ScalarProperty Name="with_emergency" ColumnName="with_emergency" />
+                <ScalarProperty Name="with_ldnf" ColumnName="with_ldnf" />
+                <ScalarProperty Name="with_claims" ColumnName="with_claims" />
+                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

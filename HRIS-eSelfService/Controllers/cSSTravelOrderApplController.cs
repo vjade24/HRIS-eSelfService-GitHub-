@@ -120,11 +120,12 @@ namespace HRIS_eSelfService.Controllers
                 var status                      = db_ats.sp_approval_status_list().ToList();
                 var travel_type_list            = db_ats.traveltype_tbl.ToList();
 
+                var emergencypurpose = db_ats.travelpurpose_tbl.Where(a => a.with_emergency == true).ToList();
 
                 // var empl_name_list              = db_dev.sp_employee_list_dept_travel(dept_code);
                 //var empl_name_list = db_dev.sp_employee_list_dept(empl_id); --REMOVE NO POSITION TITLE
                 var empl_name_list = db_ats.sp_employee_list_dept_position(empl_id);
-                return JSON(new { message       = "success", empl_name_list, department_list, um, travel_type_list, sp_travelorder_hdr_tbl_list, status, empl_name, empl_id, dept_code, holiDate, sp_travelorder_hdr_tbl_calendar_list, sp_dtr_transmittal_addressto_list, current_date }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message       = "success", empl_name_list, department_list, um, travel_type_list, sp_travelorder_hdr_tbl_list, status, empl_name, empl_id, dept_code, holiDate, sp_travelorder_hdr_tbl_calendar_list, sp_dtr_transmittal_addressto_list, current_date, emergencypurpose }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
