@@ -240,7 +240,7 @@
         }
     }
 </style>
-<script src="~/Angular/ng-cSSLeaveAppl.js?v=7"></script>
+<script src="~/Angular/ng-cSSLeaveAppl.js?v=8"></script>
 <section ng-app="ng_selfService_App" ng-controller="cSSLeaveAppl_ctrlr">
 
 
@@ -1025,8 +1025,8 @@
                     @* <button type="button" class="btn btn-primary pull-left" ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print Cancellation</button>*@
                     <div ng-show="show_final_approved">
                         <button type="button" class="btn btn-primary" ng-show="!show_pending_submit" ng-click="btn_submit_cancel()"><i class="fa fa-send"></i> Submit and Print  Cancellation</button>
-                        <button type="button" class="btn btn-danger" ng-show="show_pending_submit" ng-click="btn_submit_cancel_pending()"><i class="fa fa-send"></i> Cancel Pending</button>
-                        <button type="button" class="btn btn-success" ng-show="show_pending_submit" ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-danger"  ng-show="show_pending_submit"  ng-click="btn_submit_cancel_pending()"><i class="fa fa-send"></i> Cancel Pending</button>
+                        <button type="button" class="btn btn-success" ng-show="show_pending_submit"  ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
             </div>

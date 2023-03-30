@@ -698,7 +698,8 @@
                                 if (s.cancellation_calendar[i].leave_cancel_status == "C") {
                                     lv_status_descr = "Cancel Pending"
                                 }
-                                if (s.cancellation_calendar[i].leave_cancel_status == "S") {
+                                if (s.cancellation_calendar[i].leave_cancel_status == "S")
+                                {
                                     lv_status_descr = "Submitted"
                                 }
                                 if (s.cancellation_calendar[i].leave_cancel_status == "F") {
@@ -4327,19 +4328,29 @@
                 s.final_approved_dttm           = moment(d.data.dates_list[0].final_approved_dttm).format('YYYY-MM-DD hh:mm:ss A')
                 s.leave_cancel_type             = d.data.dates_list[0].leave_cancel_type
 
-                if (d.data.dates_list[0].leave_cancel_status == "N" ||
-                    d.data.dates_list[0].leave_cancel_status == "C" ||
-                    d.data.dates_list[0].leave_cancel_status == ""
-                    )
+                for (var i = 0; i < d.data.dates_list.length; i++)
                 {
-                    s.dis_cancel_txtbox   = false;
-                    s.show_pending_submit = false;
+                    if (d.data.dates_list[i].leave_cancel_status == "N" ||
+                        d.data.dates_list[i].leave_cancel_status == "C" ||
+                        d.data.dates_list[i].leave_cancel_status == ""
+                        )
+                    {
+                        s.dis_cancel_txtbox   = false;
+                        s.show_pending_submit = false;
+                    }
+
+                    if (d.data.dates_list[i].leave_cancel_status == "F")
+                    {
+                        s.show_final_approved = false;
+                    }
+
+                    if (d.data.dates_list[i].leave_cancel_status == "S")
+                    {
+                        s.show_pending_submit = true;
+                        break;
+                    }
                 }
 
-                if (d.data.dates_list[0].leave_cancel_status == "F")
-                {
-                    s.show_final_approved = false;
-                }
 
                 s.oTable_cancel.fnClearTable();
                 s.datalist_grid_cancell = d.data.dates_list;
@@ -4409,7 +4420,7 @@
         
         for (var i = 0; i < s.datalist_grid_cancell.length; i++)
         {
-            if (s.datalist_grid_cancell[i].reason.toString() == "")
+            if (s.datalist_grid_cancell[i].reason.toString() == "" && s.datalist_grid_cancell[i].cancel_flag == true)
             {
                 swal("Please input Reason Remarks for cancellation!", { icon: "warning" });
                 break;
