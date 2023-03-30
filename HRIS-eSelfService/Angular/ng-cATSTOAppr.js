@@ -59,12 +59,27 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     $.fn.modal.Constructor.prototype.enforceFocus = function () {
 
     }
+
+    s.approver_list = [
+        { empl_id: "10058", employee_name: "Fatima P. Montejo" }
+        ,{ empl_id: "10063", employee_name: "Dorothy P. Montejo-Gonzaga" }
+    ]
 	var account_user_id = "U"
 
     //setInterval(function () {
     //    s.btn_click_reload_notif()
     //}, 60 * 1000); // 60 * 1000 milsec
-
+    s.showapredit = false
+    s.allowapredit = function () {
+        if (account_user_id == "U8447" || account_user_id == "U2003") {
+            //s.showapredit = true
+            return true
+        }
+        else {
+            //s.showapredit = false
+            return false
+        }
+    }
     function initialize_obj(arr) {
         for (var x = 0; x < arr.length; x++) {
             $("#" + arr[x]).val("")
@@ -128,7 +143,9 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
 
         h.post("../cATSTOAppr/InitializeData").then(function (d) {
             if (d.data.message == "success") 
-			{
+            {
+                account_user_id = account_user_id + d.data.empl_id
+                s.allowapredit()
                 s.btn_enabled_4HR = d.data.btn_enabled_4HR
                 current_date = d.data.current_date
                 $("#ddl_dept").select2().on('change', function (e)
@@ -193,7 +210,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 
                 s.ddl_dept = d.data.dept_code;
                 s.ddl_dept_original = d.data.dept_code;
-				account_user_id = account_user_id+d.data.empl_id
+			
                 if (s.ddl_dept == "03" || s.ddl_dept == "01" || d.data.empl_id == "10058")
                 {
                     s.hr_enable_only        = false
@@ -209,7 +226,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     s.isShowAddDates        = false
                     s.isShowAddEmployee     = false
                 }
-
+                
                 $("#ddl_dept_rep").val("")
                 s.ddl_dept_rep = ""
 
@@ -254,12 +271,12 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
               
             }
             
-            
+           
 
         });
     }
     init()
-
+   
  
     var init_table_data = function (par_data) {
         s.datalistgrid = par_data;
@@ -355,6 +372,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                             temp = '<center>' +
                                 '<button id="btn-text_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"> ' + data + '</button >' +
                                 '<button id="btn-icon_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"><i class="fa fa-eye"></i></button >' +
+                                '<button id="btn-edit_appr" ng-show="' + s.allowapredit() +'" type="button" class="btn btn-warning btn-sm" ng-click="btn_edit_appr(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Approver">Edit Approver</button >' +
 
                                 '</center>';
                             return temp;
@@ -2065,6 +2083,77 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
         
     }
 
+    //************************************// 
+    //*** Open Edit Modal         
+    //**********************************// 
+    s.btn_edit_appr = function (row) {
+        var dt = s.datalistgrid[row]
+        
+        //s.empl_name_list
+        //console.log(dt)
+
+        h.post("../cATSTOAppr/Edit_recom_final_Approver",
+            {
+                travel_order_no: dt.application_nbr
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+
+                    var rd = d.data.travelorders[0]
+
+                    if (rd.recappr_empl != "10058" && rd.recappr_empl != "") {
+                        var recname = s.empl_name_list.filter(function (d) {
+                            return d.empl_id == rd.recappr_empl
+                        })
+                        s.approver_list.push({
+                             empl_id: rd.recappr_empl
+                            , employee_name: recname.employee_name
+                        })
+                    }
+
+                    console.log(s.approver_list)
+                    
+                    $("#editappr_travel_order_no").val(rd.travel_order_no)
+                    $("#ddl_editappr_recommending").val(rd.recappr_empl).trigger("change");
+                    $("#ddl_editappr_final").val(rd.firstappr_empl_id).trigger("change");
+                    $("#edit_appr_modal").modal("show")
+                   
+                }
+                else {
+                    swal({ title: d.data.message, icon: "error", });
+                }
+            })
+
+    }
+
+    //************************************// 
+    //*** Open Edit Modal         
+    //**********************************// 
+    s.editappr_save = function () {
+        var travelorderno = $("#editappr_travel_order_no").val()
+        var recapprempl = $("#ddl_editappr_recommending").val()
+        var firstapprempl_id = $("#ddl_editappr_final").val()
+      
+        if (account_user_id == "U8447" || account_user_id == "U2003") {
+            cs.loading("show")
+            h.post("../cATSTOAppr/save_recom_final_Approver",
+                {
+                    travel_order_no: travelorderno
+                    , recappr_empl: recapprempl
+                    , firstappr_empl_id: firstapprempl_id
+                }).then(function (d) {
+                    cs.loading("hide")
+                    if (d.data.icon == "success") {
+                        swal({ title: d.data.message, icon: d.data.icon, });
+                    }
+                    else {
+                        swal({ title: d.data.message, icon: "error", });
+                    }
+
+                })
+        }
+
+    }
+
     ////************************************// 
     ////*** Cance Final Approved            
     ////**********************************// 
@@ -3430,4 +3519,5 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     }
 
 })
+
 

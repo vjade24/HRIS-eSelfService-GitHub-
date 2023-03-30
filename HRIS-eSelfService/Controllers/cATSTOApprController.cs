@@ -166,6 +166,54 @@ namespace HRIS_eSelfService.Controllers
             }
         }
 
+        //*********************************************************************//
+        // Created By   : Marvin Olita 
+        // Created Date : 03/02/2020
+        // Description  : Edit recommendingh and final approver
+        //*********************************************************************//
+        public ActionResult Edit_recom_final_Approver(string travel_order_no)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+
+                var travelorders = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
+
+
+                return JSON(new { message = "success", icon="success", travelorders}, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message, icon="error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //*********************************************************************//
+        // Created By   : Marvin Olita 
+        // Created Date : 03/02/2020
+        // Description  : Edit recommendingh and final approver
+        //*********************************************************************//
+        public ActionResult save_recom_final_Approver(string travel_order_no, string recappr_empl,string firstappr_empl_id)
+        {
+            try
+            {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+
+                var travelorders = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no).FirstOrDefault();
+                travelorders.recappr_empl = recappr_empl;
+                travelorders.firstappr_empl_id = firstappr_empl_id;
+                db_ats.SaveChanges();
+
+                return JSON(new { message = "Update success", icon = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (DbEntityValidationException e)
+            {
+                string message = DbEntityValidationExceptionError(e);
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
 
         //*********************************************************************//
         // Created By   : Joseph M. Tombo Jr. 
