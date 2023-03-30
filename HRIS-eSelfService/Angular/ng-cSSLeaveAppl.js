@@ -698,7 +698,8 @@
                                 if (s.cancellation_calendar[i].leave_cancel_status == "C") {
                                     lv_status_descr = "Cancel Pending"
                                 }
-                                if (s.cancellation_calendar[i].leave_cancel_status == "S") {
+                                if (s.cancellation_calendar[i].leave_cancel_status == "S")
+                                {
                                     lv_status_descr = "Submitted"
                                 }
                                 if (s.cancellation_calendar[i].leave_cancel_status == "F") {
@@ -4234,6 +4235,9 @@
                                 if (full["leave_cancel_type"] == "FL_TRNFR") {
                                     leave_cancel_type_descr = "Transfer Leave"
                                 }
+                                if (full["leave_cancel_type"] == "CNCEL_ONLY") {
+                                    leave_cancel_type_descr = "Cancel Only"
+                                }
                                 return "<span class='text-center btn-block'>" + leave_cancel_type_descr + "</span>"
                             }
                         },
@@ -4327,19 +4331,29 @@
                 s.final_approved_dttm           = moment(d.data.dates_list[0].final_approved_dttm).format('YYYY-MM-DD hh:mm:ss A')
                 s.leave_cancel_type             = d.data.dates_list[0].leave_cancel_type
 
-                if (d.data.dates_list[0].leave_cancel_status == "N" ||
-                    d.data.dates_list[0].leave_cancel_status == "C" ||
-                    d.data.dates_list[0].leave_cancel_status == ""
-                    )
+                for (var i = 0; i < d.data.dates_list.length; i++)
                 {
-                    s.dis_cancel_txtbox   = false;
-                    s.show_pending_submit = false;
+                    if (d.data.dates_list[i].leave_cancel_status == "N" ||
+                        d.data.dates_list[i].leave_cancel_status == "C" ||
+                        d.data.dates_list[i].leave_cancel_status == ""
+                        )
+                    {
+                        s.dis_cancel_txtbox   = false;
+                        s.show_pending_submit = false;
+                    }
+
+                    if (d.data.dates_list[i].leave_cancel_status == "F")
+                    {
+                        s.show_final_approved = false;
+                    }
+
+                    if (d.data.dates_list[i].leave_cancel_status == "S")
+                    {
+                        s.show_pending_submit = true;
+                        break;
+                    }
                 }
 
-                if (d.data.dates_list[0].leave_cancel_status == "F")
-                {
-                    s.show_final_approved = false;
-                }
 
                 s.oTable_cancel.fnClearTable();
                 s.datalist_grid_cancell = d.data.dates_list;
@@ -4406,30 +4420,38 @@
             swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, Approved by and Approve by Designation is required!",{ icon: "warning" });
             return;
         }
-
-        s.btn_print_cancel();
-        var data = {
-             leave_ctrlno           : s.txtb_appl_nbr
-            ,empl_id                : s.txtb_empl_id
-            //,reason                 : s.reason     
-            ,approved_by            : s.approved_by          
-            ,approved_by_desig      : s.approved_by_desig    
-            ,leave_cancel_status    : "S"
-            //, leave_cancel_type     : s.leave_cancel_type
-        }
-        h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+        
+        for (var i = 0; i < s.datalist_grid_cancell.length; i++)
         {
-            if (d.data.message == "success")
+            if (s.datalist_grid_cancell[i].reason.toString() == "" && s.datalist_grid_cancell[i].cancel_flag == true)
             {
-                swal("Successfully Submitted!", { icon: "success" });
-                $('#modal_cancellation').modal("hide");
+                swal("Please input Reason Remarks for cancellation!", { icon: "warning" });
+                break;
             }
             else
             {
-                swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
+                var data = {
+                    leave_ctrlno            : s.txtb_appl_nbr
+                    ,empl_id                : s.txtb_empl_id  
+                    ,approved_by            : s.approved_by          
+                    ,approved_by_desig      : s.approved_by_desig    
+                    ,leave_cancel_status    : "S"
+                }
+                h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
+                        swal("Successfully Submitted!", { icon: "success" });
+                        $('#modal_cancellation').modal("hide");
+                        s.btn_print_cancel();
+                    }
+                    else
+                    {
+                        swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
+                    }
+                })
             }
-        })
-
+        }
     }
 
     s.btn_submit_cancel_pending = function ()
@@ -4539,15 +4561,22 @@
 
     s.btn_update_leave_date = function ()
     {
-        if (   s.reason                          == ""
-            || s.leave_cancel_type               == ""
-            || $('#leave_transfer_date').val()   == ""
-            )
+        if (s.leave_cancel_type == "CNCEL_ONLY" && s.reason == "")
         {
-            swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, and Transfer date is required!",{ icon: "warning" });
+            swal("You cannot Proceed this transaction!", "Reason is required!",{ icon: "warning" });
             return;
         }
-
+        else if (s.leave_cancel_type != "CNCEL_ONLY")
+        {
+            if (   s.reason                          == ""
+                || s.leave_cancel_type               == ""
+                || $('#leave_transfer_date').val()   == ""
+                )
+            {
+                swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, and Transfer date is required!",{ icon: "warning" });
+                return;
+            }
+        }
 
         var data = {
              leave_transfer_date  : $('#leave_transfer_date').val()   
