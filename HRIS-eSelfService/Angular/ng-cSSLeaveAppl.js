@@ -4235,6 +4235,9 @@
                                 if (full["leave_cancel_type"] == "FL_TRNFR") {
                                     leave_cancel_type_descr = "Transfer Leave"
                                 }
+                                if (full["leave_cancel_type"] == "CANCEL_ONLY") {
+                                    leave_cancel_type_descr = "Cancel Only"
+                                }
                                 return "<span class='text-center btn-block'>" + leave_cancel_type_descr + "</span>"
                             }
                         },
@@ -4558,15 +4561,24 @@
 
     s.btn_update_leave_date = function ()
     {
-        if (   s.reason                          == ""
-            || s.leave_cancel_type               == ""
-            || $('#leave_transfer_date').val()   == ""
-            )
+        if (s.leave_cancel_type == "CANCEL_ONLY" && s.reason == "")
         {
-            swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, and Transfer date is required!",{ icon: "warning" });
+            swal("You cannot Proceed this transaction!", "Reason is required!",{ icon: "warning" });
             return;
         }
+        else
+        {
+            if (   s.reason                          == ""
+                || s.leave_cancel_type               == ""
+                || $('#leave_transfer_date').val()   == ""
+                )
+            {
+            
 
+                swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, and Transfer date is required!",{ icon: "warning" });
+                return;
+            }
+        }
 
         var data = {
              leave_transfer_date  : $('#leave_transfer_date').val()   
