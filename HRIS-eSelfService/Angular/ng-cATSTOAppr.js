@@ -369,12 +369,12 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                         "mRender": function (data, type, full, row) {
                             var temp = "";
 
-                            temp = '<center>' +
+                            temp = '<center><div class="btn-group">' +
                                 '<button id="btn-text_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"> ' + data + '</button >' +
-                                '<button id="btn-icon_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"><i class="fa fa-eye"></i></button >' +
+                                //'<button id="btn-icon_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"><i class="fa fa-eye"></i></button >' +
                                 '<button id="btn-edit_appr" ng-show="' + s.allowapredit() +'" type="button" class="btn btn-warning btn-sm" ng-click="btn_edit_appr(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Approver">Edit Approver</button >' +
 
-                                '</center>';
+                                '</div></center>';
                             return temp;
                         }
                     }
@@ -2887,6 +2887,99 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
 
 
 
+
+    }
+
+
+    //************************************// 
+    //*** PRINT TRAVEL ORDER ON EDIT RECOMMENDING ADN FINAL APPROVER MODAL      
+    //**********************************// 
+    s.btn_print_row_editappr = function () {
+        
+        var travelorderno = $("#editappr_travel_order_no").val()
+
+        var dt = s.datalistgrid.filter(function (d) {
+            return d.application_nbr == travelorderno
+        })[0]
+        s.btn_print_check = "1"
+
+
+        var controller = "Reports";
+        var action = "Index";
+        var ReportName = "cryTravelOrder";
+        var SaveName = "Crystal_Report";
+        var ReportType = "inline";
+        var ReportPath = "~/Reports/cryTravelOrder/cryTravelOrder.rpt";
+        var sp = "sp_travel_order_report"
+        var parameters = "par_travel_order_no," + travelorderno
+
+        if (dt.travel_datefiled_original <= '2022-06-27') {
+            ReportPath = "~/Reports/cryTravelOrder/cryTravelOrder.rpt";
+        }
+
+        else {
+            ReportPath = "~/Reports/cryTravelOrder/cryTravelOrder_new.rpt";
+        }
+
+        if (dt.approval_status == "N" || dt.approval_status == "C") {
+
+            swal({
+                title: "Please submit your application before printing.",
+                text: "Once submitted, you can print this application!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            })
+        }
+
+        else {
+            $("#modal_generating_remittance").modal({ keyboard: false, backdrop: "static" })
+            
+            s.employee_name_print = "TRAVEL ORDER";
+
+
+            var iframe = document.getElementById('iframe_print_preview');
+            var iframe_page = $("#iframe_print_preview")[0];
+            iframe.style.visibility = "hidden";
+
+            s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                + "&ReportName=" + ReportName
+                + "&SaveName=" + SaveName
+                + "&ReportType=" + ReportType
+                + "&ReportPath=" + ReportPath
+                + "&id=" + sp + "," + parameters
+
+            if (!/*@cc_on!@*/0) { //if not IE
+                iframe.onload = function () {
+                    iframe.style.visibility = "visible";
+                    $("#modal_generating_remittance").modal("hide")
+                };
+            }
+            else if (iframe_page.innerHTML()) {
+                var ifTitle = iframe_page.contentDocument.title;
+                if (ifTitle.indexOf("404") >= 0) {
+                    swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                    iframe.src = "";
+                }
+                else if (ifTitle != "") {
+                    swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                    iframe.src = "";
+                }
+            }
+            else {
+                iframe.onreadystatechange = function () {
+                    if (iframe.readyState == "complete") {
+                        iframe.style.visibility = "visible";
+                        $("#modal_generating_remittance").modal("hide")
+                    }
+                };
+            }
+
+            iframe.src = s.embed_link;
+            $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+           
+        }
 
     }
 
