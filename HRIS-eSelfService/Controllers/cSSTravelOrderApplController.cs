@@ -259,6 +259,7 @@ namespace HRIS_eSelfService.Controllers
 
         public ActionResult CheckIfExists(string par_travel_type, string[] par_data_empl, string[] par_data_dates)
         {
+            db_ats.Database.CommandTimeout = int.MaxValue;
             string dept_code = Session["department_code"].ToString();
             string message = "success";
             var sp_travelorder_exists_check = db_ats.sp_travelorder_exists_check(dept_code).ToList();
@@ -326,6 +327,7 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
+                db_ats.Database.CommandTimeout = int.MaxValue;
                 string travel_order_no  = "";
                 string message          = "";
                 travel_order_no = GetTravelOrderNumber();

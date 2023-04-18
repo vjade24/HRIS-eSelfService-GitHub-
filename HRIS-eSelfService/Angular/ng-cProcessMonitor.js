@@ -41,7 +41,7 @@ ng_selfService_App.controller("cProcessMonitor_ctrl", function (commonScript,$sc
 
     ]
 
-
+   s.testdata = []
 
     var init_table_data = function (par_data) {
         s.datalistgrid = par_data;
@@ -454,7 +454,8 @@ ng_selfService_App.controller("cProcessMonitor_ctrl", function (commonScript,$sc
     }
 
     s.btn_bio_extract = function () {
-        $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+       
+        $("#modal_generating_remittance").modal("show")
         var ip = s.ip_address_re
         var extractfrom = $("#date_from").val()
         var extractto = $("#date_to").val()
@@ -472,15 +473,15 @@ ng_selfService_App.controller("cProcessMonitor_ctrl", function (commonScript,$sc
                   , empl_id: empl_id
               }).then(function (d) {
                   swal(d.data.message,{ icon: d.data.icon });
-                  cs.loading2("extract_loading_modal", "hide")
+                
                   $("#main_modal").modal("hide")
                   $("#rerun_bio_modal").modal("hide")
                   s.machineinfo_grid = d.data.machineinfo.refreshTable("machineinfo_grid","")
                   $("#rerun_bio_grid_modal").modal("show")
                   $("#icon_extract_icon").removeClass("fa fa-spinner fa-spin")
                   $("#icon_extract_icon").addClass("fa fa-rocket")
-                  $('#modal_generating_remittance').modal("hide");
-				   $('#btn_extract_icon').attr("disabled", false);
+                  $("#modal_generating_remittance").modal("hide")
+				  $('#btn_extract_icon').attr("disabled", false);
               });
     }
     s.btn_cancel_final_click = function () {

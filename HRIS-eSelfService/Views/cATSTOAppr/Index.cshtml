@@ -333,6 +333,59 @@
 <section ng-app="ng_selfService_App" ng-controller="cATSTOAppr_Ctrl">
     <!-- Modal Loading -->
     @*---ADD MODAL-----*@
+    <div class="modal fade" id="edit_appr_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelSmall">Edit Travel Order Recommending and Final Approver</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Travel Order No:</b></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <input type="text" style="font-weight:bold;" class="form-control form-control-sm text-center" id="editappr_travel_order_no" ng-model="editappr_travel_order_no" disabled readonly />
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Recommending Approver:</b></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <select id="ddl_editappr_recommending" ng-model="ddl_editappr_recommending" class="form-control form-control-sm">
+                                <option value="">--Select Here--</option>
+                                <option ng-repeat="lst in approver_list" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span class="pull-left font-bold" style="margin-top:9px;"><b>Final Approver:</b></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <select id="ddl_editappr_final" ng-model="ddl_editappr_final" class="form-control form-control-sm">
+                                <option value="">--Select Here--</option>
+                                <option ng-repeat="lst in approver_list"value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button class="btn btn-danger pull-left" ng-click="btn_print_row_editappr()" ><i class="fa fa-print" id="dtr_print"></i> Print </button>
+                    <button ng-click="editappr_save()" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Approved"><i class="fa fa-save"></i>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="main_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content animated">
@@ -607,7 +660,8 @@
                                                         <option ng-repeat="lst in travel_type_list track by $index" ngx-data="{{$index}}" value="{{lst.travel_type_code}}">{{lst.travel_type_descr}}</option>
                                                     </select>
                                                     <b>
-                                                    <input type="text" ng-show="true" class="form-control form-control-sm" id="txtb_travel_type" ng-model="txtb_travel_type" disabled readonly /></b>
+                                                        <input type="text" ng-show="true" class="form-control form-control-sm" id="txtb_travel_type" ng-model="txtb_travel_type" disabled readonly />
+                                                    </b>
                                                     <label id="lbl_ddl_travel_type_req" class="lbl_required"></label>
                                                 </div>
 
@@ -1292,8 +1346,8 @@
                     <div class="row">
                         <textarea ng-show="true" class="form-control" id="disapprove_comment_text" ng-model="disapprove_comment_text" style="width:100%;"></textarea>
                     </div>
-                    
-                   
+
+
                 </div>
                 <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
                     <button type="button" ng-click="btn_cancel_disapprove()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
@@ -1344,8 +1398,8 @@
 
 
                                                 @*<li><a ng-click="btn_click_daily_par('01')"> Approved Travel </a></li>
-                                                <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
-                                                <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
+                                                    <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
+                                                    <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
 
                                                 if (Session["department_code"].ToString() == "03")
                                                 {
@@ -1362,36 +1416,36 @@
 
                                         }
                                         @*@if (Session["empl_id"].ToString() == "10058" || Session["department_code"].ToString() == "01")*@
-                                            @if (Session["empl_id"].ToString() == Session["pa_approver"].ToString() || Session["department_code"].ToString() == "01")
+                                        @if (Session["empl_id"].ToString() == Session["pa_approver"].ToString() || Session["department_code"].ToString() == "01")
+                                        {
+
+                                            if (Session["empl_id"].ToString() == "2003"
+                                                || Session["empl_id"].ToString() == "8447"
+                                                || Session["empl_id"].ToString() == "2089")
                                             {
 
-                                                if (Session["empl_id"].ToString() == "2003"
-                                                    || Session["empl_id"].ToString() == "8447"
-                                                    || Session["empl_id"].ToString() == "2089")
-                                                {
+                                                <li><a ng-click="btn_click_daily_par('01')"> Approved Travel </a></li>
+                                                <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
+                                                <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>
+                                                <li><a ng-click="btn_click_dis_par('05')">Disapproved Travel per Employee</a></li>
+                                                <li><a ng-click="btn_click_checklist()">Travel Check List</a></li>
 
-                                                    <li><a ng-click="btn_click_daily_par('01')"> Approved Travel </a></li>
-                                                    <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
-                                                    <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>
-                                                    <li><a ng-click="btn_click_dis_par('05')">Disapproved Travel per Employee</a></li>
-                                                    <li><a ng-click="btn_click_checklist()">Travel Check List</a></li>
+                                            }
+                                            else if (Session["empl_id"].ToString() == Session["pa_approver"].ToString())
+                                            {
+                                                <li><a ng-click="btn_click_monthly_par('04')">Approved Travel per Dept.</a></li>
 
-                                                }
-                                                else if (Session["empl_id"].ToString() == Session["pa_approver"].ToString())
-                                                {
-                                                    <li><a ng-click="btn_click_monthly_par('04')">Approved Travel per Dept.</a></li>
-
-                                                    <li><a ng-click="btn_click_checklist()">Travel Check List</a></li>
-                                                }
-
-
-
+                                                <li><a ng-click="btn_click_checklist()">Travel Check List</a></li>
                                             }
 
 
 
+                                        }
 
-                                        </ul>
+
+
+
+                                    </ul>
                                 </div>
                             </div>
 
