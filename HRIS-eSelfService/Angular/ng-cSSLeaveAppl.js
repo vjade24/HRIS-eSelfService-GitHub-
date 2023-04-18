@@ -184,6 +184,18 @@
                     //**********************************************
                     //**********************************************
                     s.lst_fl_plan_lst = d.data.fl_plan_lst
+                    for (var i = 0; i < d.data.fl_plan_lst.length; i++)
+                    {
+                        d.data.fl_plan_lst[i].flp_application_date_descr = moment(d.data.fl_plan_lst[i].flp_application_date).format("MMMM DD, YYYY")
+                    }
+
+                    s.lv_cancellation_lst = d.data.lv_cancellation_lst
+                    for (var i = 0; i < d.data.lv_cancellation_lst.length; i++)
+                    {
+                        d.data.lv_cancellation_lst[i].leave_cancel_date_descr = moment(d.data.lv_cancellation_lst[i].leave_cancel_date).format("MMMM DD, YYYY")
+                        d.data.lv_cancellation_lst[i].leave_transfer_date_descr = moment(d.data.lv_cancellation_lst[i].leave_transfer_date).format("MMMM DD, YYYY")
+                    }
+                    console.log(s.lv_cancellation_lst)
 
                     $('#modal_loading').modal("hide");
                 }
@@ -443,6 +455,7 @@
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
                                         + "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
                                         + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "D" || full["approval_status"].toString() == "L") {
@@ -4620,6 +4633,47 @@
                 }
             }
         })
+    }
+    
+    s.btn_cancelled = function (row_index)
+    {
+        try {
+            swal({
+                title: "Are you sure you want to cancel this Application?",
+                text: "Once cancelled, you will not be able to recover this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            })
+                .then(function (willDelete)
+                {
+                    if (willDelete)
+                    {
+                        h.post("../cSSLeaveAppl/CancelledStatus",
+                        {
+                            data: s.datalistgrid3[row_index]
+                        }).then(function (d)
+                        {
+                            if (d.data.message == "success")
+                            {
+                                s.FilterPageGrid();
+                                $('#main_modal').modal("hide");
+                                swal("Your record has been cancelled!", { icon: "success", });
+                            }
+                            else {
+                                swal({ title: d.data.message, icon: "warning", });
+                            }
+                        });
+                    }
+                });
+        }
+        catch (err)
+        {
+            swal({ icon: "warning", title: err.message });
+        }
+        
+        // console.log(s.datalistgrid3[row_id])
     }
     //***********************************************************//
     //***********************************************************// 

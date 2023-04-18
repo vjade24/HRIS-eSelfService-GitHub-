@@ -137,8 +137,9 @@ namespace HRIS_eSelfService.Controllers
                 // **********************************************************************************************
                 var cancellation_calendar = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id).ToList();
 
+                var lv_cancellation_lst = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id).ToList().OrderBy(a=> a.created_dttm);
 
-                return JSON(new { message = "success", um, log_in_as_AO, dept_name, leaveLst, leaveLst1, leaveType, leaveSubType, holiDate, status, empl_name, user_info, data_all_bal, fl_plan_lst, cancellation_calendar }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", um, log_in_as_AO, dept_name, leaveLst, leaveLst1, leaveType, leaveSubType, holiDate, status, empl_name, user_info, data_all_bal, fl_plan_lst, cancellation_calendar, lv_cancellation_lst }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -162,7 +163,7 @@ namespace HRIS_eSelfService.Controllers
                 var filteredGrid            = db_ats.sp_leave_application_tbl_list(p_empl_id, p_appr_status, p_year).ToList();
                 var filteredGrid1           = db_ats.sp_leave_application_tbl_list1(p_empl_id, p_appr_status, p_year, par_log_in_as_AO, Session["user_id"].ToString()).ToList();
                 var holiDate                = db_dev.sp_holidays_tbl_list(Int32.Parse(p_year)).ToList();
-                var cancellation_calendar = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id).ToList();
+                var cancellation_calendar   = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id).ToList();
 
                 return JSON(new { message = "success", filteredGrid, filteredGrid1, holiDate, cancellation_calendar }, JsonRequestBehavior.AllowGet);
             }
@@ -586,17 +587,17 @@ namespace HRIS_eSelfService.Controllers
                             // ***************************************************************************************************
                             if (p_action_mode == "RESUBMIT" || p_action_mode == "SUBMIT" || p_action_mode == "EDIT")
                             {
-                                var chk_equal = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno.ToString()).ToList();
-                                for (int i = 0; i < chk_equal.Count; i++)
-                                {
-                                    if (chk_equal[i].leave_date_from != leave_date_from  ||
-                                        chk_equal[i].leave_date_to   != leave_date_to)
+                                var chk_equal = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno.ToString()).OrderBy(a => a.leave_date_from).ToList();
+                                //for (int i = 0; i < chk_equal.Count; i++)
+                                //{
+                                    if (chk_equal[x].leave_date_from != leave_date_from  ||
+                                        chk_equal[x].leave_date_to   != leave_date_to)
                                     {
                                         message         = "fl-override";
-                                        message_descr   = (" *" + leave_date_from.ToString("yyyy-MM-dd") + " - " + leave_date_to.ToString("yyyy-MM-dd")) + " - New Leave Date \n " + (" *" + chk_equal[i].leave_date_from.ToString("yyyy-MM-dd") + " - " + chk_equal[i].leave_date_to.ToString("yyyy-MM-dd")) + " - Previous  Leave Date";
+                                        message_descr   = (" *" + leave_date_from.ToString("yyyy-MM-dd") + " - " + leave_date_to.ToString("yyyy-MM-dd")) + " - New Leave Date \n " + (" *" + chk_equal[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + chk_equal[x].leave_date_to.ToString("yyyy-MM-dd")) + " - Previous  Leave Date";
                                         message_descr2  = "You cannot transfer or override date of your Force Leave, apply Cancellation instead";
                                     }
-                                }
+                                //}
                             }
                             // ***************************************************************************************************
                             // *** VJA - Force Leave Validation, user cannot transfer or override date of leave 
@@ -1779,6 +1780,27 @@ namespace HRIS_eSelfService.Controllers
                 query.leave_cancel_type   = data.leave_cancel_type;
                 db_ats.SaveChangesAsync();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult CancelledStatus(leave_application_hdr_tbl data)
+        {
+            try
+            {
+                string message = "";
+                var hdr = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id).FirstOrDefault();
+                var dtl = db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id).ToList();
+
+                hdr.approval_status = "L";
+                dtl.ForEach(a => a.rcrd_status = "L");
+                message = "success";
+                db_ats.SaveChangesAsync();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
