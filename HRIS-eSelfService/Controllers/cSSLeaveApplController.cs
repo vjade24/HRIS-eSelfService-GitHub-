@@ -585,19 +585,33 @@ namespace HRIS_eSelfService.Controllers
                             // ***************************************************************************************************
                             // *** VJA - Force Leave Validation, user cannot transfer or override date of leave 
                             // ***************************************************************************************************
+                            //if (p_action_mode == "RESUBMIT" || p_action_mode == "SUBMIT" || p_action_mode == "EDIT")
+                            //{
+                            //    var chk_equal = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno.ToString()).OrderBy(a => a.leave_date_from).ToList();
+                            //    //for (int i = 0; i < chk_equal.Count; i++)
+                            //    //{
+                            //        if (chk_equal[x].leave_date_from != leave_date_from  ||
+                            //            chk_equal[x].leave_date_to   != leave_date_to)
+                            //        {
+                            //            message         = "fl-override";
+                            //            message_descr   = (" *" + leave_date_from.ToString("yyyy-MM-dd") + " - " + leave_date_to.ToString("yyyy-MM-dd")) + " - New Leave Date \n " + (" *" + chk_equal[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + chk_equal[x].leave_date_to.ToString("yyyy-MM-dd")) + " - Previous  Leave Date";
+                            //            message_descr2  = "You cannot transfer or override date of your Force Leave, apply Cancellation instead";
+                            //        }
+                            //    //}
+                            //}
                             if (p_action_mode == "RESUBMIT" || p_action_mode == "SUBMIT" || p_action_mode == "EDIT")
                             {
                                 var chk_equal = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno.ToString()).OrderBy(a => a.leave_date_from).ToList();
-                                //for (int i = 0; i < chk_equal.Count; i++)
-                                //{
-                                    if (chk_equal[x].leave_date_from != leave_date_from  ||
-                                        chk_equal[x].leave_date_to   != leave_date_to)
+                                for (int i = 0; i < chk_equal.Count; i++)
+                                {
+                                    if (chk_equal[i].leave_date_from != leave_date_from ||
+                                        chk_equal[i].leave_date_to   != leave_date_to)
                                     {
-                                        message         = "fl-override";
-                                        message_descr   = (" *" + leave_date_from.ToString("yyyy-MM-dd") + " - " + leave_date_to.ToString("yyyy-MM-dd")) + " - New Leave Date \n " + (" *" + chk_equal[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + chk_equal[x].leave_date_to.ToString("yyyy-MM-dd")) + " - Previous  Leave Date";
-                                        message_descr2  = "You cannot transfer or override date of your Force Leave, apply Cancellation instead";
+                                        message = "fl-override";
+                                        message_descr = (" *" + leave_date_from.ToString("yyyy-MM-dd") + " - " + leave_date_to.ToString("yyyy-MM-dd")) + " - New Leave Date \n " + (" *" + chk_equal[i].leave_date_from.ToString("yyyy-MM-dd") + " - " + chk_equal[i].leave_date_to.ToString("yyyy-MM-dd")) + " - Previous  Leave Date";
+                                        message_descr2 = "You cannot transfer or override date of your Force Leave, apply Cancellation instead";
                                     }
-                                //}
+                                }
                             }
                             // ***************************************************************************************************
                             // *** VJA - Force Leave Validation, user cannot transfer or override date of leave 
