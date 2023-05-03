@@ -12,6 +12,7 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
     s.employment_type = ""
     s.contact_personnel = ""
     s.flag_message = ""
+    s.check_generate = false
     function init() {
         $("#ddl_name").select2().on('change', function (e) {
             s.ddl_name_change();
@@ -49,12 +50,12 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
             //s.is_dtr_AO     = d.data.is_dtr_AO;
 			
 			
-			console.log(s.ddl_dept)
+			//console.log(s.ddl_dept)
 			//s.check_generate = true
-			s.check_generate = true
+			//s.check_generate = true
 			//$("#dtr_generation_empl").removeClass("ng-hide");
-			s.check_generate = true
-			$("#dtr_generation_empl").removeClass("ng-hide");
+			//s.check_generate = true
+			//$("#dtr_generation_empl").removeClass("ng-hide");
 			//if (s.ddl_dept == "22" || s.ddl_dept == "12" ||  s.ddl_dept == "05" ||  s.ddl_dept == "21" ||  s.ddl_dept == "23" ||  s.ddl_dept == "18" ||  s.ddl_dept == "19" ||  s.ddl_dept == "20" ||  s.ddl_dept == "15" ||  s.ddl_dept == "08" ||  s.ddl_dept == "10" ||  s.ddl_dept == "03" ||  s.ddl_dept == "13" ||  s.ddl_dept == "01" ||  s.ddl_dept == "17" ||  s.ddl_dept == "24" ||  s.ddl_dept == "02")
 			////(s.ddl_dept == "18" || s.ddl_dept == "19" || s.ddl_dept == "26" || s.ddl_dept == "21" || s.ddl_dept == "17"|| s.ddl_dept == "09" || s.ddl_dept == "05" || s.ddl_dept == "12" || s.ddl_dept == "22" || s.ddl_dept == "23" || s.ddl_dept == "24" || s.ddl_dept == "02" || s.ddl_dept == "16" || s.ddl_dept == "14" || s.ddl_dept == "25" || s.ddl_dept == "20" || s.ddl_dept == "01" || s.ddl_dept == "03" || s.ddl_dept == "13" | s.ddl_dept == "15")
 			//{
@@ -70,8 +71,8 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
 			//	
 			//}
 			
-			s.check_generate = true
-			$("#dtr_generation_empl").removeClass("ng-hide");
+			//s.check_generate = false
+			//$("#dtr_generation_empl").removeClass("ng-hide");
 			
             if (d.data.is_dtr_AO == "false") {
                 
@@ -83,6 +84,9 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
                 $("#ddl_dept").select2().prop("disabled", true);
                 $("#ddl_name").select2().prop("disabled", true);
             }
+
+
+           s.CheckGenerateDTR()
         });
     }
     init()
@@ -253,12 +257,12 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
                                 $('#alert_notify').modal({ backdrop: 'static', keyboard: false });
                             }
                         }
-                        else {
+                        else
+                        {
                             btn_generate_empl.innerHTML = '<i class="fa fa-cogs"> </i> Generate DTR';
                             swal(d.data.message, { icon: "warning", });
                             $('#dtr_generation_empl').attr("disabled", false);
                             $('#modal_upload_initializing').modal("hide");
-
                         }
                         $("#modal_upload_initializing").modal("hide");
                     });
@@ -406,6 +410,40 @@ ng_selfService_App.controller("rSSDTRPrinting_ctrlr", function ($scope, $compile
     {
         s.txtb_empl_id2 = $("#ddl_name option:selected").val();
         $("#txtb_empl_id2").val($("#ddl_name option:selected").val());
+    }
+
+
+    s.CheckGenerateDTR = function ()
+    {
+        s.check_generate = false;
+        h.post("../rSSDTRPrinting/CheckGenerateDTR",
+        {
+             p_year     : s.ddl_payroll_year
+            ,p_month    : s.ddl_month
+            ,p_empl_id  : $("#ddl_name option:selected").val()
+
+        }).then(function (d)
+        {
+            console.log(d.data.dtr_empl)
+            if (d.data.dtr_empl.length < 1)
+            {
+                s.check_generate = true;
+            }
+            else
+            {
+                for (var i = 0; i < d.data.dtr_empl.length; i++)
+                {
+                    if (d.data.dtr_empl[i].remarks_details.includes("?"))
+                    {
+                        s.check_generate = true;
+                        break;
+                    }
+                }
+
+            }
+
+
+        })
     }
 
 });
