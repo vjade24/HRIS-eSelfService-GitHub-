@@ -378,7 +378,7 @@
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg new-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
@@ -389,13 +389,14 @@
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
                                         //+ "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
                                         + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "S") {
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg submitted-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
@@ -411,7 +412,7 @@
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg reviewed-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
@@ -427,7 +428,7 @@
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg approved-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
@@ -444,7 +445,7 @@
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg cancel-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
@@ -462,7 +463,7 @@
                                     temp = "<div class='xx input-group m-b'>"
                                         + "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
                                         + "<div class='external-event navy-bg disapproved-bg'><h4>"
-                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 30) + "..." + "</span>"
+                                        + "<span style='font-size:10px !important'>" + full["leave_ctrlno"] + "&emsp; | &emsp;" + full["leave_dates"].toString().substring(0, 50) + "..." + "</span>"
                                         + "</small><br/>"
                                         + full["employee_name"] 
                                         + "</small><br/>"
