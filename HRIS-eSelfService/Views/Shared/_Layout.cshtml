@@ -43,7 +43,7 @@
     <!-- Toastr style -->
     <link href="~/Content/plugins/toastr/toastr.min.css" rel="stylesheet">
     <!-- Gritter -->
-    <link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    @*<link href="~/Content/plugins/gritter/jquery.gritter.css" rel="stylesheet">*@
     <link href="~/Content/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link href="~/Content/animate.css" rel="stylesheet">
     <link href="~/Content/style.css" rel="stylesheet">
@@ -120,7 +120,7 @@
                     <li class="nav-header profile-container" style="background-image: url('../ResourcesImages/add_background.png');background-position: center;background-repeat: no-repeat;background-size: contain;">
                         <div class="dropdown profile-element">
                             <span>
-                                <img alt="img-circle" class="img-circle" src="{{imgprofile}}" height="50" width="50" style="border:2px solid #332009" />
+                                <img alt="img-circle" id="imgprofile" class="img-circle"  height="50" width="50" style="border:2px solid #332009" />
                             </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
@@ -141,7 +141,7 @@
                         </div>
                         <div class="logo-element">
                             <span>
-                                <img alt="image" class="img-circle" src="{{imgprofile}}" height="50" width="50" />
+                                <img alt="image" class="img-circle"  height="50" width="50" />
                             </span>
                         </div>
                     </li>

@@ -133,9 +133,9 @@ namespace HRIS_eSelfService.Controllers
                 var reason_tbl = db_ats.to_disapprove_reason_tbl.OrderByDescending(a => a.no_use).FirstOrDefault();
                 return JSON(new { message = "success", empl_name_search, dept_list, employment_type, sp_approval_worklist_travel_order, travel_type_list, dept_code, btn_enabled_4HR, empl_name, empl_id, current_date, reason_tbl, pa_approver}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -159,9 +159,9 @@ namespace HRIS_eSelfService.Controllers
                 var empl_name_list = db_dev.sp_employee_list_dept(empl_id);
                 return JSON(new { message = "success", sp_travelorder_empl_dtl_tbl_list, sp_travelorder_dates_dtl_tbl_list, empl_name_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -182,9 +182,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message = "success", icon="success", travelorders}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon="error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -207,9 +207,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message = "Update success", icon = "success" }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -272,9 +272,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message = "success", travelorder_hdr_tbl }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -308,9 +308,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
 
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
@@ -380,9 +380,9 @@ namespace HRIS_eSelfService.Controllers
                 db_ats.SaveChangesAsync();
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -399,22 +399,22 @@ namespace HRIS_eSelfService.Controllers
             };
         }
 
-        public String DbEntityValidationExceptionError(DbEntityValidationException e)
-        {
-            string message = "";
-            foreach (var eve in e.EntityValidationErrors)
-            {
-                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+        //public String DbEntityValidationExceptionError(DbEntityValidationException e)
+        //{
+        //    string message = "";
+        //    foreach (var eve in e.EntityValidationErrors)
+        //    {
+        //        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
 
-                foreach (var ve in eve.ValidationErrors)
-                {
-                    message = "- Property: \"{0}\", Error: \"{1}\"" + ve.PropertyName + "  :  " + ve.ErrorMessage;
-                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                        ve.PropertyName, ve.ErrorMessage);
-                }
-            }
-            return message;
-        }
+        //        foreach (var ve in eve.ValidationErrors)
+        //        {
+        //            message = "- Property: \"{0}\", Error: \"{1}\"" + ve.PropertyName + "  :  " + ve.ErrorMessage;
+        //            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+        //                ve.PropertyName, ve.ErrorMessage);
+        //        }
+        //    }
+        //    return message;
+        //}
 
         public ActionResult deleteTOEmployee(sp_travelorder_empl_dtl_tbl_list_Result data)
         {
@@ -432,9 +432,9 @@ namespace HRIS_eSelfService.Controllers
                              
                 return JSON(new { message = "Successfully deleted",icon="success", del_to_empl, sp_travel_order_empl_dtl }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon="error"}, JsonRequestBehavior.AllowGet);
             }
         }
@@ -450,9 +450,9 @@ namespace HRIS_eSelfService.Controllers
                 
                 return JSON(new { message = "Successfully De", icon = "success"}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -478,9 +478,9 @@ namespace HRIS_eSelfService.Controllers
                 var sp_travelorder_dates_dtl_tbl_list = db_ats.sp_travelorder_dates_dtl_tbl_list(travel_order_no).ToList();
                 return JSON(new { message = "success", icon = "success", sp_travelorder_dates_dtl_tbl_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -513,9 +513,9 @@ namespace HRIS_eSelfService.Controllers
                 var sp_travelorder_dates_dtl_tbl_list = db_ats.sp_travelorder_dates_dtl_tbl_list(travel_order_no).ToList();
                 return JSON(new { message = "success",icon="success", sp_travelorder_dates_dtl_tbl_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message,icon="error"}, JsonRequestBehavior.AllowGet);
             }
         }
@@ -530,9 +530,9 @@ namespace HRIS_eSelfService.Controllers
                 var sp_cancel_application_dtl_list = db_ats.sp_cancel_application_dtl_list_to(par_application_nbr, par_transaction_ref, par_empl_id).ToList();
                 return JSON(new { message = "success", icon = "success", sp_cancel_application_dtl_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -549,9 +549,9 @@ namespace HRIS_eSelfService.Controllers
                 db_ats.SaveChanges();
                 return JSON(new { message = "success", icon = "success"}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -585,9 +585,9 @@ namespace HRIS_eSelfService.Controllers
                 var sp_travelorder_dates_dtl_tbl_list = db_ats.sp_travelorder_dates_dtl_tbl_list(travel_order_no).ToList();
                 return JSON(new { message = "success", icon = "success", sp_travelorder_dates_dtl_tbl_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -604,9 +604,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message = "success", icon = "success", sp_travelordertype_empl_dtl_tbl_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -663,9 +663,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message = "success", icon = "success" }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -682,9 +682,9 @@ namespace HRIS_eSelfService.Controllers
                 var sp_travelorder_search_list = db_ats.sp_travelorder_search_list(par_empl_id, par_year, par_month).ToList();
                 return JSON(new { message = "success", icon = "success", sp_travelorder_search_list }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -731,9 +731,9 @@ namespace HRIS_eSelfService.Controllers
                     var sp_travel_order_daily_pa_rep = db_ats.sp_travel_order_daily_pa_rep(par_period_from_rep, par_period_to_rep, par_dept_code, par_type, par_user_id, par_start_time, par_end_time).ToList();
                     return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep }, JsonRequestBehavior.AllowGet);
                 }
-                catch (DbEntityValidationException e)
+                catch (Exception e)
                 {
-                    string message = DbEntityValidationExceptionError(e);
+                    string message = e.Message.ToString();
                     return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -781,9 +781,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -851,9 +851,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message }, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -885,9 +885,9 @@ namespace HRIS_eSelfService.Controllers
 
                 return JSON(new { message ="success",comment, comment_list}, JsonRequestBehavior.AllowGet);
             }
-            catch (DbEntityValidationException e)
+            catch (Exception e)
             {
-                string message = DbEntityValidationExceptionError(e);
+                string message = e.Message.ToString();
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }

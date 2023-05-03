@@ -57,6 +57,7 @@ ng_selfService_App.controller("SharedLayoutCtrlr", function ($scope, $http, $fil
            
             localStorage["username"] = d.data.username
             localStorage["photo"] = d.data.photo
+            $("#imgprofile").attr("src", photo);
 
             //localStorage["minus_time_sched"] = d.data.getNotificationList[0].counter_notif_time
             //localStorage["minus_travel_order"] = d.data.getNotificationList[0].counter_notif_to
@@ -104,10 +105,8 @@ ng_selfService_App.controller("SharedLayoutCtrlr", function ($scope, $http, $fil
             else {
                 s.imgprofile = photo;
             }
-
-
-           
-
+            $("#imgprofile").attr("src", photo);
+            
               setTimeout(function () {
                 minusOne("")
             }, 100)
