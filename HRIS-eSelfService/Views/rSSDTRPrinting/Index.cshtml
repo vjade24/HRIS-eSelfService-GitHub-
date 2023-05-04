@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-rSSDTRPrinting.js"></script>
+<script src="~/Angular/ng-rSSDTRPrinting.js?1"></script>
 
 <style type="text/css">
     @@media only screen and (min-width: 1300px) {
@@ -73,14 +73,13 @@
                                 <label>Department :</label>
                             </div>
                             <div class="col-sm-9">
-                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-disabled="is_dtr_AO" style="width:100%;">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_dept" ng-model="ddl_dept" ng-disabled="is_dtr_AO" style="width:100%;" ng-change="CheckGenerateDTR()">
                                     <option value="">--Select here--</option>
                                     <option ng-repeat="lst in dept_list" value="{{lst.department_code}}">{{lst.department_name1}}</option>
                                 </select>
                                 <label id="lbl_ddl_dept_req" class="lbl_required"></label>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-sm-12">
                                 <hr style="margin-top:10px;margin-bottom:10px" />
@@ -89,7 +88,7 @@
                                 <label>Employee Name :</label>
                             </div>
                             <div class="col-sm-6">
-                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-disabled="is_dtr_AO" style="width:100%;">
+                                <select ng-show="true" class="select2_demo_3 form-control" id="ddl_name" ng-model="ddl_name" ng-disabled="is_dtr_AO" style="width:100%;" ng-change="CheckGenerateDTR()">
                                     <option value="">--Select here--</option>
                                     <option ng-repeat="lst in empl_names" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
                                 </select>
@@ -129,7 +128,7 @@
                                 <label>Year :</label>
                             </div>
                             <div class="col-sm-3">
-                                <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year">
+                                <select class="form-control" id="ddl_payroll_year" ng-model="ddl_payroll_year" ng-change="CheckGenerateDTR()">
                                     <option value="">--Select Here--</option>
                                     <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
                                 </select>
@@ -139,7 +138,7 @@
                                 <label>Month :</label>
                             </div>
                             <div class="col-sm-4">
-                                <select class="form-control" id="ddl_month" ng-model="ddl_month">
+                                <select class="form-control" id="ddl_month" ng-model="ddl_month" ng-change="CheckGenerateDTR()">
                                     <option value="">--Select Here--</option>
                                     <option value="01">January</option>
                                     <option value="02">February</option>
@@ -166,24 +165,20 @@
                                 <label>View Type :</label>
                             </div>
                             <div class="col-sm-9">
-                                <select class="form-control" id="ddl_viewtype" ng-model="ddl_viewtype">
+                                <select class="form-control" id="ddl_viewtype" ng-model="ddl_viewtype" >
                                     <option value="0">Whole Month</option>
                                     <option value="1">1st Quincena</option>
                                     <option value="2">2nd Quincena</option>
                                 </select>
                             </div>
-
-
                         </div>
 
                     </div>
                     <div class="ibox-footer text-right">
                         <div class="row">
                             <div class="col-lg-6"></div>
-                            <div class="col-lg-3">
-                                <button id="dtr_generation_empl"  ng-show="{{check_generate}}" class="btn btn-warning btn-block" ng-click="btn_generate_empl()"><i class="fa fa-cogs"></i> Generate DTR</button>
-
-
+                            <div class="col-lg-3"   >
+                                <button ng-show="check_generate" id="dtr_generation_empl"  class="btn btn-warning btn-block" ng-click="btn_generate_empl()"><i class="fa fa-cogs"></i> Generate DTR</button>
                             </div>
                             <div class="col-lg-3">
                                 <button class="btn btn-primary btn-block" ng-click="btn_print()"><i class="fa fa-print" id="dtr_print"></i> Print Preview </button>

@@ -307,6 +307,20 @@ namespace HRIS_eSelfService.Controllers
         }
 
 
+        public ActionResult CheckGenerateDTR(string p_year,string p_month, string p_empl_id)
+        {
+            try
+            {
+                var p_year_int = int.Parse(p_year);
+                var p_month_int = int.Parse(p_month);
 
+                var dtr_empl = db_ats.empl_dtr_dtl_tbl.Where(a => a.empl_id == p_empl_id && a.dtr_date.Year == p_year_int && a.dtr_date.Month == p_month_int).ToList();
+                return JSON(new { message = "success", dtr_empl }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return JSON(new { message = e.Message.ToString() }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

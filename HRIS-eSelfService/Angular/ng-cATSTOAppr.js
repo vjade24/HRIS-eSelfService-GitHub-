@@ -3442,7 +3442,8 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 s.datalistgridCheck = []
                 s.oTableCheck_dtl.fnClearTable();
                 $('#modal_generating_remittance').modal("hide");
-                $("#TO_check_modal").modal({ keyboard: false, backdrop: "static" })
+                swal({ icon: "warning", title: d.data.message });
+                //$("#TO_check_modal").modal({ keyboard: false, backdrop: "static" })
             }
         })
      

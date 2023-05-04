@@ -240,7 +240,7 @@
         }
     }
 </style>
-<script src="~/Angular/ng-cSSLeaveAppl.js?v=9"></script>
+<script src="~/Angular/ng-cSSLeaveAppl.js?v=10"></script>
 <section ng-app="ng_selfService_App" ng-controller="cSSLeaveAppl_ctrlr">
 
 
@@ -669,10 +669,23 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="ibox-title">
+                                                            <h5> <span class="fa fa-paperclip"></span> Force Leave Plan</h5>
+                                                        </div>
+                                                        <div class="ibox-content" ng-repeat="lst in lst_fl_plan_lst">
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <small class="stats-label"><b><i class="fa fa-calendar-o"></i>  {{lst.flp_application_date_descr}}</b>
+                                                                    <br />    {{lst.approval_status_descr}}
+                                                                    </small>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-4">
                                                     <div class="ibox float-e-margins">
                                                         <div class="ibox-title">
                                                             <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
@@ -742,24 +755,31 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                @*<div class="col-lg-6">
-                                                        <div class="ibox float-e-margins">
-                                                            <div class="ibox-title">
-                                                                <h5> <span class="fa fa-paperclip"></span> Force Leave Plan List</h5>
-                                                            </div>
-                                                            <div class="ibox-content" ng-repeat="lst in lst_fl_plan_lst">
-                                                                <div class="row">
-                                                                    <div class="col-xs-7">
-                                                                        <small class="stats-label"><b><i class="fa fa-calendar-o"></i>  {{lst.flp_application_date}}</b></small>
-                                                                    </div>
-                                                                    <div class="col-xs-5">
-                                                                        <small class="stats-label">Balance</small>
-                                                                        <h4>{{lst.approval_status_descr}}</h4>
-                                                                    </div>
+                                                <div class="col-lg-4">
+                                                    <div class="ibox float-e-margins">
+                                                        <div class="ibox-title">
+                                                            <h5> <span class="fa fa-paperclip"></span> LEAVE CANCELLATION</h5>
+                                                        </div>
+                                                        <div class="ibox-content" ng-repeat="lst in lv_cancellation_lst">
+                                                            <div class="row">
+                                                                <div class="col-xs-12">
+                                                                    <small class="stats-label">
+                                                                        <b>{{lst.leave_ctrlno}}</b>
+                                                                        <br />
+                                                                        Cancel Date: {{lst.leave_cancel_date_descr}}
+                                                                        <br />
+                                                                        Transfer Date: {{lst.leave_transfer_date_descr}}
+                                                                        <br />
+                                                                        Reason: {{lst.reason}} ({{lst.leave_cancel_type}})
+                                                                    </small>
+                                                                    <hr style="margin-top:5px;margin-bottom:2px;padding:0px;" />
                                                                 </div>
+                                                                
                                                             </div>
                                                         </div>
-                                                    </div>*@
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
