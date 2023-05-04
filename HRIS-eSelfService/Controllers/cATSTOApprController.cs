@@ -329,6 +329,7 @@ namespace HRIS_eSelfService.Controllers
                 var approval_id = data.approval_id;
                 string status_comment = string.Empty;
                 data.travel_details = data.travel_details == null ? "" : data.travel_details;
+
                 if (data.approval_status.ToString().Trim() == "R" &&
                    data.travel_details.Trim() == "")
                 {
@@ -737,6 +738,58 @@ namespace HRIS_eSelfService.Controllers
                     return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
                 }
             }
+
+
+        public ActionResult GetCheckListActioned(
+             string par_period_from
+            , string par_period_to
+            , string par_dept_code
+            , string par_type
+            , string par_user_id
+            , string par_start_time
+            , string par_end_time
+            )
+        {
+            try
+            {
+                DateTime par_period_from_rep = new DateTime();
+                DateTime par_period_to_rep = new DateTime();
+
+                if (par_period_from == "")
+                {
+                    par_period_from = "1900-01-01";
+                }
+
+                if (par_period_to == "")
+                {
+                    par_period_to = "1900-01-01";
+                }
+
+                if (par_period_from == "1900-01-01" || par_period_to == "1900-01-01")
+                {
+
+                    par_period_from_rep = DateTime.Now;
+                    par_period_to_rep = DateTime.Now;
+                }
+
+                else
+                {
+                    par_period_from_rep = Convert.ToDateTime(par_period_from);
+                    par_period_to_rep = Convert.ToDateTime(par_period_to);
+                }
+
+
+
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var sp_travel_order_daily_pa_rep_actioned = db_ats.sp_travel_order_daily_pa_rep_actioned(par_period_from_rep, par_period_to_rep, par_dept_code, par_type, par_user_id, par_start_time, par_end_time).ToList();
+                return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep_actioned }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         //*********************************************************************//
         // Created By   : Jorge Rustom Villanueva

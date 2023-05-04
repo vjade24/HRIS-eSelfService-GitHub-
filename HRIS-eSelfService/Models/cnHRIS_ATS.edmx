@@ -1976,6 +1976,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="par_start_time" Type="varchar" Mode="In" />
           <Parameter Name="par_end_time" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_travel_order_daily_pa_rep_actioned" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="par_period_from" Type="date" Mode="In" />
+          <Parameter Name="par_period_to" Type="date" Mode="In" />
+          <Parameter Name="par_dept_code" Type="varchar" Mode="In" />
+          <Parameter Name="par_type" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
+          <Parameter Name="par_start_time" Type="varchar" Mode="In" />
+          <Parameter Name="par_end_time" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_travel_order_daily_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_period_from" Type="date" Mode="In" />
           <Parameter Name="par_period_to" Type="date" Mode="In" />
@@ -3524,6 +3533,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="travelpurpose_tbl" EntityType="HRIS_ATSModel.travelpurpose_tbl" />
+          <FunctionImport Name="sp_travel_order_daily_pa_rep_actioned" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_daily_pa_rep_actioned_Result)">
+            <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
+            <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
+            <Parameter Name="par_dept_code" Mode="In" Type="String" />
+            <Parameter Name="par_type" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_start_time" Mode="In" Type="String" />
+            <Parameter Name="par_end_time" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -6874,6 +6892,32 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Name="with_ldnf" Type="Boolean" />
           <Property Name="with_emergency" Type="Boolean" />
         </EntityType>
+        <ComplexType Name="sp_travel_order_daily_pa_rep_actioned_Result">
+          <Property Type="Int64" Name="row_nbr" Nullable="true" />
+          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="department_short_name" Nullable="false" MaxLength="63" />
+          <Property Type="String" Name="dtr_date" Nullable="true" MaxLength="1500" />
+          <Property Type="String" Name="travel_place_visit" Nullable="true" />
+          <Property Type="String" Name="travel_purpose" Nullable="true" />
+          <Property Type="String" Name="travel_requestor_empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="travel_requestor_empl_name" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="travel_type_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="travel_type_descr" Nullable="true" MaxLength="150" />
+          <Property Type="Boolean" Name="travel_with_claims" Nullable="true" />
+          <Property Type="String" Name="travel_justification" Nullable="true" />
+          <Property Type="String" Name="report_header_descr" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="travel_datefiled_original" Nullable="true" MaxLength="132" />
+          <Property Type="String" Name="approved_status" Nullable="false" MaxLength="1" />
+          <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
+          <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -10845,6 +10889,36 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_travel_order_daily_pa_rep_actioned" FunctionName="HRIS_ATSModel.Store.sp_travel_order_daily_pa_rep_actioned">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_daily_pa_rep_actioned_Result">
+                <ScalarProperty Name="row_nbr" ColumnName="row_nbr" />
+                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="travel_place_visit" ColumnName="travel_place_visit" />
+                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
+                <ScalarProperty Name="travel_requestor_empl_id" ColumnName="travel_requestor_empl_id" />
+                <ScalarProperty Name="travel_requestor_empl_name" ColumnName="travel_requestor_empl_name" />
+                <ScalarProperty Name="travel_type_code" ColumnName="travel_type_code" />
+                <ScalarProperty Name="travel_type_descr" ColumnName="travel_type_descr" />
+                <ScalarProperty Name="travel_with_claims" ColumnName="travel_with_claims" />
+                <ScalarProperty Name="travel_justification" ColumnName="travel_justification" />
+                <ScalarProperty Name="report_header_descr" ColumnName="report_header_descr" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="travel_datefiled_original" ColumnName="travel_datefiled_original" />
+                <ScalarProperty Name="approved_status" ColumnName="approved_status" />
+                <ScalarProperty Name="pa_readonly" ColumnName="pa_readonly" />
+                <ScalarProperty Name="pa_writeonly" ColumnName="pa_writeonly" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

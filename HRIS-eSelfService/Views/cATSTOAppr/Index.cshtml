@@ -371,7 +371,7 @@
                         <div class="col-lg-12">
                             <select id="ddl_editappr_final" ng-model="ddl_editappr_final" class="form-control form-control-sm">
                                 <option value="">--Select Here--</option>
-                                <option ng-repeat="lst in approver_list"value="{{lst.empl_id}}">{{lst.employee_name}}</option>
+                                <option ng-repeat="lst in approver_list" value="{{lst.empl_id}}">{{lst.employee_name}}</option>
                             </select>
                         </div>
 
@@ -380,7 +380,7 @@
 
                 </div>
                 <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
-                    <button class="btn btn-danger pull-left" ng-click="btn_print_row_editappr()" ><i class="fa fa-print" id="dtr_print"></i> Print </button>
+                    <button class="btn btn-danger pull-left" ng-click="btn_print_row_editappr()"><i class="fa fa-print" id="dtr_print"></i> Print </button>
                     <button ng-click="editappr_save()" type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Approved"><i class="fa fa-save"></i>Save</button>
                 </div>
             </div>
@@ -1149,7 +1149,96 @@
             </form>
         </div>
     </div>
+    <div class="modal fade" id="TO_check_modal_actioned" style="width:100%" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:100%;padding-top:3px;">
+            <form id="search_to_dates">
+                <div class="modal-content animated">
+                    <div class="modal-header modal-header-add-edit text-white">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="modalLabelSmall">Travel Order Actioned Check List</h4>
+                    </div>
+                    <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
 
+                        @*<div class="row" style="padding-top:5px;">
+                                <div class="col-lg-3">
+                                    <span style="margin-top:9px;"><b>Employee's Name:</b></span>
+                                </div>
+                                <div class="col-lg-9">
+
+                                    <select style="width:100%;float:right;" id="ddl_search_empl_name" ng-model="ddl_search_empl_name" class="select2_demo_3 form-control">
+                                        <option value="">--Select here--</option>
+                                        <option ng-repeat="lst in ddl_search_empl_name_list" value="{{lst.empl_id}}">{{lst.employee_name1}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row" style="padding-top:5px;">
+                                <div class="col-lg-3">
+                                    <span style="margin-top:9px;"><b>Travel Year:</b></span>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="form-control field-select-sm text-center" id="ddl_search_travel_year" ng-model="ddl_search_travel_year">
+                                        <option value="" selected>-Select Year-</option>
+                                        <option ng-repeat="lst in year" value="{{lst.year}}">{{lst.year}}</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-lg-3">
+                                    <span style="margin-top:9px;"><b>Travel Month:</b></span>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select class="form-control field-select-sm" id="ddl_search_travel_month" ng-model="ddl_search_travel_month">
+                                        <option value="" selected>-Select Month-</option>
+                                        <option value="01" selected>January</option>
+                                        <option value="02" selected>February</option>
+                                        <option value="03" selected>March</option>
+                                        <option value="04" selected>April</option>
+                                        <option value="05" selected>May</option>
+                                        <option value="06" selected>June</option>
+                                        <option value="07" selected>July</option>
+                                        <option value="08" selected>August</option>
+                                        <option value="09" selected>September</option>
+                                        <option value="10" selected>October</option>
+                                        <option value="11" selected>November</option>
+                                        <option value="12" selected>December</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                        <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;" />
+                        <div class="ibox-content table-resposive modal_content_height">
+                            <div class="row table-wrapper-scroll-y my-custom-scrollbar-2">
+                                <table id="datalist_grid_check_actioned" ng-model="datalist_grid_check_actioned" class="table table-striped table-bordered table-hover table-responsive ">
+                                    <thead>
+                                        <tr>
+                                            <th width="3%"></th>
+                                            <th width="2%">APPROVE</th>
+                                            <th width="2%">DISAPPROVE</th>
+                                            <th width="5%">T.O NBR</th>
+                                            <th width="15%">NAME</th>
+                                            <th width="10%">DEPT.</th>
+                                            <th width="20%">DESTINATION</th>
+                                            <th width="10%">DATEFILED</th>
+                                            <th width="20%">TRAVEL DATE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                        <button id="btn_print_preview1" ng-click="btn_click_check_rep()" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Print Preview"><i class="fa fa-print"></i>Print Preview</button>
+                        <button type="button" class="btn btn-danger pad_left_close" data-dismiss="modal" aria-label="Close" data-toggle="tooltip" data-placement="top" title="close"><i class="fa fa-times"></i>Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Search Travel Order Page Header-->
     <div class="modal fade" id="TO_search_modal" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -1398,8 +1487,8 @@
 
 
                                                 @*<li><a ng-click="btn_click_daily_par('01')"> Approved Travel </a></li>
-                                                    <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
-                                                    <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
+                <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
+                <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
 
                                                 if (Session["department_code"].ToString() == "03")
                                                 {
@@ -1434,8 +1523,8 @@
                                             else if (Session["empl_id"].ToString() == Session["pa_approver"].ToString())
                                             {
                                                 <li><a ng-click="btn_click_monthly_par('04')">Approved Travel per Dept.</a></li>
-
                                                 <li><a ng-click="btn_click_checklist()">Travel Check List</a></li>
+                                                <li><a ng-click="btn_click_checklist_actioned()">Travel Actioned Check List</a></li>
                                             }
 
 
