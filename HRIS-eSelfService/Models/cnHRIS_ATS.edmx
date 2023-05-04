@@ -1967,6 +1967,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="p_month" Type="varchar" Mode="In" />
           <Parameter Name="p_view_type" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_travel_order_approve" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_travel_order_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_travel_order_daily_pa_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_period_from" Type="date" Mode="In" />
           <Parameter Name="par_period_to" Type="date" Mode="In" />
@@ -3541,6 +3547,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_start_time" Mode="In" Type="String" />
             <Parameter Name="par_end_time" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_travel_order_approve" ReturnType="Collection(Boolean)">
+            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
+            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_travel_details" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -10919,6 +10931,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

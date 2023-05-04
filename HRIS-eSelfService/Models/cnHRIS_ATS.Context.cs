@@ -3108,5 +3108,26 @@ namespace HRIS_eSelfService.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_actioned_Result>("sp_travel_order_daily_pa_rep_actioned", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
         }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_travel_order_approve(string p_travel_order_no, string p_approval_status, string p_travel_details, string p_user_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_approve", p_travel_order_noParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
     }
 }

@@ -853,7 +853,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
 
                                 if (account_user_id == s.pa_approver) {
 
-                                    console.log(full["pa_writeonly"])
+                                    
 
                                     if (full["pa_writeonly"] == true) {
                                         isdisabled = ""
@@ -3694,6 +3694,8 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     s.btn_check_action = function (id) {
 
         $('#checkbox_dis' + id).prop('checked', false);
+        console.log(s.datalistgridCheck[id])
+        return
         h.post("../cATSTOAppr/SaveDetails", {
              //par_action: s.datalistgrid2[id].included
             par_empl_id: s.datalistgridCheck[id].empl_id
@@ -3708,19 +3710,39 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
         })
     }
     s.btn_check_action_2 = function (id) {
-        return
-        $('#checkbox_dis_2' + id).prop('checked', false);
-        h.post("../cATSTOAppr/SaveDetails", {
-            //par_action: s.datalistgrid2[id].included
-            par_empl_id: s.datalistgridCheckActioned[id].empl_id
-            , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
-        }).then(function (d) {
-            if (d.data.message != "success") {
-
-                swal({ icon: "warning", title: d.data.message });
-            }
+        swal({
+            title: "Approved Action",
+            text: "Would you like to override the current status as approved?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
 
         })
+            .then(function (willDelete) {
+                if (willDelete) {
+
+                    $('#checkbox_dis_2' + id).prop('checked', false);
+                    h.post("../cATSTOAppr/SaveDetails", {
+                        //par_action: s.datalistgrid2[id].included
+                        par_empl_id: s.datalistgridCheckActioned[id].empl_id
+                        , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+                    }).then(function (d) {
+                        if (d.data.message != "success") {
+
+                            swal({ icon: "warning", title: d.data.message });
+                        }
+                    })
+                }
+                else {
+                    if (s.datalistgridCheckActioned[id].approved_status = 'Y') {
+                        $('#checkbox_2' + id).prop('checked', false);
+                    }
+                    else {
+                        $('#checkbox_2' + id).prop('checked', true);
+                    }
+                }
+            });
+       
     }
 
     //s.btn_check_action_dis = function (id) {
@@ -3769,7 +3791,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     }
     s.btn_check_action_dis_2 = function (id, checked) {
         s.checklist_row_id = id
-        return
+       
         if (s.datalistgridCheckActioned[id].approved_status == "D") {
             $('#checkbox_dis_2' + id).prop('checked', true);
         }

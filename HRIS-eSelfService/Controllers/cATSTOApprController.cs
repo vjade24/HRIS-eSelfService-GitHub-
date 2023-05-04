@@ -800,6 +800,8 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
+
+                var travel_details = "Final Approved";
                 string message = "success";
                 
                  var check_exists = db_ats.travel_order_check_tbl.Where(a =>
@@ -809,11 +811,9 @@ namespace HRIS_eSelfService.Controllers
                 if (check_exists != null)
                 {
                     var approved_status_check = true;
-
                     check_exists.approved_status = approved_status_check;
                     check_exists.approved_dttm   = DateTime.Now;
                     check_exists.approved_by = Session["user_id"].ToString().Trim();
-
 
                 }
                 else
@@ -830,6 +830,10 @@ namespace HRIS_eSelfService.Controllers
                 }
 
                 db_ats.SaveChangesAsync();
+
+
+          
+
 
 
                 return JSON(new { message }, JsonRequestBehavior.AllowGet);
