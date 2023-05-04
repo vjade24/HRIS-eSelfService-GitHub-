@@ -356,7 +356,7 @@ namespace HRIS_eSelfService.Controllers
                 }
 
                 else if (data.approval_status.ToString().Trim() == "L" &&
-                    data.travel_details.Trim() == "")
+                data.travel_details.Trim() == "")
                 {
                     data.travel_details = "Cancelled";
                 }
@@ -377,7 +377,7 @@ namespace HRIS_eSelfService.Controllers
                     db_dev.sp_update_transaction_in_approvalworkflow_tbl(query.approval_id, Session["user_id"].ToString(), data.approval_status, data.travel_details);
                 }
 
-                db_ats.SaveChangesAsync();
+                db_ats.SaveChanges();
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)

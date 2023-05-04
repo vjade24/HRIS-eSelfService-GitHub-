@@ -118,15 +118,9 @@ namespace HRIS_eSelfService.Controllers
                 db_dtr.Database.CommandTimeout = int.MaxValue;
                 var user_id     = Session["user_id"].ToString();
 
-                if(p_location == "ddohris.ph")
-                {
-                    location = "Y:\\DTR_Upload\\";
-                    //location = "G:\\SSL_WEBSITE\\eSelfService\\DTR_Upload\\";
-                } 
-                else
-                {
-                    location = Server.MapPath("../DTR_Upload/");
-                }
+               
+                location = Server.MapPath("../DTR_Upload/");
+                
 
                 var process_biodata_2dtr_stg = new object();
 
@@ -168,14 +162,7 @@ namespace HRIS_eSelfService.Controllers
                     process_biodata_2dtr_stg = db_dtr.sp_process_biodata_2dtr_stg_out(process_nbr, Session["user_id"].ToString()).ToList();
                 }
 
-                //if (p_shift_sched == "1")
-                //{
-
-                //}
-                //else if(p_shift_sched == "2")
-                //{
-                // 
-                //}
+               
 
                 return JSON(new { message = "success", process_biodata_2dtr_stg }, JsonRequestBehavior.AllowGet);
             }
