@@ -2781,7 +2781,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
     //**********************************// 
     s.btn_edit_action = function (row_id, isCreator) {
       
-           (row_id, isCreator);
+        edit_action(row_id, isCreator);
     }
 
 
