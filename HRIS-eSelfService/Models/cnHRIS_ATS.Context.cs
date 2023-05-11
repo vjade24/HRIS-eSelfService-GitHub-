@@ -3075,5 +3075,59 @@ namespace HRIS_eSelfService.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_leave_application_cancel_tbl_list_Result>("sp_leave_application_cancel_tbl_list", par_empl_idParameter, par_leave_ctrlnoParameter);
         }
+    
+        public virtual ObjectResult<sp_travel_order_daily_pa_rep_actioned_Result> sp_travel_order_daily_pa_rep_actioned(Nullable<System.DateTime> par_period_from, Nullable<System.DateTime> par_period_to, string par_dept_code, string par_type, string par_user_id, string par_start_time, string par_end_time)
+        {
+            var par_period_fromParameter = par_period_from.HasValue ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(System.DateTime));
+    
+            var par_period_toParameter = par_period_to.HasValue ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(System.DateTime));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_start_timeParameter = par_start_time != null ?
+                new ObjectParameter("par_start_time", par_start_time) :
+                new ObjectParameter("par_start_time", typeof(string));
+    
+            var par_end_timeParameter = par_end_time != null ?
+                new ObjectParameter("par_end_time", par_end_time) :
+                new ObjectParameter("par_end_time", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_actioned_Result>("sp_travel_order_daily_pa_rep_actioned", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_travel_order_approve(string p_travel_order_no, string p_approval_status, string p_travel_details, string p_user_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_approve", p_travel_order_noParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
     }
 }
