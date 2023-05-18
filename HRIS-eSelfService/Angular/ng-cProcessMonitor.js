@@ -473,10 +473,14 @@ ng_selfService_App.controller("cProcessMonitor_ctrl", function (commonScript,$sc
                   , empl_id: empl_id
               }).then(function (d) {
                   swal(d.data.message,{ icon: d.data.icon });
-                
+                  
                   $("#main_modal").modal("hide")
                   $("#rerun_bio_modal").modal("hide")
-                  s.machineinfo_grid = d.data.machineinfo.refreshTable("machineinfo_grid","")
+
+                  if (d.data.machineinfo.length > 0) {
+                      s.machineinfo_grid = d.data.machineinfo.refreshTable("machineinfo_grid", "")
+                  }
+                 
                   $("#rerun_bio_grid_modal").modal("show")
                   $("#icon_extract_icon").removeClass("fa fa-spinner fa-spin")
                   $("#icon_extract_icon").addClass("fa fa-rocket")
