@@ -137,9 +137,9 @@ namespace HRIS_eSelfService.Controllers
                 // **********************************************************************************************
                 var cancellation_calendar = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id).ToList();
 
-                var lv_cancellation_lst = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == empl_id).ToList().OrderBy(a=> a.created_dttm);
+                
 
-                return JSON(new { message = "success", um, log_in_as_AO, dept_name, leaveLst, leaveLst1, leaveType, leaveSubType, holiDate, status, empl_name, user_info, data_all_bal, fl_plan_lst, cancellation_calendar, lv_cancellation_lst }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", um, log_in_as_AO, dept_name, leaveLst, leaveLst1, leaveType, leaveSubType, holiDate, status, empl_name, user_info, data_all_bal, fl_plan_lst, cancellation_calendar }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -300,6 +300,8 @@ namespace HRIS_eSelfService.Controllers
                 var sp_current_balance = lv_hdr.leaveledger_balance_as_of_sp;
                 var fl_current_balance = lv_hdr.leaveledger_balance_as_of_fl;
 
+                var lv_cancellation_lst = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == lv_hdr.empl_id).ToList().OrderBy(a => a.created_dttm);
+
                 return JSON(new { message = "success", flpDtlLst, creator, reviewer
                     ,cto_balance
                     ,vl_current_balance
@@ -307,6 +309,7 @@ namespace HRIS_eSelfService.Controllers
                     ,sp_current_balance
                     ,fl_current_balance
                     ,lv_hdr
+                    ,lv_cancellation_lst
                 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -344,6 +347,31 @@ namespace HRIS_eSelfService.Controllers
                                                                     ).FirstOrDefault();
 
                     var dt_chk_tse = db_ats.tse_check_tbl.Where(a => a.empl_id == data.empl_id).FirstOrDefault();
+
+                    if (od != null)
+                    {
+                        // ***************************************
+                        // **** CHECK IF EXISTS ON CANCELLATION **
+                        // ***************************************
+                        var date_diff       = (leave_date_to - leave_date_from).Days + 1;
+                        var init_date       = leave_date_from;
+                        object cancellation = new object();
+                        var date_init       = new DateTime();
+                        
+                        for (int i = 0; i < date_diff; i++)
+                        {
+                            cancellation = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == data.empl_id && a.leave_cancel_status == "F" && a.leave_cancel_date == date_init).FirstOrDefault();
+                            if (cancellation == null)
+                            {
+                                message = (message + " \n *" + data2[x].leave_date_from.ToLongDateString() + " - " + data2[x].leave_date_to.ToLongDateString());
+                                break;
+                            }
+                            date_init = init_date.AddDays(i);
+                        }
+                        // ***************************************
+                        // **** CHECK IF EXISTS ON CANCELLATION **
+                        // ***************************************
+                    }
                     if (dt_chk_tse != null)
                     {
                         if (data.leave_type_code != "ML")
@@ -386,27 +414,7 @@ namespace HRIS_eSelfService.Controllers
                         }
 
                     }
-                    if (od != null)
-                    {
-                        message = (message + " *" + data2[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + data2[x].leave_date_to.ToString("yyyy-MM-dd"));
-                    }
-                    //else if (data.leave_type_code == "SL")   // Sick Leave
-                    //{
-                    //    if (data2 != null)
-                    //    {
-                    //        for (int i = 0; i < data2.Count; i++)
-                    //        {
-                    //            if (data2[i].leave_date_from > data.date_applied ||
-                    //                data2[i].leave_date_to > data.date_applied)
-                    //            {
-                    //                message         = "confim_save";
-                    //                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data2[i].leave_ctrlno + "\n Date Application from :" + data2[i].leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + data2[i].leave_date_to.ToString("yyyy-MM-dd");
-                    //                message_descr2  = " Application Date Applied is beyond date of Filing!";
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    if (data.leave_type_code == "CTO")   // CTO
+                    if (data.leave_type_code  == "CTO")   // CTO
                     {
                         var cntr = 0;
                         if (data2 != null)
@@ -445,7 +453,7 @@ namespace HRIS_eSelfService.Controllers
                                     else if ((data2[i].leave_date_from <= data.date_applied ||
                                                 data2[i].leave_date_to <= data.date_applied)
                                              &&
-                                             (data2[i].date_num_day_total < 8 && DateTime.Now.Hour >= 13))
+                                             (data2[i].date_num_day_total < 8 && DateTime.Now.Hour >= 13 && p_action_mode == "SUBMIT"))
                                     {
                                         message = "cto_validation";
                                         message_descr = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data2[i].leave_ctrlno + "\n Date Application from :" + data2[i].leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + data2[i].leave_date_to.ToString("yyyy-MM-dd");
@@ -482,7 +490,7 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if (data.leave_type_code == "FL")   // Force Leave Validation Effective June 1, 2022
+                    if (data.leave_type_code  == "FL")   // Force Leave Validation Effective June 1, 2022
                     {
 
 
@@ -618,7 +626,7 @@ namespace HRIS_eSelfService.Controllers
                             // ***************************************************************************************************
                         }
                     }
-                    if (data.leave_type_code == "VL")   // Force Leave Validation Effective July 1, 2022
+                    if (data.leave_type_code  == "VL")   // Force Leave Validation Effective July 1, 2022
                     {
 
                         var cntr = 0;
@@ -661,56 +669,51 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if ((data.leave_type_code == "SP" & 
-                                                        (data.leave_subtype_code == "AN" || // Anniversary
-                                                         data.leave_subtype_code == "BD" || // Birthday
-                                                         data.leave_subtype_code == "WD"    // Wedding
-                                                        ))
-                            ||
-                            data.leave_type_code == "PS"    // Solo Parent Leave
-                            // ||
-                            // data.leave_type_code == "MC"    // Special Leave Benefits for Women/Magna Carta for Women
-
-                            )
+                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS") // Solo Parent Leave
                     {
-
-                        var leave_descr = "";
-                        if (data.leave_type_code == "SP")
+                        if (data.leave_subtype_code == "AN" || // Anniversary
+                            data.leave_subtype_code == "BD" || // Birthday
+                            data.leave_subtype_code == "WD")   // Wedding
                         {
-                            leave_descr = "Special Privilege Leave such as Anniversary, Birthday or Wedding!";
-                        }
-                        else if (data.leave_type_code == "PS")
-                        {
-                            leave_descr = "Solo Parent Leave!";
-                        }
-                        else if (data.leave_type_code == "MC")
-                        {
-                            leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
-                        }
-
-                        var ctr = 5;
-
-                        System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
-                        System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
-
-                        for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
-                        {
-                            if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
-                                firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
+                            var leave_descr = "";
+                            if (data.leave_type_code == "SP")
                             {
-                                ctr = ctr + 1;
-                            }   
-                         }
+                                leave_descr = "Special Privilege Leave such as Anniversary, Birthday or Wedding!";
+                            }
+                            else if (data.leave_type_code == "PS")
+                            {
+                                leave_descr = "Solo Parent Leave!";
+                            }
+                            else if (data.leave_type_code == "MC")
+                            {
+                                leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
+                            }
 
-                        var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
+                            var ctr = 5;
 
-                        if (date_applied_5_working_days > leave_date_from ||
-                            date_applied_5_working_days > leave_date_to) 
-                        {
-                            message         = "5_adv_validation";
-                            message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
-                            message_descr2  = " You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
+                            System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
+                            System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
+
+                            for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
+                            {
+                                if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
+                                    firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
+                                {
+                                    ctr = ctr + 1;
+                                }   
+                            }
+
+                            var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
+
+                            if (date_applied_5_working_days > leave_date_from ||
+                                date_applied_5_working_days > leave_date_to) 
+                            {
+                                message         = "5_adv_validation";
+                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
+                                message_descr2  = " You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
+                            }
                         }
+
                     }
                 }
 
@@ -762,7 +765,7 @@ namespace HRIS_eSelfService.Controllers
             }
             catch (Exception e)
             {
-                string message = e.InnerException.Message.ToString();
+                string message = e.Message.ToString();
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
