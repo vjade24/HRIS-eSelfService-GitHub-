@@ -1012,15 +1012,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_dates_dtl_tbl_list_Result>("sp_travelorder_dates_dtl_tbl_list", par_travelorder_noParameter);
         }
     
-        public virtual ObjectResult<sp_travelorder_empl_dtl_tbl_list_Result> sp_travelorder_empl_dtl_tbl_list(string par_travelorder_no)
-        {
-            var par_travelorder_noParameter = par_travelorder_no != null ?
-                new ObjectParameter("par_travelorder_no", par_travelorder_no) :
-                new ObjectParameter("par_travelorder_no", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_empl_dtl_tbl_list_Result>("sp_travelorder_empl_dtl_tbl_list", par_travelorder_noParameter);
-        }
-    
         public virtual ObjectResult<sp_travelorder_exists_check_Result> sp_travelorder_exists_check(string par_dept_code)
         {
             var par_dept_codeParameter = par_dept_code != null ?
@@ -2900,27 +2891,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_rep_Result>("sp_travel_order_daily_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
         }
     
-        public virtual ObjectResult<sp_travelorder_hdr_tbl_list_Result> sp_travelorder_hdr_tbl_list(string par_empl_id, string par_appr_status, string par_year, string par_month)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_appr_statusParameter = par_appr_status != null ?
-                new ObjectParameter("par_appr_status", par_appr_status) :
-                new ObjectParameter("par_appr_status", typeof(string));
-    
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_hdr_tbl_list_Result>("sp_travelorder_hdr_tbl_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_monthParameter);
-        }
-    
         public virtual ObjectResult<sp_travelorder_search_list_Result> sp_travelorder_search_list(string par_empl_id, string par_year, string par_month)
         {
             var par_empl_idParameter = par_empl_id != null ?
@@ -3109,11 +3079,19 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_daily_pa_rep_actioned_Result>("sp_travel_order_daily_pa_rep_actioned", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter, par_start_timeParameter, par_end_timeParameter);
         }
     
-        public virtual ObjectResult<Nullable<bool>> sp_travel_order_approve(string p_travel_order_no, string p_approval_status, string p_travel_details, string p_user_id)
+        public virtual ObjectResult<Nullable<bool>> sp_travel_order_approve(Nullable<bool> p_check_stat, string p_travel_order_no, string p_empl_id, string p_approval_status, string p_travel_details, string p_user_id)
         {
+            var p_check_statParameter = p_check_stat.HasValue ?
+                new ObjectParameter("p_check_stat", p_check_stat) :
+                new ObjectParameter("p_check_stat", typeof(bool));
+    
             var p_travel_order_noParameter = p_travel_order_no != null ?
                 new ObjectParameter("p_travel_order_no", p_travel_order_no) :
                 new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
     
             var p_approval_statusParameter = p_approval_status != null ?
                 new ObjectParameter("p_approval_status", p_approval_status) :
@@ -3127,7 +3105,37 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("p_user_id", p_user_id) :
                 new ObjectParameter("p_user_id", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_approve", p_travel_order_noParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_approve", p_check_statParameter, p_travel_order_noParameter, p_empl_idParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_hdr_tbl_list_Result> sp_travelorder_hdr_tbl_list(string par_empl_id, string par_appr_status, string par_year, string par_month)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_appr_statusParameter = par_appr_status != null ?
+                new ObjectParameter("par_appr_status", par_appr_status) :
+                new ObjectParameter("par_appr_status", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_hdr_tbl_list_Result>("sp_travelorder_hdr_tbl_list", par_empl_idParameter, par_appr_statusParameter, par_yearParameter, par_monthParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_empl_dtl_tbl_list_Result> sp_travelorder_empl_dtl_tbl_list(string par_travelorder_no)
+        {
+            var par_travelorder_noParameter = par_travelorder_no != null ?
+                new ObjectParameter("par_travelorder_no", par_travelorder_no) :
+                new ObjectParameter("par_travelorder_no", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_empl_dtl_tbl_list_Result>("sp_travelorder_empl_dtl_tbl_list", par_travelorder_noParameter);
         }
     }
 }

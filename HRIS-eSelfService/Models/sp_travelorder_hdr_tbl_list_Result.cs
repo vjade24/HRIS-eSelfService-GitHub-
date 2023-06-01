@@ -36,5 +36,6 @@ namespace HRIS_eSelfService.Models
         public bool ldnf { get; set; }
         public bool to_emergency { get; set; }
         public string late_justification { get; set; }
+        public Nullable<bool> pa_initial { get; set; }
     }
 }
