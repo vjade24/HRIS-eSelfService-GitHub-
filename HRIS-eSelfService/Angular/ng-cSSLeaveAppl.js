@@ -189,13 +189,7 @@
                         d.data.fl_plan_lst[i].flp_application_date_descr = moment(d.data.fl_plan_lst[i].flp_application_date).format("MMMM DD, YYYY")
                     }
 
-                    s.lv_cancellation_lst = d.data.lv_cancellation_lst
-                    for (var i = 0; i < d.data.lv_cancellation_lst.length; i++)
-                    {
-                        d.data.lv_cancellation_lst[i].leave_cancel_date_descr = moment(d.data.lv_cancellation_lst[i].leave_cancel_date).format("MMMM DD, YYYY")
-                        d.data.lv_cancellation_lst[i].leave_transfer_date_descr = moment(d.data.lv_cancellation_lst[i].leave_transfer_date).format("MMMM DD, YYYY")
-                    }
-                    console.log(s.lv_cancellation_lst)
+                    
 
                     $('#modal_loading').modal("hide");
                 }
@@ -2660,6 +2654,13 @@
                     s.datalistgrid2 = d.data.flpDtlLst;
                     s.getDtlDataLength = d.data.flpDtlLst.length;
 
+                    s.lv_cancellation_lst = d.data.lv_cancellation_lst
+                    for (var i = 0; i < d.data.lv_cancellation_lst.length; i++)
+                    {
+                        d.data.lv_cancellation_lst[i].leave_cancel_date_descr   = moment(d.data.lv_cancellation_lst[i].leave_cancel_date).format("MMMM DD, YYYY")
+                        d.data.lv_cancellation_lst[i].leave_transfer_date_descr = moment(d.data.lv_cancellation_lst[i].leave_transfer_date).format("MMMM DD, YYYY")
+                    }
+
                     if (d.data.flpDtlLst.length > 0)
                     {
                         s.oTable2.fnAddData(d.data.flpDtlLst);
@@ -4231,7 +4232,7 @@
                         {
                             "mData": "leave_date_from",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + moment(data).format('MMMM D, YYYY') + "</span>"
+                                return "<span class='text-center btn-block'> <small style='display:none'>" + moment(data).format('YYYY-MM-DD') + "</small>" + moment(data).format('MMMM D, YYYY') + "</span>"
                             }
                         },
                         {

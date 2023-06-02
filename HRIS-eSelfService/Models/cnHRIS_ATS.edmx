@@ -425,6 +425,9 @@
           <Property Name="submitted_user" Type="varchar" MaxLength="30" />
           <Property Name="final_approved_dttm" Type="datetime" />
           <Property Name="final_approved_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_user" Type="varchar" MaxLength="30" />
+          <Property Name="returned_dttm" Type="datetime" />
+          <Property Name="returned_remarks" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="leave_application_dtl_cto_tbl">
           <Key>
@@ -918,14 +921,6 @@
           <Property Name="ldnf" Type="bit" />
           <Property Name="to_emergency" Type="bit" />
           <Property Name="late_justification" Type="varchar(max)" />
-        </EntityType>
-        <EntityType Name="travelorder_lvl2_tbl">
-          <Key>
-            <PropertyRef Name="travel_order_no" />
-          </Key>
-          <Property Name="travel_order_no" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="approval_status" Type="varchar" MaxLength="1" />
-          <Property Name="approved_comment" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="travelordertype_empl_dtl_tbl">
           <Key>
@@ -2007,22 +2002,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="par_start_time" Type="varchar" Mode="In" />
           <Parameter Name="par_end_time" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_travel_order_disapprove" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="p_check_stat" Type="bit" Mode="In" />
-          <Parameter Name="p_travel_order_no" Type="varchar" Mode="In" />
-          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
-          <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
-          <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
-          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_travel_order_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_travel_order_no" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_travel_order_reviewapproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="p_travel_order_no" Type="varchar" Mode="In" />
-          <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
-          <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
-          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_travelorder_dates_dtl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_travelorder_no" Type="varchar" Mode="In" />
@@ -2152,7 +2133,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySet Name="travelorder_dates_dtl_tbl" EntityType="Self.travelorder_dates_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelorder_empl_dtl_tbl" EntityType="Self.travelorder_empl_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelorder_hdr_tbl" EntityType="Self.travelorder_hdr_tbl" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="travelorder_lvl2_tbl" EntityType="Self.travelorder_lvl2_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelordertype_empl_dtl_tbl" EntityType="Self.travelordertype_empl_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="travelpurpose_tbl" EntityType="Self.travelpurpose_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="traveltype_tbl" EntityType="Self.traveltype_tbl" Schema="dbo" store:Type="Tables" />
@@ -2920,9 +2900,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <FunctionImport Name="sp_travelorder_dates_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_dates_dtl_tbl_list_Result)">
           <Parameter Name="par_travelorder_no" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travelorder_empl_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_empl_dtl_tbl_list_Result)">
-          <Parameter Name="par_travelorder_no" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_travelorder_exists_check" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_exists_check_Result)">
           <Parameter Name="par_dept_code" Mode="In" Type="String" />
           </FunctionImport>
@@ -3504,12 +3481,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySet Name="travel_order_check_tbl" EntityType="HRIS_ATSModel.travel_order_check_tbl" />
           <EntitySet Name="tse_check_tbl" EntityType="HRIS_ATSModel.tse_check_tbl" />
           <EntitySet Name="travelorder_hdr_tbl" EntityType="HRIS_ATSModel.travelorder_hdr_tbl" />
-          <FunctionImport Name="sp_travelorder_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_hdr_tbl_list_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_appr_status" Mode="In" Type="String" />
-            <Parameter Name="par_year" Mode="In" Type="String" />
-            <Parameter Name="par_month" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="to_disapprove_comment" EntityType="HRIS_ATSModel.to_disapprove_comment" />
           <FunctionImport Name="sp_travelorder_search_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_search_list_Result)">
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
@@ -3560,7 +3531,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
           </FunctionImport>
-         
+          <EntitySet Name="travelpurpose_tbl" EntityType="HRIS_ATSModel.travelpurpose_tbl" />
           <FunctionImport Name="sp_travel_order_daily_pa_rep_actioned" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_daily_pa_rep_actioned_Result)">
             <Parameter Name="par_period_from" Mode="In" Type="DateTime" />
             <Parameter Name="par_period_to" Mode="In" Type="DateTime" />
@@ -3570,15 +3541,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_start_time" Mode="In" Type="String" />
             <Parameter Name="par_end_time" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="travelorder_lvl2_tbl" EntityType="HRIS_ATSModel.travelorder_lvl2_tbl" />
-          <EntitySet Name="travelpurpose_tbl" EntityType="HRIS_ATSModel.travelpurpose_tbl" />
-          <FunctionImport Name="sp_travel_order_reviewapproved" ReturnType="Collection(Boolean)">
-            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
-            <Parameter Name="p_approval_status" Mode="In" Type="String" />
-            <Parameter Name="p_travel_details" Mode="In" Type="String" />
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_travel_order_approve" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_approve_Result)">
+          <FunctionImport Name="sp_travel_order_approve" ReturnType="Collection(Boolean)">
             <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
             <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
@@ -3586,13 +3549,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_travel_details" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
-            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
-            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-            <Parameter Name="p_approval_status" Mode="In" Type="String" />
-            <Parameter Name="p_travel_details" Mode="In" Type="String" />
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <FunctionImport Name="sp_travelorder_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_hdr_tbl_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_appr_status" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_month" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_travelorder_empl_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_empl_dtl_tbl_list_Result)">
+            <Parameter Name="par_travelorder_no" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -3936,13 +3900,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="travel_endtime_ampm" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="travel_starttime_display" Nullable="true" MaxLength="8" />
           <Property Type="String" Name="travel_endtime_display" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="rcrd_status" Nullable="true" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="sp_travelorder_empl_dtl_tbl_list_Result">
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
-          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="rcrd_status" Nullable="true" MaxLength="1" />
         </ComplexType>
         <ComplexType Name="sp_travelorder_exists_check_Result">
@@ -6612,31 +6569,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Name="to_emergency" Type="Boolean" />
           <Property Name="late_justification" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
-        <ComplexType Name="sp_travelorder_hdr_tbl_list_Result">
-          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="travel_datefiled" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="travel_place_visit" Nullable="true" />
-          <Property Type="String" Name="travel_purpose" Nullable="true" />
-          <Property Type="String" Name="travel_details" Nullable="true" MaxLength="255" />
-          <Property Type="String" Name="travel_justification" Nullable="true" />
-          <Property Type="String" Name="travel_requestor_empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
-          <Property Type="String" Name="travel_form_type" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="travel_type_code" Nullable="true" MaxLength="2" />
-          <Property Type="Boolean" Name="travel_with_claims" Nullable="true" />
-          <Property Type="Boolean" Name="posting_status" Nullable="true" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="travelorder_status_descr" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="recappr_empl" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="firstappr_empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="finalappro_empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="Boolean" Name="ldnf" Nullable="false" />
-          <Property Type="Boolean" Name="to_emergency" Nullable="false" />
-          <Property Type="String" Name="late_justification" Nullable="true" />
-        </ComplexType>
         <EntityType Name="to_disapprove_comment">
           <Key>
             <PropertyRef Name="empl_id" />
@@ -6794,7 +6726,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Name="submitted_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="final_approved_dttm" Type="DateTime" Precision="3" />
           <Property Name="final_approved_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-         
+          <Property Name="returned_user" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="returned_dttm" Type="DateTime" Precision="3" />
+          <Property Name="returned_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <ComplexType Name="sp_fl_plan_dtl_rep_tbl_list_Result">
           <Property Type="String" Name="fl_plan_rep_ctrlno" Nullable="false" MaxLength="15" />
@@ -6932,7 +6866,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="DateTime" Name="returned_dttm" Nullable="false" Precision="23" />
           <Property Type="String" Name="returned_remarks" Nullable="false" MaxLength="255" />
         </ComplexType>
-       
+        <EntityType Name="travelpurpose_tbl">
+          <Key>
+            <PropertyRef Name="ctrl_no" />
+          </Key>
+          <Property Name="ctrl_no" Type="Int32" Nullable="false" />
+          <Property Name="travel_purpose" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="with_claims" Type="Boolean" />
+          <Property Name="with_ldnf" Type="Boolean" />
+          <Property Name="with_emergency" Type="Boolean" />
+        </EntityType>
         <ComplexType Name="sp_travel_order_daily_pa_rep_actioned_Result">
           <Property Type="Int64" Name="row_nbr" Nullable="true" />
           <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
@@ -6959,31 +6902,42 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
           <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
         </ComplexType>
-        <EntityType Name="travelorder_lvl2_tbl">
-          <Key>
-            <PropertyRef Name="travel_order_no" />
-          </Key>
-          <Property Name="travel_order_no" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="approval_status" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="approved_comment" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="travelpurpose_tbl">
-          <Key>
-            <PropertyRef Name="ctrl_no" />
-          </Key>
-          <Property Name="ctrl_no" Type="Int32" Nullable="false" />
-          <Property Name="travel_purpose" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="with_claims" Type="Boolean" />
-          <Property Name="with_ldnf" Type="Boolean" />
-          <Property Name="with_emergency" Type="Boolean" />
-        </EntityType>
-        <ComplexType Name="sp_travel_order_approve_Result">
-          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+        <ComplexType Name="sp_travelorder_hdr_tbl_list_Result">
+          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="travel_datefiled" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="travel_place_visit" Nullable="true" />
+          <Property Type="String" Name="travel_purpose" Nullable="true" />
+          <Property Type="String" Name="travel_details" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="travel_justification" Nullable="true" />
+          <Property Type="String" Name="travel_requestor_empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="travel_form_type" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="travel_type_code" Nullable="true" MaxLength="2" />
+          <Property Type="Boolean" Name="travel_with_claims" Nullable="true" />
+          <Property Type="Boolean" Name="posting_status" Nullable="true" />
+          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="15" />
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="travelorder_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="recappr_empl" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="firstappr_empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="finalappro_empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="ldnf" Nullable="false" />
+          <Property Type="Boolean" Name="to_emergency" Nullable="false" />
+          <Property Type="String" Name="late_justification" Nullable="true" />
+          <Property Type="Boolean" Name="pa_initial" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_travel_order_disapprove_Result">
-          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+        <ComplexType Name="sp_travelorder_empl_dtl_tbl_list_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="position_title1" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="rcrd_status" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="approved_status" Nullable="true" />
+          <Property Type="String" Name="comment" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="comment_by" Nullable="true" MaxLength="247" />
+          <Property Type="String" Name="comment_dttm" Nullable="true" MaxLength="30" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -7639,17 +7593,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="travel_endtime_ampm" ColumnName="travel_endtime_ampm" />
                 <ScalarProperty Name="travel_starttime_display" ColumnName="travel_starttime_display" />
                 <ScalarProperty Name="travel_endtime_display" ColumnName="travel_endtime_display" />
-                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travelorder_empl_dtl_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_travelorder_empl_dtl_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travelorder_empl_dtl_tbl_list_Result">
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
-                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
                 <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -10577,35 +10520,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_travelorder_hdr_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_travelorder_hdr_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travelorder_hdr_tbl_list_Result">
-                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
-                <ScalarProperty Name="travel_datefiled" ColumnName="travel_datefiled" />
-                <ScalarProperty Name="travel_place_visit" ColumnName="travel_place_visit" />
-                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
-                <ScalarProperty Name="travel_details" ColumnName="travel_details" />
-                <ScalarProperty Name="travel_justification" ColumnName="travel_justification" />
-                <ScalarProperty Name="travel_requestor_empl_id" ColumnName="travel_requestor_empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="travel_form_type" ColumnName="travel_form_type" />
-                <ScalarProperty Name="travel_type_code" ColumnName="travel_type_code" />
-                <ScalarProperty Name="travel_with_claims" ColumnName="travel_with_claims" />
-                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="travelorder_status_descr" ColumnName="travelorder_status_descr" />
-                <ScalarProperty Name="recappr_empl" ColumnName="recappr_empl" />
-                <ScalarProperty Name="firstappr_empl_id" ColumnName="firstappr_empl_id" />
-                <ScalarProperty Name="finalappro_empl_id" ColumnName="finalappro_empl_id" />
-                <ScalarProperty Name="ldnf" ColumnName="ldnf" />
-                <ScalarProperty Name="to_emergency" ColumnName="to_emergency" />
-                <ScalarProperty Name="late_justification" ColumnName="late_justification" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="to_disapprove_comment">
             <EntityTypeMapping TypeName="HRIS_ATSModel.to_disapprove_comment">
               <MappingFragment StoreEntitySet="to_disapprove_comment">
@@ -10763,6 +10677,9 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySetMapping Name="leave_application_cancel_tbl">
             <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_cancel_tbl">
               <MappingFragment StoreEntitySet="leave_application_cancel_tbl">
+                <ScalarProperty Name="returned_remarks" ColumnName="returned_remarks" />
+                <ScalarProperty Name="returned_dttm" ColumnName="returned_dttm" />
+                <ScalarProperty Name="returned_user" ColumnName="returned_user" />
                 <ScalarProperty Name="final_approved_user" ColumnName="final_approved_user" />
                 <ScalarProperty Name="final_approved_dttm" ColumnName="final_approved_dttm" />
                 <ScalarProperty Name="submitted_user" ColumnName="submitted_user" />
@@ -10942,6 +10859,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="travelpurpose_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.travelpurpose_tbl">
+              <MappingFragment StoreEntitySet="travelpurpose_tbl">
+                <ScalarProperty Name="with_emergency" ColumnName="with_emergency" />
+                <ScalarProperty Name="with_ldnf" ColumnName="with_ldnf" />
+                <ScalarProperty Name="with_claims" ColumnName="with_claims" />
+                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
+                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_travel_order_daily_pa_rep_actioned" FunctionName="HRIS_ATSModel.Store.sp_travel_order_daily_pa_rep_actioned">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_daily_pa_rep_actioned_Result">
@@ -10972,40 +10900,49 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="travelorder_lvl2_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.travelorder_lvl2_tbl">
-              <MappingFragment StoreEntitySet="travelorder_lvl2_tbl">
-                <ScalarProperty Name="approved_comment" ColumnName="approved_comment" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="travelpurpose_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.travelpurpose_tbl">
-              <MappingFragment StoreEntitySet="travelpurpose_tbl">
-                <ScalarProperty Name="with_emergency" ColumnName="with_emergency" />
-                <ScalarProperty Name="with_ldnf" ColumnName="with_ldnf" />
-                <ScalarProperty Name="with_claims" ColumnName="with_claims" />
-                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
-                <ScalarProperty Name="ctrl_no" ColumnName="ctrl_no" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_reviewapproved" FunctionName="HRIS_ATSModel.Store.sp_travel_order_reviewapproved" />
-          <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve">
+          <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve" />
+          <FunctionImportMapping FunctionImportName="sp_travelorder_hdr_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_travelorder_hdr_tbl_list">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_approve_Result">
-                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travelorder_hdr_tbl_list_Result">
+                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
+                <ScalarProperty Name="travel_datefiled" ColumnName="travel_datefiled" />
+                <ScalarProperty Name="travel_place_visit" ColumnName="travel_place_visit" />
+                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
+                <ScalarProperty Name="travel_details" ColumnName="travel_details" />
+                <ScalarProperty Name="travel_justification" ColumnName="travel_justification" />
+                <ScalarProperty Name="travel_requestor_empl_id" ColumnName="travel_requestor_empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="travel_form_type" ColumnName="travel_form_type" />
+                <ScalarProperty Name="travel_type_code" ColumnName="travel_type_code" />
+                <ScalarProperty Name="travel_with_claims" ColumnName="travel_with_claims" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="travelorder_status_descr" ColumnName="travelorder_status_descr" />
+                <ScalarProperty Name="recappr_empl" ColumnName="recappr_empl" />
+                <ScalarProperty Name="firstappr_empl_id" ColumnName="firstappr_empl_id" />
+                <ScalarProperty Name="finalappro_empl_id" ColumnName="finalappro_empl_id" />
+                <ScalarProperty Name="ldnf" ColumnName="ldnf" />
+                <ScalarProperty Name="to_emergency" ColumnName="to_emergency" />
+                <ScalarProperty Name="late_justification" ColumnName="late_justification" />
+                <ScalarProperty Name="pa_initial" ColumnName="pa_initial" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
+          <FunctionImportMapping FunctionImportName="sp_travelorder_empl_dtl_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_travelorder_empl_dtl_tbl_list">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
-                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travelorder_empl_dtl_tbl_list_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="approved_status" ColumnName="approved_status" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="comment_by" ColumnName="comment_by" />
+                <ScalarProperty Name="comment_dttm" ColumnName="comment_dttm" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
