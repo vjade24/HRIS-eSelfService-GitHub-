@@ -115,7 +115,7 @@ namespace HRIS_eSelfService.Controllers
                 var dept_list        = db_dev.vw_departments_tbl_list.ToList();
                 var sp_approval_worklist_travel_order = db_ats.sp_approval_worklist_travel_order(Session["user_id"].ToString().Trim(), check_dept_init, (DateTime.Now.ToString("yyyy")), (DateTime.Now.ToString("MM")), "").ToList();
                 var travel_type_list = db_ats.traveltype_tbl.ToList();
-                var empl_name = db_ats.sp_employee_list_all(empl_id).ToList();
+                //var empl_name = db_ats.sp_employee_list_all(empl_id).ToList();
                 var current_date = DateTime.Now;
 
                 var pa_data = db_ats.to_final_approver_tbl.Where(a => a.user_id == user_id).FirstOrDefault();
@@ -131,7 +131,7 @@ namespace HRIS_eSelfService.Controllers
 
                 var empl_name_search = db_ats.sp_travelorder_search_names((DateTime.Now.ToString("yyyy")), (DateTime.Now.ToString("MM"))).ToList();
                 var reason_tbl = db_ats.to_disapprove_reason_tbl.OrderByDescending(a => a.no_use).FirstOrDefault();
-                return JSON(new { message = "success", empl_name_search, dept_list, employment_type, sp_approval_worklist_travel_order, travel_type_list, dept_code, btn_enabled_4HR, empl_name, empl_id, current_date, reason_tbl, pa_approver}, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", empl_name_search, dept_list, employment_type, sp_approval_worklist_travel_order, travel_type_list, dept_code, btn_enabled_4HR, empl_id, current_date, reason_tbl, pa_approver}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -325,9 +325,11 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
+                var user_id = Session["user_id"].ToString();
                 var travel_order_no = data.travel_order_no;
                 var approval_id = data.approval_id;
                 string status_comment = string.Empty;
+               
                 data.travel_details = data.travel_details == null ? "" : data.travel_details;
 
                 if (data.approval_status.ToString().Trim() == "R" &&
@@ -362,23 +364,25 @@ namespace HRIS_eSelfService.Controllers
                     data.travel_details = "Cancelled";
                 }
 
-                var query = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no
-                                && a.approval_id == approval_id
-                                ).FirstOrDefault();
-                var query2 = db_ats.travelorder_dates_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
-                var query3 = db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
-                if (query != null)
-                {
-                    query.approval_status   = data.approval_status;
-                    query.travel_details    = data.travel_details;
-                    query.updated_by_user   = Session["user_id"].ToString();
-                    query.updated_dttm      = DateTime.Now;
-                    query2.ForEach(a => a.rcrd_status = data.approval_status);
-                    query3.ForEach(a => a.rcrd_status = data.approval_status);
-                    db_dev.sp_update_transaction_in_approvalworkflow_tbl(query.approval_id, Session["user_id"].ToString(), data.approval_status, data.travel_details);
-                }
+                //var query = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no
+                //                && a.approval_id == approval_id
+                //                ).FirstOrDefault();
+                //var query2 = db_ats.travelorder_dates_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
+                //var query3 = db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
+                //if (query != null)
+                //{
+                //    query.approval_status   = data.approval_status;
+                //    query.travel_details    = data.travel_details;
+                //    query.updated_by_user   = Session["user_id"].ToString();
+                //    query.updated_dttm      = DateTime.Now;
+                //    query2.ForEach(a => a.rcrd_status = data.approval_status);
+                //    query3.ForEach(a => a.rcrd_status = data.approval_status);
+                //    db_dev.sp_update_transaction_in_approvalworkflow_tbl(query.approval_id, Session["user_id"].ToString(), data.approval_status, data.travel_details);
+                //}
 
-                db_ats.SaveChanges();
+                  db_ats.sp_travel_order_reviewapproved(approval_id, data.approval_status, data.travel_details, user_id);
+
+
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -796,47 +800,73 @@ namespace HRIS_eSelfService.Controllers
         // Created Date : 02/13/2020
         // Description  : Approved
         //*********************************************************************//
-        public ActionResult SaveDetails(string par_empl_id, string par_to_nbr)
+        public ActionResult SaveDetails(bool ch_stat, string par_empl_id, string par_to_nbr)
         {
             try
             {
+                string message = "";
+                var userid  = Session["user_id"].ToString().Trim();
+                var ds_exst = db_ats.travel_order_check_tbl.Where(a => a.travel_order_no == par_to_nbr && a.empl_id == par_empl_id && a.approved_status == false).ToList();
 
-                var travel_details = "Final Approved";
-                string message = "success";
-                
-                 var check_exists = db_ats.travel_order_check_tbl.Where(a =>
-                               a.travel_order_no == par_to_nbr
-                               && a.empl_id == par_empl_id).FirstOrDefault();
-
-                if (check_exists != null)
+                if (ds_exst.Count() > 0)
                 {
-                    var approved_status_check = true;
-                    check_exists.approved_status = approved_status_check;
-                    check_exists.approved_dttm   = DateTime.Now;
-                    check_exists.approved_by = Session["user_id"].ToString().Trim();
-
+                    throw new Exception("This item is already disapproved, please remove disapproved status first");
                 }
                 else
                 {
-                    travel_order_check_tbl travel_order_check_tbl = new travel_order_check_tbl();
-
-                    travel_order_check_tbl.travel_order_no  = par_to_nbr;
-                    travel_order_check_tbl.empl_id          = par_empl_id;
-                    travel_order_check_tbl.approved_status  = true;
-                    travel_order_check_tbl.approved_dttm    = DateTime.Now;
-                    travel_order_check_tbl.approved_by      = Session["user_id"].ToString().Trim();
-                    db_ats.travel_order_check_tbl.Add(travel_order_check_tbl);
-                   
+                     message = "Successfully Approved";
+                     var dbx = db_ats.sp_travel_order_approve(ch_stat, par_to_nbr, par_empl_id, "F", "Final Approved", userid).FirstOrDefault();
                 }
 
-                db_ats.SaveChangesAsync();
+                //var check_exists = db_ats.travel_order_check_tbl.Where(a =>
+                //                a.travel_order_no == par_to_nbr
+                //                && a.empl_id == par_empl_id).FirstOrDefault();
+                //if(ch_stat == false)
+                //{
+                //    var check_approve = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == par_to_nbr
+                //    && a.approval_status == "F").ToList();
+                //    if(check_approve.Count() > 0 )
+                //    {
+                //        throw new Exception("This travel order is already approved");
+
+                //    }
+                //    else
+                //    {
+                //        db_ats.travel_order_check_tbl.Remove(check_exists);
+                //    }
+
+                //}
+                //else { 
+
+                //        if (check_exists != null)
+                //        {
+
+                //            check_exists.approved_status = true;
+                //            check_exists.approved_dttm   = DateTime.Now;
+                //            check_exists.approved_by = Session["user_id"].ToString().Trim();
+
+                //        }
+                //        else
+                //        {
+                //            travel_order_check_tbl travel_order_check_tbl = new travel_order_check_tbl();
+
+                //            travel_order_check_tbl.travel_order_no  = par_to_nbr;
+                //            travel_order_check_tbl.empl_id          = par_empl_id;
+                //            travel_order_check_tbl.approved_status  = true;
+                //            travel_order_check_tbl.approved_dttm    = DateTime.Now;
+                //            travel_order_check_tbl.approved_by      = Session["user_id"].ToString().Trim();
+                //            db_ats.travel_order_check_tbl.Add(travel_order_check_tbl);
+
+                //        }
+                //}
+
+                //db_ats.SaveChangesAsync();
 
 
-          
 
 
 
-                return JSON(new { message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = message,icon = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -850,68 +880,86 @@ namespace HRIS_eSelfService.Controllers
         // Created Date : 02/13/2020
         // Description  : Disapproved
         //*********************************************************************//
-        public ActionResult SaveDetailsDisapproved(string par_empl_id, string par_to_nbr, string comment)
+        public ActionResult SaveDetailsDisapproved(bool ch_stat, string par_empl_id, string par_to_nbr, string comment)
         {
             var user_id = Session["user_id"].ToString();
             var datenow = DateTime.Now.ToString();
             try
             {
-                string message = "success";
+                string message = "";
+                
 
-                var check_exists = db_ats.travel_order_check_tbl.Where(a =>
-                              a.travel_order_no == par_to_nbr
-                              && a.empl_id == par_empl_id).FirstOrDefault();
 
-                if (check_exists != null)
+                //var ds_exst = db_ats.travel_order_check_tbl.Where(a => a.travel_order_no == par_to_nbr && a.empl_id == par_empl_id && a.approved_status == true).ToList();
+
+
+                //if (ds_exst.Count() > 0)
+                //{
+                //    throw new Exception("This item already is approved, please remove approved status first");
+                //}
+                //else
+                //{
+
+                    message = "Successfully Approved";
+                    var dbx = db_ats.sp_travel_order_disapprove(ch_stat, par_to_nbr, par_empl_id, "D", "Disapproved", user_id).FirstOrDefault();
+                //}
+
+                //var check_exists = db_ats.travel_order_check_tbl.Where(a =>
+                //              a.travel_order_no == par_to_nbr
+                //              && a.empl_id == par_empl_id).FirstOrDefault();
+
+
+                //if (check_exists != null)
+                //{
+                //    check_exists.approved_status = false;
+                //    check_exists.approved_dttm = DateTime.Now;
+                //    check_exists.approved_by = Session["user_id"].ToString().Trim();
+                //}
+                //else
+                //{
+                //    travel_order_check_tbl travel_order_check_tbl = new travel_order_check_tbl();
+                //    travel_order_check_tbl.travel_order_no = par_to_nbr;
+                //    travel_order_check_tbl.empl_id = par_empl_id;
+                //    travel_order_check_tbl.approved_status = false;
+                //    travel_order_check_tbl.approved_dttm = DateTime.Now;
+                //    travel_order_check_tbl.approved_by = Session["user_id"].ToString().Trim();
+                //    db_ats.travel_order_check_tbl.Add(travel_order_check_tbl);
+                //}
+
+                //// added by marvin
+                ///
+
+               if(ch_stat == true)
                 {
-                    var approved_status_check = false;
-
-                    check_exists.approved_status = approved_status_check;
-                    check_exists.approved_dttm = DateTime.Now;
-                    check_exists.approved_by = Session["user_id"].ToString().Trim();
+                    var check_comment_exist = db_ats.to_disapprove_comment.Where(a => a.empl_id == par_empl_id && a.travel_order_no == par_to_nbr).FirstOrDefault();
+                    if (check_comment_exist != null)
+                    {
+                        check_comment_exist.comment = comment;
+                        check_comment_exist.updated_dttm = datenow;
+                        check_comment_exist.updated_by = user_id;
+                    }
+                    else
+                    {
+                        to_disapprove_comment todc = new to_disapprove_comment();
+                        todc.empl_id = par_empl_id;
+                        todc.travel_order_no = par_to_nbr;
+                        todc.comment = comment;
+                        todc.comment_dttm = datenow;
+                        todc.comment_by = user_id;
+                        db_ats.to_disapprove_comment.Add(todc);
+                    }
                 }
-                else
-                {
-                    travel_order_check_tbl travel_order_check_tbl = new travel_order_check_tbl();
-
-                    travel_order_check_tbl.travel_order_no = par_to_nbr;
-                    travel_order_check_tbl.empl_id = par_empl_id;
-                    travel_order_check_tbl.approved_status = false;
-                    travel_order_check_tbl.approved_dttm = DateTime.Now;
-                    travel_order_check_tbl.approved_by = Session["user_id"].ToString().Trim();
-                    db_ats.travel_order_check_tbl.Add(travel_order_check_tbl);
-
-                }
-
-                // added by marvin
-                var check_comment_exist = db_ats.to_disapprove_comment.Where(a => a.empl_id == par_empl_id && a.travel_order_no == par_to_nbr).FirstOrDefault();
-                if (check_comment_exist != null)
-                {
-                    check_comment_exist.comment = comment;
-                    check_comment_exist.updated_dttm = datenow;
-                    check_comment_exist.updated_by = user_id;
-                }
-                else
-                {
-                    to_disapprove_comment todc = new to_disapprove_comment();
-                    todc.empl_id = par_empl_id;
-                    todc.travel_order_no = par_to_nbr;
-                    todc.comment = comment;
-                    todc.comment_dttm = datenow;
-                    todc.comment_by = user_id;
-                    db_ats.to_disapprove_comment.Add(todc);
-
-                }
+             
 
                 db_ats.SaveChangesAsync();
 
 
-                return JSON(new { message }, JsonRequestBehavior.AllowGet);
+                return JSON(new { message,icon="success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
                 string message = e.Message.ToString();
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+                return Json(new { message = message,icon="error" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -928,19 +976,28 @@ namespace HRIS_eSelfService.Controllers
             try
             {
                 string message = "success";
-                var comment_list = db_ats.sp_to_disapprove_comment().ToList();
-                var check_comment_exist = db_ats.to_disapprove_comment.Where(a => a.empl_id == par_empl_id && a.travel_order_no == par_to_nbr).FirstOrDefault();
-
-                if (check_comment_exist != null)
+                var chk_exst = db_ats.travel_order_check_tbl.Where(a => a.travel_order_no == par_to_nbr && a.empl_id == par_empl_id && a.approved_status == true).ToList();
+                if(chk_exst.Count() > 0)
                 {
-                    comment = check_comment_exist.comment;
+                    throw new Exception("This item  is already approved, please remove approved status first");
                 }
                 else
                 {
-                    comment = "";
-                }
+                    var comment_list = db_ats.sp_to_disapprove_comment().ToList();
+                    var check_comment_exist = db_ats.to_disapprove_comment.Where(a => a.empl_id == par_empl_id && a.travel_order_no == par_to_nbr).FirstOrDefault();
 
-                return JSON(new { message ="success",comment, comment_list}, JsonRequestBehavior.AllowGet);
+                    if (check_comment_exist != null)
+                    {
+                        comment = check_comment_exist.comment;
+                    }
+                    else
+                    {
+                        comment = "";
+                    }
+
+                    return JSON(new { message = "success", comment, comment_list,icon="success" }, JsonRequestBehavior.AllowGet);
+                }
+               
             }
             catch (Exception e)
             {

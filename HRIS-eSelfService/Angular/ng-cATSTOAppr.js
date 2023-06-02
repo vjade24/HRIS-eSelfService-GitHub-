@@ -29,8 +29,11 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     s.datalistgridDates = []
     s.datalistgridSearch = []
     s.comment_list_orig = []
+    s.comment_list_orig_2 = []
     s.comment_list = []
+    s.comment_list_2 = []
     s.oTableCheck_dtl = []
+    s.same_to_nbr = []
     
     s.datalistgridCheck = []
     s.datalistgridCheckActioned = []
@@ -127,6 +130,13 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     }
 
 
+    s.filter_comment_2 = function () {
+        var comment_val = $("#disapprove_comment_select_2").val()
+        $("#disapprove_comment_text_2").val(comment_val)
+        s.disapprove_comment_text_2 = comment_val
+    }
+
+
     //$(window).resize(function () {
     //    window.m.redraw();
     //});
@@ -158,6 +168,10 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 $("#disapprove_comment_select").select2().on('change', function (e) {
                
                    s.filter_comment();
+                })
+                $("#disapprove_comment_select_2").select2().on('change', function (e) {
+
+                    s.filter_comment_2();
                 })
 
                 $("#ddl_search_empl_name").select2().on('change', function (e) {
@@ -194,7 +208,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 s.empl_type_list    = d.data.employment_type;
                 s.appr_status       = d.data.status;
                 s.travel_type_list  = d.data.travel_type_list
-                s.empl_name_list = d.data.empl_name
+                s.empl_name_list = d.data.empl_name_search
                 s.ddl_search_empl_name_list = d.data.empl_name_search
            
                 s.isDisAbledType = true
@@ -622,6 +636,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     stateSave: false,
                     sDom: 'rt<"bottom"p>',
                     pageLength: 5,
+                   
                     columns: [
 
                         {
@@ -678,6 +693,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     stateSave: false,
                     sDom: 'rt<"bottom"p>',
                     pageLength: 1000,
+                    rowId: 'row_nbr',
                     columns: [
 
                         {
@@ -3579,15 +3595,11 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     }
 
     s.btn_click_checklist_actioned = function () {
-
         if (account_user_id == s.pa_approver) {
-
             s.btn_data_checklist_actioned()
-
         }
-        
-
     }
+
     s.btn_data_checklist = function () {
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         $("#TO_print_par").modal("hide");
@@ -3692,56 +3704,115 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     }
 
     s.btn_check_action = function (id) {
+        var proceed = false
+        var ch_stat = $('#checkbox' + id)[0].checked
+        var to_nbr = s.datalistgridCheck[id].travel_order_no
 
-        $('#checkbox_dis' + id).prop('checked', false);
-        console.log(s.datalistgridCheck[id])
-        return
-        h.post("../cATSTOAppr/SaveDetails", {
-             //par_action: s.datalistgrid2[id].included
-            par_empl_id: s.datalistgridCheck[id].empl_id
-            ,par_to_nbr: s.datalistgridCheck[id].travel_order_no
-        }).then(function (d) {
-            if (d.data.message != "success")
-            {
-
-                swal({ icon: "warning", title: d.data.message });
-            }
-            
-        })
-    }
-    s.btn_check_action_2 = function (id) {
-        swal({
-            title: "Approved Action",
-            text: "Would you like to override the current status as approved?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-
-        })
-            .then(function (willDelete) {
+        var apr_stat = s.datalistgridCheck[id].approved_status
+       
+        if (!ch_stat) {
+            swal({
+                title: "Remove approved status",
+                text: "Would you like to remove approved status?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function (willDelete) {
                 if (willDelete) {
-
-                    $('#checkbox_dis_2' + id).prop('checked', false);
                     h.post("../cATSTOAppr/SaveDetails", {
-                        //par_action: s.datalistgrid2[id].included
-                        par_empl_id: s.datalistgridCheckActioned[id].empl_id
-                        , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+                          ch_stat: ch_stat
+                        , par_empl_id: s.datalistgridCheck[id].empl_id
+                        , par_to_nbr: s.datalistgridCheck[id].travel_order_no
                     }).then(function (d) {
-                        if (d.data.message != "success") {
-
-                            swal({ icon: "warning", title: d.data.message });
+                        if (d.data.icon != "success") {
+                            swal({ icon: "warning", title: d.data.message});
+                            $('#checkbox' + id).prop("checked", true)
                         }
                     })
                 }
                 else {
-                    if (s.datalistgridCheckActioned[id].approved_status = 'Y') {
-                        $('#checkbox_2' + id).prop('checked', false);
-                    }
-                    else {
-                        $('#checkbox_2' + id).prop('checked', true);
-                    }
+                    $('#checkbox' + id).prop("checked",true)
                 }
             });
+        }
+        else {
+            h.post("../cATSTOAppr/SaveDetails", {
+                  ch_stat: ch_stat
+                , par_empl_id: s.datalistgridCheck[id].empl_id
+                , par_to_nbr: s.datalistgridCheck[id].travel_order_no
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    s.datalistgridCheck[id].approved_status = 'Y'
+                }
+                else {
+                    if (d.data.message == "This item already is approved, please remove approved status first") {
+                        swal({ icon: "warning", title: d.data.message});
+                    }
+                    else {
+                        swal({ icon: "warning", title: d.data.message});
+                    }
+                    $('#checkbox' + id).prop('checked', false);
+                }
+            })
+        }
+
+    }
+
+
+    s.btn_check_action_2 = function (id) {
+        var proceed = false
+        var ch_stat = $('#checkbox_2' + id)[0].checked
+        var to_nbr = s.datalistgridCheckActioned[id].travel_order_no
+
+        var apr_stat = s.datalistgridCheckActioned[id].approved_status
+
+        if (!ch_stat) {
+            swal({
+                title: "Remove approved status",
+                text: "Would you like to remove approved status?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then(function (willDelete) {
+                if (willDelete) {
+                    h.post("../cATSTOAppr/SaveDetails", {
+                          ch_stat: ch_stat
+                        , par_empl_id: s.datalistgridCheckActioned[id].empl_id
+                        , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+                    }).then(function (d) {
+                        if (d.data.icon != "success") {
+                            swal({ icon: "warning", title: d.data.message });
+                            $('#checkbox_2' + id).prop("checked", true)
+                        }
+                    })
+                }
+                else {
+                    $('#checkbox_2' + id).prop("checked", true)
+                }
+            });
+        }
+        else {
+            h.post("../cATSTOAppr/SaveDetails", {
+                ch_stat: ch_stat
+                , par_empl_id: s.datalistgridCheckActioned[id].empl_id
+                , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+            }).then(function (d) {
+                if (d.data.icon == "success") {
+                    s.datalistgridCheckActioned[id].approved_status = 'Y'
+                }
+                else {
+                    if (d.data.message == "This item already is approved, please remove approved status first") {
+                        swal({ icon: "warning", title: d.data.message });
+                    }
+                    else {
+                        swal({ icon: "warning", title: d.data.message});
+                    }
+                    $('#checkbox_2' + id).prop('checked', false);
+                }
+            })
+        }
+
+
        
     }
 
@@ -3764,92 +3835,336 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
 
     s.btn_check_action_dis = function (id, checked) {
         s.checklist_row_id = id
-       
-        if (s.datalistgridCheck[id].approved_status == "D") {
-            $('#checkbox_dis' + id).prop('checked', true);
+        var ch_stat = $('#checkbox_dis' + id)[0].checked
+        if (ch_stat == true) {
+
+            if (s.datalistgridCheck[id].approved_status == "D") {
+                $('#checkbox_dis' + id).prop('checked', true);
+            }
+            if ($('#checkbox_dis' + id).is(":checked")) {
+                h.post("../cATSTOAppr/CheckCommentDisapproved", {
+                    //par_action: s.datalistgrid2[id].included
+                    par_empl_id: s.datalistgridCheck[id].empl_id
+                    , par_to_nbr: s.datalistgridCheck[id].travel_order_no
+                }).then(function (d) {
+                    if (d.data.icon == "success") {
+                        s.comment_list_orig = d.data.comment_list
+                        s.comment_list = d.data.comment_list
+                        $('#disapprove_comment_text').val(d.data.comment)
+                        $("#disapprove_comment_modal").modal("show")
+                    }
+                    else {
+                        swal({ icon: "warning", title: d.data.message });
+                        $('#checkbox_dis' + id).prop('checked', false);
+                    }
+                })
+
+            }
         }
-        if ($('#checkbox_dis' + id).is(":checked")) {
-            h.post("../cATSTOAppr/CheckCommentDisapproved", {
-                //par_action: s.datalistgrid2[id].included
-                par_empl_id: s.datalistgridCheck[id].empl_id
-                , par_to_nbr: s.datalistgridCheck[id].travel_order_no
-            }).then(function (d) {
-                if (d.data.message == "success") {
-                    s.comment_list_orig = d.data.comment_list
-                    s.comment_list = d.data.comment_list
-
-                    console.log(s.comment_list)
-                    $('#disapprove_comment_text').val(d.data.comment)
-                    $("#disapprove_comment_modal").modal("show")
-                }
-                else {
-                    swal({ icon: "warning", title: d.data.message });
-                }
+        else
+        {
+            swal({
+                title: "Remove Previous Action",
+                text: "Would you like to remove the current status?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
             })
+                .then(function (willDelete) {
+                    if (willDelete) {
 
+                        h.post("../cATSTOAppr/SaveDetailsDisapproved", {
+                            //par_action: s.datalistgrid2[id].included
+                            ch_stat: ch_stat
+                            , par_empl_id: s.datalistgridCheck[id].empl_id
+                            , par_to_nbr: s.datalistgridCheck[id].travel_order_no
+                            , comment: ""
+                        }).then(function (d) {
+                            if (d.data.icon != "success") {
+                                swal({ icon: "warning", title: d.data.message });
+                                $('#checkbox_dis' + id).prop('checked', true);
+                            }
+                            else {
+                                s.datalistgridCheck[id].approved_status = 'N'
+                            }
+
+
+                            $("#disapprove_comment_modal").modal("hide")
+                        })
+                    }
+                    else {
+                        if (s.datalistgridCheck[id].approved_status == "D") {
+                            $('#checkbox_dis' + id).prop('checked', true);
+                        }
+                        else {
+                            $('#checkbox_dis' + id).prop('checked', false);
+                        }
+                    }
+                    
+                });
+         
         }
     }
+
+
+    //s.btn_check_action_dis_2 = function (id, checked) {
+    //    s.checklist_row_id_2 = id
+    //    var ch_stat = $('#checkbox_dis_2' + id)[0].checked
+    //    if (ch_stat == true) {
+
+    //        if (s.datalistgridCheckActioned[id].approved_status == "D") {
+    //            $('#checkbox_dis_2' + id).prop('checked', true);
+    //        }
+    //        if ($('#checkbox_dis_2' + id).is(":checked")) {
+    //            h.post("../cATSTOAppr/CheckCommentDisapproved", {
+    //                //par_action: s.datalistgrid2[id].included
+    //                  par_empl_id: s.datalistgridCheckActioned[id].empl_id
+    //                , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+    //            }).then(function (d) {
+    //                if (d.data.icon == "success") {
+    //                    s.comment_list_orig_2 = d.data.comment_list
+    //                    s.comment_list_2 = d.data.comment_list
+    //                    $('#disapprove_comment_text_2').val(d.data.comment)
+    //                    $("#disapprove_comment_modal_2").modal("show")
+    //                }
+    //                else {
+    //                    swal({ icon: "warning", title: d.data.message });
+    //                    $('#checkbox_dis_2' + id).prop('checked', false);
+    //                }
+    //            })
+
+    //        }
+    //    }
+    //    else {
+    //        swal({
+    //            title: "Remove Previous Action",
+    //            text: "Would you like to remove the current status?",
+    //            icon: "warning",
+    //            buttons: true,
+    //            dangerMode: true,
+    //        })
+    //            .then(function (willDelete) {
+    //                if (willDelete) {
+
+    //                    h.post("../cATSTOAppr/SaveDetailsDisapproved", {
+    //                        //par_action: s.datalistgrid2[id].included
+    //                        ch_stat: ch_stat
+    //                        , par_empl_id: s.datalistgridCheckActioned[id].empl_id
+    //                        , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+    //                        , comment: ""
+    //                    }).then(function (d) {
+    //                        if (d.data.icon != "success") {
+    //                            swal({ icon: "warning", title: d.data.message });
+    //                            $('#checkbox_dis_2' + id).prop('checked', true);
+    //                        }
+    //                        else {
+    //                            s.datalistgridCheckActioned[id].approved_status = 'N'
+    //                        }
+
+
+    //                        $("#disapprove_comment_modal_2").modal("hide")
+    //                    })
+    //                }
+    //                else {
+    //                    if (s.datalistgridCheckActioned[id].approved_status == "D") {
+    //                        $('#checkbox_dis_2' + id).prop('checked', true);
+    //                    }
+    //                    else {
+    //                        $('#checkbox_dis_2' + id).prop('checked', false);
+    //                    }
+    //                }
+
+    //            });
+
+    //    }
+    //}
+
     s.btn_check_action_dis_2 = function (id, checked) {
-        s.checklist_row_id = id
+        s.checklist_row_id_2 = id
        
         if (s.datalistgridCheckActioned[id].approved_status == "D") {
             $('#checkbox_dis_2' + id).prop('checked', true);
         }
+
+      
         if ($('#checkbox_dis_2' + id).is(":checked")) {
             h.post("../cATSTOAppr/CheckCommentDisapproved", {
                 //par_action: s.datalistgrid2[id].included
                 par_empl_id: s.datalistgridCheckActioned[id].empl_id
                 , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
             }).then(function (d) {
-                if (d.data.message == "success") {
-                    s.comment_list_orig = d.data.comment_list
-                    s.comment_list = d.data.comment_list
+                if (d.data.icon == "success") {
+                    s.comment_list_orig_2 = d.data.comment_list
+                    s.comment_list_2 = d.data.comment_list
 
-                    console.log(s.comment_list)
-                    $('#disapprove_comment_text').val(d.data.comment)
-                    $("#disapprove_comment_modal").modal("show")
+                    console.log(d.data.comment)
+
+                    $('#disapprove_comment_text_2').val(d.data.comment)
+                    $("#disapprove_comment_modal_2").modal("show")
                 }
                 else {
                     swal({ icon: "warning", title: d.data.message });
+                    if (s.datalistgridCheckActioned[id].approved_status != "D") {
+                        $('#checkbox_dis_2' + id).prop('checked', false);
+                    }
                 }
             })
 
         }
     }
 
+    s.btn_remove_disapprove_2 = function () {
+
+        var id = s.checklist_row_id_2 
+
+        var ch_stat = true
+
+        if (s.datalistgridCheckActioned[id].approved_status == "D") {
+            ch_stat = false
+        }
+        if (ch_stat == false) {
+            swal({
+                title: "Remove Previous Action",
+                text: "Would you like to remove the current status?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then(function (willDelete) {
+                    if (willDelete) {
+
+                        h.post("../cATSTOAppr/SaveDetailsDisapproved", {
+                            //par_action: s.datalistgrid2[id].included
+                            ch_stat: ch_stat
+                            , par_empl_id: s.datalistgridCheckActioned[id].empl_id
+                            , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+                            , comment: ""
+                        }).then(function (d) {
+                            if (d.data.icon != "success") {
+                                swal({ icon: "warning", title: d.data.message });
+                                $('#checkbox_dis_2' + id).prop('checked', true);
+                            }
+                            else {
+                                s.datalistgridCheckActioned[id].approved_status = 'N'
+                                $('#checkbox_dis_2' + id).prop('checked', false);
+                            }
+
+
+                            $("#disapprove_comment_modal_2").modal("hide")
+                        })
+                    }
+                    else {
+                        if (s.datalistgridCheckActioned[id].approved_status == "D") {
+                            $('#checkbox_dis_2' + id).prop('checked', true);
+                        }
+                        else {
+                            $('#checkbox_dis_2' + id).prop('checked', false);
+                        }
+                    }
+
+                });
+        }
+
+    }
+
+    s.btn_cancel_disapprove = function () {
+        var id = s.checklist_row_id
+
+        if (s.datalistgridCheck[id].approved_status == "D") {
+            $('#checkbox_dis' + id).prop('checked', true);
+        }
+        else{
+            $('#checkbox_dis' + id).prop('checked', false);
+        }
+    }
+
+    s.btn_cancel_disapprove_2 = function () {
+        var id = s.checklist_row_id_2
+        console.log(s.datalistgridCheckActioned[id])
+        if (s.datalistgridCheckActioned[id].approved_status == "D") {
+            $('#checkbox_dis_2' + id).prop('checked', true);
+        }
+        else {
+            $('#checkbox_dis_2' + id).prop('checked', false);
+        }
+    }
 
     s.btn_save_disapprove = function () {
         var comment = ""
+       
+
         var id = s.checklist_row_id
-        if (!cs.Validate1Field("disapprove_comment_text")) {
-            return
+
+        var ch_stat = $('#checkbox_dis' + s.checklist_row_id)[0].checked 
+       
+        if (ch_stat == true) {
+            if (!cs.Validate1Field("disapprove_comment_text")) {
+                return
+            }
+            else {
+                cs.notrequired2("disapprove_comment_text")
+                comment = $('#disapprove_comment_text').val()
+            }
         }
-        else {
-            cs.notrequired2("disapprove_comment_text")
-            comment = $('#disapprove_comment_text').val()
-        }
-        $('#checkbox' + id).prop('checked', false);
         h.post("../cATSTOAppr/SaveDetailsDisapproved", {
             //par_action: s.datalistgrid2[id].included
-            par_empl_id: s.datalistgridCheck[id].empl_id
+              ch_stat : ch_stat
+            , par_empl_id: s.datalistgridCheck[id].empl_id
             , par_to_nbr: s.datalistgridCheck[id].travel_order_no
             , comment: comment
         }).then(function (d) {
-            if (d.data.message != "success") {
+            if (d.data.icon != "success") {
                 swal({ icon: "warning", title: d.data.message });
+                $('#checkbox_dis' + id).prop('checked', false);
             }
+            else {
+                s.datalistgridCheck[id].approved_status = 'D'
+            }
+
 
             $("#disapprove_comment_modal").modal("hide")
         })
     }
 
+
+    s.btn_save_disapprove_2 = function () {
+        var comment = ""
+        var id = s.checklist_row_id_2
+
+        var ch_stat = $('#checkbox_dis_2' + s.checklist_row_id_2)[0].checked 
+
+        if (ch_stat == true) {
+
+            if (!cs.Validate1Field("disapprove_comment_text_2")) {
+                return
+            }
+            else {
+                cs.notrequired2("disapprove_comment_text_2")
+                comment = $('#disapprove_comment_text_2').val()
+            }
+        }
+      
+        h.post("../cATSTOAppr/SaveDetailsDisapproved", {
+            //par_action: s.datalistgrid2[id].included
+             ch_stat: ch_stat
+            ,par_empl_id: s.datalistgridCheckActioned[id].empl_id
+            , par_to_nbr: s.datalistgridCheckActioned[id].travel_order_no
+            , comment: comment
+        }).then(function (d) {
+            if (d.data.icon != "success") {
+                swal({ icon: "warning", title: d.data.message });
+                $('#checkbox_dis_2' + id).prop('checked', false);
+            }
+            else {
+                s.datalistgridCheckActioned[id].approved_status = 'D'
+            }
+            $("#disapprove_comment_modal_2").modal("hide")
+        })
+    }
+
+
     s.btn_click_check_rep = function () {
-
-
         $("#modal_generating_remittance").modal({ keyboard: false, backdrop: "static" })
-
-
-
         var period_from_par = $("#dd_travel_date_from_rep").val();
         var period_to_par = $("#dd_travel_date_to_rep").val();
         console.log(moment(current_date).format("YYYY-MM-DD"))
