@@ -1068,6 +1068,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title" id="modalLabelSmall">Travel Check List</h4>
+                        <input type="search" class="form-control block headerSearch" tableref="datalist_grid_check" placeholder="Search ...." style="color:black;"/>
                     </div>
                     <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
 
@@ -1446,6 +1447,35 @@
         </div>
     </div>
 
+    <div class="modal fade" id="disapprove_comment_modal_2" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content animated flipInY modal-content-add-edit">
+                <div class="modal-header modal-header-add-edit text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="btn_cancel_disapprove_2()"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabelSmall">Disapprove Comment</h4>
+                </div>
+                <div class="modal-body with-background" style="padding-bottom:5px;">
+                    <div class="row">
+                        <select ng-show="true" class="select2_demo_3 form-control" id="disapprove_comment_select_2" ng-model="disapprove_comment_select_2" style="width:100%;">
+                            <option value="">--Find previous comment--</option>
+                            <option ng-repeat="lst in comment_list_2" value="{{lst}}">{{lst}}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <textarea ng-show="true" class="form-control" id="disapprove_comment_text_2" ng-model="disapprove_comment_text_2" style="width:100%;"></textarea>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer" style="padding: 10px 30px 10px 30px !important">
+                    <button type="button" ng-click="btn_remove_disapprove_2()" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-remove"></i> Remove Status</button>
+                    <button type="button" ng-click="btn_cancel_disapprove_2()" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                    <button id="addFinal" ng-click="btn_save_disapprove_2()" type="button" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="wrapper wrapper-content fadeInRight" style="padding:10px 0px 0px 0px!important">
         <div class="row">
             <div class="col-lg-12">
@@ -1487,8 +1517,8 @@
 
 
                                                 @*<li><a ng-click="btn_click_daily_par('01')"> Approved Travel </a></li>
-                <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
-                <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
+                                                    <li><a ng-click="btn_click_daily_par('02')"> Travel With Claims</a></li>
+                                                    <li><a ng-click="btn_click_daily_par('03')"> Travel Without Claims</a></li>*@
 
                                                 if (Session["department_code"].ToString() == "03")
                                                 {
