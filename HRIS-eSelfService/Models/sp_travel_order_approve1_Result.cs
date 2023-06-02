@@ -11,7 +11,7 @@ namespace HRIS_eSelfService.Models
 {
     using System;
     
-    public partial class sp_travel_order_approve_Result
+    public partial class sp_travel_order_approve1_Result
     {
         public string db_msg { get; set; }
         public string db_code { get; set; }
