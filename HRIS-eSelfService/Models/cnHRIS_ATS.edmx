@@ -2002,8 +2002,22 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="par_start_time" Type="varchar" Mode="In" />
           <Parameter Name="par_end_time" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_travel_order_disapprove" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_check_stat" Type="bit" Mode="In" />
+          <Parameter Name="p_travel_order_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_travel_order_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_travel_order_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_travel_order_reviewapproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_travel_order_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_approval_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
+          <Parameter Name="p_user_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_travelorder_dates_dtl_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_travelorder_no" Type="varchar" Mode="In" />
@@ -3556,7 +3570,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_month" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_travelorder_empl_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_empl_dtl_tbl_list_Result)">
-            <Parameter Name="par_travelorder_no" Mode="In" Type="String" />
+          <Parameter Name="par_travelorder_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
+            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
+            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_travel_details" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_travel_order_reviewapproved" ReturnType="Collection(Boolean)">
+            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
+            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_travel_details" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -6938,6 +6966,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="comment" Nullable="true" MaxLength="300" />
           <Property Type="String" Name="comment_by" Nullable="true" MaxLength="247" />
           <Property Type="String" Name="comment_dttm" Nullable="true" MaxLength="30" />
+        </ComplexType>
+        <ComplexType Name="sp_travel_order_disapprove_Result">
+          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10946,6 +10978,15 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
+                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_travel_order_reviewapproved" FunctionName="HRIS_ATSModel.Store.sp_travel_order_reviewapproved" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

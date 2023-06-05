@@ -495,7 +495,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                             "mRender": function (data, type, full, row) {
                                 var return_value = "";
                                 if (full["approved_status"] == false) {
-                                    return_value = '<span class="text-center btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')">' + data + '</span>';
+                                    return_value = '<span class="text-center btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason.">' + data + '</span>';
                                 }
                                 else {
                                     return_value = "<span class='text-center btn-block'>" + data + "</span>";
@@ -513,7 +513,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                                 var return_value = "";
                                 if (full["approved_status"] == false)
                                 {
-                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')">' + data + '</span>';
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')"  data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
                                 }
                                 else
                                 {
@@ -532,7 +532,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                             {
                                 var return_value = "";
                                 if (full["approved_status"] == false) {
-                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')" >' + data + '</span>';
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
                                 }
                                 else {
                                     return_value = "<span class='text-left btn-block'>" + data + "</span>";

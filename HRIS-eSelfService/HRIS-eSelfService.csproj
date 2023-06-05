@@ -3514,9 +3514,6 @@
     <Compile Include="Models\sp_traveltype_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_travel_order_approve_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_travel_order_daily_pa_rep_actioned_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -3779,9 +3776,6 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\travelorder_hdr_tbl.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\travelorder_lvl2_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\travelpurpose_tbl.cs">
