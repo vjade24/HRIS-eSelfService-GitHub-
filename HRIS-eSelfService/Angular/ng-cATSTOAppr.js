@@ -711,7 +711,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                                 
                                 if (account_user_id == s.pa_approver) {
 
-                                    console.log(full["pa_writeonly"])
+                                   
 
                                     if (full["pa_writeonly"] == true) {
                                         isdisabled = ""
@@ -3618,7 +3618,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
             , par_end_time: $("#txtb_end_time").val()
         }).then(function (d) {
             if (d.data.message == "success") {
-
+                console.log(d.data.sp_travel_order_daily_pa_rep)
                 if (d.data.sp_travel_order_daily_pa_rep.length > 0) {
                     s.datalistgridCheck = d.data.sp_travel_order_daily_pa_rep
 
