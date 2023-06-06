@@ -302,25 +302,29 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                 data: s.datalistgrid,
                 sDom: 'rt<"bottom"ip>',
                 pageLength: 10,
+                bAutoWidth: false,
                 columnDefs: [{ type: 'date', 'targets': [1] }],
                 order: [[1, 'desc']],
                 columns: [
                     {
+                        "width": "10%",
                         "mData": "application_nbr",
                         "mRender": 
                             function (data, type, full, row)
                             {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                                return "<span  class='text-center btn-block'>" + data + "</span> <span ng-show='false'>test</span>"
                             }
                     },
 
                     {
+                        "width": "10%",
                         "mData": "travel_datefiled",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-center btn-block'>" + data + "</span>"
                         }
                     },
                     {
+                        "width": "8%",
                         "mData": "empl_id_creator",
                         "mRender": function (data, type, full, row)
                         {
@@ -328,14 +332,25 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                         }
                     },
                     {
+                        "width": "32%",
                         "mData": "creator_name",
                         "mRender": function (data, type, full, row)
                         {
-                            return "<span class='text-left btn-block'>" + data + "</span>"
+                            var concat_content = "";
+                            if (full["pa_initial"] == false)
+                            {
+                                concat_content = "<span class='text-left btn-block text-danger'>" + data + "</span>" +'<small class="text-danger"><i class="fa fa-exclamation-triangle"></i> Check disapproved Employee!</small>';
+                            }
+                            else {
+                                concat_content = "<span class='text-left btn-block'>" + data + "</span>" + concat_content;
+                            }
+
+                            return concat_content;
                         }
                     },
 
                     {
+                        "width": "10%",
                         "mData": "reviewed_date",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-center btn-block'>" + data + "</span>"
@@ -343,6 +358,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     },
 
                     {
+                        "width": "10%",
                         "mData": "level1_approval_date",
                         "mRender": function (data, type, full, row) {
                             return "<span class='text-center btn-block'>" + data + "</span>"
@@ -381,15 +397,23 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                     //},
 
                     {
+                        "width": "20%",
                         "mData": "worklist_action",
                         "bSortable": false,
                         "mRender": function (data, type, full, row) {
                             var temp = "";
-
+                            var button = "";
+                            if (full["pa_initial"] == false)
+                            {
+                                button = '<button id="btn-text_action" type="button" style="background-image: linear-gradient(140deg,#23c6c8 49%,#ED5564 50%) !important;" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"> ' + data + '</button >';  
+                            }
+                            else {
+                                button = '<button id="btn-text_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"> ' + data + '</button >';
+                            }
                             temp = '<center><div class="btn-group">' +
-                                '<button id="btn-text_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"> ' + data + '</button >' +
+                                button
                                 //'<button id="btn-icon_action" type="button" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="' + data + '"><i class="fa fa-eye"></i></button >' +
-                                '<button id="btn-edit_appr" ng-show="' + s.allowapredit() +'" type="button" class="btn btn-warning btn-sm" ng-click="btn_edit_appr(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Approver">Edit Approver</button >' +
+                                +'<button id="btn-edit_appr" ng-show="' + s.allowapredit() +'" type="button" class="btn btn-warning btn-sm" ng-click="btn_edit_appr(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit Approver">Edit Approver</button >' +
 
                                 '</div></center>';
                             return temp;
@@ -421,26 +445,51 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
                             "targets": 0,
                             "mData": "empl_id",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                                var return_value = "";
+                                if (full["approved_status"] == false) {
+                                    return_value = '<span class="text-center btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] + ')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason.">' + data + '</span>';
+                                }
+                                else {
+                                    return_value = "<span class='text-center btn-block'>" + data + "</span>";
+                                }
+
+                                return return_value;
                             }
                         },
                         {
-                            "width": "40%",
+                            "width": "30%",
                             "targets": 1,
                             "mData": "employee_name",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                var return_value = "";
+                                if (full["approved_status"] == false) {
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] + ')"  data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
+                                }
+                                else {
+                                    return_value = "<span class='text-left btn-block'>" + data + "</span>";
+                                }
+
+                                return return_value;
                             }
                         },
 
                         {
-                            "width": "30%",
+                            "width": "35%",
                             "targets": 2,
                             "mData": "position_title1",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                var return_value = "";
+                                if (full["approved_status"] == false) {
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] + ')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
+                                }
+                                else {
+                                    return_value = "<span class='text-left btn-block'>" + data + "</span>";
+                                }
+
+                                return return_value;
                             }
                         },
+
 
                         {
                             "width": "15%",
@@ -1032,7 +1081,10 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript,$scope, 
     //**********************************// 
 
 
-
+    s.show_reason = function (row) {
+        console.log(s.datalistgridEmployee[row]);
+        swal({ icon: "error", title: "DISAPPROVED", text: "Reason: " + s.datalistgridEmployee[row].comment });
+    }
     s.btn_click_employee = function ()
     {
         message = "Are you sure to update this record?"

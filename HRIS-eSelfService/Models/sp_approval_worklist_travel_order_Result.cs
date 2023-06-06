@@ -36,6 +36,7 @@ namespace HRIS_eSelfService.Models
         public bool posting_status { get; set; }
         public string detail_remarks { get; set; }
         public string travel_datefiled { get; set; }
+        public bool pa_initial { get; set; }
         public string department_code { get; set; }
         public string department_name1 { get; set; }
         public string reviewed_date { get; set; }
