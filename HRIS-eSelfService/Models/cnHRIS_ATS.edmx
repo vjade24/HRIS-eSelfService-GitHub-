@@ -3528,13 +3528,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_start_time" Mode="In" Type="String" />
             <Parameter Name="par_end_time" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_approval_worklist_travel_order" ReturnType="Collection(HRIS_ATSModel.sp_approval_worklist_travel_order_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-            <Parameter Name="par_department_code" Mode="In" Type="String" />
-            <Parameter Name="par_to_year" Mode="In" Type="String" />
-            <Parameter Name="par_to_month" Mode="In" Type="String" />
-            <Parameter Name="par_employment_type" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_leave_application_cancel_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result)">
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
@@ -3564,6 +3557,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_month" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
+            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
+            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_travel_details" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_travel_order_approve" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_approve_Result)">
             <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
             <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
@@ -3572,13 +3573,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_travel_details" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
-            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
-            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-            <Parameter Name="p_approval_status" Mode="In" Type="String" />
-            <Parameter Name="p_travel_details" Mode="In" Type="String" />
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <FunctionImport Name="sp_approval_worklist_travel_order" ReturnType="Collection(HRIS_ATSModel.sp_approval_worklist_travel_order_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_to_year" Mode="In" Type="String" />
+            <Parameter Name="par_to_month" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -6823,41 +6823,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
           <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="sp_approval_worklist_travel_order_Result">
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="user_id_creator" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="empl_id_owner" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="empl_id_creator" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="transaction_descr" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="worklist_status" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="worklist_action" Nullable="false" MaxLength="22" />
-          <Property Type="String" Name="next_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="owner_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="creator_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="reviewed_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="level1_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="level2_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="final_approval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="disapproval_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="cancelled_comment" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="application_nbr" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="created_by_user" Nullable="false" MaxLength="8" />
-          <Property Type="Boolean" Name="posting_status" Nullable="false" />
-          <Property Type="String" Name="detail_remarks" Nullable="false" />
-          <Property Type="String" Name="travel_datefiled" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="reviewed_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="user_id_reviewer" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="level1_approval_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="user_id_level1_approver" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="level2_approval_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="user_id_level2_approver" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="final_approval_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="user_id_final_approver" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <ComplexType Name="sp_leave_application_cancel_tbl_list_Result">
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="employee_name" Nullable="false" MaxLength="247" />
@@ -6961,13 +6926,49 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="late_justification" Nullable="true" />
           <Property Type="Boolean" Name="pa_initial" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="sp_travel_order_disapprove_Result">
+          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+        </ComplexType>
         <ComplexType Name="sp_travel_order_approve_Result">
           <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="sp_travel_order_disapprove_Result">
-          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
+        <ComplexType Name="sp_approval_worklist_travel_order_Result">
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="user_id_creator" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="empl_id_owner" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="empl_id_creator" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="transaction_descr" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="worklist_status" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="worklist_action" Nullable="false" MaxLength="22" />
+          <Property Type="String" Name="next_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="owner_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="creator_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="reviewed_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level1_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="level2_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="final_approval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="disapproval_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="cancel_pending_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="cancelled_comment" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="application_nbr" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="created_by_user" Nullable="false" MaxLength="8" />
+          <Property Type="Boolean" Name="posting_status" Nullable="false" />
+          <Property Type="String" Name="detail_remarks" Nullable="false" />
+          <Property Type="String" Name="travel_datefiled" Nullable="true" MaxLength="36" />
+          <Property Type="Boolean" Name="pa_initial" Nullable="false" />
+          <Property Type="String" Name="department_code" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="department_name1" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="reviewed_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="user_id_reviewer" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="level1_approval_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="user_id_level1_approver" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="level2_approval_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="user_id_level2_approver" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="final_approval_date" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="user_id_final_approver" Nullable="true" MaxLength="30" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10816,45 +10817,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_approval_worklist_travel_order" FunctionName="HRIS_ATSModel.Store.sp_approval_worklist_travel_order">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_approval_worklist_travel_order_Result">
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="user_id_creator" ColumnName="user_id_creator" />
-                <ScalarProperty Name="empl_id_owner" ColumnName="empl_id_owner" />
-                <ScalarProperty Name="empl_id_creator" ColumnName="empl_id_creator" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="transaction_descr" ColumnName="transaction_descr" />
-                <ScalarProperty Name="worklist_status" ColumnName="worklist_status" />
-                <ScalarProperty Name="worklist_action" ColumnName="worklist_action" />
-                <ScalarProperty Name="next_status" ColumnName="next_status" />
-                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
-                <ScalarProperty Name="creator_name" ColumnName="creator_name" />
-                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
-                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
-                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
-                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
-                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
-                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
-                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
-                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
-                <ScalarProperty Name="detail_remarks" ColumnName="detail_remarks" />
-                <ScalarProperty Name="travel_datefiled" ColumnName="travel_datefiled" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="reviewed_date" ColumnName="reviewed_date" />
-                <ScalarProperty Name="user_id_reviewer" ColumnName="user_id_reviewer" />
-                <ScalarProperty Name="level1_approval_date" ColumnName="level1_approval_date" />
-                <ScalarProperty Name="user_id_level1_approver" ColumnName="user_id_level1_approver" />
-                <ScalarProperty Name="level2_approval_date" ColumnName="level2_approval_date" />
-                <ScalarProperty Name="user_id_level2_approver" ColumnName="user_id_level2_approver" />
-                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
-                <ScalarProperty Name="user_id_final_approver" ColumnName="user_id_final_approver" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_leave_application_cancel_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_cancel_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_cancel_tbl_list_Result">
@@ -10975,6 +10937,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
+                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_approve_Result">
@@ -10983,11 +10953,43 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
+          <FunctionImportMapping FunctionImportName="sp_approval_worklist_travel_order" FunctionName="HRIS_ATSModel.Store.sp_approval_worklist_travel_order">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
-                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_approval_worklist_travel_order_Result">
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="user_id_creator" ColumnName="user_id_creator" />
+                <ScalarProperty Name="empl_id_owner" ColumnName="empl_id_owner" />
+                <ScalarProperty Name="empl_id_creator" ColumnName="empl_id_creator" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="transaction_descr" ColumnName="transaction_descr" />
+                <ScalarProperty Name="worklist_status" ColumnName="worklist_status" />
+                <ScalarProperty Name="worklist_action" ColumnName="worklist_action" />
+                <ScalarProperty Name="next_status" ColumnName="next_status" />
+                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
+                <ScalarProperty Name="creator_name" ColumnName="creator_name" />
+                <ScalarProperty Name="reviewed_comment" ColumnName="reviewed_comment" />
+                <ScalarProperty Name="level1_approval_comment" ColumnName="level1_approval_comment" />
+                <ScalarProperty Name="level2_approval_comment" ColumnName="level2_approval_comment" />
+                <ScalarProperty Name="final_approval_comment" ColumnName="final_approval_comment" />
+                <ScalarProperty Name="disapproval_comment" ColumnName="disapproval_comment" />
+                <ScalarProperty Name="cancel_pending_comment" ColumnName="cancel_pending_comment" />
+                <ScalarProperty Name="cancelled_comment" ColumnName="cancelled_comment" />
+                <ScalarProperty Name="application_nbr" ColumnName="application_nbr" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="detail_remarks" ColumnName="detail_remarks" />
+                <ScalarProperty Name="travel_datefiled" ColumnName="travel_datefiled" />
+                <ScalarProperty Name="pa_initial" ColumnName="pa_initial" />
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
+                <ScalarProperty Name="reviewed_date" ColumnName="reviewed_date" />
+                <ScalarProperty Name="user_id_reviewer" ColumnName="user_id_reviewer" />
+                <ScalarProperty Name="level1_approval_date" ColumnName="level1_approval_date" />
+                <ScalarProperty Name="user_id_level1_approver" ColumnName="user_id_level1_approver" />
+                <ScalarProperty Name="level2_approval_date" ColumnName="level2_approval_date" />
+                <ScalarProperty Name="user_id_level2_approver" ColumnName="user_id_level2_approver" />
+                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
+                <ScalarProperty Name="user_id_final_approver" ColumnName="user_id_final_approver" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
