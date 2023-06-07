@@ -119,6 +119,7 @@ namespace HRIS_eSelfService.Controllers
                 var current_date = DateTime.Now;
 
                 var pa_data = db_ats.to_final_approver_tbl.Where(a => a.user_id == user_id).FirstOrDefault();
+
                 if (pa_data != null)
                 {
                     pa_approver = pa_data.user_id.ToString();
@@ -364,23 +365,25 @@ namespace HRIS_eSelfService.Controllers
                     data.travel_details = "Cancelled";
                 }
 
-                //var query = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no
-                //                && a.approval_id == approval_id
-                //                ).FirstOrDefault();
-                //var query2 = db_ats.travelorder_dates_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
-                //var query3 = db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
-                //if (query != null)
-                //{
-                //    query.approval_status   = data.approval_status;
-                //    query.travel_details    = data.travel_details;
-                //    query.updated_by_user   = Session["user_id"].ToString();
-                //    query.updated_dttm      = DateTime.Now;
-                //    query2.ForEach(a => a.rcrd_status = data.approval_status);
-                //    query3.ForEach(a => a.rcrd_status = data.approval_status);
-                //    db_dev.sp_update_transaction_in_approvalworkflow_tbl(query.approval_id, Session["user_id"].ToString(), data.approval_status, data.travel_details);
-                //}
+                var query = db_ats.travelorder_hdr_tbl.Where(a => a.travel_order_no == travel_order_no
+                                && a.approval_id == approval_id
+                                ).FirstOrDefault();
+                var query2 = db_ats.travelorder_dates_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
+                var query3 = db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == travel_order_no).ToList();
+                if (query != null)
+                {
+                    query.approval_status   = data.approval_status;
+                    query.travel_details    = data.travel_details;
+                    query.updated_by_user   = Session["user_id"].ToString();
+                    query.updated_dttm      = DateTime.Now;
+                    query2.ForEach(a => a.rcrd_status = data.approval_status);
+                    query3.ForEach(a => a.rcrd_status = data.approval_status);
+                    db_ats.SaveChangesAsync();
+                }
 
-                  db_ats.sp_travel_order_reviewapproved(approval_id, data.approval_status, data.travel_details, user_id);
+
+                db_dev.sp_update_transaction_in_approvalworkflow_tbl(query.approval_id, Session["user_id"].ToString(), data.approval_status, data.travel_details);
+                //db_ats.sp_travel_order_reviewapproved(approval_id, data.approval_status, data.travel_details, user_id);
 
 
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
