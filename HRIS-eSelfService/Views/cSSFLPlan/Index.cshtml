@@ -185,7 +185,7 @@
     }
 
 </style>
-<script src="~/Angular/ng-cSSFLPlan.js?v=2"></script>
+<script src="~/Angular/ng-cSSFLPlan.js?v=3"></script>
 
 <section ng-app="ng_selfService_App" ng-controller="cSSFLPlan_ctrlr">
     <!-- Info Modal -->
@@ -482,6 +482,7 @@
                         <div class="col-sm-10" style="padding-top:5px">
                             <select class="form-control" id="div_dept" ng-model="div_dept" ng-change="btn_print('',ddl_dept,'@Session["empl_id"].ToString()','AN',ddl_report_type)">
                                 <option value="" selected>--Select Here--</option>
+                                <option value="ALL" selected>ALL</option>
                                 <option ng-repeat="lst in div_list" value="{{lst.division_code}}">{{lst.division_name1}}</option>
                             </select>
                         </div>

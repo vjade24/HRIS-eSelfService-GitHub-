@@ -706,6 +706,9 @@
     <Compile Include="Models\func_get_travelorder_dates_dtl_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_lv_ledger_history_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_ob_start_end_time_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -839,6 +842,9 @@
     <Compile Include="Models\leave_application_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leave_application_hdr_justi_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leave_application_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -852,6 +858,9 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MachineInfo.cs" />

@@ -149,18 +149,48 @@ namespace HRIS_eSelfService.Controllers
             {
                 var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, data.details_remarks);
 
-                var query = db.leave_application_hdr_tbl.Where(a =>
-                    a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
-                query.approval_status = data.approval_status;
-                query.details_remarks = data.details_remarks;
-                query.updated_by_user = Session["user_id"].ToString();
-                query.updated_dttm = DateTime.Now;
+                var query               = db.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
+                query.approval_status   = data.approval_status;
+                query.details_remarks   = data.details_remarks;
+                query.updated_by_user   = Session["user_id"].ToString();
+                query.updated_dttm      = DateTime.Now;
 
-                var query2 = db.leave_application_dtl_tbl
-                    .Where(a => a.leave_ctrlno == data.leave_ctrlno)
-                    .ToList();
+                var query2 = db.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).ToList();
                 query2.ForEach(a => a.rcrd_status = data.approval_status);
-                //query2.Equals(a => a.rcrd_status = data.approval_status);
+
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "";
+
+                if (data.approval_status == "C")
+                {
+                    appl_status = "Cancel Pending Leave Application";
+                }
+                else if (data.approval_status == "D")
+                {
+                    appl_status = "Disapproved Leave Application";
+                }
+                else if (data.approval_status == "F")
+                {
+                    appl_status = "Final Approved Leave Application";
+                }
+                else if (data.approval_status == "L")
+                {
+                    appl_status = "Cancel Leave Application";
+                }
+                else if (data.approval_status == "R")
+                {
+                    appl_status = "Reviewed Leave Application";
+                }
+                else
+                {
+                    appl_status = data.details_remarks;
+                }
+                db.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
 
                 db.SaveChangesAsync();
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);

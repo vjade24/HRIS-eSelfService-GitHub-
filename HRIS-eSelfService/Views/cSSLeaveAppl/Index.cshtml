@@ -240,7 +240,7 @@
         }
     }
 </style>
-<script src="~/Angular/ng-cSSLeaveAppl.js?v=11"></script>
+<script src="~/Angular/ng-cSSLeaveAppl.js?v=12"></script>
 <section ng-app="ng_selfService_App" ng-controller="cSSLeaveAppl_ctrlr">
 
     <!-- Info Modal -->
@@ -366,6 +366,7 @@
                                     <li class="active" ng-click="leave_computation_edited()"><a id="id_leaveinfo" data-toggle="tab" href="#tab-1"><b> <i class="fa fa-sign-out"></i> Leave Information</b></a></li>
                                     <li class=""><a id="id_datebrk" data-toggle="tab" href="#tab-2"><b> <i class="fa fa-calendar"></i> Date Breakdown</b></a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-3"><b><i class="fa fa-info-circle"></i> Other Information</b></a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-4"><b><i class="fa fa-history"></i> View History</b></a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
@@ -524,6 +525,21 @@
                                                         </div>
                                                     </div>
 
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-12">
+                                                            <hr />
+                                                            <label class="container" ng-click="func_checked()">
+                                                                <small>With Justification</small>
+                                                                <input type="checkbox" id="justification_flag">
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-lg-12" ng-show="div_justi_msg">
+                                                            <button class="btn btn-warning btn-block" ng-click="openJustification()"> <i class="fa fa-align-justify"></i> Write Justification</button>
+                                                        </div>
+                                                        <hr />
+                                                    </div>
+
                                                     <div class="form-group row m-t-sm" style="max-height:20% ; overflow:auto">
                                                         <div class="col-sm-12">
                                                             <div ng-repeat="lst in leave_oth_info" class="alert alert-success alert-dismissable small font-bold" style="margin-bottom:5px !important">
@@ -664,24 +680,27 @@
                                                                     <h4>{{lst.leaveledger_balance_current}}</h4>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="ibox-title">
-                                                            <h5> <span class="fa fa-paperclip"></span> Force Leave Plan</h5>
-                                                        </div>
-                                                        <div class="ibox-content" ng-repeat="lst in lst_fl_plan_lst">
-                                                            <div class="row">
-                                                                <div class="col-xs-12">
-                                                                    <small class="stats-label"><b><i class="fa fa-calendar-o"></i>  {{lst.flp_application_date_descr}}</b>
+                                                        </div>        
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="ibox-title">
+                                                        <h5> <span class="fa fa-paperclip"></span> Force Leave Plan</h5>
+                                                    </div>
+                                                    <div class="ibox-content" ng-repeat="lst in lst_fl_plan_lst">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <small class="stats-label">
+                                                                    <b><i class="fa fa-calendar-o"></i>  {{lst.flp_application_date_descr}}</b>
                                                                     <br />    {{lst.approval_status_descr}}
-                                                                    </small>
-                                                                </div>
-                                                                
+                                                                </small>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4">
+                                                @*<div class="col-lg-4">
                                                     <div class="ibox float-e-margins">
                                                         <div class="ibox-title">
                                                             <h3> <span class="fa fa-history"></span> APPROVAL HISTORY</h3>
@@ -750,7 +769,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <div class="col-lg-4">
                                                     <div class="ibox float-e-margins">
                                                         <div class="ibox-title">
@@ -770,12 +789,41 @@
                                                                     </small>
                                                                     <hr style="margin-top:5px;margin-bottom:2px;padding:0px;" />
                                                                 </div>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab-4" class="tab-pane">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-lg-3"></div>
+                                                <div class="col-lg-6">
+                                                    <div class="feed-activity-list">
+                                                        <div class="feed-element" ng-repeat="lst in data_history">
+                                                            
+                                                            <div class="pull-left">
+                                                                <div class="img-circle">
+                                                                    <span class="fa fa-user fa-3x"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-body ">
+                                                                <small class="pull-right" style="padding-left:10px !important">{{lst.create_dttm_ago}}</small>
+                                                                {{lst.appl_status}} by <strong>{{lst.employee_name_format_2}}</strong>
+                                                                <small class="text-muted">on {{lst.create_dttm_descr}}</small>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <button class="btn btn-primary btn-block m-t" ng-click="Retrieve_LeaveHistory()"><i class="fa fa-arrow-down" id="view_details_history"></i> View Details</button>
+
+                                                </div>
+                                                <div class="col-lg-3"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -824,17 +872,15 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <div class="row" style="padding-bottom:2px;margin-bottom:0px;">
-                            <div class="col-lg-12">
-                                @*<div style="width:62%;float:left;">
-                                    </div>*@
-                                <select class="form-control field-select-sm" id="ddl_status" ng-model="ddl_status" ng-change="FilterPageGrid()">
+                            <div class="col-lg-6">
+                                <select class="form-control field-select-sm form-control-sm" id="ddl_status" ng-model="ddl_status" ng-change="FilterPageGrid()">
                                     <option value="" selected>Select All Status</option>
                                     <option ng-repeat="lst in statusList" value="{{lst.approval_status}}">{{lst.approval_status_descr}}</option>
                                 </select>
                                 <label id="lbl_ddl_status_req" class="lbl_required"></label>
-                                @*<div style="width:38%;float:right;">
-                                        <button id="info" class="btn btn-info pull-right font-bold" ng-click="btn_open_info()"><i class="fa fa-info-circle"> </i> Status Info.</button>
-                                    </div>*@
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="search" class="form-control" ng-model="search_datalist_grid3" ng-keyup="search_in_list(search_datalist_grid3,'datalist_grid3')" placeholder="Search ....">
                             </div>
                         </div>
                         <div class="row" style="padding-bottom:0px;margin-bottom:0px;">
@@ -863,7 +909,7 @@
                         <div id="calendar"></div>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </div>
 
@@ -882,7 +928,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled  />
+                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
                                 <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                 </span>
@@ -894,7 +940,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled  />
+                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
                                 <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                 </span>
@@ -1041,9 +1087,32 @@
                     @* <button type="button" class="btn btn-primary pull-left" ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print Cancellation</button>*@
                     <div ng-show="show_final_approved">
                         <button type="button" class="btn btn-primary" ng-show="!show_pending_submit" ng-click="btn_submit_cancel()"><i class="fa fa-send"></i> Submit and Print  Cancellation</button>
-                        <button type="button" class="btn btn-danger"  ng-show="show_pending_submit"  ng-click="btn_submit_cancel_pending()"><i class="fa fa-send"></i> Cancel Pending</button>
-                        <button type="button" class="btn btn-success" ng-show="show_pending_submit"  ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-danger" ng-show="show_pending_submit" ng-click="btn_submit_cancel_pending()"><i class="fa fa-send"></i> Cancel Pending</button>
+                        <button type="button" class="btn btn-success" ng-show="show_pending_submit" ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_justification" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content ">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Create Justification</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="mail-text h-200">
+                        <div id="summernote_justification">
+                            @*<p>May 4, 2023</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of Sick Leave applied for April 3, 2023. I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>VINCENT JADE H. ALIVIO<br>Computer Programmer</p><p><br></p><p>Noted:<br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head</p>*@
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" ng-click="btn_save_justification()"><i class="fa fa-save"></i> Save Justification</button>
                 </div>
             </div>
         </div>
@@ -1065,7 +1134,7 @@
                         </div>
                         <div class="col-lg-12">
                             <label class="font-bold"><b> Type of Cancellation: <span class="text-danger">*</span></b></label>
-                            <select class="form-control form-control" ng-model="leave_cancel_type" ng-disabled="dis_cancel_txtbox">
+                            <select class="form-control form-control" ng-model="leave_cancel_type" ng-disabled="dis_cancel_txtbox" ng-change="retrieve_cancel_type(leave_cancel_type)">
                                 <option value="">-- Select Here --</option>
                                 <option value="HOL">Holiday</option>
                                 <option value="WORK_SUS">Work Suspension</option>
@@ -1073,10 +1142,10 @@
                                 <option value="CNCEL_ONLY">Cancel Only</option>
                             </select>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" ng-show="div_show_transfer_date">
                             <label class="font-bold"><b> Transfer Date:</b></label>
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" ng-model="leave_transfer_date" id="leave_transfer_date" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled  />
+                                <input type="text" ng-model="leave_transfer_date" id="leave_transfer_date" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled />
                                 <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                 </span>

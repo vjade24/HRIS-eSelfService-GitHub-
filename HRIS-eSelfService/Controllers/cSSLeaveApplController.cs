@@ -1,5 +1,5 @@
 ﻿//*********************************************************************//
-// Created By   : Lorraine I. Ale 
+// Created By   : Vincent Jade Alivio
 // Created Date : 04/07/2020
 // Description  : Leave Application Controller
 //*********************************************************************//
@@ -9,6 +9,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -70,7 +72,7 @@ namespace HRIS_eSelfService.Controllers
             };
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/05/2020
         // Description  : Initialized during pageload
         //*********************************************************************//
@@ -148,7 +150,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 05/05/2020
         // Description  : Filter Page Grid
         //*********************************************************************//
@@ -174,7 +176,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 05/15/2020
         // Description  : Get last code 
         //*********************************************************************//
@@ -222,7 +224,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 05/15/2020
         // Description  : Get last code 
         //*********************************************************************//
@@ -230,12 +232,12 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
-                var message = "";
-                var message_descr2 = "";
-                var chk_par_leave_type = par_leave_type;
-                var current_balance = db_ats.sp_leave_application_curr_bal(par_empl_id, par_year, par_leave_type).ToList().FirstOrDefault();
-                var leave_oth_info = db_ats.leavetype_oth_info_tbl.Where(a=> a.leavetype_code == par_leave_type).ToList();
-                var fl_chk = db_ats.sp_force_leave_plan_tbl_list_chk(par_empl_id, par_year).Where(a=> a.approval_status == "F").ToList();
+                var message             = "";
+                var message_descr2      = "";
+                var chk_par_leave_type  = par_leave_type;
+                var current_balance     = db_ats.sp_leave_application_curr_bal(par_empl_id, par_year, par_leave_type).ToList().FirstOrDefault();
+                var leave_oth_info      = db_ats.leavetype_oth_info_tbl.Where(a=> a.leavetype_code == par_leave_type).ToList();
+                var fl_chk              = db_ats.sp_force_leave_plan_tbl_list_chk(par_empl_id, par_year).Where(a=> a.approval_status == "F").ToList();
                 
                 if (par_leave_type == "FL")
                 {
@@ -246,7 +248,7 @@ namespace HRIS_eSelfService.Controllers
 
                 var leave_projection    = "0";
                 var vl_leave_projection = "";
-                message = "success";
+                message                 = "success";
 
 
                 var dt_chk_tse = db_ats.tse_check_tbl.Where(a => a.empl_id == par_empl_id).FirstOrDefault();
@@ -275,7 +277,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/02/2020
         // Description  : Filter Page Grid
         //*********************************************************************//
@@ -319,7 +321,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/02/2020
         // Description  : Filter Page Grid
         //*********************************************************************//
@@ -350,27 +352,7 @@ namespace HRIS_eSelfService.Controllers
 
                     if (od != null)
                     {
-                        // ***************************************
-                        // **** CHECK IF EXISTS ON CANCELLATION **
-                        // ***************************************
-                        var date_diff       = (leave_date_to - leave_date_from).Days + 1;
-                        var init_date       = leave_date_from;
-                        object cancellation = new object();
-                        var date_init       = new DateTime();
-                        
-                        for (int i = 0; i < date_diff; i++)
-                        {
-                            cancellation = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == data.empl_id && a.leave_cancel_status == "F" && a.leave_cancel_date == date_init).FirstOrDefault();
-                            if (cancellation == null)
-                            {
-                                message = (message + " \n *" + data2[x].leave_date_from.ToLongDateString() + " - " + data2[x].leave_date_to.ToLongDateString());
-                                break;
-                            }
-                            date_init = init_date.AddDays(i);
-                        }
-                        // ***************************************
-                        // **** CHECK IF EXISTS ON CANCELLATION **
-                        // ***************************************
+                        message = (message + " *" + data2[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + data2[x].leave_date_to.ToString("yyyy-MM-dd"));
                     }
                     if (dt_chk_tse != null)
                     {
@@ -464,7 +446,9 @@ namespace HRIS_eSelfService.Controllers
                                     else if ((data2[i].leave_date_from <= data.date_applied ||
                                                 data2[i].leave_date_to <= data.date_applied)
                                              &&
-                                             data2[i].date_num_day_total >= 8)
+                                             data2[i].date_num_day_total >= 8
+                                             &&
+                                             p_action_mode == "SUBMIT")
                                     {
                                         message         = "cto_validation";
                                         message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data2[i].leave_ctrlno + "\n Date Application from :" + data2[i].leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + data2[i].leave_date_to.ToString("yyyy-MM-dd");
@@ -669,44 +653,47 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS") // Solo Parent Leave
+                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS" || data.leave_type_code == "SL") // Special Leave and Solo Parent, Sick Leave
                     {
-                        if (data.leave_subtype_code == "AN" || // Anniversary
-                            data.leave_subtype_code == "BD" || // Birthday
-                            data.leave_subtype_code == "WD")   // Wedding
+                        var leave_descr = "";
+                        if (data.leave_type_code == "SP")
                         {
-                            var leave_descr = "";
-                            if (data.leave_type_code == "SP")
-                            {
-                                leave_descr = "Special Privilege Leave such as Anniversary, Birthday or Wedding!";
-                            }
-                            else if (data.leave_type_code == "PS")
-                            {
-                                leave_descr = "Solo Parent Leave!";
-                            }
-                            else if (data.leave_type_code == "MC")
-                            {
-                                leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
-                            }
+                            leave_descr = "Special Privilege Leave such as Anniversary, Birthday, Wedding, Parental Obligation or Personal Transaction!";
+                        }
+                        else if (data.leave_type_code == "PS")
+                        {
+                            leave_descr = "Solo Parent Leave!";
+                        }
+                        else if (data.leave_type_code == "MC")
+                        {
+                            leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
+                        }
+                        else if (data.leave_type_code == "SL")
+                        {
+                            leave_descr = "Sick Leave";
+                        }
 
-                            var ctr = 5;
+                        var ctr = 5;
 
-                            System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
-                            System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
+                        System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
+                        System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
 
-                            for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
+                        for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
+                        {
+                            if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
+                                firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
                             {
-                                if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
-                                    firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
-                                {
-                                    ctr = ctr + 1;
-                                }   
-                            }
+                                ctr = ctr + 1;
+                            }   
+                        }
 
+                        if (data.leave_subtype_code == "AN" || // Special Leave - Anniversary
+                            data.leave_subtype_code == "BD" || // Special Leave - Birthday
+                            data.leave_subtype_code == "WD" || // Special Leave - Wedding
+                            data.leave_type_code    == "PS"  ) // Solo Parent
+                        {
                             var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
-
-                            if (date_applied_5_working_days > leave_date_from ||
-                                date_applied_5_working_days > leave_date_to) 
+                            if (date_applied_5_working_days > leave_date_from || date_applied_5_working_days > leave_date_to && p_action_mode == "SUBMIT") 
                             {
                                 message         = "5_adv_validation";
                                 message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
@@ -714,6 +701,18 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
 
+                        if (data.leave_subtype_code == "PO" || // Special Leave - Parental Obligation
+                            data.leave_subtype_code == "PT" || // Special Leave - Personal Transaction
+                            data.leave_type_code    == "SL"  ) // Sick Leave
+                        {
+                            var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
+                            if ((date_applied_5_working_days > leave_date_from || date_applied_5_working_days > leave_date_to) && p_action_mode == "SUBMIT" && data.justification_flag == false) 
+                            {
+                                message         = "5_adv_validation";
+                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
+                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
+                            }
+                        }
                     }
                 }
 
@@ -770,123 +769,50 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
-        // Created Date : 03/02/2020
-        // Description  : Filter Page Grid
-        //*********************************************************************//
-        //public ActionResult CheckExist2(List<leave_application_dtl_tbl> data2)
-        //{
-        //    try
-        //    {
-        //        var message = "";
-        //        for (var x = 0; x < data2.Count; x++)
-        //        {
-        //            var id = data2[x].empl_id;
-        //            var leave_date_from = data2[x].leave_date_from;
-        //            var leave_date_to = data2[x].leave_date_to;
-        //            var appl_nbr = data2[x].leave_ctrlno;
-
-        //            var od = db_ats.leave_application_dtl_tbl.Where(a =>
-        //                a.empl_id == id &&
-        //                a.leave_date_from == leave_date_from &&
-        //                a.leave_date_to == leave_date_to &&
-        //                a.leave_ctrlno != appl_nbr).FirstOrDefault();
-        //            if (od != null)
-        //            {
-        //                message = (message + " *" + data2[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + data2[x].leave_date_to.ToString("yyyy-MM-dd"));
-        //            }
-        //        }
-
-        //        return JSON(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.InnerException.Message.ToString();
-        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
-        // Created Date : 03/02/2020
-        // Description  : Filter Page Grid
-        //*********************************************************************//
-        //public ActionResult CheckExist3(List<leave_application_dtl_tbl> data2)
-        //{
-        //    try
-        //    {
-        //        var message = "";
-        //        for (var x = 0; x < data2.Count; x++)
-        //        {
-        //            var id = data2[x].empl_id;
-        //            var leave_date_from = data2[x].leave_date_from;
-        //            var leave_date_to = data2[x].leave_date_to;
-        //            var appl_nbr = data2[x].leave_ctrlno;
-
-        //            var od = db_ats.leave_application_dtl_tbl.Where(a =>
-        //                a.empl_id == id &&
-        //                a.leave_date_from == leave_date_from &&
-        //                a.leave_date_to == leave_date_to &&
-        //                a.leave_ctrlno != appl_nbr &&
-        //                a.rcrd_status == "N").FirstOrDefault();
-        //            if (od != null)
-        //            {
-        //                message = (message + " *" + data2[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + data2[x].leave_date_to.ToString("yyyy-MM-dd"));
-        //            }
-        //        }
-
-        //        return JSON(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.InnerException.Message.ToString();
-        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 05/15/2020
         // Description  : Add new record to table with status as New
         //*********************************************************************//
-        public ActionResult Save(leave_application_hdr_tbl data, List<leave_application_dtl_tbl> data2, List<leave_application_dtl_cto_tbl> data3)
-        {
-            try
-            {
-                var new_appl_nbr        = db_ats.sp_generate_appl_nbr("leave_application_hdr_tbl", 8, "leave_ctrlno").ToList();
-                data.leave_ctrlno       = new_appl_nbr[0].ToString();
-                data.created_by_user    = Session["user_id"].ToString();
-                data.created_dttm       = DateTime.Now;
-                data.details_remarks    = string.Empty;
-                db_ats.leave_application_hdr_tbl.Add(data);
+        //public ActionResult Save(leave_application_hdr_tbl data, List<leave_application_dtl_tbl> data2, List<leave_application_dtl_cto_tbl> data3)
+        //{
+        //    try
+        //    {
+        //        var new_appl_nbr        = db_ats.sp_generate_appl_nbr("leave_application_hdr_tbl", 8, "leave_ctrlno").ToList();
+        //        data.leave_ctrlno       = new_appl_nbr[0].ToString();
+        //        data.created_by_user    = Session["user_id"].ToString();
+        //        data.created_dttm       = DateTime.Now;
+        //        data.details_remarks    = string.Empty;
+        //        db_ats.leave_application_hdr_tbl.Add(data);
 
-                for (var x = 0; x < data2.Count; x++)
-                {
-                    data2[x].leave_ctrlno = new_appl_nbr[0].ToString();
-                    data2[x].rcrd_status = data.approval_status;
-                    db_ats.leave_application_dtl_tbl.Add(data2[x]);
-                }
+        //        for (var x = 0; x < data2.Count; x++)
+        //        {
+        //            data2[x].leave_ctrlno = new_appl_nbr[0].ToString();
+        //            data2[x].rcrd_status = data.approval_status;
+        //            db_ats.leave_application_dtl_tbl.Add(data2[x]);
+        //        }
 
-                if (data3 != null)
-                {
-                    for (var x = 0; x < data3.Count; x++)
-                    {
-                        data3[x].leave_ctrlno = new_appl_nbr[0].ToString();
-                        db_ats.leave_application_dtl_cto_tbl.Add(data3[x]);
-                    }
-                }
+        //        if (data3 != null)
+        //        {
+        //            for (var x = 0; x < data3.Count; x++)
+        //            {
+        //                data3[x].leave_ctrlno = new_appl_nbr[0].ToString();
+        //                db_ats.leave_application_dtl_cto_tbl.Add(data3[x]);
+        //            }
+        //        }
                 
 
-                db_ats.SaveChangesAsync();
+        //        db_ats.SaveChangesAsync();
 
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.InnerException.Message.ToString();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.InnerException.Message.ToString();
+        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/13/2020
         // Description  : Add new record to table with status as Submitted
         //*********************************************************************//
@@ -903,14 +829,31 @@ namespace HRIS_eSelfService.Controllers
                 data.created_by_user    = Session["user_id"].ToString();
                 data.details_remarks    = string.Empty;
 
-                var user_empl_id = Session["empl_id"].ToString();
-                var user_is_reviewer = db_dev.transactionsapprover_tbl.Where(a => a.transaction_code == "002" &&
-                                                                                    a.empl_id == user_empl_id &&
-                                                                                    a.workflow_authority == "0").FirstOrDefault();
+                var user_empl_id        = Session["empl_id"].ToString();
+                var user_is_reviewer    = db_dev.transactionsapprover_tbl.Where(a => a.transaction_code == "002" && a.empl_id == user_empl_id && a.workflow_authority == "0").FirstOrDefault();
+
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Save/Submit Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+
                 if (user_is_reviewer != null)
                 {
                     data.approval_status = "R";
                     var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, "Auto Reviewed");
+
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+                    appl_status = "Auto Reviewed";
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
                 }
                 string user_id = Session["user_id"].ToString();
                 var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "002").ToList();
@@ -920,6 +863,15 @@ namespace HRIS_eSelfService.Controllers
                     data.approval_status = trans_ref2[0].auto_status;
                     data.details_remarks = trans_ref2[0].auto_remarks;
                     var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, data.details_remarks);
+
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+                    appl_status = trans_ref2[0].auto_remarks;
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
                 }
 
                 db_ats.leave_application_hdr_tbl.Add(data);
@@ -940,7 +892,10 @@ namespace HRIS_eSelfService.Controllers
                     }
                 }
 
+                
                 db_ats.SaveChangesAsync();
+
+
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -950,69 +905,69 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/13/2020
         // Description  : Edit existing record table with status as New 
         //*********************************************************************//
-        public ActionResult SaveEdit(leave_application_hdr_tbl data, List<leave_application_dtl_tbl> data2, List<leave_application_dtl_cto_tbl> data3)
-        {
-            try
-            {
-                data.updated_by_user                = Session["user_id"].ToString();
-                var query                           = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
-                query.updated_dttm                  = DateTime.Now;
-                query.updated_by_user               = Session["user_id"].ToString();
-                query.date_applied                  = data.date_applied;
-                query.leave_comments                = data.leave_comments;
-                query.leave_type_code               = data.leave_type_code;
-                query.leave_subtype_code            = data.leave_subtype_code;
-                query.number_of_days                = data.number_of_days;
-                query.leaveledger_date              = data.leaveledger_date;
-                query.leaveledger_balance_as_of_sl  = data.leaveledger_balance_as_of_sl;
-                query.leaveledger_balance_as_of_vl  = data.leaveledger_balance_as_of_vl;
-                query.leaveledger_balance_as_of_sp  = data.leaveledger_balance_as_of_sp;
-                query.leaveledger_balance_as_of_fl  = data.leaveledger_balance_as_of_fl;
-                query.leaveledger_balance_as_of_oth = data.leaveledger_balance_as_of_oth;
-                query.sl_restore_deduct             = data.sl_restore_deduct;
-                query.vl_restore_deduct             = data.vl_restore_deduct;
-                query.sp_restore_deduct             = data.sp_restore_deduct;
-                query.fl_restore_deduct             = data.fl_restore_deduct;
-                query.oth_restore_deduct            = data.oth_restore_deduct;
-                query.leave_class                   = data.leave_class;
-                query.leave_descr                   = data.leave_descr;
-                query.approval_status               = data.approval_status;
-                query.justification_flag            = data.justification_flag;
-                query.commutation                   = data.commutation;
+        //public ActionResult SaveEdit(leave_application_hdr_tbl data, List<leave_application_dtl_tbl> data2, List<leave_application_dtl_cto_tbl> data3)
+        //{
+        //    try
+        //    {
+        //        data.updated_by_user                = Session["user_id"].ToString();
+        //        var query                           = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
+        //        query.updated_dttm                  = DateTime.Now;
+        //        query.updated_by_user               = Session["user_id"].ToString();
+        //        query.date_applied                  = data.date_applied;
+        //        query.leave_comments                = data.leave_comments;
+        //        query.leave_type_code               = data.leave_type_code;
+        //        query.leave_subtype_code            = data.leave_subtype_code;
+        //        query.number_of_days                = data.number_of_days;
+        //        query.leaveledger_date              = data.leaveledger_date;
+        //        query.leaveledger_balance_as_of_sl  = data.leaveledger_balance_as_of_sl;
+        //        query.leaveledger_balance_as_of_vl  = data.leaveledger_balance_as_of_vl;
+        //        query.leaveledger_balance_as_of_sp  = data.leaveledger_balance_as_of_sp;
+        //        query.leaveledger_balance_as_of_fl  = data.leaveledger_balance_as_of_fl;
+        //        query.leaveledger_balance_as_of_oth = data.leaveledger_balance_as_of_oth;
+        //        query.sl_restore_deduct             = data.sl_restore_deduct;
+        //        query.vl_restore_deduct             = data.vl_restore_deduct;
+        //        query.sp_restore_deduct             = data.sp_restore_deduct;
+        //        query.fl_restore_deduct             = data.fl_restore_deduct;
+        //        query.oth_restore_deduct            = data.oth_restore_deduct;
+        //        query.leave_class                   = data.leave_class;
+        //        query.leave_descr                   = data.leave_descr;
+        //        query.approval_status               = data.approval_status;
+        //        query.justification_flag            = data.justification_flag;
+        //        query.commutation                   = data.commutation;
                 
-                var od = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
-                for (var x = 0; x < data2.Count; x++)
-                {
-                    data2[x].rcrd_status = data.approval_status;
-                    db_ats.leave_application_dtl_tbl.Add(data2[x]);
-                }
+        //        var od = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
+        //        for (var x = 0; x < data2.Count; x++)
+        //        {
+        //            data2[x].rcrd_status = data.approval_status;
+        //            db_ats.leave_application_dtl_tbl.Add(data2[x]);
+        //        }
 
-                var od2 = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
+        //        var od2 = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
 
-                if (data3 != null)
-                {
-                    for (var x = 0; x < data3.Count; x++)
-                    {
-                        db_ats.leave_application_dtl_cto_tbl.Add(data3[x]);
-                    }
-                }
+        //        if (data3 != null)
+        //        {
+        //            for (var x = 0; x < data3.Count; x++)
+        //            {
+        //                db_ats.leave_application_dtl_cto_tbl.Add(data3[x]);
+        //            }
+        //        }
 
-                db_ats.SaveChangesAsync();
+        //        db_ats.SaveChangesAsync();
 
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.InnerException.Message.ToString();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+        //        return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        string message = e.InnerException.Message.ToString();
+        //        return Json(new { message }, JsonRequestBehavior.AllowGet);
+        //    }
+        //}
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/13/2020
         // Description  : Edit existing record table with status as New into Submitted
         //*********************************************************************//
@@ -1084,8 +1039,15 @@ namespace HRIS_eSelfService.Controllers
                     }
                 }
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Submit Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
                 db_ats.SaveChangesAsync();
-
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1095,7 +1057,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 03/13/2020
         // Description  : Resubmit Cancel Pending Status
         //*********************************************************************//
@@ -1166,7 +1128,16 @@ namespace HRIS_eSelfService.Controllers
                         db_ats.leave_application_dtl_cto_tbl.Add(data3[x]);
                     }
                 }
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Re-Submit Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
                 db_ats.SaveChangesAsync();
+
 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
@@ -1177,7 +1148,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 04/16/2020
         // Description  : delete from approval workflow table
         //*********************************************************************//
@@ -1196,8 +1167,19 @@ namespace HRIS_eSelfService.Controllers
                     db_ats.leave_application_hdr_tbl.Remove(od);
                     var query = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                     var query_cto = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
+                    var query_cancellation = db_ats.leave_application_cancel_tbl.RemoveRange(db_ats.leave_application_cancel_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
 
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
+                    var appl_status = "Delete Leave Application";
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    // *************************************************************
+                    // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                    // *************************************************************
                     db_ats.SaveChangesAsync();
+
+
                     message = "success";
                 }
                 else
@@ -1214,7 +1196,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 04/16/2020
         // Description  : delete from approval workflow table
         //*********************************************************************//
@@ -1238,6 +1220,7 @@ namespace HRIS_eSelfService.Controllers
                         db_ats.leave_application_hdr_tbl.Remove(od);
                         var query = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                         var query_cto = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
+                        var query_cancellation = db_ats.leave_application_cancel_tbl.RemoveRange(db_ats.leave_application_cancel_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
 
                         db_ats.SaveChangesAsync();
                         message = "success";
@@ -1274,7 +1257,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
+        // Created By   : Vincent Jade Alivio
         // Created Date : 04/16/2020
         // Description  : delete from approval workflow table
         //*********************************************************************//
@@ -1297,7 +1280,16 @@ namespace HRIS_eSelfService.Controllers
                    a.leave_ctrlno == data.leave_ctrlno).ToList();
                 query2.ForEach(a => a.rcrd_status = "L");
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Cancelled Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
                 db_ats.SaveChangesAsync();
+
 
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
@@ -1308,7 +1300,7 @@ namespace HRIS_eSelfService.Controllers
             }
         }
         ////*********************************************************************//
-        //// Created By   : Lorraine I. Ale 
+        //// Created By   : Vincent Jade Alivio
         //// Created Date : 04/16/2020
         //// Description  : delete from approval workflow table
         ////*********************************************************************//
@@ -1403,7 +1395,17 @@ namespace HRIS_eSelfService.Controllers
                     .ToList();
                 query2.ForEach(a => a.rcrd_status = data.approval_status);
 
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Cancel Pending Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
                 db_ats.SaveChangesAsync();
+
+
                 return JSON(new { message = "success" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -1414,58 +1416,26 @@ namespace HRIS_eSelfService.Controllers
         }
         //*********************************************************************//
         // Created By   : Vincent Jade H. Alivio
-        // Created Date : 2021-07-08
-        // Description  : Get the All Balance of Every Leave Type
-        //*********************************************************************//
-        //public ActionResult GetAllBalances(string par_empl_id, string par_year)
-        //{
-        //    try
-        //    {
-        //        var leavetype = db_ats.leavetype_tbl.ToList();
-        //        List<sp_leaveledger_curr_bal2_Result> data_all_bal = new List<sp_leaveledger_curr_bal2_Result>();
-
-        //        for (int x = 0; x < leavetype.Count; x++)
-        //        {
-        //            sp_leaveledger_curr_bal2_Result data2 = new sp_leaveledger_curr_bal2_Result();
-        //            data2 = db_ats.sp_leave_application_curr_bal(par_empl_id, par_year, leavetype[x].leavetype_code).FirstOrDefault();
-        //            data_all_bal.Add(data2);
-        //        }
-
-        //        return JSON(new { data_all_bal , message = "success" }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        string message = e.Message;
-        //        return Json(new { message}, JsonRequestBehavior.AllowGet);
-        //    }
-        //}
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio
         // Created Date : 2021-08-17
         // Description  : Particulars
         //*********************************************************************//
-        //public ActionResult CheckLeaveApplicationDetails(string p_empl_id, string p_leave_ctrl_nbr, string p_leave_type_code, string p_date_applied, List<leave_application_dtl_tbl> data2)
+        //public ActionResult ApprovalHistory(string par_leave_ctlno)
         //{
         //    try
         //    {
-        //        var message_descr = "";
-        //        // var leave_appl_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.empl_id ==  p_empl_id && a.leave_ctrlno == p_leave_ctrl_nbr).ToList();
+        //        db_ats.Database.CommandTimeout = int.MaxValue;
 
-        //        if (p_leave_type_code == "SL")   // Sick Leave
-        //        {
-        //            if (data2 != null)
-        //            {
-        //                for (int i = 0; i < data2.Count; i++)
-        //                {
-        //                    if (data2[i].leave_date_from > DateTime.Parse(p_date_applied) ||
-        //                        data2[i].leave_date_to   > DateTime.Parse(p_date_applied))
-        //                    {
-        //                        message_descr = "Date Applied: " + p_date_applied + "\n Application Nbr.: " + data2[i].leave_ctrlno + "\n Date Application from :" + data2[i].leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + data2[i].leave_date_to.ToString("yyyy-MM-dd");
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        return JSON(new { data2, message_descr }, JsonRequestBehavior.AllowGet);
+        //        var message_descr = "success";
+        //        var leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
+        //        var par_approval_id = (leave_appl == null ? "" : leave_appl.approval_id);
+        //        var data = db_dev.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
+                
+        //        var lv_hdr                  = db_ats.lv_ledger_hdr_tbl.Where(b=> b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
+
+        //        var par_approval_id_posting = (lv_hdr == null ? "" : lv_hdr.approval_id);
+        //        var data_posting            = db_dev.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
+                
+        //        return JSON(new { data, message_descr, leave_appl, data_posting }, JsonRequestBehavior.AllowGet);
         //    }
         //    catch (Exception e)
         //    {
@@ -1473,96 +1443,6 @@ namespace HRIS_eSelfService.Controllers
         //        return Json(new { message = message }, JsonRequestBehavior.AllowGet);
         //    }
         //}
-        //*********************************************************************//
-        // Created By   : Lorraine I. Ale 
-        // Created Date : 03/13/2020
-        // Description  : Edit existing record table with status as New into Submitted
-        //*********************************************************************//
-        public ActionResult SubmitOnGrid(leave_application_hdr_tbl data)
-        {
-            try
-            {
-                var app_id = db_dev.sp_insert_transaction_to_approvalworkflow_tbl(Session["user_id"].ToString(), data.empl_id.ToString(), "002").ToList();
-                data.approval_id        = app_id[0].ToString();
-                data.details_remarks    = string.Empty;
-
-                var user_empl_id = Session["empl_id"].ToString();
-                var user_is_reviewer = db_dev.transactionsapprover_tbl.Where(a => a.transaction_code == "002" && a.empl_id == user_empl_id && a.workflow_authority == "0").FirstOrDefault();
-                if (user_is_reviewer != null)
-                {
-                    data.approval_status = "R";
-                    var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, "Auto Reviewed");
-                }
-                else
-                {
-                    data.approval_status = "S";
-                    var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, "");
-                }
-                string user_id = Session["user_id"].ToString();
-                var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "002").ToList();
-
-                if (trans_ref2[0].auto_status != "")
-                {
-                    data.approval_status = trans_ref2[0].auto_status;
-                    data.details_remarks = trans_ref2[0].auto_remarks;
-                    var transac_apprvr = db_dev.sp_update_transaction_in_approvalworkflow_tbl(data.approval_id, Session["user_id"].ToString(), data.approval_status, data.details_remarks);
-                }
-
-                // ********************************************************************
-                // *************  Update Leave Appplication Header Table **************
-                // ********************************************************************
-                var query = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
-                 query.approval_id                   = data.approval_id;
-                 query.updated_dttm                  = DateTime.Now;
-                 query.updated_by_user               = Session["user_id"].ToString();
-                 query.details_remarks               = data.details_remarks;
-                 query.approval_status               = data.approval_status;
-                 query.approval_id                   = data.approval_id;
-
-                // ********************************************************************
-                // *************  Update Leave Appplication Detail Table **************
-                // ********************************************************************
-                var query_dtl = db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
-                query_dtl.rcrd_status = data.approval_status;
-
-                db_ats.SaveChangesAsync();
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.InnerException.Message.ToString();
-                return Json(new { message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        //*********************************************************************//
-        // Created By   : Vincent Jade H. Alivio
-        // Created Date : 2021-08-17
-        // Description  : Particulars
-        //*********************************************************************//
-        public ActionResult ApprovalHistory(string par_leave_ctlno)
-        {
-            try
-            {
-                db_ats.Database.CommandTimeout = int.MaxValue;
-
-                var message_descr = "success";
-                var leave_appl = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == par_leave_ctlno).ToList().FirstOrDefault();
-                var par_approval_id = (leave_appl == null ? "" : leave_appl.approval_id);
-                var data = db_dev.vw_approvalworkflow_tbl.Where(a => a.transaction_code == "002" && a.approval_id == par_approval_id).FirstOrDefault();
-                
-                var lv_hdr                  = db_ats.lv_ledger_hdr_tbl.Where(b=> b.leave_ctrlno == par_leave_ctlno).FirstOrDefault();
-
-                var par_approval_id_posting = (lv_hdr == null ? "" : lv_hdr.approval_id);
-                var data_posting            = db_dev.vw_approvalworkflow_tbl.Where(a => a.approval_id == par_approval_id_posting).FirstOrDefault();
-                
-                return JSON(new { data, message_descr, leave_appl, data_posting }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                string message = e.Message;
-                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
-            }
-        }
 
         public ActionResult CheckAndContinue(List<leave_application_dtl_tbl> data2, leave_application_hdr_tbl data)
         {
@@ -1816,8 +1696,58 @@ namespace HRIS_eSelfService.Controllers
                 hdr.approval_status = "L";
                 dtl.ForEach(a => a.rcrd_status = "L");
                 message = "success";
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
+                var appl_status = "Cancelled Leave Application";
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                // *************************************************************
+                // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
+                // *************************************************************
                 db_ats.SaveChangesAsync();
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Save_Justification(leave_application_hdr_justi_tbl data)
+        {
+            try
+            {
+                db_ats.leave_application_hdr_justi_tbl.Add(data);
+                db_ats.SaveChangesAsync();
+                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult Retrieve_Justification(string leave_ctrlno, string empl_id)
+        {
+            try
+            {
+                 var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
+                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno)
+        {
+            try
+            {
+                var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

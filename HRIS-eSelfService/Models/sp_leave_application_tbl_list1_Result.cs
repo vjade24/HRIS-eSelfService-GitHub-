@@ -40,5 +40,7 @@ namespace HRIS_eSelfService.Models
         public Nullable<bool> justification_flag { get; set; }
         public string commutation { get; set; }
         public string created_by_user { get; set; }
+        public string appl_status { get; set; }
+        public string appl_remarks { get; set; }
     }
 }
