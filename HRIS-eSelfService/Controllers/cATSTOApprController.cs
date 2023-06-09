@@ -353,8 +353,7 @@ namespace HRIS_eSelfService.Controllers
                 {
                     data.travel_details = "Disapproved";
                 }
-                else if (data.approval_status.ToString().Trim() != "" &&
-                    data.travel_details.Trim() == "")
+                else if (data.approval_status.ToString().Trim() != "" && data.travel_details.Trim() == "")
                 {
                     data.travel_details = "Level " + data.approval_status + " Approved";
                 }
