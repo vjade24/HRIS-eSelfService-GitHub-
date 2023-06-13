@@ -1067,8 +1067,11 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="modalLabelSmall">Travel Check List</h4>
-                        <input type="search" class="form-control block headerSearch" tableref="datalist_grid_check" placeholder="Search ...." style="color:black;"/>
+                        <div>
+                            <div class="col-sm-2"><h4 class="modal-title" id="modalLabelSmall">Travel Check List</h4></div>
+                            <div class="col-sm-4"><input type="search" class="form-control block headerSearch" tableref="datalist_grid_check" placeholder="Search ...." style="color:black;" /></div>
+                            <div class="col-sm-3"><button class="form-control pull-left text-left text-danger" style="background-color:lightblue">Needs action:&nbsp;&nbsp;&nbsp;{{number_check_to_action}}</button></div>
+                        </div>
                     </div>
                     <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
 
@@ -1158,8 +1161,10 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" id="modalLabelSmall">Travel Order Actioned Check List</h4>
-                        <input type="search" class="form-control block headerSearch" tableref="datalist_grid_check_actioned" placeholder="Search ...." style="color:black;" />
+                        <div class="col-sm-2"><h4 class="modal-title" id="modalLabelSmall">Travel Order Actioned Check List</h4></div>
+                        <div class="col-sm-4"><input type="search" class="form-control block headerSearch" tableref="datalist_grid_check_actioned" placeholder="Search ...." style="color:black;" /></div>
+                        <div class="col-sm-2"><button class="form-control pull-left text-left text-danger" style="background-color:lightblue">Approved:&nbsp;&nbsp;&nbsp;{{number_check_actined_apvd}}</button></div>
+                        <div class="col-sm-2"><button class="form-control pull-left text-left text-danger" style="background-color:lightblue">Disapproved:&nbsp;&nbsp;&nbsp;{{number_check_actined_dis}}</button></div>
                     </div>
                     <div class="modal-body" style="padding-bottom:5px;padding-top:5px;">
 

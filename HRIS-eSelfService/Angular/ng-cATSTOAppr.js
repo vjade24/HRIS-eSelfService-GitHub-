@@ -34,6 +34,10 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
     s.comment_list_2 = []
     s.oTableCheck_dtl = []
     s.same_to_nbr = []
+    s.number_check_to_action
+    s.number_check_actined_apvd
+    s.number_check_actined_dis
+ 
 
     s.datalistgridCheck = []
     s.datalistgridCheckActioned = []
@@ -3640,8 +3644,8 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                 if (d.data.sp_travel_order_daily_pa_rep.length > 0) {
                     s.datalistgridCheck = d.data.sp_travel_order_daily_pa_rep
 
-                    console.log(s.datalistgridCheck)
-
+                    s.number_check_to_action = s.datalistgridCheck.length
+                  
                     s.oTableCheck_dtl.fnClearTable();
                     s.oTableCheck_dtl.fnAddData(s.datalistgridCheck)
                 }
@@ -3672,7 +3676,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
     s.btn_data_checklist_actioned = function () {
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         $("#TO_print_par").modal("hide");
-
+     
 
         //DIRI
         var parameters = "par_period_from," + $("#dd_travel_date_from_rep").val() + ",par_period_to," + $("#dd_travel_date_to_rep").val() + ",par_dept_code," + $("#ddl_dept_rep").val() + ",par_type," + s.par_report_type + ",par_user_id," + account_user_id + ",par_start_time," + $("#txtb_start_time").val() + ",par_end_time," + $("#txtb_end_time").val()
@@ -3692,6 +3696,15 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                 console.log(checked_data)
                 if (d.data.sp_travel_order_daily_pa_rep_actioned.length > 0) {
                     s.datalistgridCheckActioned = checked_data
+                   
+                    
+                    s.number_check_actined_apvd = s.datalistgridCheckActioned.filter(function (d) {
+                        return d.approved_status == "Y"
+                    }).length
+
+                    s.number_check_actined_dis = s.datalistgridCheckActioned.filter(function (d) {
+                        return d.approved_status == "D"
+                    }).length
 
                     s.oTableCheck_dtl_actioned.fnClearTable();
                     s.oTableCheck_dtl_actioned.fnAddData(s.datalistgridCheckActioned)
