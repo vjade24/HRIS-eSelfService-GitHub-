@@ -433,17 +433,26 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                                     edit_text = "View"
                                 }
                                 
+                                if (full["pa_initial"] == false) {
+                                    pa_notification = "<div  style='background-color: orange;font-size: 12px;padding: 5px;border-radius: 5px;'>WARNING <i class='fa fa-exclamation-triangle'></i> <i>Please Check Employee Details. <br>There are disapproved employees in this application.</i></div>";
+                                }
+                                else {
+                                    pa_notification = "";
+                                }
 
-                                temp = "<div class='xx input-group m-b'  style='color:white;'>" +
-                                    "<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>" +
-                                    "<div class='external-event navy-bg " + travel_color +"''><h4>" +
-                                    full["travel_datefiled"].toString().toUpperCase() + " | <small style='width:70% !important;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:\"...\";color:white !important;font-size:13px;'>" + full["travel_order_no"]
-                                    + "</small><br/>"
+                                temp = "<div class='xx input-group m-b'  style='color:white;'>"
+                                            +"<span data-toggle='dropdown' class='text-left btn-block dropdown-toggle'>"
+                                            +"<div class='external-event navy-bg " + travel_color + "'>"
+                                            + "<h4>"
+                                            + full["travel_datefiled"].toString().toUpperCase()
+                                            + " | <small style='width:70% !important;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:\"...\";color:white !important;font-size:13px;'>" + full["travel_order_no"]
+                                            + "</small></h4>"
                                     + full["travelorder_status_descr"] 
                                     + "<span class='pull-right' ng-show='"
                                     + full["travel_requestor_empl_id"] + "'>By: #" + full["travel_requestor_empl_id"].replace('U', '#')
-                                    + "</div>" +
-                                    "</span >" +
+                                    + "</span >" 
+                                    + pa_notification
+                                    + "</div> </span>" +
                                     " <ul class='dropdown-menu' style='color:black; display:" + isshowDropDownUser +";'>" +
                                     "<li><a ng-click='btn_edit_action(" + row["row"] + "," + isCreator + ")' ng-show='" + s.allowEdit + "'>" + edit_text +"</a></li>" +
                                     "<li><a ng-click='btn_del_row(" + row["row"] + "," +"0)' ng-show='" + allow_delete_override +"' >Delete</a></li>" +
@@ -476,6 +485,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     data: s.datalistgridEmployee,
                     stateSave: false,
                     sDom: 'rt<"bottom"p>',
+                    bAutoWidth: false,
                     pageLength: 5,
                     columns: [
                         {
@@ -483,29 +493,57 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                             "targets": 0,
                             "mData": "empl_id",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
-                            }
-                        },
-                        {
-                            "width": "40%",
-                            "targets": 1,
-                            "mData": "employee_name",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
-                            }
-                        },
+                                var return_value = "";
+                                if (full["approved_status"] == false) {
+                                    return_value = '<span class="text-center btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason.">' + data + '</span>';
+                                }
+                                else {
+                                    return_value = "<span class='text-center btn-block'>" + data + "</span>";
+                                }
 
+                                return return_value;
+                            }
+                        },
                         {
                             "width": "30%",
-                            "targets": 2,
-                            "mData": "position_title1",
-                            "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                            "targets": 1,
+                            "mData": "employee_name",
+                            "mRender": function (data, type, full, row)
+                            {
+                                var return_value = "";
+                                if (full["approved_status"] == false)
+                                {
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')"  data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
+                                }
+                                else
+                                {
+                                    return_value = "<span class='text-left btn-block'>" + data + "</span>";
+                                }
+
+                                return return_value;
                             }
                         },
 
                         {
-                            "width": "15%",
+                            "width": "35%",
+                            "targets": 2,
+                            "mData": "position_title1",
+                            "mRender": function (data, type, full, row)
+                            {
+                                var return_value = "";
+                                if (full["approved_status"] == false) {
+                                    return_value = '<span class="text-left btn-block" style="text-decoration: line-through;color:red" ng-dblclick="show_reason(' + row["row"] +')" data-toggle="tooltip" data-html="true" title="Double Click To Show Reason."> &nbsp;' + data + '</span>';
+                                }
+                                else {
+                                    return_value = "<span class='text-left btn-block'>" + data + "</span>";
+                                }
+
+                                return return_value;
+                            }
+                        },
+
+                        {
+                            "width": "10%",
                             "targets": 3,
                             "mData": null,
                             "bSortable": false,
@@ -563,7 +601,8 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                             }
                         }
                     ],
-                    "createdRow": function (row, data, index) {
+                    "createdRow": function (row, data, index)
+                    {
                         $compile(row)($scope);  //add this to compile the DOM
                     },
 
@@ -1108,6 +1147,12 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
         s.oTableDates.fnAddData(s.datalistgridDates);
        
 
+    }
+
+    s.show_reason = function (row)
+    {
+        console.log(s.datalistgridEmployee[row]);
+        swal({ icon: "error", title: "DISAPPROVED", text: "Reason: "+s.datalistgridEmployee[row].comment });
     }
 
      //************************************//

@@ -291,12 +291,20 @@
         .fc-scroller.fc-day-grid-container {
             height: 100% !important;
         }
+
+        /*div.pa_notification 
+        {
+            position:absolute !important;
+            background-color:orange !important;
+            padding:5px !important;
+            z-index:100;
+        }*/
     }
 
 
 </style>
 
-<script src="~/Angular/ng-cSSTravelOrderAppl.js?V=5"></script>
+<script src="~/Angular/ng-cSSTravelOrderAppl.js?V=6"></script>
 <section ng-app="ng_selfService_App" ng-controller="cSSTravelOrderAppl_Ctrl">
 
 
@@ -701,14 +709,14 @@
                                             </div>
                                             <hr style="margin-top:5px;margin-bottom:2px;border:0.5px solid cadetblue;padding:0px;" />
                                             <div class="row table-responsive">
-                                                <div class="col-12 table-responsive" style="padding-left:12px;padding-right:12px;padding-top:6px;">
+                                                <div class="col-12 table-responsive" style="padding-left:12px;padding-right:12px;padding-top:6px; ">
                                                     <table id="datalist_gridEmployee" class="table table-striped table-bordered table-hover table-responsive">
                                                         <thead>
                                                             <tr>
                                                                 <th width="15%">ID NBR</th>
-                                                                <th width="40%">EMPLOYEE NAME</th>
-                                                                <th width="30%">POSITION</th>
-                                                                <th width="15%">ACTION</th>
+                                                                <th width="30%">EMPLOYEE NAME</th>
+                                                                <th width="35%">POSITION</th>
+                                                                <th width="10%">ACTION</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>

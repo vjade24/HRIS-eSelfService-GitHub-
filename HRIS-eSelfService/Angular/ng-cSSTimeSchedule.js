@@ -1015,15 +1015,6 @@
     s.btn_save_click1 = function () {
         var temp_row1 = s.temp_row
 
-        //if (arr_datalist_grid2_data[s.temp_row].ts_code != "98") {
-        
-        //    console.log(temp_row1)
-        //    //alert("AWWW")
-        //    s.btn_del_row1_edit(temp_row1)
-        //}
-
-
-
         //
         if (ValidateFields3())
         {
@@ -1098,7 +1089,8 @@
                 
 
             
-                if (s.txtb_nbr_days == 0) {                                                                 // NO. OF DAYS IS EQUAL TO 0
+            if (s.txtb_nbr_days == 0)
+            {                                                                 // NO. OF DAYS IS EQUAL TO 0
                
                
                
@@ -1191,33 +1183,60 @@
 						
 						if (s.txtb_nbr_days >= 2) //FOR MORE THAN 2 DAYS SHIFT
 						{
-							for (var x = (s.temp_row + 1); x <= next_rows; x++) {
+                            for (var x = (s.temp_row + 1); x <= next_rows; x++)
+                            {
+                                
                             var data = [];
-                            if (x == next_rows) {
-                                data = {
-                                    approval_status: arr_datalist_grid2_data[last_rows-1].approval_status
-                                    , approval_status_descr: arr_datalist_grid2_data[last_rows-1].approval_status
-                                    , day_nbr: arr_datalist_grid2_data[last_rows-1].day_nbr
-                                    , day_of_week: arr_datalist_grid2_data[last_rows-1].day_of_week
-                                    , day_type: arr_datalist_grid2_data[last_rows-1].day_type
-                                    , dtr_date: arr_datalist_grid2_data[last_rows-1].dtr_date
-                                    , dtr_date_char: arr_datalist_grid2_data[last_rows-1].dtr_date_char
-                                    , empl_id: arr_datalist_grid2_data[last_rows-1].empl_id
-                                    , post_time_out_hrs: arr_datalist_grid2_data[last_rows-1].post_time_out_hrs
-                                    , pre_time_in_hrs: arr_datalist_grid2_data[last_rows-1].pre_time_in_hrs
-                                    , remarks_details: arr_datalist_grid2_data[last_rows-1].remarks_details
-                                    , ts_code: $('#ddl_time_sched option:selected').val()
-                                    , ts_day_equivalent: arr_datalist_grid2_data[last_rows-1].ts_day_equivalent
-                                    , ts_descr: arr_datalist_grid2_data[last_rows-1].ts_descr
-                                    , tse_ctrl_no: arr_datalist_grid2_data[last_rows-1].tse_ctrl_no
-                                    , tse_day_parent: arr_datalist_grid2_data[objIndex].day_nbr
-                                    , tse_in_am: arr_datalist_grid2_data[last_rows-1].tse_in_am
-                                    , tse_in_pm: arr_datalist_grid2_data[last_rows-1].tse_in_pm
-                                    , tse_month: arr_datalist_grid2_data[last_rows-1].tse_month
-                                    , tse_out_am: s.txtb_am_out
-                                    , tse_out_pm: s.txtb_pm_out
-                                    , tse_year: arr_datalist_grid2_data[last_rows-1].tse_year
-                                }
+                                if (x == next_rows)
+                                {
+                                //data = {
+                                //    approval_status: arr_datalist_grid2_data[last_rows-1].approval_status
+                                //    , approval_status_descr: arr_datalist_grid2_data[last_rows-1].approval_status
+                                //    , day_nbr: arr_datalist_grid2_data[x].day_nbr
+                                //    , day_of_week: arr_datalist_grid2_data[last_rows-1].day_of_week
+                                //    , day_type: arr_datalist_grid2_data[last_rows-1].day_type
+                                //    , dtr_date: arr_datalist_grid2_data[x].dtr_date
+                                //    , dtr_date_char: arr_datalist_grid2_data[last_rows-1].dtr_date_char
+                                //    , empl_id: arr_datalist_grid2_data[last_rows-1].empl_id
+                                //    , post_time_out_hrs: arr_datalist_grid2_data[last_rows-1].post_time_out_hrs
+                                //    , pre_time_in_hrs: arr_datalist_grid2_data[last_rows-1].pre_time_in_hrs
+                                //    , remarks_details: arr_datalist_grid2_data[last_rows-1].remarks_details
+                                //    , ts_code: $('#ddl_time_sched option:selected').val()
+                                //    , ts_day_equivalent: arr_datalist_grid2_data[last_rows-1].ts_day_equivalent
+                                //    , ts_descr: arr_datalist_grid2_data[last_rows-1].ts_descr
+                                //    , tse_ctrl_no: arr_datalist_grid2_data[last_rows-1].tse_ctrl_no
+                                //    , tse_day_parent: arr_datalist_grid2_data[objIndex].day_nbr
+                                //    , tse_in_am: arr_datalist_grid2_data[last_rows-1].tse_in_am
+                                //    , tse_in_pm: arr_datalist_grid2_data[last_rows-1].tse_in_pm
+                                //    , tse_month: arr_datalist_grid2_data[last_rows-1].tse_month
+                                //    , tse_out_am: s.txtb_am_out
+                                //    , tse_out_pm: s.txtb_pm_out
+                                //    , tse_year: arr_datalist_grid2_data[last_rows-1].tse_year
+                                //}
+                                    data = {
+                                        approval_status: arr_datalist_grid2_data[x].approval_status
+                                        , approval_status_descr: arr_datalist_grid2_data[x].approval_status
+                                        , day_nbr: arr_datalist_grid2_data[x].day_nbr
+                                        , day_of_week: arr_datalist_grid2_data[x].day_of_week
+                                        , day_type: arr_datalist_grid2_data[x].day_type
+                                        , dtr_date: arr_datalist_grid2_data[x].dtr_date
+                                        , dtr_date_char: arr_datalist_grid2_data[x].dtr_date_char
+                                        , empl_id: arr_datalist_grid2_data[x].empl_id
+                                        , post_time_out_hrs: arr_datalist_grid2_data[x].post_time_out_hrs
+                                        , pre_time_in_hrs: arr_datalist_grid2_data[x].pre_time_in_hrs
+                                        , remarks_details: arr_datalist_grid2_data[x].remarks_details
+                                        , ts_code: $('#ddl_time_sched option:selected').val()
+                                        , ts_day_equivalent: arr_datalist_grid2_data[x].ts_day_equivalent
+                                        , ts_descr: arr_datalist_grid2_data[x].ts_descr
+                                        , tse_ctrl_no: arr_datalist_grid2_data[x].tse_ctrl_no
+                                        , tse_day_parent: arr_datalist_grid2_data[objIndex].day_nbr
+                                        , tse_in_am: arr_datalist_grid2_data[x].tse_in_am
+                                        , tse_in_pm: arr_datalist_grid2_data[x].tse_in_pm
+                                        , tse_month: arr_datalist_grid2_data[x].tse_month
+                                        , tse_out_am: s.txtb_am_out
+                                        , tse_out_pm: s.txtb_pm_out
+                                        , tse_year: arr_datalist_grid2_data[x].tse_year
+                                    }
 								
                             }
                             else {
