@@ -37,7 +37,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
     s.number_check_to_action
     s.number_check_actined_apvd
     s.number_check_actined_dis
- 
+
 
     s.datalistgridCheck = []
     s.datalistgridCheckActioned = []
@@ -740,7 +740,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                         {
                             "mData": null,
                             "mRender": function (data, type, full, row) {
-                                return "<center><span class='details-control' style='display:block;' ng-click='btn_show_details_check(" + '"details_info"' + ")' ></center>"
+                                return "<center><span class='details-control ' style='display:block;' ng-click='btn_show_details_check(" + '"details_info"' + ")' ></center>"
                                 //return "<center><span class='details-control' style='display:block;'></center>"
                             }
                         },
@@ -780,7 +780,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
                                 //return '<input class="cb_check" style="width:30px; padding-top:0px;" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '><label for="checkbox' + row["row"] + '"></label>'
                                 //return '<input type="checkbox" ng-disabled="' + data + ' == 1 || check_action' + row["row"] + '== true" class="form-control cb_check" ng-model="checkbx' + row["row"] + '" ng-click="check_one(' + row["row"] + ')" ng-checked="' + data + ' == 1"/>'
-                                return '<center><input class="form-control cb_check" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
+                                return '<center><input class="form-control cb_check hver" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
 
                             }
                         },
@@ -816,7 +816,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
                                 //return '<input class="cb_check" style="width:30px; padding-top:0px;" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '><label for="checkbox' + row["row"] + '"></label>'
                                 //return '<input type="checkbox" ng-disabled="' + data + ' == 1 || check_action' + row["row"] + '== true" class="form-control cb_check" ng-model="checkbx' + row["row"] + '" ng-click="check_one(' + row["row"] + ')" ng-checked="' + data + ' == 1"/>'
-                                return '<center><input class="form-control cb_check" id="checkbox_dis' + row["row"] + '" ng-click="btn_check_action_dis(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
+                                return '<center><input class="form-control cb_check hver" id="checkbox_dis' + row["row"] + '" ng-click="btn_check_action_dis(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
 
                             }
                         },
@@ -825,7 +825,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 0,
                             "mData": "travel_order_no",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                                return "<span class='text-center btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -833,7 +833,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "employee_name",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                return "<span class='text-left btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -841,7 +841,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "department_short_name",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                return "<span class='text-left btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -849,7 +849,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "travel_place_visit",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left'>" + data + "</span>"
+                                return "<span class='text-left hver'>" + data + "</span>"
                             }
                         },
 
@@ -858,7 +858,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "travel_datefiled_original",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block badge badge-success'>" + data + "</span>"
+                                return "<span class='text-center btn-block badge badge-success hver'>" + data + "</span>"
                             }
                         },
 
@@ -867,7 +867,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "dtr_date",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left badge badge-success' style='white-space:normal !important;'>" + data + "</span>"
+                                return "<span class='text-left badge badge-success hver' style='white-space:normal !important;'>" + data + "</span>"
                                 //return "<span class='text-center btn-block badge badge-success'>" + data + "</span>"
                             }
                         },
@@ -2530,6 +2530,59 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
         }
     }
 
+
+    s.getActionedList = function () {
+       
+
+        
+            $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
+            var datefrom = $("#actioned_date_from").val()
+            var dateto = $("#actioned_date_to").val()
+
+            h.post("../cATSTOAppr/sp_travel_order_pa_checklist_tbl_2",
+                {
+                      period_from: datefrom
+                    , period_to: dateto
+                }).then(function (d) {
+                    if (d.data.message == "success") {
+
+                        var checked_data = d.data.sp_travel_order_daily_pa_rep_actioned
+                       
+                        if (d.data.sp_travel_order_daily_pa_rep_actioned.length > 0) {
+                            s.datalistgridCheckActioned = checked_data
+
+                            s.number_check_actined_apvd = s.datalistgridCheckActioned.filter(function (d) {
+                                return d.approved_status == "Y"
+                            }).length
+
+                            s.number_check_actined_dis = s.datalistgridCheckActioned.filter(function (d) {
+                                return d.approved_status == "D"
+                            }).length
+
+                            s.oTableCheck_dtl_actioned.fnClearTable();
+                            s.oTableCheck_dtl_actioned.fnAddData(s.datalistgridCheckActioned)
+                        }
+
+                        else {
+                            s.datalistgridCheckActioned = []
+                            s.oTableCheck_dtl_actioned.fnClearTable();
+                        }
+                        $('#modal_generating_remittance').modal("hide");
+                        $("#TO_check_modal_actioned").modal({ keyboard: false, backdrop: "static" })
+                    }
+
+                    else {
+                        s.datalistgridCheckActioned = []
+                        s.oTableCheck_dtl_actioned.fnClearTable();
+                        $('#modal_generating_remittance').modal("hide");
+                        swal({ icon: "warning", title: d.data.message });
+                       
+                    }
+                });
+
+        
+    }
+
     s.btn_approve_click = function () {
 
         //if (
@@ -2820,24 +2873,24 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
     }
 
-    //$('#datalist_grid_check tbody').on('click', 'span.details-control', function () {
-    //    var tr = $(this).closest('tr');
-    //    var row = $('#datalist_grid_check').DataTable().row(tr);
+    $('#datalist_grid_check tbody').on('click', 'span.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = $('#datalist_grid_check').DataTable().row(tr);
 
-    //    if (row.child.isShown()) {
-    //        // This row is already open - close it
-    //        row.child.hide();
-    //        tr.removeClass('shown');
-    //    }
-    //    else {
-    //        //console.log(row.data())
-    //        // Open this row
-    //        row.child(format_check(row.data())).show();
-    //        tr.addClass('shown');
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            //console.log(row.data())
+            // Open this row
+            row.child(format_check(row.data())).show();
+            tr.addClass('shown');
 
-    //    }
+        }
 
-    //});
+    });
 
     //$('#datalist_grid_check tbody').on('hover', 'span.details-control', function () {
     //    var tr = $(this).closest('tr');
@@ -2898,6 +2951,10 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
         }
 
     });
+
+
+
+
 
     //-----------------UPDATE BY JADE -------------------------------------------------------------
 
@@ -3645,7 +3702,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                     s.datalistgridCheck = d.data.sp_travel_order_daily_pa_rep
 
                     s.number_check_to_action = s.datalistgridCheck.length
-                  
+
                     s.oTableCheck_dtl.fnClearTable();
                     s.oTableCheck_dtl.fnAddData(s.datalistgridCheck)
                 }
@@ -3676,7 +3733,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
     s.btn_data_checklist_actioned = function () {
         $('#modal_generating_remittance').modal({ backdrop: 'static', keyboard: false });
         $("#TO_print_par").modal("hide");
-     
+
 
         //DIRI
         var parameters = "par_period_from," + $("#dd_travel_date_from_rep").val() + ",par_period_to," + $("#dd_travel_date_to_rep").val() + ",par_dept_code," + $("#ddl_dept_rep").val() + ",par_type," + s.par_report_type + ",par_user_id," + account_user_id + ",par_start_time," + $("#txtb_start_time").val() + ",par_end_time," + $("#txtb_end_time").val()
@@ -3696,8 +3753,8 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                 console.log(checked_data)
                 if (d.data.sp_travel_order_daily_pa_rep_actioned.length > 0) {
                     s.datalistgridCheckActioned = checked_data
-                   
-                    
+
+
                     s.number_check_actined_apvd = s.datalistgridCheckActioned.filter(function (d) {
                         return d.approved_status == "Y"
                     }).length
@@ -3846,22 +3903,21 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
     }
 
-    //s.btn_check_action_dis = function (id) {
 
-    //    $('#checkbox' + id).prop('checked', false);
 
-    //    h.post("../cATSTOAppr/SaveDetailsDisapproved", {
-    //        //par_action: s.datalistgrid2[id].included
-    //        par_empl_id: s.datalistgridCheck[id].empl_id
-    //        , par_to_nbr: s.datalistgridCheck[id].travel_order_no
-    //    }).then(function (d) {
-    //        if (d.data.message != "success") {
 
-    //            swal({ icon: "warning", title: d.data.message });
-    //        }
+    s.btn_click_generate_checklist = function () {
+         h.post("../cATSTOAppr/Generate_Checklist", {
+             period_from: ""
+             , period_to: ""
+        }).then(function (d) {
+                swal({ icon:d.data.icon, title: d.data.message });
+        })
+    }
 
-    //    })
-    //}
+
+
+
 
     s.btn_check_action_dis = function (id, checked) {
         s.checklist_row_id = id
@@ -4262,30 +4318,44 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
     }
 
 
-    $('#datalist_grid_check').on('mouseover', 'tr', function () {
-        var tr = $(this);
+
+
+
+
+
+    $('#datalist_grid_check').on('mouseover', '.hver', function () {
+
+        var tr = $(this).closest('tr');
         var row = $('#datalist_grid_check').DataTable().row(tr);
 
         row.child(format_check(row.data())).show();
         tr.addClass('shown');
-    }).on('mouseout', 'tr', function () {
-        var tr = $(this);
+
+
+    }).on('mouseout', '.hver', function () {
+
+        var tr = $(this).closest('tr');
         var row = $('#datalist_grid_check').DataTable().row(tr);
         row.child.hide();
         tr.removeClass('shown');
+
     });
 
-    $('#datalist_grid_check_actioned').on('mouseover', 'tr', function () {
-        var tr = $(this);
-        var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
+    $('#datalist_grid_check_actioned').on('mouseover', '.hver', function () {
 
+        var tr = $(this).closest('tr');
+        var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
         row.child(format_check(row.data())).show();
         tr.addClass('shown');
-    }).on('mouseout', 'tr', function () {
-        var tr = $(this);
+
+
+    }).on('mouseout', '.hver', function () {
+
+        var tr = $(this).closest('tr');
         var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
         row.child.hide();
         tr.removeClass('shown');
+
     });
 
 

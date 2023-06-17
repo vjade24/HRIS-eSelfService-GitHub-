@@ -706,37 +706,64 @@ namespace HRIS_eSelfService.Controllers
             ,string par_end_time
             )
             {
-                try
+               
+            try
                 {
+                db_ats.Database.CommandTimeout = int.MaxValue;
+                var user_id = Session["user_id"].ToString();
+                var pa_access_type = 0;
+                var pa_read_auth = false;
+                var pa_write_auth = false;
+
+                var toapr = db_ats.to_final_approver_tbl.Where(a => a.user_id == user_id).FirstOrDefault();
+                if (toapr != null)
+                {
+                    pa_access_type = (int)toapr.access_type;
+                    pa_read_auth = (bool)toapr.read_auth;
+                    pa_write_auth = (bool)toapr.write_auth;
+                }
+
+                if(pa_access_type == 2)
+                {
+
+                    var sp_travel_order_daily_pa_rep = db_ats.sp_travel_order_pa_checklist_tbl_1(par_period_from, par_period_to, par_dept_code, par_type, user_id).ToList();
+                    return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+
                     DateTime par_period_from_rep = new DateTime();
                     DateTime par_period_to_rep = new DateTime();
 
-                    if (par_period_from == "") {
-                     par_period_from = "1900-01-01";
+                    if (par_period_from == "")
+                    {
+                        par_period_from = "1900-01-01";
                     }
 
                     if (par_period_to == "")
                     {
-                           par_period_to = "1900-01-01";
+                        par_period_to = "1900-01-01";
                     }
 
                     if (par_period_from == "1900-01-01" || par_period_to == "1900-01-01")
                     {
 
                         par_period_from_rep = DateTime.Now;
-                        par_period_to_rep   = DateTime.Now;
+                        par_period_to_rep = DateTime.Now;
                     }
 
-                    else {
+                    else
+                    {
                         par_period_from_rep = Convert.ToDateTime(par_period_from);
                         par_period_to_rep = Convert.ToDateTime(par_period_to);
                     }
 
-                   
-                
-                    db_ats.Database.CommandTimeout = int.MaxValue;
                     var sp_travel_order_daily_pa_rep = db_ats.sp_travel_order_daily_pa_rep(par_period_from_rep, par_period_to_rep, par_dept_code, par_type, par_user_id, par_start_time, par_end_time).ToList();
                     return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep }, JsonRequestBehavior.AllowGet);
+                }
+                
+                
+                  
                 }
                 catch (Exception e)
                 {
@@ -752,42 +779,15 @@ namespace HRIS_eSelfService.Controllers
             , string par_dept_code
             , string par_type
             , string par_user_id
-            , string par_start_time
-            , string par_end_time
             )
         {
             try
             {
-                DateTime par_period_from_rep = new DateTime();
-                DateTime par_period_to_rep = new DateTime();
-
-                if (par_period_from == "")
-                {
-                    par_period_from = "1900-01-01";
-                }
-
-                if (par_period_to == "")
-                {
-                    par_period_to = "1900-01-01";
-                }
-
-                if (par_period_from == "1900-01-01" || par_period_to == "1900-01-01")
-                {
-
-                    par_period_from_rep = DateTime.Now;
-                    par_period_to_rep = DateTime.Now;
-                }
-
-                else
-                {
-                    par_period_from_rep = Convert.ToDateTime(par_period_from);
-                    par_period_to_rep = Convert.ToDateTime(par_period_to);
-                }
-
-
 
                 db_ats.Database.CommandTimeout = int.MaxValue;
-                var sp_travel_order_daily_pa_rep_actioned = db_ats.sp_travel_order_daily_pa_rep_actioned(par_period_from_rep, par_period_to_rep, par_dept_code, par_type, par_user_id, par_start_time, par_end_time).ToList();
+                var user_id = Session["user_id"].ToString();
+
+                var sp_travel_order_daily_pa_rep_actioned = db_ats.sp_travel_order_pa_checklist_tbl_2(par_period_from, par_period_to, par_dept_code, par_type, user_id).ToList();
                 return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep_actioned }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -967,7 +967,7 @@ namespace HRIS_eSelfService.Controllers
 
         //*********************************************************************//
         // Created By   : Marvin Olita
-        // Created Date : 10/03/2022
+        // Created Date : 06/05/2023
         // Description  : Disapproved Comment
         //*********************************************************************//
         public ActionResult CheckCommentDisapproved(string par_empl_id, string par_to_nbr)
@@ -1009,8 +1009,71 @@ namespace HRIS_eSelfService.Controllers
         }
 
 
+        //*********************************************************************//
+        // Created By   : Marvin Olita
+        // Created Date : 06/14/2023
+        // Description  : Generate Checklist
+        //*********************************************************************//
+
+
+        public ActionResult Generate_Checklist(string period_from, string period_to)
+        {
+            var user_id = Session["user_id"].ToString();
+            var datenow = DateTime.Now.ToString();
+
+            try
+            {
+                var query_msg = db_ats.sp_generate_travel_order_daily_pa_rep("","","","", user_id).FirstOrDefault();
+
+                if(query_msg.success_status == 1)
+                {
+                    return JSON(new { message = query_msg.query_msg, icon = "success" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    throw new Exception(query_msg.query_msg);
+                }
+                   
+                
+
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+
+        //*********************************************************************//
+        // Created By   : Marvin Olita
+        // Created Date : 06/14/2023
+        // Description  : Generate Checklist
+        //*********************************************************************//
+
+
+        public ActionResult sp_travel_order_pa_checklist_tbl_2(string period_from, string period_to)
+        {
+            var user_id = Session["user_id"].ToString();
+            var datenow = DateTime.Now.ToString();
+
+
+            try
+            {
+
+                db_ats.Database.CommandTimeout = int.MaxValue;
+               
+                var sp_travel_order_daily_pa_rep_actioned = db_ats.sp_travel_order_pa_checklist_tbl_2(period_from, period_to, "", "", user_id).ToList();
+                return JSON(new { message = "success", icon = "success", sp_travel_order_daily_pa_rep_actioned }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 
-    
+
 }
