@@ -4190,6 +4190,12 @@
       <DependentUpon>crySalaryDiff_NOCAFOA.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryCTONew\cryCTONew.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryCTONew.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryCTO\cryCTO.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -6200,6 +6206,10 @@
     <Content Include="Reports\cryForceLeave\cryForceLeaveAnnualSched_OLD.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryForceLeaveAnnualSched_OLD1.cs</LastGenOutput>
+    </Content>
+    <Content Include="Reports\cryCTONew\cryCTONew.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryCTONew.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Reports\cryJobOrderReports\cryPaySlip\cryPaySlip.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

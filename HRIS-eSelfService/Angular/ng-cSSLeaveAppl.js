@@ -780,6 +780,14 @@
             return_val = false;
         }
 
+        if (s.ddl_leave_type == "MZ")
+        {
+            swal("YOU CANNOT APPLY MONETIZATION LEAVE ON HRIS - SELF-SERVICE AT THIS TIME!", "Please contact PHRMDO (Payroll and Benefit Division) for more information.", { icon: "warning" });
+            //$('#id_datebrk').click();
+            s.ddl_leave_type = ""
+            return_val = false;
+        }
+
         try
         {
             var ss_date = ""
@@ -2929,7 +2937,8 @@
 
         if (s.datalistgrid3[par_row_id].leave_type_code == "CTO")
         {
-            ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
+            //ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
+            ReportPath = "~/Reports/cryCTONew/cryCTONew.rpt";
             sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id + ",par_view_mode," + "01"; // View Mode - Self-Service Viewing of Balance
         }
         else
