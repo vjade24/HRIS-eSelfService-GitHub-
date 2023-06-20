@@ -860,9 +860,6 @@
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\lv_ledger_history_tbl.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\MachineInfo.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\menus_tbl.cs">

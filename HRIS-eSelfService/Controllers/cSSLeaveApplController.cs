@@ -653,7 +653,7 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS" || data.leave_type_code == "SL") // Special Leave and Solo Parent, Sick Leave
+                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS") // Special Leave and Solo Parent, Sick Leave
                     {
                         var leave_descr = "";
                         if (data.leave_type_code == "SP")
@@ -668,11 +668,7 @@ namespace HRIS_eSelfService.Controllers
                         {
                             leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
                         }
-                        else if (data.leave_type_code == "SL")
-                        {
-                            leave_descr = "Sick Leave";
-                        }
-
+                        
                         var ctr = 5;
 
                         System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
@@ -702,16 +698,26 @@ namespace HRIS_eSelfService.Controllers
                         }
 
                         if (data.leave_subtype_code == "PO" || // Special Leave - Parental Obligation
-                            data.leave_subtype_code == "PT" || // Special Leave - Personal Transaction
-                            data.leave_type_code    == "SL"  ) // Sick Leave
+                            data.leave_subtype_code == "PT"    // Special Leave - Personal Transaction
+                            ) 
                         {
-                            var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
-                            if ((date_applied_5_working_days > leave_date_from || date_applied_5_working_days > leave_date_to) && p_action_mode == "SUBMIT" && data.justification_flag == false) 
+                            var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
+                            if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false) 
                             {
                                 message         = "5_adv_validation";
                                 message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
-                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
+                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for " + leave_descr;
                             }
+                        }
+                    }
+                    if (data.leave_type_code  == "SL")
+                    {
+                        var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
+                        if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                        {
+                            message         = "5_adv_validation";
+                            message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
+                            message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
                         }
                     }
                 }
@@ -836,7 +842,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Save/Submit Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno,data.empl_id , appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -850,7 +856,7 @@ namespace HRIS_eSelfService.Controllers
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
                     appl_status = "Auto Reviewed";
-                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
@@ -868,7 +874,7 @@ namespace HRIS_eSelfService.Controllers
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
                     appl_status = trans_ref2[0].auto_remarks;
-                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
@@ -1043,7 +1049,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Submit Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1132,7 +1138,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Re-Submit Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1173,7 +1179,7 @@ namespace HRIS_eSelfService.Controllers
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
                     var appl_status = "Delete Leave Application";
-                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                    db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                     // *************************************************************
@@ -1284,7 +1290,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Cancelled Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1399,7 +1405,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Cancel Pending Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1700,7 +1706,7 @@ namespace HRIS_eSelfService.Controllers
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
                 var appl_status = "Cancelled Leave Application";
-                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db_ats.sp_lv_ledger_history_insert("", data.leave_ctrlno, data.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************
@@ -1718,6 +1724,8 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
+                data.created_dttm   = DateTime.Now;
+                data.created_by     = Session["user_id"].ToString();
                 db_ats.leave_application_hdr_justi_tbl.Add(data);
                 db_ats.SaveChangesAsync();
                 return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
@@ -1742,11 +1750,11 @@ namespace HRIS_eSelfService.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
-        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno)
+        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno, string empl_id)
         {
             try
             {
-                var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno).OrderByDescending(a=>a.created_dttm).ToList();
+                var data = db_ats.func_lv_ledger_history_notif(leave_ctrlno, empl_id).OrderByDescending(a=>a.created_dttm).ToList();
                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

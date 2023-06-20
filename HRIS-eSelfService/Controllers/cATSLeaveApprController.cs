@@ -187,7 +187,7 @@ namespace HRIS_eSelfService.Controllers
                 {
                     appl_status = data.details_remarks;
                 }
-                db.sp_lv_ledger_history_insert("", data.leave_ctrlno, appl_status, data.details_remarks, Session["user_id"].ToString());
+                db.sp_lv_ledger_history_insert("", data.leave_ctrlno, query.empl_id, appl_status, data.details_remarks, Session["user_id"].ToString());
                 // *************************************************************
                 // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
                 // *************************************************************

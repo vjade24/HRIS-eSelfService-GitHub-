@@ -624,18 +624,6 @@
           <Property Name="lwop_body_1" Type="varchar(max)" />
           <Property Name="lwop_body_2" Type="varchar(max)" />
         </EntityType>
-        <EntityType Name="lv_ledger_history_tbl">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" />
-          <Property Name="leave_ctrlno" Type="varchar" MaxLength="10" />
-          <Property Name="appl_status" Type="varchar" MaxLength="50" />
-          <Property Name="appl_remarks" Type="varchar" MaxLength="255" />
-          <Property Name="created_dttm" Type="datetime" />
-          <Property Name="created_by" Type="varchar" MaxLength="20" />
-        </EntityType>
         <EntityType Name="monthly_working_hrs_tbl">
           <Key>
             <PropertyRef Name="work_hrs_year" />
@@ -1352,6 +1340,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
         </Function>
         <Function Name="func_lv_ledger_history_notif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <ReturnType>
             <CollectionType>
               <RowType>
@@ -1910,6 +1899,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
         <Function Name="sp_lv_ledger_history_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_ledger_ctrl_no" Type="varchar" Mode="In" />
           <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="p_appl_status" Type="varchar" Mode="In" />
           <Parameter Name="p_appl_remarks" Type="varchar" Mode="In" />
           <Parameter Name="p_created_by" Type="varchar" Mode="In" />
@@ -2172,7 +2162,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySet Name="leavetype_oth_info_tbl" EntityType="Self.leavetype_oth_info_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leavetype_tbl" EntityType="Self.leavetype_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="lv_ledger_hdr_tbl" EntityType="Self.lv_ledger_hdr_tbl" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="lv_ledger_history_tbl" EntityType="Self.lv_ledger_history_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="monthly_working_hrs_tbl" EntityType="Self.monthly_working_hrs_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ot_request_dates_dtl_tbl" EntityType="Self.ot_request_dates_dtl_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ot_request_empl_dtl_tbl" EntityType="Self.ot_request_empl_dtl_tbl" Schema="dbo" store:Type="Tables" />
@@ -3614,17 +3603,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="HRIS_ATSModel.leave_application_hdr_justi_tbl" />
-          <EntitySet Name="lv_ledger_history_tbl" EntityType="HRIS_ATSModel.lv_ledger_history_tbl" />
-          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
-          <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_lv_ledger_history_insert">
-            <Parameter Name="p_ledger_ctrl_no" Mode="In" Type="String" />
-            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
-            <Parameter Name="p_appl_status" Mode="In" Type="String" />
-            <Parameter Name="p_appl_remarks" Mode="In" Type="String" />
-            <Parameter Name="p_created_by" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_leave_application_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_tbl_list_Result)">
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_appr_status" Mode="In" Type="String" />
@@ -3636,6 +3614,18 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_log_in_as_AO" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_lv_ledger_history_insert">
+            <Parameter Name="p_ledger_ctrl_no" Mode="In" Type="String" />
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_appl_status" Mode="In" Type="String" />
+            <Parameter Name="p_appl_remarks" Mode="In" Type="String" />
+            <Parameter Name="p_created_by" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -6895,28 +6885,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Name="updated_dttm" Type="DateTime" Precision="3" />
           <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="lv_ledger_history_tbl">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="leave_ctrlno" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="appl_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="appl_remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="created_by" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <ComplexType Name="func_lv_ledger_history_notif_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
-          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
-        </ComplexType>
         <ComplexType Name="sp_leave_application_tbl_list_Result">
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="leave_date_from" Nullable="true" MaxLength="36" />
@@ -6986,6 +6954,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="func_lv_ledger_history_notif_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
+          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -10901,34 +10879,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="lv_ledger_history_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_history_tbl">
-              <MappingFragment StoreEntitySet="lv_ledger_history_tbl">
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
-                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
-                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
-                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_lv_ledger_history_insert" FunctionName="HRIS_ATSModel.Store.sp_lv_ledger_history_insert" />
           <FunctionImportMapping FunctionImportName="sp_leave_application_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_tbl_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_tbl_list_Result">
@@ -11004,6 +10954,21 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
                 <ScalarProperty Name="appl_status" ColumnName="appl_status" />
                 <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_lv_ledger_history_insert" FunctionName="HRIS_ATSModel.Store.sp_lv_ledger_history_insert" />
+          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
+                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

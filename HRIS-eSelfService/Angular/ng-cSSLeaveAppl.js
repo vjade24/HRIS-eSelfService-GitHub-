@@ -1045,7 +1045,8 @@
         try
         {
             s.show_cancel_button = false;
-
+            s.div_justi_msg         = false;
+            justi_flag.checked      = false;
             $('#modal_loading').modal({ backdrop: 'static', keyboard: false });
             s.day_num_day_total_func();
             clearentry();
@@ -1198,7 +1199,8 @@
             s.temp_approval_status  = "N";
             btn                     = document.getElementById('submit');
             btn.innerHTML           = '<i class="fa fa-paper-plane-o"></i> Submit';
-
+            s.div_justi_msg         = false;
+            justi_flag.checked      = false;
             s.dis_edit              = false;
             s.dis_submit            = false;
             s.dis_plan_date         = false;
@@ -2322,7 +2324,7 @@
             {
                 s.ModalTitle = "Edit Existing Record";
             }
-            console.log(s.datalistgrid3[row_id])
+
             if ((s.datalistgrid3[row_id].approval_status == "F"
                 &&
                 (s.datalistgrid3[row_id].posting_status == true ))
@@ -2362,8 +2364,7 @@
             {
                 s.show_refresh_bal = true;
             }
-
-           
+            
             s.temp_row_id           = row_id;
             s.temp_leave_ctrlno     = s.datalistgrid3[row_id].leave_ctrlno;
             s.temp_approval_id      = s.datalistgrid3[row_id].approval_id;
@@ -2401,6 +2402,14 @@
                 $("#x0").closest('div').removeClass('checked');
                 $("#x1").closest('div').removeClass('checked');
                 $("#x0").closest('div').addClass('checked');
+            }
+
+            s.div_justi_msg = false
+            justi_flag.checked = false
+            if (s.datalistgrid3[row_id].justification_flag == true)
+            {
+                justi_flag.checked =true
+                s.div_justi_msg = true
             }
 
             //s.Populate_ApprovalHistory(s.datalistgrid3[row_id].leave_ctrlno);
@@ -2588,6 +2597,14 @@
             s.range_end             = s.datalistgrid[row_id].date_to;
             s.txtb_date_bal_asof    = s.datalistgrid[row_id].leaveledger_date;
             s.txtb_current_bal = s.datalistgrid[row_id].leaveledger_balance_as_of_oth;
+
+            s.div_justi_msg = false
+            justi_flag.checked = false
+            if (s.datalistgrid[row_id].justification_flag == true)
+            {
+                justi_flag.checked = true
+                s.div_justi_msg = true
+            }
 
             //s.Populate_ApprovalHistory(s.datalistgrid[row_id].leave_ctrlno);
 
@@ -4235,7 +4252,7 @@
                     $('#summernote_justification').summernote();
                     var myHtml = $('.note-editable')
                     myHtml.html("")
-                    myHtml.prepend("<p>May 4, 2023</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of Sick Leave applied for April 3, 2023. I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>VINCENT JADE H. ALIVIO<br>Computer Programmer</p><p><br></p><p>Noted:<br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head</p>")
+                    myHtml.prepend("<p>May 4, 2023</p><p><br>________________________________________<br>PG Department Head<br>(Office)</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of (Leave Type) applied for (Date Applied). I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>________________________________________<br>(Position)</p><p><br></p><p>Noted:<br>________________________________________<br>PG Department Head</p>")
                 }
                 else
                 {
@@ -4298,7 +4315,7 @@
         $('#view_details_history').removeClass()
         $('#view_details_history').addClass('fa fa-spinner fa-spin')
         s.data_history = [];
-        h.post("../cSSLeaveAppl/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr}).then(function (d)
+        h.post("../cSSLeaveAppl/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
         {
             if (d.data.message == "success")
             {
