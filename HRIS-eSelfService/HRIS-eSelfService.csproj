@@ -4310,10 +4310,16 @@
     <Compile Include="Reports\cryJobOrderReports\crySalary\crySalaryMonthly_NOCAFOA.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation1.cs">
+    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
+      <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Reports\cryLeavePermission\cryLeaveCancellationx.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
+      <DependentUpon>cryLeaveCancellationx.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryPayrollSubReport\cryPayrollFooter_A_F.cs">
@@ -6620,9 +6626,13 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryTravelOrderDisApprovedReport.cs</LastGenOutput>
     </Content>
+    <Content Include="Reports\cryLeavePermission\cryLeaveCancellationx.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveCancellationx.cs</LastGenOutput>
+    </Content>
     <Content Include="Reports\cryLeavePermission\cryLeaveCancellation.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryLeaveCancellation1.cs</LastGenOutput>
+      <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
     <EmbeddedResource Include="Reports\jSonReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
