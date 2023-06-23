@@ -3898,19 +3898,19 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                 }
             })
         }
-
-
-
     }
 
 
 
 
     s.btn_click_generate_checklist = function () {
+        $("#modal_generating_remittance").modal("show")
+
          h.post("../cATSTOAppr/Generate_Checklist", {
              period_from: ""
              , period_to: ""
-        }).then(function (d) {
+         }).then(function (d) {
+                $("#modal_generating_remittance").modal("hide")
                 swal({ icon:d.data.icon, title: d.data.message });
         })
     }
