@@ -2119,6 +2119,9 @@
     <Compile Include="Models\sp_generate_qtr_appointment_jo_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_generate_travel_order_daily_pa_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_generate_vacant_to_publish_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -3614,6 +3617,12 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_travel_order_disapprove_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_pa_checklist_tbl_1_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_pa_checklist_tbl_2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_tse_empl_addedit_tbl_Result.cs">
