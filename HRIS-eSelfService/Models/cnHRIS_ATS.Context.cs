@@ -3214,31 +3214,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<func_lv_ledger_history_notif_Result>("[HRIS_ATSEntities].[func_lv_ledger_history_notif](@p_leave_ctrlno, @p_empl_id)", p_leave_ctrlnoParameter, p_empl_idParameter);
         }
     
-        public virtual ObjectResult<sp_generate_travel_order_daily_pa_rep_Result> sp_generate_travel_order_daily_pa_rep(string par_period_from, string par_period_to, string par_dept_code, string par_type, string par_user_id)
-        {
-            var par_period_fromParameter = par_period_from != null ?
-                new ObjectParameter("par_period_from", par_period_from) :
-                new ObjectParameter("par_period_from", typeof(string));
-    
-            var par_period_toParameter = par_period_to != null ?
-                new ObjectParameter("par_period_to", par_period_to) :
-                new ObjectParameter("par_period_to", typeof(string));
-    
-            var par_dept_codeParameter = par_dept_code != null ?
-                new ObjectParameter("par_dept_code", par_dept_code) :
-                new ObjectParameter("par_dept_code", typeof(string));
-    
-            var par_typeParameter = par_type != null ?
-                new ObjectParameter("par_type", par_type) :
-                new ObjectParameter("par_type", typeof(string));
-    
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_travel_order_daily_pa_rep_Result>("sp_generate_travel_order_daily_pa_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter);
-        }
-    
         public virtual ObjectResult<sp_travel_order_pa_checklist_tbl_1_Result> sp_travel_order_pa_checklist_tbl_1(string par_period_from, string par_period_to, string par_dept_code, string par_type, string par_user_id)
         {
             var par_period_fromParameter = par_period_from != null ?
@@ -3287,6 +3262,69 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travel_order_pa_checklist_tbl_2_Result>("sp_travel_order_pa_checklist_tbl_2", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<bool>> sp_travel_order_reviewapproved1(string p_travel_order_no, string p_approval_status, string p_travel_details, string p_user_id)
+        {
+            var p_travel_order_noParameter = p_travel_order_no != null ?
+                new ObjectParameter("p_travel_order_no", p_travel_order_no) :
+                new ObjectParameter("p_travel_order_no", typeof(string));
+    
+            var p_approval_statusParameter = p_approval_status != null ?
+                new ObjectParameter("p_approval_status", p_approval_status) :
+                new ObjectParameter("p_approval_status", typeof(string));
+    
+            var p_travel_detailsParameter = p_travel_details != null ?
+                new ObjectParameter("p_travel_details", p_travel_details) :
+                new ObjectParameter("p_travel_details", typeof(string));
+    
+            var p_user_idParameter = p_user_id != null ?
+                new ObjectParameter("p_user_id", p_user_id) :
+                new ObjectParameter("p_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<bool>>("sp_travel_order_reviewapproved1", p_travel_order_noParameter, p_approval_statusParameter, p_travel_detailsParameter, p_user_idParameter);
+        }
+    
+        public virtual int sp_update_pa_checklist(string par_travel_order_no, string par_approval_id, string par_empl_id)
+        {
+            var par_travel_order_noParameter = par_travel_order_no != null ?
+                new ObjectParameter("par_travel_order_no", par_travel_order_no) :
+                new ObjectParameter("par_travel_order_no", typeof(string));
+    
+            var par_approval_idParameter = par_approval_id != null ?
+                new ObjectParameter("par_approval_id", par_approval_id) :
+                new ObjectParameter("par_approval_id", typeof(string));
+    
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_update_pa_checklist", par_travel_order_noParameter, par_approval_idParameter, par_empl_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_generate_travel_order_daily_pa_rep_Result> sp_generate_travel_order_daily_pa_rep(string par_period_from, string par_period_to, string par_dept_code, string par_type, string par_user_id)
+        {
+            var par_period_fromParameter = par_period_from != null ?
+                new ObjectParameter("par_period_from", par_period_from) :
+                new ObjectParameter("par_period_from", typeof(string));
+    
+            var par_period_toParameter = par_period_to != null ?
+                new ObjectParameter("par_period_to", par_period_to) :
+                new ObjectParameter("par_period_to", typeof(string));
+    
+            var par_dept_codeParameter = par_dept_code != null ?
+                new ObjectParameter("par_dept_code", par_dept_code) :
+                new ObjectParameter("par_dept_code", typeof(string));
+    
+            var par_typeParameter = par_type != null ?
+                new ObjectParameter("par_type", par_type) :
+                new ObjectParameter("par_type", typeof(string));
+    
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_generate_travel_order_daily_pa_rep_Result>("sp_generate_travel_order_daily_pa_rep", par_period_fromParameter, par_period_toParameter, par_dept_codeParameter, par_typeParameter, par_user_idParameter);
         }
     }
 }

@@ -899,7 +899,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                         {
                             "mData": null,
                             "mRender": function (data, type, full, row) {
-                                return "<center><span class='details-control' style='display:block;' ng-click='btn_show_details_check(" + '"details_info"' + ")' ></center>"
+                                return "<center><span class='details-control hver' style='display:block;' ng-click='btn_show_details_check(" + '"details_info"' + ")' ></center>"
                             }
                         },
 
@@ -938,7 +938,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
                                 //return '<input class="cb_check" style="width:30px; padding-top:0px;" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '><label for="checkbox' + row["row"] + '"></label>'
                                 //return '<input type="checkbox" ng-disabled="' + data + ' == 1 || check_action' + row["row"] + '== true" class="form-control cb_check" ng-model="checkbx' + row["row"] + '" ng-click="check_one(' + row["row"] + ')" ng-checked="' + data + ' == 1"/>'
-                                return '<center><input class="form-control cb_check" id="checkbox_2' + row["row"] + '" ng-click="btn_check_action_2(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
+                                return '<center><input class="form-control cb_check hver" id="checkbox_2' + row["row"] + '" ng-click="btn_check_action_2(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
 
                             }
                         },
@@ -974,7 +974,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
                                 //return '<input class="cb_check" style="width:30px; padding-top:0px;" id="checkbox' + row["row"] + '" ng-click="btn_check_action(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '><label for="checkbox' + row["row"] + '"></label>'
                                 //return '<input type="checkbox" ng-disabled="' + data + ' == 1 || check_action' + row["row"] + '== true" class="form-control cb_check" ng-model="checkbx' + row["row"] + '" ng-click="check_one(' + row["row"] + ')" ng-checked="' + data + ' == 1"/>'
-                                return '<center><input class="form-control cb_check" id="checkbox_dis_2' + row["row"] + '" ng-click="btn_check_action_dis_2(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
+                                return '<center><input class="form-control cb_check hver" id="checkbox_dis_2' + row["row"] + '" ng-click="btn_check_action_dis_2(' + row["row"] + ')" type="checkbox"' + checked + ' ' + isdisabled + '/></center>'
 
                             }
                         },
@@ -983,7 +983,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 0,
                             "mData": "travel_order_no",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block'>" + data + "</span>"
+                                return "<span class='text-center btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -991,7 +991,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "employee_name",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                return "<span class='text-left btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -999,7 +999,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "department_short_name",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left btn-block'>" + data + "</span>"
+                                return "<span class='text-left btn-block hver'>" + data + "</span>"
                             }
                         },
                         {
@@ -1007,7 +1007,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "travel_place_visit",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left'>" + data + "</span>"
+                                return "<span class='text-left hver'>" + data + "</span>"
                             }
                         },
 
@@ -1016,7 +1016,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "travel_datefiled_original",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-center btn-block badge badge-success'>" + data + "</span>"
+                                return "<span class='text-center btn-block badge badge-success hver'>" + data + "</span>"
                             }
                         },
 
@@ -1025,7 +1025,7 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                             "targets": 1,
                             "mData": "dtr_date",
                             "mRender": function (data, type, full, row) {
-                                return "<span class='text-left badge badge-success' style='white-space:normal !important;'>" + data + "</span>"
+                                return "<span class='text-left badge badge-success hver' style='white-space:normal !important;'>" + data + "</span>"
                                 //return "<span class='text-center btn-block badge badge-success'>" + data + "</span>"
                             }
                         },

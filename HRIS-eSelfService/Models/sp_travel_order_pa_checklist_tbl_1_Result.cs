@@ -37,5 +37,6 @@ namespace HRIS_eSelfService.Models
         public string approved_status { get; set; }
         public Nullable<bool> pa_readonly { get; set; }
         public Nullable<bool> pa_writeonly { get; set; }
+        public Nullable<System.DateTime> check_approved_dttm { get; set; }
     }
 }
