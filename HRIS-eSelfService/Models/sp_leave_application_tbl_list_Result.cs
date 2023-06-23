@@ -48,5 +48,7 @@ namespace HRIS_eSelfService.Models
         public decimal leaveledger_balance_as_of_fl { get; set; }
         public decimal sp_restore_deduct { get; set; }
         public decimal fl_restore_deduct { get; set; }
+        public string appl_status { get; set; }
+        public string appl_remarks { get; set; }
     }
 }

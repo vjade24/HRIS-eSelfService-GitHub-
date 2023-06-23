@@ -454,6 +454,19 @@
           <Property Name="empl_id" Type="varchar" MaxLength="8" />
           <Property Name="rcrd_status" Type="varchar" MaxLength="1" />
         </EntityType>
+        <EntityType Name="leave_application_hdr_justi_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="empl_id" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="summernote_descr" Type="varchar(max)" />
+          <Property Name="created_dttm" Type="datetime" />
+          <Property Name="created_by" Type="varchar" MaxLength="8" />
+          <Property Name="updated_dttm" Type="datetime" />
+          <Property Name="updated_by" Type="varchar" MaxLength="8" />
+        </EntityType>
         <EntityType Name="leave_application_hdr_tbl">
           <Key>
             <PropertyRef Name="leave_ctrlno" />
@@ -1325,6 +1338,24 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="func_lv_ledger_history_notif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" Nullable="false" />
+                <Property Name="leave_ctrlno" Type="varchar" MaxLength="10" Nullable="false" />
+                <Property Name="appl_status" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="appl_remarks" Type="varchar" MaxLength="255" Nullable="false" />
+                <Property Name="created_dttm" Type="datetime" Nullable="false" />
+                <Property Name="created_by" Type="varchar" MaxLength="30" Nullable="false" />
+                <Property Name="employee_name_format_2" Type="varchar" MaxLength="249" Nullable="false" />
+                <Property Name="trace_code" Type="varchar" MaxLength="2" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <Function Name="func_othrs_coc_equevalent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="par_day_of_week" Type="varchar" Mode="In" />
           <Parameter Name="par_ot_val" Type="varchar" Mode="In" />
@@ -1735,13 +1766,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="p_key_size" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_generate_next_ot_ctrl_nbr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="sp_generate_travel_order_daily_pa_rep" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_period_from" Type="varchar" Mode="In" />
-          <Parameter Name="par_period_to" Type="varchar" Mode="In" />
-          <Parameter Name="par_dept_code" Type="varchar" Mode="In" />
-          <Parameter Name="par_type" Type="varchar" Mode="In" />
-          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_get_dtr_original_entry" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_dtr_date" Type="date" Mode="In" />
@@ -1871,6 +1895,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
         <Function Name="sp_ledgerposting_for_approval_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
           <Parameter Name="par_show_history" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_lv_ledger_history_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_ledger_ctrl_no" Type="varchar" Mode="In" />
+          <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_appl_status" Type="varchar" Mode="In" />
+          <Parameter Name="p_appl_remarks" Type="varchar" Mode="In" />
+          <Parameter Name="p_created_by" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_monthly_working_hrs_tbl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_ot_hdr_for_approval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -2017,20 +2049,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Parameter Name="p_travel_details" Type="varchar" Mode="In" />
           <Parameter Name="p_user_id" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_travel_order_pa_checklist_tbl_1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_period_from" Type="varchar" Mode="In" />
-          <Parameter Name="par_period_to" Type="varchar" Mode="In" />
-          <Parameter Name="par_dept_code" Type="varchar" Mode="In" />
-          <Parameter Name="par_type" Type="varchar" Mode="In" />
-          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_travel_order_pa_checklist_tbl_2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_period_from" Type="varchar" Mode="In" />
-          <Parameter Name="par_period_to" Type="varchar" Mode="In" />
-          <Parameter Name="par_dept_code" Type="varchar" Mode="In" />
-          <Parameter Name="par_type" Type="varchar" Mode="In" />
-          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_travel_order_report" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_travel_order_no" Type="varchar" Mode="In" />
         </Function>
@@ -2134,6 +2152,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <EntitySet Name="leave_application_cancel_tbl" EntityType="Self.leave_application_cancel_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_dtl_cto_tbl" EntityType="Self.leave_application_dtl_cto_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_dtl_tbl" EntityType="Self.leave_application_dtl_tbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="Self.leave_application_hdr_justi_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_hdr_tbl" EntityType="Self.leave_application_hdr_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leave_application_signatories_tbl" EntityType="Self.leave_application_signatories_tbl" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leaveadmin_tbl" EntityType="Self.leaveadmin_tbl" Schema="dbo" store:Type="Tables" />
@@ -3114,9 +3133,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_user_empl_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_leaveledger_dtl_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_dtl_tbl_list_Result)">
-          <Parameter Name="par_ledger_ctrl_no" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_leaveledger_for_posting" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_for_posting_Result)">
             <Parameter Name="par_empl_id" Mode="In" Type="String" />
             <Parameter Name="par_leave_ctrlno" Mode="In" Type="String" />
@@ -3241,13 +3257,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <FunctionImport Name="sp_employee_list_without_jo" ReturnType="Collection(HRIS_ATSModel.sp_employee_list_without_jo_Result)">
           <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_leave_application_tbl_list1" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_tbl_list1_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_appr_status" Mode="In" Type="String" />
-            <Parameter Name="par_year" Mode="In" Type="String" />
-            <Parameter Name="par_log_in_as_AO" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_employee_list_dept_position" ReturnType="Collection(HRIS_ATSModel.sp_employee_list_dept_position_Result)">
           <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
@@ -3371,9 +3380,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_month" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_leaveledger_dtl_tbl_list1" ReturnType="Collection(HRIS_ATSModel.sp_leaveledger_dtl_tbl_list1_Result)">
-          <Parameter Name="par_ledger_ctrl_no" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_leave_application_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_for_approval_list_Result)">
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_year" Mode="In" Type="String" />
@@ -3406,11 +3412,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_year" Mode="In" Type="String" />
             <Parameter Name="p_leavetype_code" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_leave_application_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_tbl_list_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_appr_status" Mode="In" Type="String" />
-            <Parameter Name="par_year" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="vw_all_applications" EntityType="HRIS_ATSModel.vw_all_applications" />
           <EntitySet Name="vw_payrollemployeemaster_ATS" EntityType="HRIS_ATSModel.vw_payrollemployeemaster_ATS" />
@@ -3578,13 +3579,12 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_month" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
-            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
-            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-            <Parameter Name="p_approval_status" Mode="In" Type="String" />
-            <Parameter Name="p_travel_details" Mode="In" Type="String" />
-            <Parameter Name="p_user_id" Mode="In" Type="String" />
+          <FunctionImport Name="sp_approval_worklist_travel_order" ReturnType="Collection(HRIS_ATSModel.sp_approval_worklist_travel_order_Result)">
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
+            <Parameter Name="par_department_code" Mode="In" Type="String" />
+            <Parameter Name="par_to_year" Mode="In" Type="String" />
+            <Parameter Name="par_to_month" Mode="In" Type="String" />
+            <Parameter Name="par_employment_type" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_travel_order_approve" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_approve_Result)">
             <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
@@ -3594,33 +3594,38 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_travel_details" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_approval_worklist_travel_order" ReturnType="Collection(HRIS_ATSModel.sp_approval_worklist_travel_order_Result)">
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
-            <Parameter Name="par_department_code" Mode="In" Type="String" />
-            <Parameter Name="par_to_year" Mode="In" Type="String" />
-            <Parameter Name="par_to_month" Mode="In" Type="String" />
-            <Parameter Name="par_employment_type" Mode="In" Type="String" />
+          <FunctionImport Name="sp_travel_order_disapprove" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_disapprove_Result)">
+            <Parameter Name="p_check_stat" Mode="In" Type="Boolean" />
+            <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_approval_status" Mode="In" Type="String" />
+            <Parameter Name="p_travel_details" Mode="In" Type="String" />
+            <Parameter Name="p_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_generate_travel_order_daily_pa_rep" ReturnType="Collection(HRIS_ATSModel.sp_generate_travel_order_daily_pa_rep_Result)">
-            <Parameter Name="par_period_from" Mode="In" Type="String" />
-            <Parameter Name="par_period_to" Mode="In" Type="String" />
-            <Parameter Name="par_dept_code" Mode="In" Type="String" />
-            <Parameter Name="par_type" Mode="In" Type="String" />
+          <EntitySet Name="leave_application_hdr_justi_tbl" EntityType="HRIS_ATSModel.leave_application_hdr_justi_tbl" />
+          <FunctionImport Name="sp_leave_application_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_tbl_list_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_appr_status" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_leave_application_tbl_list1" ReturnType="Collection(HRIS_ATSModel.sp_leave_application_tbl_list1_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_appr_status" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_log_in_as_AO" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travel_order_pa_checklist_tbl_1" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_pa_checklist_tbl_1_Result)">
-            <Parameter Name="par_period_from" Mode="In" Type="String" />
-            <Parameter Name="par_period_to" Mode="In" Type="String" />
-            <Parameter Name="par_dept_code" Mode="In" Type="String" />
-            <Parameter Name="par_type" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          <FunctionImport Name="sp_lv_ledger_history_insert">
+            <Parameter Name="p_ledger_ctrl_no" Mode="In" Type="String" />
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_appl_status" Mode="In" Type="String" />
+            <Parameter Name="p_appl_remarks" Mode="In" Type="String" />
+            <Parameter Name="p_created_by" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_travel_order_pa_checklist_tbl_2" ReturnType="Collection(HRIS_ATSModel.sp_travel_order_pa_checklist_tbl_2_Result)">
-            <Parameter Name="par_period_from" Mode="In" Type="String" />
-            <Parameter Name="par_period_to" Mode="In" Type="String" />
-            <Parameter Name="par_dept_code" Mode="In" Type="String" />
-            <Parameter Name="par_type" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
+          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -4952,40 +4957,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="Binary" Name="initial_sig" Nullable="true" MaxLength="Max" />
           <Property Type="Binary" Name="full_sig" Nullable="true" MaxLength="Max" />
         </ComplexType>
-        <ComplexType Name="sp_leaveledger_dtl_tbl_list_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leavesubtype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leaveledger_particulars" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="leaveledger_restore_deduct_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_action" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="leaveledger_action_descr" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="leaveledger_action_taken" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leaveledger_entry_type" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="eaveledger_entry_type_desc" Nullable="true" MaxLength="25" />
-          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <ComplexType Name="sp_leaveledger_for_posting_Result">
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
@@ -5370,35 +5341,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
         <ComplexType Name="sp_employee_list_without_jo_Result">
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-        </ComplexType>
-        <ComplexType Name="sp_leave_application_tbl_list1_Result">
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leave_dates" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="leave_comments" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leave_type_code" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="leave_subtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="Decimal" Name="number_of_days" Nullable="false" Precision="19" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_sl" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_vl" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_oth" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="sl_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="vl_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="oth_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Boolean" Name="leave_class" Nullable="false" />
-          <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
-          <Property Type="Boolean" Name="posting_status" Nullable="true" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="Boolean" Name="justification_flag" Nullable="true" />
-          <Property Type="String" Name="commutation" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
         </ComplexType>
         <ComplexType Name="sp_employee_list_dept_position_Result">
           <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
@@ -5987,51 +5929,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="firstappr_empl_id" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="finalappro_empl_id" Nullable="false" MaxLength="8" />
         </ComplexType>
-        <ComplexType Name="sp_leaveledger_dtl_tbl_list1_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="leavetype_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="leavesubtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leavesubtype_descr" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leaveledger_period" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leaveledger_particulars" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="leaveledger_restore_deduct_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_vl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_sl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_sp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_sp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_sp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_sp" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_fl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_fl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_fl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_fl" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_restore_deduct_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_balance_as_of_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wp_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_abs_und_wop_oth" Nullable="true" MaxLength="4000" />
-          <Property Type="String" Name="leaveledger_action" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="leaveledger_action_descr" Nullable="true" MaxLength="15" />
-          <Property Type="String" Name="leaveledger_action_taken" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leaveledger_entry_type" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="eaveledger_entry_type_desc" Nullable="true" MaxLength="25" />
-          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="sig_name3_ovrd" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="sig_pos3_ovrd" Nullable="false" MaxLength="255" />
-        </ComplexType>
         <ComplexType Name="sp_leave_application_for_approval_list_Result">
           <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
           <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
@@ -6187,43 +6084,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="leavetype_code" Nullable="true" MaxLength="4" />
           <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
           <Property Type="Double" Name="leavetype_maxperyear" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_leave_application_tbl_list_Result">
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="leave_date_from" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leave_date_to" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="date_num_day" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="date_num_day_total" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
-          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="leave_comments" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="leave_type_code" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="leave_type_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="leave_subtype_code" Nullable="false" MaxLength="4" />
-          <Property Type="Decimal" Name="number_of_days" Nullable="false" Precision="19" />
-          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_sl" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_vl" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_oth" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="sl_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="vl_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="oth_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Boolean" Name="leave_class" Nullable="false" />
-          <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="Boolean" Name="posting_status" Nullable="true" />
-          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
-          <Property Type="Boolean" Name="justification_flag" Nullable="true" />
-          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
-          <Property Type="String" Name="rcrd_status" Nullable="true" MaxLength="1" />
-          <Property Type="String" Name="rcrd_status_descr" Nullable="true" MaxLength="30" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_sp" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="leaveledger_balance_as_of_fl" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="sp_restore_deduct" Nullable="false" Precision="19" />
-          <Property Type="Decimal" Name="fl_restore_deduct" Nullable="false" Precision="19" />
         </ComplexType>
         <EntityType Name="vw_all_applications">
           <Key>
@@ -6968,14 +6828,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="late_justification" Nullable="true" />
           <Property Type="Boolean" Name="pa_initial" Nullable="false" />
         </ComplexType>
-        <ComplexType Name="sp_travel_order_disapprove_Result">
-          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="sp_travel_order_approve_Result">
-          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
-        </ComplexType>
         <ComplexType Name="sp_approval_worklist_travel_order_Result">
           <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
           <Property Type="String" Name="user_id_creator" Nullable="false" MaxLength="30" />
@@ -7012,61 +6864,106 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="final_approval_date" Nullable="true" MaxLength="36" />
           <Property Type="String" Name="user_id_final_approver" Nullable="true" MaxLength="30" />
         </ComplexType>
-        <ComplexType Name="sp_generate_travel_order_daily_pa_rep_Result">
-          <Property Type="String" Name="query_msg" Nullable="false" MaxLength="23" />
-          <Property Type="Int32" Name="success_status" Nullable="false" />
+        <ComplexType Name="sp_travel_order_approve_Result">
+          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="sp_travel_order_pa_checklist_tbl_1_Result">
-          <Property Type="Int64" Name="row_nbr" Nullable="true" />
-          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="dtr_date" Nullable="true" />
-          <Property Type="String" Name="travel_place_visit" Nullable="true" />
-          <Property Type="String" Name="travel_purpose" Nullable="true" />
-          <Property Type="String" Name="travel_requestor_empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="travel_requestor_empl_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="travel_type_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="travel_type_descr" Nullable="true" MaxLength="50" />
-          <Property Type="Boolean" Name="travel_with_claims" Nullable="true" />
-          <Property Type="String" Name="travel_justification" Nullable="true" />
-          <Property Type="String" Name="report_header_descr" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="travel_datefiled_original" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="approved_status" Nullable="true" MaxLength="1" />
-          <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
-          <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
+        <ComplexType Name="sp_travel_order_disapprove_Result">
+          <Property Type="String" Name="db_msg" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="db_code" Nullable="false" MaxLength="1" />
         </ComplexType>
-        <ComplexType Name="sp_travel_order_pa_checklist_tbl_2_Result">
-          <Property Type="Int64" Name="row_nbr" Nullable="true" />
-          <Property Type="String" Name="travel_order_no" Nullable="false" MaxLength="15" />
-          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="department_name1" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="department_short_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="dtr_date" Nullable="true" />
-          <Property Type="String" Name="travel_place_visit" Nullable="true" />
-          <Property Type="String" Name="travel_purpose" Nullable="true" />
-          <Property Type="String" Name="travel_requestor_empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="travel_requestor_empl_name" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="travel_type_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="travel_type_descr" Nullable="true" MaxLength="50" />
-          <Property Type="Boolean" Name="travel_with_claims" Nullable="true" />
-          <Property Type="String" Name="travel_justification" Nullable="true" />
-          <Property Type="String" Name="report_header_descr" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="approval_id" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="travel_datefiled_original" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="approved_status" Nullable="true" MaxLength="1" />
-          <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
-          <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
+        <EntityType Name="leave_application_hdr_justi_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="leave_ctrlno" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="summernote_descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="created_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="updated_dttm" Type="DateTime" Precision="3" />
+          <Property Name="updated_by" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="sp_leave_application_tbl_list_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="leave_date_from" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="leave_date_to" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="date_num_day" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="date_num_day_total" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="leave_comments" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="leave_type_code" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="leave_type_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="leave_subtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="Decimal" Name="number_of_days" Nullable="false" Precision="19" />
+          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_sl" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_vl" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_oth" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="sl_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="vl_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="oth_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="leave_class" Nullable="false" />
+          <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="posting_status" Nullable="true" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="Boolean" Name="justification_flag" Nullable="true" />
+          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="rcrd_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="rcrd_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_sp" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_fl" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="sp_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="fl_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="sp_leave_application_tbl_list1_Result">
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="date_applied" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="leave_dates" Nullable="true" />
+          <Property Type="String" Name="leave_comments" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="leave_type_code" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="leavetype_descr" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="leave_subtype_code" Nullable="false" MaxLength="4" />
+          <Property Type="Decimal" Name="number_of_days" Nullable="false" Precision="19" />
+          <Property Type="String" Name="leaveledger_date" Nullable="true" MaxLength="36" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_sl" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_vl" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="leaveledger_balance_as_of_oth" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="sl_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="vl_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Decimal" Name="oth_restore_deduct" Nullable="false" Precision="19" />
+          <Property Type="Boolean" Name="leave_class" Nullable="false" />
+          <Property Type="String" Name="leave_descr" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="details_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="approval_status" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+          <Property Type="Boolean" Name="posting_status" Nullable="true" />
+          <Property Type="String" Name="approval_id" Nullable="false" MaxLength="15" />
+          <Property Type="Boolean" Name="justification_flag" Nullable="true" />
+          <Property Type="String" Name="commutation" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="created_by_user" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="func_lv_ledger_history_notif_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
+          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9214,39 +9111,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_application_tbl_list1" FunctionName="HRIS_ATSModel.Store.sp_leave_application_tbl_list1">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_tbl_list1_Result">
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="leave_dates" ColumnName="leave_dates" />
-                <ScalarProperty Name="leave_comments" ColumnName="leave_comments" />
-                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
-                <ScalarProperty Name="number_of_days" ColumnName="number_of_days" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_oth" ColumnName="leaveledger_balance_as_of_oth" />
-                <ScalarProperty Name="sl_restore_deduct" ColumnName="sl_restore_deduct" />
-                <ScalarProperty Name="vl_restore_deduct" ColumnName="vl_restore_deduct" />
-                <ScalarProperty Name="oth_restore_deduct" ColumnName="oth_restore_deduct" />
-                <ScalarProperty Name="leave_class" ColumnName="leave_class" />
-                <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
-                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="justification_flag" ColumnName="justification_flag" />
-                <ScalarProperty Name="commutation" ColumnName="commutation" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_employee_list_dept_position" FunctionName="HRIS_ATSModel.Store.sp_employee_list_dept_position">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_employee_list_dept_position_Result">
@@ -9903,55 +9767,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leaveledger_dtl_tbl_list1" FunctionName="HRIS_ATSModel.Store.sp_leaveledger_dtl_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leaveledger_dtl_tbl_list1_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
-                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
-                <ScalarProperty Name="leaveledger_particulars" ColumnName="leaveledger_particulars" />
-                <ScalarProperty Name="leaveledger_restore_deduct_vl" ColumnName="leaveledger_restore_deduct_vl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
-                <ScalarProperty Name="leaveledger_abs_und_wp_vl" ColumnName="leaveledger_abs_und_wp_vl" />
-                <ScalarProperty Name="leaveledger_abs_und_wop_vl" ColumnName="leaveledger_abs_und_wop_vl" />
-                <ScalarProperty Name="leaveledger_restore_deduct_sl" ColumnName="leaveledger_restore_deduct_sl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
-                <ScalarProperty Name="leaveledger_abs_und_wp_sl" ColumnName="leaveledger_abs_und_wp_sl" />
-                <ScalarProperty Name="leaveledger_abs_und_wop_sl" ColumnName="leaveledger_abs_und_wop_sl" />
-                <ScalarProperty Name="leaveledger_restore_deduct_sp" ColumnName="leaveledger_restore_deduct_sp" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sp" ColumnName="leaveledger_balance_as_of_sp" />
-                <ScalarProperty Name="leaveledger_abs_und_wp_sp" ColumnName="leaveledger_abs_und_wp_sp" />
-                <ScalarProperty Name="leaveledger_abs_und_wop_sp" ColumnName="leaveledger_abs_und_wop_sp" />
-                <ScalarProperty Name="leaveledger_restore_deduct_fl" ColumnName="leaveledger_restore_deduct_fl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_fl" ColumnName="leaveledger_balance_as_of_fl" />
-                <ScalarProperty Name="leaveledger_abs_und_wp_fl" ColumnName="leaveledger_abs_und_wp_fl" />
-                <ScalarProperty Name="leaveledger_abs_und_wop_fl" ColumnName="leaveledger_abs_und_wop_fl" />
-                <ScalarProperty Name="leaveledger_restore_deduct_oth" ColumnName="leaveledger_restore_deduct_oth" />
-                <ScalarProperty Name="leaveledger_balance_as_of_oth" ColumnName="leaveledger_balance_as_of_oth" />
-                <ScalarProperty Name="leaveledger_abs_und_wp_oth" ColumnName="leaveledger_abs_und_wp_oth" />
-                <ScalarProperty Name="leaveledger_abs_und_wop_oth" ColumnName="leaveledger_abs_und_wop_oth" />
-                <ScalarProperty Name="leaveledger_action" ColumnName="leaveledger_action" />
-                <ScalarProperty Name="leaveledger_action_descr" ColumnName="leaveledger_action_descr" />
-                <ScalarProperty Name="leaveledger_action_taken" ColumnName="leaveledger_action_taken" />
-                <ScalarProperty Name="leaveledger_entry_type" ColumnName="leaveledger_entry_type" />
-                <ScalarProperty Name="eaveledger_entry_type_desc" ColumnName="eaveledger_entry_type_desc" />
-                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-                <ScalarProperty Name="sig_name3_ovrd" ColumnName="sig_name3_ovrd" />
-                <ScalarProperty Name="sig_pos3_ovrd" ColumnName="sig_pos3_ovrd" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_leave_application_for_approval_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_for_approval_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_for_approval_list_Result">
@@ -10130,47 +9945,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
                 <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
                 <ScalarProperty Name="leavetype_maxperyear" ColumnName="leavetype_maxperyear" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_application_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_tbl_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_tbl_list_Result">
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="leave_date_from" ColumnName="leave_date_from" />
-                <ScalarProperty Name="leave_date_to" ColumnName="leave_date_to" />
-                <ScalarProperty Name="date_num_day" ColumnName="date_num_day" />
-                <ScalarProperty Name="date_num_day_total" ColumnName="date_num_day_total" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
-                <ScalarProperty Name="leave_comments" ColumnName="leave_comments" />
-                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
-                <ScalarProperty Name="leave_type_descr" ColumnName="leave_type_descr" />
-                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
-                <ScalarProperty Name="number_of_days" ColumnName="number_of_days" />
-                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
-                <ScalarProperty Name="leaveledger_balance_as_of_oth" ColumnName="leaveledger_balance_as_of_oth" />
-                <ScalarProperty Name="sl_restore_deduct" ColumnName="sl_restore_deduct" />
-                <ScalarProperty Name="vl_restore_deduct" ColumnName="vl_restore_deduct" />
-                <ScalarProperty Name="oth_restore_deduct" ColumnName="oth_restore_deduct" />
-                <ScalarProperty Name="leave_class" ColumnName="leave_class" />
-                <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
-                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
-                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="justification_flag" ColumnName="justification_flag" />
-                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
-                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
-                <ScalarProperty Name="leaveledger_balance_as_of_sp" ColumnName="leaveledger_balance_as_of_sp" />
-                <ScalarProperty Name="leaveledger_balance_as_of_fl" ColumnName="leaveledger_balance_as_of_fl" />
-                <ScalarProperty Name="sp_restore_deduct" ColumnName="sp_restore_deduct" />
-                <ScalarProperty Name="fl_restore_deduct" ColumnName="fl_restore_deduct" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -11035,22 +10809,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
-                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_approve_Result">
-                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
-                <ScalarProperty Name="db_code" ColumnName="db_code" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_approval_worklist_travel_order" FunctionName="HRIS_ATSModel.Store.sp_approval_worklist_travel_order">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_approval_worklist_travel_order_Result">
@@ -11091,71 +10849,126 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_generate_travel_order_daily_pa_rep" FunctionName="HRIS_ATSModel.Store.sp_generate_travel_order_daily_pa_rep">
+          <FunctionImportMapping FunctionImportName="sp_travel_order_approve" FunctionName="HRIS_ATSModel.Store.sp_travel_order_approve">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_generate_travel_order_daily_pa_rep_Result">
-                <ScalarProperty Name="query_msg" ColumnName="query_msg" />
-                <ScalarProperty Name="success_status" ColumnName="success_status" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_approve_Result">
+                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_pa_checklist_tbl_1" FunctionName="HRIS_ATSModel.Store.sp_travel_order_pa_checklist_tbl_1">
+          <FunctionImportMapping FunctionImportName="sp_travel_order_disapprove" FunctionName="HRIS_ATSModel.Store.sp_travel_order_disapprove">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_pa_checklist_tbl_1_Result">
-                <ScalarProperty Name="row_nbr" ColumnName="row_nbr" />
-                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
-                <ScalarProperty Name="travel_place_visit" ColumnName="travel_place_visit" />
-                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
-                <ScalarProperty Name="travel_requestor_empl_id" ColumnName="travel_requestor_empl_id" />
-                <ScalarProperty Name="travel_requestor_empl_name" ColumnName="travel_requestor_empl_name" />
-                <ScalarProperty Name="travel_type_code" ColumnName="travel_type_code" />
-                <ScalarProperty Name="travel_type_descr" ColumnName="travel_type_descr" />
-                <ScalarProperty Name="travel_with_claims" ColumnName="travel_with_claims" />
-                <ScalarProperty Name="travel_justification" ColumnName="travel_justification" />
-                <ScalarProperty Name="report_header_descr" ColumnName="report_header_descr" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="travel_datefiled_original" ColumnName="travel_datefiled_original" />
-                <ScalarProperty Name="approved_status" ColumnName="approved_status" />
-                <ScalarProperty Name="pa_readonly" ColumnName="pa_readonly" />
-                <ScalarProperty Name="pa_writeonly" ColumnName="pa_writeonly" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_disapprove_Result">
+                <ScalarProperty Name="db_msg" ColumnName="db_msg" />
+                <ScalarProperty Name="db_code" ColumnName="db_code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_travel_order_pa_checklist_tbl_2" FunctionName="HRIS_ATSModel.Store.sp_travel_order_pa_checklist_tbl_2">
+          <EntitySetMapping Name="leave_application_hdr_justi_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.leave_application_hdr_justi_tbl">
+              <MappingFragment StoreEntitySet="leave_application_hdr_justi_tbl">
+                <ScalarProperty Name="updated_by" ColumnName="updated_by" />
+                <ScalarProperty Name="updated_dttm" ColumnName="updated_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="summernote_descr" ColumnName="summernote_descr" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_leave_application_tbl_list" FunctionName="HRIS_ATSModel.Store.sp_leave_application_tbl_list">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travel_order_pa_checklist_tbl_2_Result">
-                <ScalarProperty Name="row_nbr" ColumnName="row_nbr" />
-                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_tbl_list_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="leave_date_from" ColumnName="leave_date_from" />
+                <ScalarProperty Name="leave_date_to" ColumnName="leave_date_to" />
+                <ScalarProperty Name="date_num_day" ColumnName="date_num_day" />
+                <ScalarProperty Name="date_num_day_total" ColumnName="date_num_day_total" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
-                <ScalarProperty Name="department_name1" ColumnName="department_name1" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
-                <ScalarProperty Name="travel_place_visit" ColumnName="travel_place_visit" />
-                <ScalarProperty Name="travel_purpose" ColumnName="travel_purpose" />
-                <ScalarProperty Name="travel_requestor_empl_id" ColumnName="travel_requestor_empl_id" />
-                <ScalarProperty Name="travel_requestor_empl_name" ColumnName="travel_requestor_empl_name" />
-                <ScalarProperty Name="travel_type_code" ColumnName="travel_type_code" />
-                <ScalarProperty Name="travel_type_descr" ColumnName="travel_type_descr" />
-                <ScalarProperty Name="travel_with_claims" ColumnName="travel_with_claims" />
-                <ScalarProperty Name="travel_justification" ColumnName="travel_justification" />
-                <ScalarProperty Name="report_header_descr" ColumnName="report_header_descr" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leave_comments" ColumnName="leave_comments" />
+                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
+                <ScalarProperty Name="leave_type_descr" ColumnName="leave_type_descr" />
+                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
+                <ScalarProperty Name="number_of_days" ColumnName="number_of_days" />
+                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
+                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
+                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
+                <ScalarProperty Name="leaveledger_balance_as_of_oth" ColumnName="leaveledger_balance_as_of_oth" />
+                <ScalarProperty Name="sl_restore_deduct" ColumnName="sl_restore_deduct" />
+                <ScalarProperty Name="vl_restore_deduct" ColumnName="vl_restore_deduct" />
+                <ScalarProperty Name="oth_restore_deduct" ColumnName="oth_restore_deduct" />
+                <ScalarProperty Name="leave_class" ColumnName="leave_class" />
+                <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
                 <ScalarProperty Name="approval_id" ColumnName="approval_id" />
-                <ScalarProperty Name="travel_datefiled_original" ColumnName="travel_datefiled_original" />
-                <ScalarProperty Name="approved_status" ColumnName="approved_status" />
-                <ScalarProperty Name="pa_readonly" ColumnName="pa_readonly" />
-                <ScalarProperty Name="pa_writeonly" ColumnName="pa_writeonly" />
+                <ScalarProperty Name="justification_flag" ColumnName="justification_flag" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="rcrd_status" ColumnName="rcrd_status" />
+                <ScalarProperty Name="rcrd_status_descr" ColumnName="rcrd_status_descr" />
+                <ScalarProperty Name="leaveledger_balance_as_of_sp" ColumnName="leaveledger_balance_as_of_sp" />
+                <ScalarProperty Name="leaveledger_balance_as_of_fl" ColumnName="leaveledger_balance_as_of_fl" />
+                <ScalarProperty Name="sp_restore_deduct" ColumnName="sp_restore_deduct" />
+                <ScalarProperty Name="fl_restore_deduct" ColumnName="fl_restore_deduct" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_leave_application_tbl_list1" FunctionName="HRIS_ATSModel.Store.sp_leave_application_tbl_list1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_application_tbl_list1_Result">
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="date_applied" ColumnName="date_applied" />
+                <ScalarProperty Name="leave_dates" ColumnName="leave_dates" />
+                <ScalarProperty Name="leave_comments" ColumnName="leave_comments" />
+                <ScalarProperty Name="leave_type_code" ColumnName="leave_type_code" />
+                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
+                <ScalarProperty Name="leave_subtype_code" ColumnName="leave_subtype_code" />
+                <ScalarProperty Name="number_of_days" ColumnName="number_of_days" />
+                <ScalarProperty Name="leaveledger_date" ColumnName="leaveledger_date" />
+                <ScalarProperty Name="leaveledger_balance_as_of_sl" ColumnName="leaveledger_balance_as_of_sl" />
+                <ScalarProperty Name="leaveledger_balance_as_of_vl" ColumnName="leaveledger_balance_as_of_vl" />
+                <ScalarProperty Name="leaveledger_balance_as_of_oth" ColumnName="leaveledger_balance_as_of_oth" />
+                <ScalarProperty Name="sl_restore_deduct" ColumnName="sl_restore_deduct" />
+                <ScalarProperty Name="vl_restore_deduct" ColumnName="vl_restore_deduct" />
+                <ScalarProperty Name="oth_restore_deduct" ColumnName="oth_restore_deduct" />
+                <ScalarProperty Name="leave_class" ColumnName="leave_class" />
+                <ScalarProperty Name="leave_descr" ColumnName="leave_descr" />
+                <ScalarProperty Name="details_remarks" ColumnName="details_remarks" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+                <ScalarProperty Name="posting_status" ColumnName="posting_status" />
+                <ScalarProperty Name="approval_id" ColumnName="approval_id" />
+                <ScalarProperty Name="justification_flag" ColumnName="justification_flag" />
+                <ScalarProperty Name="commutation" ColumnName="commutation" />
+                <ScalarProperty Name="created_by_user" ColumnName="created_by_user" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_lv_ledger_history_insert" FunctionName="HRIS_ATSModel.Store.sp_lv_ledger_history_insert" />
+          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
+                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
