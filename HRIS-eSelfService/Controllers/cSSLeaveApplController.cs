@@ -1741,8 +1741,14 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
-                 var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
-                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                var department_code = Session["department_code"].ToString();
+                var dpt_tbl = db_dev.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault();
+                var approved_name = db_dev.vw_personnelnames_PAY.Where(a => a.empl_id == dpt_tbl.empl_id.ToString().Trim()).FirstOrDefault().employee_name_format2.ToString().Trim().ToUpper();
+                var approved_by_desig = dpt_tbl.designation_head1.ToString().Trim().ToUpper();
+                var employee_name = Session["employee_name"].ToString().Trim();
+
+                var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
+                 return Json(new { message = "success", data, approved_name, approved_by_desig, dpt_tbl , employee_name }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

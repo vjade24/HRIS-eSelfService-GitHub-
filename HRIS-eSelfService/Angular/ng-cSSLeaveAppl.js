@@ -4241,18 +4241,23 @@
     s.openJustification = function ()
     {
         //$('#modal_justification').modal({ backdrop: 'static', keyboard: false });
-
+        if ($('#ddl_leave_type option:selected').val() == "")
+        {
+            swal({ icon: "warning", title: "LEAVE TYPE IS REQUIRED!" });
+            return;
+        }
         h.post("../cSSLeaveAppl/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
         {
             
             if (d.data.message == "success")
             {
+                const datenow_str = new Date();
                 if (d.data.data == null)
                 {
                     $('#summernote_justification').summernote();
                     var myHtml = $('.note-editable')
                     myHtml.html("")
-                    myHtml.prepend("<p>May 4, 2023</p><p><br>________________________________________<br>PG Department Head<br>(Office)</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of (Leave Type) applied for (Date Applied). I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>________________________________________<br>(Position)</p><p><br></p><p>Noted:<br>________________________________________<br>PG Department Head</p>")
+                    myHtml.prepend("<p>" + moment(datenow_str).format("LL") + "</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>"+d.data.employee_name+"<br>(Position)</p><p><br></p><p>Noted:<br>" + d.data.approved_name + "<br>" + d.data.approved_by_desig + "</p>")
                 }
                 else
                 {
@@ -4268,6 +4273,7 @@
             }
             else
             {
+                swal({ icon: "warning", title: d.data.message });
             }
         })
     }
