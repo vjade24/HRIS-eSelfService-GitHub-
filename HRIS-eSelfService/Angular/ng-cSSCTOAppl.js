@@ -651,15 +651,16 @@
                     popoverElement = $(jsEvent.target);
                     $(jsEvent.target).popover({
                         html: true,
-                        animation: 'true',
-                        placement: 'top',
-                        container: 'body',
-                        title: '',
-                        trigger: 'click',
-                        content: function () {
-                            $('.popover').popover('hide')
-                            return '<div onClick="$(\'#add_force_leave\').click();"><h5 style="cursor:pointer;">Apply Leave</h5></div>';
-                        },
+                        animation   : 'true',
+                        placement   : 'top',
+                        container   : 'body',
+                        title       : '',
+                        trigger     : 'click',
+                        content: function ()
+                                    {
+                                        $('.popover').popover('hide')
+                                        return '<div onClick="$(\'#add_force_leave\').click();"><h5 style="cursor:pointer;">Apply Leave</h5></div>';
+                                    },
                     }).popover('show');
                     $(".fc-highlight").css("background", "red");
                 },
