@@ -1,5 +1,5 @@
-  DROP TABLE travelOrder_pa_checklist_tbl
-  GO
+ --DROP TABLE travelOrder_pa_checklist_tbl
+ --GO
  
  CREATE TABLE travelOrder_pa_checklist_tbl(   
 	travel_order_no                 VARCHAR(15)                                                   
