@@ -710,7 +710,7 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if (data.leave_type_code  == "SL")
+                    if ((data.leave_type_code  == "SL" || data.leave_type_code == "SP") && DateTime.Parse(data.date_applied.ToString()) >= DateTime.Parse("2023-07-01"))
                     {
                         if (dt_chk_tse==null)
                         {
