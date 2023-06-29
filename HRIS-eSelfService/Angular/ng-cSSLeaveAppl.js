@@ -851,7 +851,7 @@
                     s.ddl_leave_type_descr = $('#ddl_leave_type option:selected').text()
                     d.data.leaveSubLst.length > 0 ? s.dis_leavesubtype = false : s.dis_leavesubtype = true;
                     s.leave_sub_type = d.data.leaveSubLst;
-                    s.leave_oth_info = d.data.leave_oth_info
+                    //s.leave_oth_info = d.data.leave_oth_info
 
                     // **************************************************************************
                     // *** Display the Radio button, checkboxes for Sick leave and Vacatio Leave
@@ -1318,6 +1318,10 @@
                 {
                     swal("Could not save this application!" + " " + $('#ddl_leave_type option:selected').text(), { icon: "warning", title: "You cannot Apply below 1 day for" + " " + $('#ddl_leave_type option:selected').text() });
                 }
+                else if ($('#ddl_leave_type option:selected').val() == "VL" && $("input[type='radio'][name='sl_vl']:checked").val() == true && $('#txtb_specify').val() == "")
+                {
+                    swal("Could not save this application!" + " " + $('#ddl_leave_type option:selected').text(), { icon: "warning", title: "Please Specify the Location if Abroad"  });
+                }
                 else
                 {
                     if (s.resubmit == "TRUE")
@@ -1502,7 +1506,7 @@
 
                                                             else if (d.data.message == "5_adv_validation") {
                                                                 if (d.data.message_descr != "") {
-                                                                    swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                                    swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
                                                                 }
                                                             }
                                                             else if (d.data.message == "timesked_validation") {
@@ -1613,7 +1617,7 @@
 
                                                         else if (d.data.message == "5_adv_validation") {
                                                             if (d.data.message_descr != "") {
-                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
                                                         }
                                                         else if (d.data.message == "timesked_validation") {
@@ -1829,7 +1833,7 @@
 
                                                                     else if (d.data.message == "5_adv_validation") {
                                                                         if (d.data.message_descr != "") {
-                                                                            swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                                            swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                         }
                                                                     }
                                                                     else if (d.data.message == "timesked_validation") {
@@ -1936,7 +1940,7 @@
 
                                                     else if (d.data.message == "5_adv_validation") {
                                                         if (d.data.message_descr != "") {
-                                                            swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                            swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                         }
                                                     }
                                                     else if (d.data.message == "timesked_validation") {
@@ -2135,7 +2139,7 @@
 
                                                                         else if (d.data.message == "5_adv_validation") {
                                                                             if (d.data.message_descr != "") {
-                                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                             }
                                                                         }
                                                                         else if (d.data.message == "timesked_validation") {
@@ -2242,7 +2246,7 @@
 
                                                         else if (d.data.message == "5_adv_validation") {
                                                             if (d.data.message_descr != "") {
-                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
+                                                                swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
                                                         }
                                                         else if (d.data.message == "timesked_validation") {
