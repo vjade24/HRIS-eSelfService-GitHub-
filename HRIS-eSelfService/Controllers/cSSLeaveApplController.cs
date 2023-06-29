@@ -236,7 +236,7 @@ namespace HRIS_eSelfService.Controllers
                 var message_descr2      = "";
                 var chk_par_leave_type  = par_leave_type;
                 var current_balance     = db_ats.sp_leave_application_curr_bal(par_empl_id, par_year, par_leave_type).ToList().FirstOrDefault();
-                var leave_oth_info      = db_ats.leavetype_oth_info_tbl.Where(a=> a.leavetype_code == par_leave_type).ToList();
+                //var leave_oth_info      = db_ats.leavetype_oth_info_tbl.Where(a=> a.leavetype_code == par_leave_type).ToList();
                 var fl_chk              = db_ats.sp_force_leave_plan_tbl_list_chk(par_empl_id, par_year).Where(a=> a.approval_status == "F").ToList();
                 
                 if (par_leave_type == "FL")
@@ -267,7 +267,7 @@ namespace HRIS_eSelfService.Controllers
                     // ***************************************************************************************************
                 }
 
-                return Json(new { message, leaveSubLst, leave_projection, vl_leave_projection, current_balance, leave_oth_info , message_descr2 }, JsonRequestBehavior.AllowGet);
+                return Json(new { message, leaveSubLst, leave_projection, vl_leave_projection, current_balance , message_descr2 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -712,12 +712,26 @@ namespace HRIS_eSelfService.Controllers
                     }
                     if (data.leave_type_code  == "SL")
                     {
-                        var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
-                        if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                        if (dt_chk_tse==null)
                         {
-                            message         = "5_adv_validation";
-                            message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
-                            message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
+                            var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
+                            if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                            {
+                                message         = "5_adv_validation";
+                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
+                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
+                            }
+
+                        }
+                        else
+                        {
+                            var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
+                            if (day_diff >= 7 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                            {
+                                message = "5_adv_validation";
+                                message_descr = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
+                                message_descr2 = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
+                            }
                         }
                     }
                 }
@@ -1741,8 +1755,14 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
-                 var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
-                 return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+                var department_code = Session["department_code"].ToString();
+                var dpt_tbl = db_dev.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault();
+                var approved_name = db_dev.vw_personnelnames_PAY.Where(a => a.empl_id == dpt_tbl.empl_id.ToString().Trim()).FirstOrDefault().employee_name_format2.ToString().Trim().ToUpper();
+                var approved_by_desig = dpt_tbl.designation_head1.ToString().Trim().ToUpper();
+                var employee_name = Session["employee_name"].ToString().Trim();
+
+                var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
+                 return Json(new { message = "success", data, approved_name, approved_by_desig, dpt_tbl , employee_name }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
