@@ -1020,7 +1020,7 @@ namespace HRIS_eSelfService.Controllers
         {
             var user_id = Session["user_id"].ToString();
             var datenow = DateTime.Now.ToString();
-
+            db_ats.Database.CommandTimeout = int.MaxValue;
             try
             {
                 var query_msg = db_ats.sp_generate_travel_order_daily_pa_rep("","","","", user_id).FirstOrDefault();
