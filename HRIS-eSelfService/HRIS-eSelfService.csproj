@@ -6223,10 +6223,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryCTONew.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryJobOrderReports\cryPaySlip\cryPaySlip.rpt">
+    <Content Include="Reports\cryJobOrderReports\cryPaySlip\cryPaySlip.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryPaySlip1.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <Content Include="Reports\cryJobOrderReports\crySalary\cryAttachment.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryAttachment1.cs</LastGenOutput>
