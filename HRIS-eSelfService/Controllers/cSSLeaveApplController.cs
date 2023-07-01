@@ -653,69 +653,72 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if (data.leave_type_code  == "SP" || data.leave_type_code == "PS") // Special Leave and Solo Parent, Sick Leave
-                    {
-                        var leave_descr = "";
-                        if (data.leave_type_code == "SP")
-                        {
-                            leave_descr = "Special Privilege Leave such as Anniversary, Birthday, Wedding, Parental Obligation or Personal Transaction!";
-                        }
-                        else if (data.leave_type_code == "PS")
-                        {
-                            leave_descr = "Solo Parent Leave!";
-                        }
-                        else if (data.leave_type_code == "MC")
-                        {
-                            leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
-                        }
+                    //if (data.leave_type_code  == "SP" || data.leave_type_code == "PS") // Special Leave and Solo Parent, Sick Leave
+                    //{
+                    //    var leave_descr = "";
+                    //    if (data.leave_type_code == "SP")
+                    //    {
+                    //        leave_descr = "Special Privilege Leave such as Anniversary, Birthday, Wedding, Parental Obligation or Personal Transaction!";
+                    //    }
+                    //    else if (data.leave_type_code == "PS")
+                    //    {
+                    //        leave_descr = "Solo Parent Leave!";
+                    //    }
+                    //    else if (data.leave_type_code == "MC")
+                    //    {
+                    //        leave_descr = "Special Leave Benefits for Women/Magna Carta for Women";
+                    //    }
                         
-                        var ctr = 5;
+                    //    var ctr = 5;
 
-                        System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
-                        System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
+                    //    System.DateTime firstDate   = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
+                    //    System.DateTime secondDate  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
 
-                        for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
-                        {
-                            if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
-                                firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
-                            {
-                                ctr = ctr + 1;
-                            }   
-                        }
+                    //    for (int i = 0; i < (secondDate - firstDate).TotalDays ; i++)
+                    //    {
+                    //        if (firstDate.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
+                    //            firstDate.AddDays(i).DayOfWeek.ToString() == "Saturday")
+                    //        {
+                    //            ctr = ctr + 1;
+                    //        }   
+                    //    }
 
-                        if (data.leave_subtype_code == "AN" || // Special Leave - Anniversary
-                            data.leave_subtype_code == "BD" || // Special Leave - Birthday
-                            data.leave_subtype_code == "WD" || // Special Leave - Wedding
-                            data.leave_type_code    == "PS"  ) // Solo Parent
-                        {
-                            var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
-                            if (date_applied_5_working_days > leave_date_from || date_applied_5_working_days > leave_date_to && p_action_mode == "SUBMIT") 
-                            {
-                                message         = "5_adv_validation";
-                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
-                                message_descr2  = " You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
-                            }
-                        }
+                    //    if (data.leave_subtype_code == "AN" || // Special Leave - Anniversary
+                    //        data.leave_subtype_code == "BD" || // Special Leave - Birthday
+                    //        data.leave_subtype_code == "WD" || // Special Leave - Wedding
+                    //        data.leave_type_code    == "PS"  ) // Solo Parent
+                    //    {
+                    //        var date_applied_5_working_days = DateTime.Parse(data.date_applied.ToString()).AddDays(ctr);
+                    //        if (date_applied_5_working_days > leave_date_from || date_applied_5_working_days > leave_date_to && p_action_mode == "SUBMIT") 
+                    //        {
+                    //            message         = "5_adv_validation";
+                    //            message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
+                    //            message_descr2  = " You must apply in advance 5 working days for " + leave_descr + " Apply " + date_applied_5_working_days.ToLongDateString() + " instead!";
+                    //        }
+                    //    }
 
-                        if (data.leave_subtype_code == "PO" || // Special Leave - Parental Obligation
-                            data.leave_subtype_code == "PT"    // Special Leave - Personal Transaction
-                            ) 
-                        {
-                            var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
-                            if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false) 
-                            {
-                                message         = "5_adv_validation";
-                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
-                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for " + leave_descr;
-                            }
-                        }
-                    }
-                    if ((data.leave_type_code  == "SL" || data.leave_type_code == "SP") && DateTime.Parse(data.date_applied.ToString()) >= DateTime.Parse("2023-07-01"))
+                    //    if (data.leave_subtype_code == "PO" || // Special Leave - Parental Obligation
+                    //        data.leave_subtype_code == "PT"    // Special Leave - Personal Transaction
+                    //        ) 
+                    //    {
+                    //        var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
+                    //        if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false) 
+                    //        {
+                    //            message         = "5_adv_validation";
+                    //            message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToString("yyyy-MM-dd") + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToString("yyyy-MM-dd") + "\n Date Application to: " + leave_date_to.ToString("yyyy-MM-dd");
+                    //            message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for " + leave_descr;
+                    //        }
+                    //    }
+                    //}
+                    //if ((data.leave_type_code  == "SL" || data.leave_type_code == "SP" || data.leave_type_code == "PS") && DateTime.Parse(data.date_applied.ToString()) >= DateTime.Parse("2023-07-01"))
+                    if ((data.leave_type_code  == "SL" || data.leave_type_code == "SP" || data.leave_type_code == "PS") )
                     {
-                        if (dt_chk_tse==null)
+                        var justi = db_ats.leave_application_hdr_justi_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
+
+                        if (dt_chk_tse == null)
                         {
                             var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
-                            if (day_diff >= 5 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                            if (day_diff >= 7 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi ==null))
                             {
                                 message         = "5_adv_validation";
                                 message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
@@ -726,7 +729,7 @@ namespace HRIS_eSelfService.Controllers
                         else
                         {
                             var day_diff = (DateTime.Parse(data.date_applied.ToString()) - leave_date_from).TotalDays;
-                            if (day_diff >= 7 && p_action_mode == "SUBMIT" && data.justification_flag == false)
+                            if (day_diff >= 5 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi == null))
                             {
                                 message = "5_adv_validation";
                                 message_descr = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
@@ -1188,6 +1191,7 @@ namespace HRIS_eSelfService.Controllers
                     var query = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                     var query_cto = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                     var query_cancellation = db_ats.leave_application_cancel_tbl.RemoveRange(db_ats.leave_application_cancel_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
+                    var delete_justi = db_ats.leave_application_hdr_justi_tbl.RemoveRange(db_ats.leave_application_hdr_justi_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
 
                     // *************************************************************
                     // **** VJA - 2023-06-01 -- Insert Leave Ledger History ********
@@ -1241,6 +1245,7 @@ namespace HRIS_eSelfService.Controllers
                         var query = db_ats.leave_application_dtl_tbl.RemoveRange(db_ats.leave_application_dtl_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                         var query_cto = db_ats.leave_application_dtl_cto_tbl.RemoveRange(db_ats.leave_application_dtl_cto_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno));
                         var query_cancellation = db_ats.leave_application_cancel_tbl.RemoveRange(db_ats.leave_application_cancel_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
+                        var delete_justi = db_ats.leave_application_hdr_justi_tbl.RemoveRange(db_ats.leave_application_hdr_justi_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id));
 
                         db_ats.SaveChangesAsync();
                         message = "success";
@@ -1738,11 +1743,45 @@ namespace HRIS_eSelfService.Controllers
         {
             try
             {
-                data.created_dttm   = DateTime.Now;
-                data.created_by     = Session["user_id"].ToString();
-                db_ats.leave_application_hdr_justi_tbl.Add(data);
-                db_ats.SaveChangesAsync();
-                return Json(new { message = "success" }, JsonRequestBehavior.AllowGet);
+                var message = "";
+                if (data.justi_date == null)
+                {
+                    message = "Justification Date is Required!";
+                }
+                else if (data.justi_reason == null)
+                {
+                    message = "Justification Reason is Required!";
+                }
+                else
+                {
+                    var data_chk = db_ats.leave_application_hdr_justi_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id).FirstOrDefault();
+
+                    if (data_chk ==null)
+                    {
+                        data.created_dttm           = DateTime.Now;
+                        data.created_by             = Session["user_id"].ToString();
+                        db_ats.leave_application_hdr_justi_tbl.Add(data);
+                    }
+                    else
+                    {
+                        var data_upd = db_ats.leave_application_hdr_justi_tbl.Where(a => a.leave_ctrlno == data.leave_ctrlno && a.empl_id == data.empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
+                        
+                        data_upd.summernote_descr          = data.summernote_descr        ;
+                        data_upd.updated_dttm              = DateTime.Now                 ;
+                        data_upd.updated_by                = Session["user_id"].ToString();
+                        data_upd.justi_date                = data.justi_date              ;
+                        data_upd.justi_reason              = data.justi_reason            ;
+                        data_upd.justi_employee_name       = data.justi_employee_name     ;
+                        data_upd.justi_employee_position   = data.justi_employee_position ;
+                        data_upd.justi_noted_by            = data.justi_noted_by          ;
+                        data_upd.justi_noted_desig         = data.justi_noted_desig       ;
+                    }
+
+                    db_ats.SaveChangesAsync();
+                    message = "success";
+                }
+
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -1759,7 +1798,7 @@ namespace HRIS_eSelfService.Controllers
                 var dpt_tbl = db_dev.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault();
                 var approved_name = db_dev.vw_personnelnames_PAY.Where(a => a.empl_id == dpt_tbl.empl_id.ToString().Trim()).FirstOrDefault().employee_name_format2.ToString().Trim().ToUpper();
                 var approved_by_desig = dpt_tbl.designation_head1.ToString().Trim().ToUpper();
-                var employee_name = Session["employee_name"].ToString().Trim();
+                var employee_name = Session["first_name"].ToString() + " " + Session["last_name"];
 
                 var data = db_ats.leave_application_hdr_justi_tbl.Where(a=> a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a=>a.id).FirstOrDefault();
                  return Json(new { message = "success", data, approved_name, approved_by_desig, dpt_tbl , employee_name }, JsonRequestBehavior.AllowGet);

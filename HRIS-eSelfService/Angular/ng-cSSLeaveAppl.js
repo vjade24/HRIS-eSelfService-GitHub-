@@ -49,6 +49,7 @@
 
     s.div_justi_msg = false;
     s.div_show_transfer_date = false;
+    s.div_justi_bottom_msg = false
     var justi_flag = document.getElementById("justification_flag");
     init()
     //**********************************************
@@ -344,7 +345,8 @@
                                 var enable_button = "";
                                 var show_creator = false;
                                 var posting_status = "" 
-                                var leave_sub_type = "" 
+                                var leave_sub_type = ""
+                                var justification_flag = false;
 
                                 leave_sub_type = full["leave_subtype_code"] != '' ? ' (' + full["leave_subtype_code"] +')' : '';
                                 posting_status = full["posting_status"] == '1' ? '<span class="pull-right label label-primary"> Posted </span>' : '<span class="pull-right label label-danger"> Not Posted </span>';
@@ -371,6 +373,12 @@
                                     full["approval_status"].toString() == "L") {
                                     edit_text = "View Details";
                                 }
+
+                                if (full["justification_flag"] == true)
+                                {
+                                    justification_flag = true
+                                }
+
                                 if (full["approval_status"].toString() == "N") {
 
                                     temp = "<div class='xx input-group m-b'>"
@@ -384,10 +392,12 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
                                         //+ "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag+"'><a ng-click='btn_print_justi(" + row["row"] + ")'>Print Justification Letter</a></li>"
                                         + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
                                 }
@@ -403,9 +413,11 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "R") {
@@ -420,9 +432,11 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")')'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")')'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "F") {
@@ -437,9 +451,11 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")')'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")')'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 if (full["approval_status"].toString() == "C") {
@@ -455,10 +471,11 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
                                         + "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
                                         + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
                                 }
@@ -474,9 +491,10 @@
                                         + "</small><br/>"
                                         + full["approval_status_descr"] + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
+                                        + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
+                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
                                         + "</ul></div>";
                                 }
 
@@ -547,7 +565,7 @@
                     event.id = (arr_dates[x].leave_ctrlno + "_false"); // unique event id;
                 }
                 
-                event.title = arr_dates[x].leave_type_descr + (arr_dates[x].appl_status.toString() == '' ? '' : '<br>' + "<span data-toggle='tooltip' data-placement='top' title='" + arr_dates[x].appl_status + "' style='font-size:70% !important;border: 1px solid blanchedalmond;' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + arr_dates[x].appl_status + " </span>") ;
+                event.title                 = arr_dates[x].leave_type_descr + (arr_dates[x].appl_status.toString() == '' ? '' : '<br>' + "<span data-toggle='tooltip' data-placement='top' title='" + arr_dates[x].appl_status + "' style='font-size:70% !important;border: 1px solid blanchedalmond;' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + arr_dates[x].appl_status + " </span>") + '<br>' + (arr_dates[x].justification_flag == false ? "" : "<span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>");
                 event.start                 = arr_dates[x].leave_date_from;
                 event.end                   = moment(arr_dates[x].leave_date_to).add(1, "days").format("YYYY-MM-DD");
                 event.description           = arr_dates[x].approval_status ;
@@ -1046,6 +1064,7 @@
         {
             s.show_cancel_button = false;
             s.div_justi_msg         = false;
+            s.div_justi_bottom_msg  = false;
             justi_flag.checked      = false;
             $('#modal_loading').modal({ backdrop: 'static', keyboard: false });
             s.day_num_day_total_func();
@@ -1200,6 +1219,7 @@
             btn                     = document.getElementById('submit');
             btn.innerHTML           = '<i class="fa fa-paper-plane-o"></i> Submit';
             s.div_justi_msg         = false;
+            s.div_justi_bottom_msg  = false;
             justi_flag.checked      = false;
             s.dis_edit              = false;
             s.dis_submit            = false;
@@ -1369,6 +1389,8 @@
                                 , leave_descr                   : $('#txtb_specify').val()
                                 , approval_status               : "S"
                                 , approval_id                   : s.edit_approval_id
+                                , justification_flag            : justi_flag.checked
+                                , commutation                   : $('#commutation').val()
                             }
 
                             for (var x = 0; x < s.datalistgrid2.length; x++)
@@ -2409,6 +2431,7 @@
             }
 
             s.div_justi_msg = false
+            s.div_justi_bottom_msg = false;
             justi_flag.checked = false
             if (s.datalistgrid3[row_id].justification_flag == true)
             {
@@ -2604,6 +2627,7 @@
 
             s.div_justi_msg = false
             justi_flag.checked = false
+            s.div_justi_bottom_msg = false;
             if (s.datalistgrid[row_id].justification_flag == true)
             {
                 justi_flag.checked = true
@@ -2780,8 +2804,9 @@
                 .then(function (willDelete) {
                     if (willDelete) {
                         var data = {
-                            leave_ctrlno: s.datalistgrid3[row_index].leave_ctrlno
-                            , approval_id: s.datalistgrid3[row_index].approval_id
+                            leave_ctrlno    : s.datalistgrid3[row_index].leave_ctrlno
+                            , approval_id   : s.datalistgrid3[row_index].approval_id
+                            , empl_id       : s.datalistgrid3[row_index].empl_id
                         };
                         
                         h.post("../cSSLeaveAppl/DeleteAll", 
@@ -2825,6 +2850,7 @@
                         {
                             leave_ctrlno    : s.datalistgrid3[row_index].leave_ctrlno
                             ,leave_dates    : s.datalistgrid3[row_index].leave_dates
+                            ,empl_id        : s.datalistgrid3[row_index].empl_id
                         };
                         
                         h.post("../cSSLeaveAppl/Delete", {
@@ -2866,8 +2892,9 @@
                 .then(function (willDelete) {
                     if (willDelete) {
                         var data = {
-                            leave_ctrlno: s.datalistgrid3[row_index].leave_ctrlno
-                            , approval_id: s.datalistgrid3[row_index].approval_id
+                            leave_ctrlno    : s.datalistgrid3[row_index].leave_ctrlno
+                            , approval_id   : s.datalistgrid3[row_index].approval_id
+                            , empl_id       : s.datalistgrid3[row_index].empl_id
                         }
 
                         h.post("../cSSLeaveAppl/CancelAll", {
@@ -2939,7 +2966,7 @@
     //************************************// 
     //*** Print Action Click              
     //**********************************// 
-    s.btn_print_action = function (par_row_id)
+    s.btn_print_action = function (par_row_id,report_type)
     {
         if (s.datalistgrid3[par_row_id].approval_status == "N" ||
             s.datalistgrid3[par_row_id].approval_status == "C" )
@@ -2956,25 +2983,76 @@
         var ReportPath          = ""
         var sp                  = ""
 
-        if (s.datalistgrid3[par_row_id].leave_type_code == "CTO")
+        if (report_type == "leave")
         {
-            //ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
-            ReportPath = "~/Reports/cryCTONew/cryCTONew.rpt";
-            sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id + ",par_view_mode," + "01"; // View Mode - Self-Service Viewing of Balance
+            s.employee_name_print = "LEAVE APPLICATION";
+            if (s.datalistgrid3[par_row_id].leave_type_code == "CTO")
+            {
+                //ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
+                ReportPath = "~/Reports/cryCTONew/cryCTONew.rpt";
+                sp = "sp_leave_application_hdr_tbl_report_cto,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id + ",par_view_mode," + "01"; // View Mode - Self-Service Viewing of Balance
+                show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+            }
+            else
+            {
+                ReportPath = "~/Reports/cryLeavePermission/cryLeavePermissionMainRep.rpt";
+                sp = "sp_leave_application_hdr_tbl_report,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id;
+                show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+            }
         }
         else
         {
-            ReportPath = "~/Reports/cryLeavePermission/cryLeavePermissionMainRep.rpt";
-            sp         = "sp_leave_application_hdr_tbl_report,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id;
+            s.employee_name_print = "LEAVE JUSTIFICATION";
+
+            var can_print = false;
+            if (report_type == "justification_check")
+            {
+                h.post("../cSSLeaveAppl/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id }).then(function (d)
+                {
+                    if (d.data.message == "success")
+                    {
+                        if (d.data.data != null)
+                        {
+                            ReportPath = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                            sp = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + s.txtb_appl_nbr + ",par_empl_id," + s.txtb_empl_id;
+                            show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+                        }
+                        else
+                        {
+                            swal({ icon: "warning", title: "JUSTIFICATION LETTER NOT FOUND!" });
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        swal({ icon: "warning", title: d.data.message });
+                        return;
+                    }
+                })
+            }
+            else
+            {
+                ReportPath = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                sp = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id;
+
+                show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+            }
         }
+
         
-        h.post("../cSSLeaveAppl/setPageHistory").then(function (d) {
+        
+    }
+
+    function show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+    {
+        h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
+        {
                 if (d.data.message == "success")
                 {
                     // *******************************************************
                     // *** VJA : 2021-07-14 - Validation and Loading hide ****
                     // *******************************************************
-                    s.employee_name_print = "LEAVE APPLICATION";
+                    
                     $("#loading_data").modal({ keyboard: false, backdrop: "static" })
                     var iframe = document.getElementById('iframe_print_preview');
                     var iframe_page = $("#iframe_print_preview")[0];
@@ -4259,9 +4337,17 @@
                 if (d.data.data == null)
                 {
                     $('#summernote_justification').summernote();
-                    var myHtml = $('.note-editable')
-                    myHtml.html("")
-                    myHtml.prepend("<p>" + moment(datenow_str).format("LL") + "</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>"+d.data.employee_name+"<br>(Position)</p><p><br></p><p>Noted:<br>" + d.data.approved_name + "<br>" + d.data.approved_by_desig + "</p>")
+                    //var myHtml = $('.note-editable')
+                    //myHtml.html("")
+                    //myHtml.prepend("<p>" + moment(datenow_str).format("LL") + "</p><p><br><br><br><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br><br><br><br>Dear Madam:</p><p><br><br><br>This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.</p><p><br><br>I hope for your kind consideration.</p><p><br><br>Thank you.</p><p><br><br>Very truly yours,<br><br><br><br><br>" + d.data.employee_name + "<br><br>(Position)</p><p><br><br></p><p>Noted:<br><br>" + d.data.approved_name + "<br><br>" + d.data.approved_by_desig + "</p>")
+                    s.justi_date               = moment(datenow_str).format("YYYY-MM-DD")
+                    s.justi_reason             = ""
+                    s.justi_employee_name      = d.data.employee_name
+                    s.justi_employee_position  = "(Position)"
+                    s.justi_noted_by           = d.data.approved_name
+                    s.justi_noted_desig        = d.data.approved_by_desig
+                    $('#justi_reason').attr('placeholder', "This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.\n\n I hope for your kind consideration.")
+
                 }
                 else
                 {
@@ -4270,7 +4356,12 @@
                     var myHtml = $('.note-editable')
                     myHtml.html("")
                     myHtml.prepend(d.data.data.summernote_descr)
-
+                    s.justi_date               = moment(d.data.data.justi_date).format("YYYY-MM-DD")
+                    s.justi_reason             = d.data.data.justi_reason
+                    s.justi_employee_name      = d.data.data.justi_employee_name
+                    s.justi_employee_position  = d.data.data.justi_employee_position
+                    s.justi_noted_by           = d.data.data.justi_noted_by
+                    s.justi_noted_desig        = d.data.data.justi_noted_desig
                 }
 
                 $('#modal_justification').modal({ backdrop: 'static', keyboard: false });
@@ -4284,13 +4375,23 @@
 
     s.btn_save_justification = function ()
     {
-        //var myHtml = $('#summernote_justification').summernote('code');
-        var myHtml = $('.note-editable')[0].innerHTML
+        //var myHtml = $('.note-editable')[0].innerHTML
 
+        var myHtml = $('.note-editable')
+        myHtml.html("")
+        myHtml.prepend("<p>" + moment($('#justi_date').val()).format("LL") + "</p><p><br><br><br><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br><br><br><br>Dear Madam:</p><p><br><br><br>" + s.justi_reason + "</p><p><br><br><br><br>Very truly yours,<br><br><br><br><br>" + s.justi_employee_name + "<br>" + s.justi_employee_position + "</p><p><br><br></p><p>Noted:<br><br><br><br>" + s.justi_noted_by + "<br>" + s.justi_noted_desig + "</p>")
+        
         var data = {
-                 leave_ctrlno      : s.txtb_appl_nbr
-                ,empl_id           : s.txtb_empl_id
-                ,summernote_descr  : myHtml
+                 leave_ctrlno               : s.txtb_appl_nbr
+                ,empl_id                    : s.txtb_empl_id
+                ,summernote_descr           : $('.note-editable')[0].innerHTML
+                ,justi_date                 : $('#justi_date').val()
+                ,justi_reason               : s.justi_reason
+                ,justi_employee_name        : s.justi_employee_name
+                ,justi_employee_position    : s.justi_employee_position
+                ,justi_noted_by             : s.justi_noted_by
+                ,justi_noted_desig          : s.justi_noted_desig
+
         }
         //console.log(data)
         //return;
@@ -4299,7 +4400,8 @@
             if (d.data.message == "success")
             {
                 $('#modal_justification').modal("hide");
-                swal("Successfully Added", { icon: "success", });
+                //swal("Justification Letter Successfully Saved!", { icon: "success", });
+                s.div_justi_bottom_msg = true
             }
             else
             {
