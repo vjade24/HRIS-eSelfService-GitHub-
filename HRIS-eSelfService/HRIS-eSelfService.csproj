@@ -6959,10 +6959,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryLeaveJustification\cryLeaveJustification.rpt">
+    <Content Include="Reports\cryLeaveJustification\cryLeaveJustification.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveJustification.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryOthPay11.cs</LastGenOutput>
