@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -4352,6 +4352,12 @@
     <Compile Include="Reports\cryJobOrderReports\crySalary\crySalaryMonthly_NOCAFOA.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveJustification.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
       <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -6953,6 +6959,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\cryLeaveJustification\cryLeaveJustification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveJustification.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryOthPay11.cs</LastGenOutput>
