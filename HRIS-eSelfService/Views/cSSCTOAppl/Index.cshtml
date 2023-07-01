@@ -487,7 +487,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group row" style="padding-top:3px;">
+                                                    <div class="form-group row" ng-hide="true" style="padding-top:3px;">
                                                         <div class="col-lg-12" style="padding:0px;margin:0px;">
                                                             <div class="col-lg-4" style="padding-right:0px;padding-top:9px;">
                                                                 <label class="font-bold"><b> Leave Sub-Type:</b></label>
@@ -928,7 +928,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title"> Leave Details Information</h4>
                 </div>
-                <div class="modal-body with-background">
+                <div class="modal-body with-background" ng-mouseover="chck_halfday()">
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -936,8 +936,8 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
-                                <span class="input-group-addon">
+                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled ng-text-change="chck_halfday()" ng-model-change="chck_halfday()" /> 
+                                <span class="input-group-addon" ng-keyup="chck_halfday()">
                                     <span class="fa fa-calendar"></span>
                                 </span>
                             </div>
@@ -948,8 +948,8 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
-                                <span class="input-group-addon">
+                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10"  disabled ng-text-change="chck_halfday()" ng-click="chck_halfday()" />
+                                <span class="input-group-addon" ng-keyup="chck_halfday()">
                                     <span class="fa fa-calendar"></span>
                                 </span>
                             </div>

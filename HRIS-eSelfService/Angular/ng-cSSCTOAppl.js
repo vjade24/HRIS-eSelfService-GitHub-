@@ -50,6 +50,9 @@
     s.div_justi_msg = false;
     s.div_show_transfer_date = false;
     var justi_flag = document.getElementById("justification_flag");
+    s.ddl_leave_type = "CTO";
+    s.start_date = null;
+    s.end_date = null;
     init()
     //**********************************************
     // Initialize data during page loads ***********
@@ -83,7 +86,7 @@
             $('#summernote_justification').summernote();
 
             $('#modal_loading').modal({ backdrop: 'static', keyboard: false });
-            h.post("../cSSLeaveAppl/InitializeData").then(function (d) {
+            h.post("../cSSCTOAppl/InitializeData").then(function (d) {
                 if (d.data.message == "success")
                 {
                     s.userid            = d.data.um.user_id
@@ -785,7 +788,7 @@
         {
             swal("YOU CANNOT APPLY MONETIZATION LEAVE ON HRIS - SELF-SERVICE AT THIS TIME!", "Please contact PHRMDO (Payroll and Benefit Division) for more information.", { icon: "warning" });
             //$('#id_datebrk').click();
-            s.ddl_leave_type = ""
+            //s.ddl_leave_type = ""
             return_val = false;
         }
 
@@ -797,31 +800,31 @@
             s.div_cto   = false;
             if (s.ddl_leave_type == "CTO")
             {
-                if (s.save_mode == "ADD")
-                {
-                    if (s.datalistgrid2.length <= 1)
-                    {
-                        s.datalistgrid2 = [];
+                //if (s.save_mode == "ADD")
+                //{
+                //    if (s.datalistgrid2.length <= 1)
+                //    {
+                //        s.datalistgrid2 = s.datalistgrid2.length == 0 ? [] : s.datalistgrid2;
 
 
-                        ss_date = s.start_date;
-                        ee_date = s.end_date;
-                        
-                        data =
-                        {
-                            leave_date_from         : ss_date
-                            , leave_date_to         : ee_date
-                            , date_num_day          : s.total_equiv_tot * 1
-                            , date_num_day_total    : s.total_equiv_tot * 8
-                            , cto_remarks           : s.txtb_cto_remarks
-                        };
-
-                        s.datalistgrid2.push(data);
-                        s.oTable2.fnClearTable();
-                        s.oTable2.fnAddData(s.datalistgrid2);
-                        
-                    }
-                }
+                //        ss_date = s.start_date;
+                //        ee_date = s.end_date;
+                //        if (ss_date != null && ee_date != null)
+                //        {
+                //            data =
+                //                {
+                //                    leave_date_from: ss_date
+                //                    , leave_date_to: ee_date
+                //                    , date_num_day: s.total_equiv_tot * 1
+                //                    , date_num_day_total: s.total_equiv_tot * 8
+                //                    , cto_remarks: s.txtb_cto_remarks
+                //                };
+                //            s.datalistgrid2.push(data);
+                //            s.oTable2.fnClearTable();
+                //            s.oTable2.fnAddData(s.datalistgrid2);
+                //        }
+                //    }
+                //}
 
                 s.div_cto           = true;
                 s.txtb_day_equiv    = "1";
@@ -829,7 +832,7 @@
                 s.day_num_day_total_func();
             }
             
-            h.post("../cSSLeaveAppl/GetLeaveSubType",
+            h.post("../cSSCTOAppl/GetLeaveSubType",
             {
                   par_leave_type  : s.ddl_leave_type
                 , par_empl_id     : s.txtb_empl_id
@@ -898,7 +901,7 @@
                     // *** - 2022-06-03 03:48PM - Force Leave Validation, user cannot apply FL without FL Plan 
                     // ***************************************************************************************************
                     swal("You cannot save this Application!", d.data.message_descr2 , { icon: "warning" })
-                    s.ddl_leave_type = "";
+                    //s.ddl_leave_type = "";
                     // ***************************************************************************************************
                 }
                 else
@@ -997,7 +1000,7 @@
             s.txtb_year_selected = temp_year_selected.slice(temp_year_selected.length - 4);
 
             $('#modal_loading').modal({ backdrop: 'static', keyboard: false });
-            h.post("../cSSLeaveAppl/FilterPageGrid",
+            h.post("../cSSCTOAppl/FilterPageGrid",
             {
                 p_empl_id       : var_empl_id
                 , p_appr_status : $('#ddl_status option:selected').val()
@@ -1081,9 +1084,9 @@
 
             $('#ddl_leave_type option:selected').val() == "" || $('#ddl_leave_type option:selected').val() != "SL" ? s.dis_bal_inputs = true : s.dis_bal_inputs = false;
             
-            s.dis_when_s = false;
+            s.dis_when_s = true;
 
-            h.post("../cSSLeaveAppl/GenerateNewApplNbr",
+            h.post("../cSSCTOAppl/GenerateNewApplNbr",
                 {
                     par_empl_id         : $('#ddl_name option:selected').val()
                     , par_year          : s.txtb_year_selected
@@ -1123,28 +1126,28 @@
                                 leave_date_from         : s_date
                                 , leave_date_to         : e_date
                                 , date_num_day          : "1"
-                                , date_num_day_total    : s.tot_nbr_days
+                                , date_num_day_total    : s.tot_nbr_days * 8
                             }
                             s.start_date = s_date
                             s.datalistgrid2.push(data)
                             s.oTable2.fnClearTable();
                             s.oTable2.fnAddData(s.datalistgrid2);
                         }
-                        
                         s.selectLeaveType();
-                        
+                       
                         s.cto_current_balance   = d.data.cto_balance[0].leaveledger_balance_current;
                         s.vl_current_balance    = d.data.vl_current_balance[0].leaveledger_balance_current;
                         s.sl_current_balance    = d.data.sl_current_balance[0].leaveledger_balance_current;
                         s.sp_current_balance    = d.data.sp_current_balance[0].leaveledger_balance_current;
                         s.fl_current_balance    = d.data.fl_current_balance[0].leaveledger_balance_current;
-
+                       
                         setTimeout(function ()
                         {
                             $('#tab-1').click();
                             btn.innerHTML = '<i class="fa fa-plus-circle"> </i> Apply';
                             $('#modal_loading').modal("hide");
                             $('#main_modal').modal({ backdrop: 'static', keyboard: false });
+                           
                         }, 300);
                     }
                     else
@@ -1204,7 +1207,9 @@
             justi_flag.checked      = false;
             s.dis_edit              = false;
             s.dis_submit            = false;
-            s.dis_plan_date         = false;
+            s.dis_plan_date = false;
+            s.ddl_leave_type = 'CTO';
+            //s.selectLeaveType();
 
             if (s.log_in_as_AO == true)
             {
@@ -1274,8 +1279,6 @@
                         .nodes()
                         .to$()
                         .addClass('selected');
-                    
-                    s.selectLeaveType();
                     s.leave_computation_edited();
 
                     clearentry2();
@@ -1396,7 +1399,7 @@
                                 }
                             }
 
-                        h.post("../cSSLeaveAppl/GenerateNewApplNbr",
+                        h.post("../cSSCTOAppl/GenerateNewApplNbr",
                             {
                                 par_empl_id     : s.txtb_empl_id
                                 ,par_year       : s.txtb_year_selected
@@ -1405,7 +1408,7 @@
                             {
                                 if (d.data.message == "success")
                                 {
-                                    h.post("../cSSLeaveAppl/CheckAndContinue", {data2: data2,data:data}).then(function (x)
+                                    h.post("../cSSCTOAppl/CheckAndContinue", {data2: data2,data:data}).then(function (x)
                                     {
                                         if (x.data.message_flag == "Y")
                                         {
@@ -1427,10 +1430,10 @@
                                             }).then((value) => {
                                                 switch (value) {
                                                     case "continue_anyway":
-                                                        h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "RESUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
+                                                        h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "RESUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
                                                             if (d.data.message == "" || d.data.message == null)
                                                             {
-                                                                h.post("../cSSLeaveAppl/ReSubmitAll", {
+                                                                h.post("../cSSCTOAppl/ReSubmitAll", {
                                                                     data: data
                                                                     , data2: data2
                                                                     , data3: data3
@@ -1445,51 +1448,7 @@
                                                                     }
                                                                 });
                                                             }
-                                                            //else if (d.data.message == "confim_save")
-                                                            //{
-                                                            //        if (d.data.message_descr != "") {
-                                                            //            swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                            //                icon: "warning",
-                                                            //                buttons: {
-
-                                                            //                    defeat: {
-                                                            //                        value: "defeat",
-                                                            //                        text: "Close",
-                                                            //                        className: "btn-danger"
-                                                            //                    },
-                                                            //                    continue_anyway: {
-                                                            //                        text: "OK, Continue and Submit Anyway",
-                                                            //                        value: "continue_anyway",
-                                                            //                    },
-                                                            //                },
-                                                            //            }).then((value) => {
-                                                            //                switch (value) {
-                                                            //                    case "continue_anyway":
-                                                            //                        h.post("../cSSLeaveAppl/Save2", {
-                                                            //                             data   : data
-                                                            //                            ,data2  : data2
-                                                            //                            ,data3  : data3
-                                                            //                        }).then(function (d) {
-                                                            //                            if (d.data.message == "success")
-                                                            //                            {
-                                                            //                                s.FilterPageGrid();
-                                                            //                                $('#main_modal').modal("hide");
-                                                            //                                swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                            //                            }
-                                                            //                            else
-                                                            //                            {
-                                                            //                                swal(d.data.message, { icon: "warning", });
-                                                            //                            }
-                                                            //                        });
-                                                            //                        break;
-
-                                                            //                    default:
-                                                            //                        swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                            //                }
-                                                            //            });
-
-                                                            //        }
-                                                            //    }
+                                                            
                                                             else if (d.data.message == "cto_validation") {
                                                                 if (d.data.message_descr != "") {
                                                                     swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1511,12 +1470,7 @@
                                                                     swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
                                                                 }
                                                             }
-                                                            //else if (d.data.message == "no-december")
-                                                            //{
-                                                            //    if (d.data.message_descr != "") {
-                                                            //        swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                            //    }
-                                                            //}
+                                                           
                                                             else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances") {
                                                                 if (d.data.message_descr != "") {
                                                                     swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -1535,11 +1489,11 @@
                                         }
                                         else
                                         {
-                                            h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "RESUBMIT", par_year: s.txtb_year_selected }).then(function (d)
+                                            h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "RESUBMIT", par_year: s.txtb_year_selected }).then(function (d)
                                             {
                                                     if (d.data.message == "" || d.data.message == null)
                                                     {
-                                                        h.post("../cSSLeaveAppl/ReSubmitAll", {
+                                                        h.post("../cSSCTOAppl/ReSubmitAll", {
                                                             data    : data
                                                             ,data2  : data2
                                                             ,data3  : data3
@@ -1555,51 +1509,7 @@
                                                             }
                                                         });
                                                     }
-                                                    //else if (d.data.message == "confim_save")
-                                                    //{
-                                                    //        if (d.data.message_descr != "") {
-                                                    //            swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                    //                icon: "warning",
-                                                    //                buttons: {
-
-                                                    //                    defeat: {
-                                                    //                        value: "defeat",
-                                                    //                        text: "Close",
-                                                    //                        className: "btn-danger"
-                                                    //                    },
-                                                    //                    continue_anyway: {
-                                                    //                        text: "OK, Continue and Submit Anyway",
-                                                    //                        value: "continue_anyway",
-                                                    //                    },
-                                                    //                },
-                                                    //            }).then((value) => {
-                                                    //                switch (value) {
-                                                    //                    case "continue_anyway":
-                                                    //                        h.post("../cSSLeaveAppl/Save2", {
-                                                    //                             data   : data
-                                                    //                            ,data2  : data2
-                                                    //                            ,data3  : data3
-                                                    //                        }).then(function (d) {
-                                                    //                            if (d.data.message == "success")
-                                                    //                            {
-                                                    //                                s.FilterPageGrid();
-                                                    //                                $('#main_modal').modal("hide");
-                                                    //                                swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                    //                            }
-                                                    //                            else
-                                                    //                            {
-                                                    //                                swal(d.data.message, { icon: "warning", });
-                                                    //                            }
-                                                    //                        });
-                                                    //                        break;
-
-                                                    //                    default:
-                                                    //                        swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                    //                }
-                                                    //            });
-
-                                                    //        }
-                                                    //    }
+                                                   
                                                         else if (d.data.message == "cto_validation")
                                                         {
                                                             if (d.data.message_descr != "") {
@@ -1622,11 +1532,7 @@
                                                                     swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
                                                                 }
                                                         }
-                                                    //    else if (d.data.message == "no-december") {
-                                                    //        if (d.data.message_descr != "") {
-                                                    //            swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                    //        }
-                                                    //}
+                                                   
                                                     else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances") {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -1651,7 +1557,7 @@
                     {
                         if (s.datalistgrid2.length > 0)
                         {
-                            h.post("../cSSLeaveAppl/GenerateNewApplNbr", {
+                            h.post("../cSSCTOAppl/GenerateNewApplNbr", {
                                 par_empl_id     : s.txtb_empl_id
                                 , par_year      : s.txtb_year_selected
                                 , par_leave_type: $('#ddl_leave_type option:selected').val()
@@ -1735,7 +1641,7 @@
                                                 }
                                         }
 
-                                        h.post("../cSSLeaveAppl/CheckAndContinue", { data2: data2, data: data }).then(function (x)
+                                        h.post("../cSSCTOAppl/CheckAndContinue", { data2: data2, data: data }).then(function (x)
                                         {
                                             if (x.data.message_flag == "Y") {
                                                 swal(x.data.message_descr, x.data.message_descr2,
@@ -1755,9 +1661,9 @@
                                                     }).then((value) => {
                                                         switch (value) {
                                                             case "continue_anyway":
-                                                                h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "SUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
+                                                                h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "SUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
                                                                     if (d.data.message == "" || d.data.message == null) {
-                                                                        h.post("../cSSLeaveAppl/Save2", {
+                                                                        h.post("../cSSCTOAppl/Save2", {
                                                                             data: data
                                                                             , data2: data2
                                                                             , data3: data3
@@ -1772,51 +1678,7 @@
                                                                             }
                                                                         });
                                                                     }
-                                                                    //else if (d.data.message == "confim_save")
-                                                                    //{
-                                                                    //    if (d.data.message_descr != "") {
-                                                                    //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                                    //            icon: "warning",
-                                                                    //            buttons: {
-
-                                                                    //                defeat: {
-                                                                    //                    value: "defeat",
-                                                                    //                    text: "Close",
-                                                                    //                    className: "btn-danger"
-                                                                    //                },
-                                                                    //                continue_anyway: {
-                                                                    //                    text: "OK, Continue and Submit Anyway",
-                                                                    //                    value: "continue_anyway",
-                                                                    //                },
-                                                                    //            },
-                                                                    //        }).then((value) => {
-                                                                    //            switch (value) {
-                                                                    //                case "continue_anyway":
-                                                                    //                    h.post("../cSSLeaveAppl/Save2", {
-                                                                    //                         data   : data
-                                                                    //                        ,data2  : data2
-                                                                    //                        ,data3  : data3
-                                                                    //                    }).then(function (d) {
-                                                                    //                        if (d.data.message == "success")
-                                                                    //                        {
-                                                                    //                            s.FilterPageGrid();
-                                                                    //                            $('#main_modal').modal("hide");
-                                                                    //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                                    //                        }
-                                                                    //                        else
-                                                                    //                        {
-                                                                    //                            swal(d.data.message, { icon: "warning", });
-                                                                    //                        }
-                                                                    //                    });
-                                                                    //                    break;
-
-                                                                    //                default:
-                                                                    //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                                    //            }
-                                                                    //        });
-
-                                                                    //    }
-                                                                    //}
+                                                                   
                                                                     else if (d.data.message == "cto_validation") {
                                                                         if (d.data.message_descr != "") {
                                                                             swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1838,11 +1700,7 @@
                                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - September 09, 2022 10:42AM', { icon: "warning" })
                                                                         }
                                                                     }
-                                                                    //else if (d.data.message == "no-december") {
-                                                                    //    if (d.data.message_descr != "") {
-                                                                    //        swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                                    //    }
-                                                                    //}
+                                                                  
                                                                     else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances") {
                                                                         if (d.data.message_descr != "") {
                                                                             swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -1862,9 +1720,9 @@
                                             }
                                             else
                                             {
-                                                h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "SUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
+                                                h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "SUBMIT", par_year: s.txtb_year_selected }).then(function (d) {
                                                     if (d.data.message == "" || d.data.message == null) {
-                                                        h.post("../cSSLeaveAppl/Save2", {
+                                                        h.post("../cSSCTOAppl/Save2", {
                                                             data: data
                                                             , data2: data2
                                                             , data3: data3
@@ -1879,51 +1737,7 @@
                                                             }
                                                         });
                                                     }
-                                                    //else if (d.data.message == "confim_save")
-                                                    //{
-                                                    //    if (d.data.message_descr != "") {
-                                                    //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                    //            icon: "warning",
-                                                    //            buttons: {
-
-                                                    //                defeat: {
-                                                    //                    value: "defeat",
-                                                    //                    text: "Close",
-                                                    //                    className: "btn-danger"
-                                                    //                },
-                                                    //                continue_anyway: {
-                                                    //                    text: "OK, Continue and Submit Anyway",
-                                                    //                    value: "continue_anyway",
-                                                    //                },
-                                                    //            },
-                                                    //        }).then((value) => {
-                                                    //            switch (value) {
-                                                    //                case "continue_anyway":
-                                                    //                    h.post("../cSSLeaveAppl/Save2", {
-                                                    //                         data   : data
-                                                    //                        ,data2  : data2
-                                                    //                        ,data3  : data3
-                                                    //                    }).then(function (d) {
-                                                    //                        if (d.data.message == "success")
-                                                    //                        {
-                                                    //                            s.FilterPageGrid();
-                                                    //                            $('#main_modal').modal("hide");
-                                                    //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                    //                        }
-                                                    //                        else
-                                                    //                        {
-                                                    //                            swal(d.data.message, { icon: "warning", });
-                                                    //                        }
-                                                    //                    });
-                                                    //                    break;
-
-                                                    //                default:
-                                                    //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                    //            }
-                                                    //        });
-
-                                                    //    }
-                                                    //}
+                                                 
                                                     else if (d.data.message == "cto_validation") {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1945,11 +1759,7 @@
                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
                                                         }
                                                     }
-                                                    //else if (d.data.message == "no-december") {
-                                                    //    if (d.data.message_descr != "") {
-                                                    //        swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                    //    }
-                                                    //}
+                                                
                                                     else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances") {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -2041,7 +1851,7 @@
                                                 }
                                             }
 
-                                            h.post("../cSSLeaveAppl/CheckAndContinue", { data2: data2, data: data }).then(function (x)
+                                            h.post("../cSSCTOAppl/CheckAndContinue", { data2: data2, data: data }).then(function (x)
                                             {
                                                 if (d.data.message_flag == "Y") {
                                                     swal(x.data.message_descr, x.data.message_descr2,
@@ -2062,9 +1872,9 @@
                                                         }).then((value) => {
                                                             switch (value) {
                                                                 case "continue_anyway":
-                                                                    h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "EDIT", par_year: s.txtb_year_selected }).then(function (d) {
+                                                                    h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "EDIT", par_year: s.txtb_year_selected }).then(function (d) {
                                                                         if (d.data.message == "" || d.data.message == null) {
-                                                                            h.post("../cSSLeaveAppl/SaveSubmit", {
+                                                                            h.post("../cSSCTOAppl/SaveSubmit", {
                                                                                 data: data
                                                                                 , data2: data2
                                                                                 , data3: data3
@@ -2080,49 +1890,7 @@
                                                                                 btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
                                                                             });
                                                                         }
-                                                                        //else if (d.data.message == "confim_save")
-                                                                        //{
-                                                                        //    if (d.data.message_descr != "") {
-                                                                        //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                                        //            icon: "warning",
-                                                                        //            buttons: {
-
-                                                                        //                defeat: {
-                                                                        //                    value: "defeat",
-                                                                        //                    text: "Close",
-                                                                        //                    className: "btn-danger"
-                                                                        //                },
-                                                                        //                continue_anyway: {
-                                                                        //                    text: "OK, Continue and Submit Anyway",
-                                                                        //                    value: "continue_anyway",
-                                                                        //                },
-                                                                        //            },
-                                                                        //        }).then((value) => {
-                                                                        //            switch (value) {
-                                                                        //                case "continue_anyway":
-                                                                        //                    h.post("../cSSLeaveAppl/Save2", {
-                                                                        //                        data: data
-                                                                        //                        , data2: data2
-                                                                        //                        , data3: data3
-                                                                        //                    }).then(function (d) {
-                                                                        //                        if (d.data.message == "success") {
-                                                                        //                            s.FilterPageGrid();
-                                                                        //                            $('#main_modal').modal("hide");
-                                                                        //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                                        //                        }
-                                                                        //                        else {
-                                                                        //                            swal(d.data.message, { icon: "warning", });
-                                                                        //                        }
-                                                                        //                    });
-                                                                        //                    break;
-
-                                                                        //                default:
-                                                                        //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                                        //            }
-                                                                        //        });
-
-                                                                        //    }
-                                                                        //}
+                                                                       
                                                                         else if (d.data.message == "cto_validation") {
                                                                             if (d.data.message_descr != "") {
                                                                                 swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -2144,11 +1912,7 @@
                                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
                                                                             }
                                                                         }
-                                                                        //else if (d.data.message == "no-december") {
-                                                                        //    if (d.data.message_descr != "") {
-                                                                        //        swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                                        //    }
-                                                                        //}
+                                                                        
                                                                         else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances") {
                                                                             if (d.data.message_descr != "") {
                                                                                 swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -2169,9 +1933,9 @@
                                                 }
                                                 else
                                                 {
-                                                    h.post("../cSSLeaveAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "EDIT", par_year: s.txtb_year_selected }).then(function (d) {
+                                                    h.post("../cSSCTOAppl/CheckExist", { data2: data2, data: data, data3: data3, p_action_mode: "EDIT", par_year: s.txtb_year_selected }).then(function (d) {
                                                         if (d.data.message == "" || d.data.message == null) {
-                                                            h.post("../cSSLeaveAppl/SaveSubmit", {
+                                                            h.post("../cSSCTOAppl/SaveSubmit", {
                                                                 data: data
                                                                 , data2: data2
                                                                 , data3: data3
@@ -2187,49 +1951,7 @@
                                                                 btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
                                                             });
                                                         }
-                                                        //else if (d.data.message == "confim_save")
-                                                        //{
-                                                        //    if (d.data.message_descr != "") {
-                                                        //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                        //            icon: "warning",
-                                                        //            buttons: {
-
-                                                        //                defeat: {
-                                                        //                    value: "defeat",
-                                                        //                    text: "Close",
-                                                        //                    className: "btn-danger"
-                                                        //                },
-                                                        //                continue_anyway: {
-                                                        //                    text: "OK, Continue and Submit Anyway",
-                                                        //                    value: "continue_anyway",
-                                                        //                },
-                                                        //            },
-                                                        //        }).then((value) => {
-                                                        //            switch (value) {
-                                                        //                case "continue_anyway":
-                                                        //                    h.post("../cSSLeaveAppl/Save2", {
-                                                        //                        data: data
-                                                        //                        , data2: data2
-                                                        //                        , data3: data3
-                                                        //                    }).then(function (d) {
-                                                        //                        if (d.data.message == "success") {
-                                                        //                            s.FilterPageGrid();
-                                                        //                            $('#main_modal').modal("hide");
-                                                        //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                        //                        }
-                                                        //                        else {
-                                                        //                            swal(d.data.message, { icon: "warning", });
-                                                        //                        }
-                                                        //                    });
-                                                        //                    break;
-
-                                                        //                default:
-                                                        //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                        //            }
-                                                        //        });
-
-                                                        //    }
-                                                        //}
+                                                       
                                                         else if (d.data.message == "cto_validation") {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -2251,11 +1973,7 @@
                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr + '\n \n' + 'HRIS update validation DateTime: - August 12, 2022 11:58AM \n Effective: August 15, 2022', { icon: "warning" })
                                                             }
                                                         }
-                                                        //else if (d.data.message == "no-december") {
-                                                        //    if (d.data.message_descr != "") {
-                                                        //        swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
-                                                        //    }
-                                                        //}
+                                                       
                                                         else if (d.data.message == "no-fl-plan-report" || d.data.message == "no-fl-plan" || d.data.message == "fl-override" || d.data.message == "unequal-balances" || d.data.message == "unequal-balances") {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot continue this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
@@ -2415,7 +2133,7 @@
 
             //s.Populate_ApprovalHistory(s.datalistgrid3[row_id].leave_ctrlno);
 
-            h.post("../cSSLeaveAppl/GetDetailsData",
+            h.post("../cSSCTOAppl/GetDetailsData",
             {
                 p_leave_ctrlno  : s.datalistgrid3[row_id].leave_ctrlno
             }).then(function (d) {
@@ -2627,7 +2345,7 @@
                 $("#x1").closest('div').removeClass('checked');
                 $("#x0").closest('div').addClass('checked');
             }
-            h.post("../cSSLeaveAppl/GetDetailsData",
+            h.post("../cSSCTOAppl/GetDetailsData",
             {
                 p_leave_ctrlno: s.datalistgrid[row_id].leave_ctrlno
             }).then(function (d) {
@@ -2781,7 +2499,7 @@
                             , approval_id: s.datalistgrid3[row_index].approval_id
                         };
                         
-                        h.post("../cSSLeaveAppl/DeleteAll", 
+                        h.post("../cSSCTOAppl/DeleteAll", 
                         {
                             data: data
                         }).then(function (d) {
@@ -2824,7 +2542,7 @@
                             ,leave_dates    : s.datalistgrid3[row_index].leave_dates
                         };
                         
-                        h.post("../cSSLeaveAppl/Delete", {
+                        h.post("../cSSCTOAppl/Delete", {
                             data            : data
                             ,approval_id    : s.datalistgrid3[row_index].approval_id
                         }).then(function (d) {
@@ -2867,7 +2585,7 @@
                             , approval_id: s.datalistgrid3[row_index].approval_id
                         }
 
-                        h.post("../cSSLeaveAppl/CancelAll", {
+                        h.post("../cSSCTOAppl/CancelAll", {
                             data: data
                         }).then(function (d) {
                             if (d.data.message == "success") {
@@ -2887,52 +2605,7 @@
             swal({ icon: "warning", title: err.message });
         }
     }
-    //************************************// 
-    //*** Cancel Record In FLP Date Grid       
-    //**********************************// 
-    //s.btn_cancel = function (row_index) {
-    //    try {
-    //        swal({
-    //            title: "Are you sure to cancel this application?",
-    //            text: "Once cancelled, you will not be able to recover this record!",
-    //            icon: "warning",
-    //            buttons: true,
-    //            dangerMode: true,
 
-    //        })
-    //            .then(function (willDelete) {
-    //                if (willDelete) {
-    //                    var data = {
-    //                        leave_ctrlno: s.datalistgrid3[row_index].leave_ctrlno
-    //                        , approval_id: s.datalistgrid3[row_index].approval_id
-    //                    }
-    //                    var data2 = {
-    //                        leave_ctrlno: s.datalistgrid2[row_index].leave_ctrlno
-    //                        , leave_dates: s.datalistgrid2[row_index].flp_application_date
-    //                    }
-
-    //                    h.post("../cSSLeaveAppl/Cancel", {
-    //                        data: data
-    //                        , data2: data2
-    //                    }).then(function (d) {
-    //                        if (d.data.message == "success") {
-    //                            swal("Your record has been cancelled!", { icon: "success", });
-    //                            s.FilterPageGrid();
-    //                            GetDetailsData(s.datalistgrid2[row_index].application_nbr);
-
-    //                        }
-    //                        else {
-    //                            swal({ title: d.data.message, icon: "warning", });
-    //                        }
-    //                    })
-    //                }
-    //            });
-    //    }
-    //    catch (err)
-    //    {
-    //        swal({ icon: "warning", title: err.message });
-    //    }
-    //}
     //************************************// 
     //*** Print Action Click              
     //**********************************// 
@@ -2965,7 +2638,7 @@
             sp         = "sp_leave_application_hdr_tbl_report,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id;
         }
         
-        h.post("../cSSLeaveAppl/setPageHistory").then(function (d) {
+        h.post("../cSSCTOAppl/setPageHistory").then(function (d) {
                 if (d.data.message == "success")
                 {
                     // *******************************************************
@@ -3168,7 +2841,7 @@
         s.txtb_approval_status = "";
         s.txtb_empl_name = ""
         s.txtb_empl_id = ""
-        s.ddl_leave_type = ""
+        //s.ddl_leave_type = ""
         s.ddl_leave_sub_type = ""
         s.txtb_specify = ""
         s.txtb_comments = ""
@@ -3533,7 +3206,7 @@
                         , details_remarks: "User Withdraw Submission"
                     }
                     
-                    h.post("../cSSLeaveAppl/WithdrawSubmission", { data: data }).then(function (d)
+                    h.post("../cSSCTOAppl/WithdrawSubmission", { data: data }).then(function (d)
                     {
                         if (d.data.message == "success") {
                             $('#main_modal').modal("hide");
@@ -3552,6 +3225,7 @@
     //********************************// 
     s.chck_halfday = function ()
     {
+      
         if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
         {
             s.txtb_day_equiv     = 0.5
@@ -3599,93 +3273,6 @@
         return istrue;
 
     }
-    //*************************************************//
-    //***  VJA : Populate Particulars ****************//
-    //***********************************************//
-    //s.Populate_ApprovalHistory = function (par_txtb_appl_nbr)
-    //{
-    //    h.post("../cSSLeaveAppl/ApprovalHistory",
-    //    {
-    //        par_leave_ctlno: par_txtb_appl_nbr
-    //    }).then(function (d) {
-    //        if (d.data.message_descr == "success") {
-
-    //            if (d.data.data != null)
-    //            {
-    //                // LEAVE APPLICATION HISTORY
-    //                s.reviewed_comment              = d.data.data.reviewed_comment
-    //                s.level1_approval_comment       = d.data.data.level1_approval_comment
-    //                s.level2_approval_comment       = d.data.data.level2_approval_comment
-    //                s.final_approval_comment        = d.data.data.final_approval_comment
-    //                s.disapproval_comment           = d.data.data.disapproval_comment
-    //                s.cancel_pending_comment        = d.data.data.cancel_pending_comment
-    //                s.cancelled_comment             = d.data.data.cancelled_comment
-    //                s.user_id_creator               = d.data.data.user_id_creator
-    //                s.employee_name_creator         = d.data.data.employee_name_creator
-    //                s.user_id_reviewer              = d.data.data.user_id_reviewer
-    //                s.employee_name_reviewer        = d.data.data.employee_name_reviewer
-    //                s.user_id_level1_approver       = d.data.data.user_id_level1_approver
-    //                s.employee_name_level1_approver = d.data.data.employee_name_level1_approver
-    //                s.user_id_level2_approver       = d.data.data.user_id_level2_approver
-    //                s.employee_name_level2_approver = d.data.data.employee_name_level2_approver
-    //                s.user_id_final_approver        = d.data.data.user_id_final_approver
-    //                s.employee_name_final_approver  = d.data.data.employee_name_final_approver
-    //                s.user_id_disapprover           = d.data.data.user_id_disapprover
-    //                s.employee_name_disapprover     = d.data.data.employee_name_disapprover
-    //                s.user_id_cancel_pending        = d.data.data.user_id_cancel_pending
-    //                s.employee_name_cancel_pending  = d.data.data.employee_name_cancel_pending
-
-    //                s.reviewed_date                 = d.data.data.reviewed_date          == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.reviewed_date          ;
-    //                s.level1_approval_date          = d.data.data.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level1_approval_date   ;
-    //                s.level2_approval_date          = d.data.data.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.level2_approval_date   ;
-    //                s.final_approval_date           = d.data.data.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.final_approval_date    ;
-    //                s.disapproval_date              = d.data.data.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.disapproval_date       ;
-    //                s.cancel_pending_date           = d.data.data.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancel_pending_date    ;
-    //                s.cancelled_date                = d.data.data.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data.cancelled_date         ;
-    //                s.created_dttm                  = moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A").trim()    == "1900-01-01 12:00:00 pm" ? "----" : moment(d.data.leave_appl.created_dttm).format("YYYY-MM-DD hh:mm:ss A")    ;
-
-    //                s.txtb_approval_id = d.data.leave_appl.approval_id
-    //            }
-
-    //            if (d.data.data_posting != null)
-    //            {
-    //                // POSTING HISTORY
-    //                s.level1_approval_comment_posting       = d.data.data_posting.level1_approval_comment
-    //                s.level2_approval_comment_posting       = d.data.data_posting.level2_approval_comment
-    //                s.final_approval_comment_posting        = d.data.data_posting.final_approval_comment
-    //                s.disapproval_comment_posting           = d.data.data_posting.disapproval_comment
-    //                s.cancel_pending_comment_posting        = d.data.data_posting.cancel_pending_comment
-    //                s.cancelled_comment_posting             = d.data.data_posting.cancelled_comment
-    //                s.user_id_creator_posting               = d.data.data_posting.user_id_creator
-    //                s.employee_name_creator_posting         = d.data.data_posting.employee_name_creator
-    //                s.user_id_reviewer_posting              = d.data.data_posting.user_id_reviewer
-    //                s.employee_name_reviewer_posting        = d.data.data_posting.employee_name_reviewer
-    //                s.user_id_level1_approver_posting       = d.data.data_posting.user_id_level1_approver
-    //                s.employee_name_level1_approver_posting = d.data.data_posting.employee_name_level1_approver
-    //                s.user_id_level2_approver_posting       = d.data.data_posting.user_id_level2_approver
-    //                s.employee_name_level2_approver_posting = d.data.data_posting.employee_name_level2_approver
-    //                s.user_id_final_approver_posting        = d.data.data_posting.user_id_final_approver
-    //                s.employee_name_final_approver_posting  = d.data.data_posting.employee_name_final_approver
-    //                s.user_id_disapprover_posting           = d.data.data_posting.user_id_disapprover
-    //                s.employee_name_disapprover_posting     = d.data.data_posting.employee_name_disapprover
-    //                s.user_id_cancel_pending_posting        = d.data.data_posting.user_id_cancel_pending
-    //                s.employee_name_cancel_pending_posting  = d.data.data_posting.employee_name_cancel_pending
-                
-    //                s.level1_approval_date_posting          = d.data.data_posting.level1_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level1_approval_date   ;
-    //                s.level2_approval_date_posting          = d.data.data_posting.level2_approval_date   == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.level2_approval_date   ;
-    //                s.final_approval_date_posting           = d.data.data_posting.final_approval_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.final_approval_date    ;
-    //                s.disapproval_date_posting              = d.data.data_posting.disapproval_date       == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.disapproval_date       ;
-    //                s.cancel_pending_date_posting           = d.data.data_posting.cancel_pending_date    == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancel_pending_date    ;
-    //                s.cancelled_date_posting                = d.data.data_posting.cancelled_date         == "1900-01-01 12:00:00 AM" ? "----" : d.data.data_posting.cancelled_date         ;
-
-    //            }
-
-    //        }
-    //        else {
-    //            swal('Error in Getting Approval History', d.data.message_descr, {icon:"warning"})
-    //        }
-    //    });
-    //}
 
 
     s.btn_refresh_balances = function ()
@@ -3705,7 +3292,7 @@
                 , leaveledger_balance_as_of_oth : $('#cto_current_balance').val()
             }
 
-            h.post("../cSSLeaveAppl/RefreshBalance",
+            h.post("../cSSCTOAppl/RefreshBalance",
             {
                  par_empl_id        : $('#ddl_name option:selected').val()
                 ,par_year           : s.txtb_year_selected
@@ -3731,7 +3318,7 @@
                                     $('#icn_refresh').removeClass();
                                     $('#icn_refresh').addClass('fa fa-refresh fa-spin');
         
-                                    h.post("../cSSLeaveAppl/RefreshBalance",
+                                    h.post("../cSSCTOAppl/RefreshBalance",
                                     {
                                         par_empl_id             : $('#ddl_name option:selected').val()
                                         ,par_year               : s.txtb_year_selected
@@ -3871,7 +3458,7 @@
         s.final_approved_dttm           = "";
         s.leave_cancel_type             = "";
 
-        h.post("../cSSLeaveAppl/Retrieve_CancelList",
+        h.post("../cSSCTOAppl/Retrieve_CancelList",
             {
                  par_empl_id        : $('#ddl_name option:selected').val()
                 ,par_leave_ctrlno   : s.edit_leave_ctrlno
@@ -3937,7 +3524,7 @@
             ,approved_by_desig    : s.approved_by_desig    
             ,leave_cancel_type   : s.leave_cancel_type
         }
-        h.post("../cSSLeaveAppl/Save_dtl",
+        h.post("../cSSCTOAppl/Save_dtl",
         {
             data: data
             ,exist_flag: s.datalist_grid_cancell[row_id].cancel_flag
@@ -3999,7 +3586,7 @@
                     ,approved_by_desig      : s.approved_by_desig    
                     ,leave_cancel_status    : "S"
                 }
-                h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+                h.post("../cSSCTOAppl/Submit_Cancel", { data: data}).then(function (d)
                 {
                     if (d.data.message == "success")
                     {
@@ -4023,7 +3610,7 @@
             , empl_id               : s.txtb_empl_id
             ,leave_cancel_status    : "C"
         }
-        h.post("../cSSLeaveAppl/CancelPending", { data: data}).then(function (d)
+        h.post("../cSSCTOAppl/CancelPending", { data: data}).then(function (d)
         {
             if (d.data.message == "success")
             {
@@ -4060,7 +3647,7 @@
         sp = "sp_leave_application_cancel_tbl_rep,par_empl_id," + empl_id + ",par_leave_ctrlno," + application_nbr;
                 
         
-        h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
+        h.post("../cSSCTOAppl/setPageHistory").then(function (d)
         {
             if (d.data.message == "success")
             {
@@ -4154,7 +3741,7 @@
             , leave_cancel_date     : $('#leave_cancel_date').val()  
         }
         
-        h.post("../cSSLeaveAppl/UpdateCancel", { data:data }).then(function (d)
+        h.post("../cSSCTOAppl/UpdateCancel", { data:data }).then(function (d)
         {
             if (d.data.message == "success")
             {
@@ -4168,7 +3755,7 @@
 
     s.Retrieve_CancelList = function (par_empl_id, par_leave_ctrlno)
     {
-        h.post("../cSSLeaveAppl/Retrieve_CancelList",
+        h.post("../cSSCTOAppl/Retrieve_CancelList",
         {
             par_empl_id       : par_empl_id
             ,par_leave_ctrlno : par_leave_ctrlno
@@ -4204,7 +3791,7 @@
                 {
                     if (willDelete)
                     {
-                        h.post("../cSSLeaveAppl/CancelledStatus",
+                        h.post("../cSSCTOAppl/CancelledStatus",
                         {
                             data: s.datalistgrid3[row_index]
                         }).then(function (d)
@@ -4243,7 +3830,7 @@
     {
         //$('#modal_justification').modal({ backdrop: 'static', keyboard: false });
 
-        h.post("../cSSLeaveAppl/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
+        h.post("../cSSCTOAppl/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
         {
             
             if (d.data.message == "success")
@@ -4285,7 +3872,7 @@
         }
         //console.log(data)
         //return;
-        h.post("../cSSLeaveAppl/Save_Justification", { data: data}).then(function (d)
+        h.post("../cSSCTOAppl/Save_Justification", { data: data}).then(function (d)
         {
             if (d.data.message == "success")
             {
@@ -4316,7 +3903,7 @@
         $('#view_details_history').removeClass()
         $('#view_details_history').addClass('fa fa-spinner fa-spin')
         s.data_history = [];
-        h.post("../cSSLeaveAppl/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
+        h.post("../cSSCTOAppl/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
         {
             if (d.data.message == "success")
             {
