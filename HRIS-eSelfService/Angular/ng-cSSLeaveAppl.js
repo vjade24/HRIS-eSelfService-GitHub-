@@ -1389,6 +1389,8 @@
                                 , leave_descr                   : $('#txtb_specify').val()
                                 , approval_status               : "S"
                                 , approval_id                   : s.edit_approval_id
+                                , justification_flag            : justi_flag.checked
+                                , commutation                   : $('#commutation').val()
                             }
 
                             for (var x = 0; x < s.datalistgrid2.length; x++)
