@@ -722,7 +722,7 @@ namespace HRIS_eSelfService.Controllers
                             {
                                 message         = "5_adv_validation";
                                 message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
-                                message_descr2  = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
+                                message_descr2  = " You have to Submit Justification letter.";
                             }
 
                         }
@@ -733,7 +733,7 @@ namespace HRIS_eSelfService.Controllers
                             {
                                 message = "5_adv_validation";
                                 message_descr = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
-                                message_descr2 = " You have to Submit Justification letter \n \n You must apply in advance 5 working days for Sick Leave";
+                                message_descr2 = " You have to Submit Justification letter.";
                             }
                         }
                     }
