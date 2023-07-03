@@ -96,10 +96,10 @@ namespace HRIS_eSelfService.Controllers
                 var status       = db_ats.sp_approval_status_list().ToList();
                 var empl_name    = db_ats.sp_employee_list_without_jo(empl_id);
                 var holiDate     = db_dev.sp_holidays_tbl_list(Int32.Parse(DateTime.Now.Year.ToString())).ToList();
-                var leaveType    = db_ats.sp_leavetype_tbl_list1().ToList();
+                var leaveType    = db_ats.sp_leavetype_tbl_list1().Where(a => a.leavetype_code != "CTO").ToList();
                 var leaveSubType = db_ats.sp_leavesubtype_tbl_list("").ToList();
-                var leaveLst     = db_ats.sp_leave_application_tbl_list(user_info.empl_id, "", DateTime.Now.Year.ToString()).ToList();
-                var leaveLst1    = db_ats.sp_leave_application_tbl_list1(user_info.empl_id, "", DateTime.Now.Year.ToString(), par_log_in_as_AO, Session["user_id"].ToString()).ToList();
+                var leaveLst     = db_ats.sp_leave_application_tbl_list(user_info.empl_id, "", DateTime.Now.Year.ToString()).Where(a=>a.leave_type_code != "CTO").ToList();
+                var leaveLst1    = db_ats.sp_leave_application_tbl_list1(user_info.empl_id, "", DateTime.Now.Year.ToString(), par_log_in_as_AO, Session["user_id"].ToString()).Where(a => a.leave_type_code != "CTO").ToList();
 
                 // **********************************************************************************************
                 // ********** All Balance All Leave Type ********************************************************
@@ -162,8 +162,8 @@ namespace HRIS_eSelfService.Controllers
                 db_dev.Database.CommandTimeout = int.MaxValue;
 
                 string par_log_in_as_AO     = Session["log_in_as_AO"].ToString() == "True" ? "1" : "0";
-                var filteredGrid            = db_ats.sp_leave_application_tbl_list(p_empl_id, p_appr_status, p_year).ToList();
-                var filteredGrid1           = db_ats.sp_leave_application_tbl_list1(p_empl_id, p_appr_status, p_year, par_log_in_as_AO, Session["user_id"].ToString()).ToList();
+                var filteredGrid            = db_ats.sp_leave_application_tbl_list(p_empl_id, p_appr_status, p_year).Where(a => a.leave_type_code != "CTO").ToList();
+                var filteredGrid1           = db_ats.sp_leave_application_tbl_list1(p_empl_id, p_appr_status, p_year, par_log_in_as_AO, Session["user_id"].ToString()).Where(a => a.leave_type_code != "CTO").ToList();
                 var holiDate                = db_dev.sp_holidays_tbl_list(Int32.Parse(p_year)).ToList();
                 var cancellation_calendar   = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == p_empl_id).ToList();
 
