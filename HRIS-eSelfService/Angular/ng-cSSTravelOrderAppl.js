@@ -254,7 +254,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                         if (d.data.dept_code == "18") {
 
                             var dta = d.data.sp_dtr_transmittal_addressto_list.filter(function (k,v) {
-                                return k.empl_id == "2994" || k.empl_id == "7610"
+                                return k.empl_id == "9224" || k.empl_id == "7610" 
                             })
                          
                             s.ddl_address_to_list = dta
