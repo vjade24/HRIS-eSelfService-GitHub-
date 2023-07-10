@@ -3831,12 +3831,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_leave_printing_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="par_approved_period_from" Type="date" Mode="In" />
-          <Parameter Name="par_approved_period_to" Type="date" Mode="In" />
-          <Parameter Name="par_department_code" Type="varchar" Mode="In" />
-          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_leave_search_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_year" Type="varchar" Mode="In" />
@@ -4144,7 +4138,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_department_code" Type="varchar" Mode="In" />
           <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
           <Parameter Name="par_view_mode" Type="varchar" Mode="In" />
-          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_transmittal_leave_hdr_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_created_year" Type="varchar" Mode="In" />
@@ -6245,22 +6238,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ishide_ledger_row" Type="Boolean" />
         </EntityType>
-        <EntityType Name="lv_ledger_hdr_reprint_tbl">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
-          <Property Name="reprint_reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="reprint_date_from" Type="DateTime" Precision="0" />
-          <Property Name="reprint_date_to" Type="DateTime" Precision="0" />
-          <Property Name="reprint_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="created_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="created_dttm" Type="DateTime" Precision="3" />
-          <Property Name="approved_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="approved_dttm" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="lv_ledger_hdr_tbl">
           <Key>
             <PropertyRef Name="ledger_ctrl_no" />
@@ -7741,7 +7718,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySet Name="lv_ledger_dtl_tbl" EntityType="Self.lv_ledger_dtl_tbl" />
           <EntitySet Name="lv_ledger_earn_history_tbl" EntityType="Self.lv_ledger_earn_history_tbl" />
           <EntitySet Name="lv_ledger_hdr_oth_tbl" EntityType="Self.lv_ledger_hdr_oth_tbl" />
-          <EntitySet Name="lv_ledger_hdr_reprint_tbl" EntityType="Self.lv_ledger_hdr_reprint_tbl" />
           <EntitySet Name="lv_ledger_hdr_tbl" EntityType="Self.lv_ledger_hdr_tbl" />
           <EntitySet Name="lv_ledger_history_tbl" EntityType="Self.lv_ledger_history_tbl" />
           <EntitySet Name="monthly_working_hrs_tbl" EntityType="Self.monthly_working_hrs_tbl" />
@@ -9055,12 +9031,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_effective_date" Mode="In" Type="DateTime" />
           </FunctionImport>
-          <FunctionImport Name="sp_time_schedule_empl_tbl1" ReturnType="Collection(HRIS_ATSModel.sp_time_schedule_empl_tbl1_Result)">
-            <Parameter Name="par_empl_id" Mode="In" Type="String" />
-            <Parameter Name="par_month" Mode="In" Type="String" />
-            <Parameter Name="par_year" Mode="In" Type="String" />
-            <Parameter Name="par_effective_date" Mode="In" Type="DateTime" />
-          </FunctionImport>
           <FunctionImport Name="sp_time_schedule_for_approval_list" ReturnType="Collection(HRIS_ATSModel.sp_time_schedule_for_approval_list_Result)">
             <Parameter Name="par_user_id" Mode="In" Type="String" />
             <Parameter Name="par_month" Mode="In" Type="String" />
@@ -9098,7 +9068,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
-            <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result)">
             <Parameter Name="par_created_year" Mode="In" Type="String" />
@@ -9337,6 +9306,13 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
             <Parameter Name="p_empl_id" Mode="In" Type="String" />
             <Parameter Name="p_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="lv_ledger_hdr_reprint_tbl" EntityType="HRIS_ATSModel.lv_ledger_hdr_reprint_tbl" />
+          <FunctionImport Name="sp_time_schedule_empl_tbl1" ReturnType="Collection(HRIS_ATSModel.sp_time_schedule_empl_tbl1_Result)">
+            <Parameter Name="par_empl_id" Mode="In" Type="String" />
+            <Parameter Name="par_month" Mode="In" Type="String" />
+            <Parameter Name="par_year" Mode="In" Type="String" />
+            <Parameter Name="par_effective_date" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -12092,33 +12068,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="approval_status" Nullable="true" MaxLength="2" />
           <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="255" />
         </ComplexType>
-        <ComplexType Name="sp_time_schedule_empl_tbl1_Result">
-          <Property Type="String" Name="tse_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="day_nbr" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="sort_order" Nullable="true" MaxLength="4" />
-          <Property Type="String" Name="tse_day_parent" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="day_of_week" Nullable="true" MaxLength="2" />
-          <Property Type="DateTime" Name="dtr_date" Nullable="true" />
-          <Property Type="String" Name="dtr_date_char" Nullable="true" MaxLength="10" />
-          <Property Type="String" Name="dtr_date_char1" Nullable="true" MaxLength="36" />
-          <Property Type="String" Name="holiday_name" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
-          <Property Type="String" Name="tse_in_am" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="tse_out_am" Nullable="true" MaxLength="5" />
-          <Property Type="String" Name="tse_in_pm" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="tse_out_pm" Nullable="false" MaxLength="5" />
-          <Property Type="String" Name="ts_code" Nullable="true" MaxLength="2" />
-          <Property Type="String" Name="day_type" Nullable="true" MaxLength="3" />
-          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="ts_descr" Nullable="false" MaxLength="150" />
-          <Property Type="String" Name="tse_month" Nullable="false" MaxLength="2" />
-          <Property Type="String" Name="tse_year" Nullable="false" MaxLength="4" />
-          <Property Type="String" Name="pre_time_in_hrs" Nullable="false" MaxLength="8" />
-          <Property Type="String" Name="post_time_out_hrs" Nullable="false" MaxLength="8" />
-          <Property Type="Double" Name="ts_day_equivalent" Nullable="false" />
-          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
-        </ComplexType>
         <ComplexType Name="sp_time_schedule_for_approval_list_Result">
           <Property Type="String" Name="tse_ctrl_no" Nullable="false" MaxLength="10" />
           <Property Type="String" Name="tse_effective_date" Nullable="true" MaxLength="36" />
@@ -12946,6 +12895,48 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="message" Nullable="true" MaxLength="500" />
           <Property Type="Boolean" Name="reload" Nullable="true" />
         </ComplexType>
+        <EntityType Name="lv_ledger_hdr_reprint_tbl">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ledger_ctrl_no" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="reprint_reason" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="reprint_date_from" Type="DateTime" Precision="0" />
+          <Property Name="reprint_date_to" Type="DateTime" Precision="0" />
+          <Property Name="reprint_status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="created_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="created_dttm" Type="DateTime" Precision="3" />
+          <Property Name="approved_by" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="approved_dttm" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="sp_time_schedule_empl_tbl1_Result">
+          <Property Type="String" Name="tse_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="day_nbr" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="sort_order" Nullable="true" MaxLength="4" />
+          <Property Type="String" Name="tse_day_parent" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="day_of_week" Nullable="true" MaxLength="2" />
+          <Property Type="DateTime" Name="dtr_date" Nullable="true" />
+          <Property Type="String" Name="dtr_date_char" Nullable="true" MaxLength="36" />
+          <Property Type="String" Name="holiday_name" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="empl_id" Nullable="true" MaxLength="8" />
+          <Property Type="String" Name="tse_in_am" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="tse_out_am" Nullable="true" MaxLength="5" />
+          <Property Type="String" Name="tse_in_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="tse_out_pm" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="ts_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="day_type" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="remarks_details" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ts_descr" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="tse_month" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="tse_year" Nullable="false" MaxLength="4" />
+          <Property Type="String" Name="pre_time_in_hrs" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="post_time_out_hrs" Nullable="false" MaxLength="8" />
+          <Property Type="Double" Name="ts_day_equivalent" Nullable="false" />
+          <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -13728,23 +13719,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="ishide_ledger_row" ColumnName="ishide_ledger_row" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="lv_ledger_hdr_reprint_tbl">
-            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_hdr_reprint_tbl">
-              <MappingFragment StoreEntitySet="lv_ledger_hdr_reprint_tbl">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="reprint_reason" ColumnName="reprint_reason" />
-                <ScalarProperty Name="reprint_date_from" ColumnName="reprint_date_from" />
-                <ScalarProperty Name="reprint_date_to" ColumnName="reprint_date_to" />
-                <ScalarProperty Name="reprint_status" ColumnName="reprint_status" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
-                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
-                <ScalarProperty Name="approved_dttm" ColumnName="approved_dttm" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -17809,28 +17783,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_leave_printing_list" FunctionName="HRIS_ATSModel.Store.sp_leave_printing_list">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_printing_list_Result">
-                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
-                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
-                <ScalarProperty Name="leavetype_code" ColumnName="leavetype_code" />
-                <ScalarProperty Name="leavetype_descr" ColumnName="leavetype_descr" />
-                <ScalarProperty Name="leavesubtype_code" ColumnName="leavesubtype_code" />
-                <ScalarProperty Name="leavesubtype_descr" ColumnName="leavesubtype_descr" />
-                <ScalarProperty Name="leaveledger_period" ColumnName="leaveledger_period" />
-                <ScalarProperty Name="department_code" ColumnName="department_code" />
-                <ScalarProperty Name="department_short_name" ColumnName="department_short_name" />
-                <ScalarProperty Name="final_approval_date" ColumnName="final_approval_date" />
-                <ScalarProperty Name="employment_type" ColumnName="employment_type" />
-                <ScalarProperty Name="doc_remarks" ColumnName="doc_remarks" />
-                <ScalarProperty Name="lv_nodays" ColumnName="lv_nodays" />
-                <ScalarProperty Name="print_action" ColumnName="print_action" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_leave_search_list" FunctionName="HRIS_ATSModel.Store.sp_leave_search_list">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_leave_search_list_Result">
@@ -18901,7 +18853,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_time_schedule_empl_tbl" FunctionName="HRIS_ATSModel.Store.sp_time_schedule_empl_tbl" />
           <FunctionImportMapping FunctionImportName="sp_time_schedule_empl_tbl_copy" FunctionName="HRIS_ATSModel.Store.sp_time_schedule_empl_tbl_copy">
             <ResultMapping>
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_time_schedule_empl_tbl_copy_Result">
@@ -18942,37 +18893,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
                 <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
                 <ScalarProperty Name="dtr_date_char" ColumnName="dtr_date_char" />
-                <ScalarProperty Name="holiday_name" ColumnName="holiday_name" />
-                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
-                <ScalarProperty Name="tse_in_am" ColumnName="tse_in_am" />
-                <ScalarProperty Name="tse_out_am" ColumnName="tse_out_am" />
-                <ScalarProperty Name="tse_in_pm" ColumnName="tse_in_pm" />
-                <ScalarProperty Name="tse_out_pm" ColumnName="tse_out_pm" />
-                <ScalarProperty Name="ts_code" ColumnName="ts_code" />
-                <ScalarProperty Name="day_type" ColumnName="day_type" />
-                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
-                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
-                <ScalarProperty Name="tse_month" ColumnName="tse_month" />
-                <ScalarProperty Name="tse_year" ColumnName="tse_year" />
-                <ScalarProperty Name="pre_time_in_hrs" ColumnName="pre_time_in_hrs" />
-                <ScalarProperty Name="post_time_out_hrs" ColumnName="post_time_out_hrs" />
-                <ScalarProperty Name="ts_day_equivalent" ColumnName="ts_day_equivalent" />
-                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
-                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_time_schedule_empl_tbl1" FunctionName="HRIS_ATSModel.Store.sp_time_schedule_empl_tbl1">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_time_schedule_empl_tbl1_Result">
-                <ScalarProperty Name="tse_ctrl_no" ColumnName="tse_ctrl_no" />
-                <ScalarProperty Name="day_nbr" ColumnName="day_nbr" />
-                <ScalarProperty Name="sort_order" ColumnName="sort_order" />
-                <ScalarProperty Name="tse_day_parent" ColumnName="tse_day_parent" />
-                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
-                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
-                <ScalarProperty Name="dtr_date_char" ColumnName="dtr_date_char" />
-                <ScalarProperty Name="dtr_date_char1" ColumnName="dtr_date_char1" />
                 <ScalarProperty Name="holiday_name" ColumnName="holiday_name" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="tse_in_am" ColumnName="tse_in_am" />
@@ -20014,6 +19934,53 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
               <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_delete_on_travelorder_empl_dtl_tbl_Result">
                 <ScalarProperty Name="message" ColumnName="message" />
                 <ScalarProperty Name="reload" ColumnName="reload" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="lv_ledger_hdr_reprint_tbl">
+            <EntityTypeMapping TypeName="HRIS_ATSModel.lv_ledger_hdr_reprint_tbl">
+              <MappingFragment StoreEntitySet="lv_ledger_hdr_reprint_tbl">
+                <ScalarProperty Name="approved_dttm" ColumnName="approved_dttm" />
+                <ScalarProperty Name="approved_by" ColumnName="approved_by" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="reprint_status" ColumnName="reprint_status" />
+                <ScalarProperty Name="reprint_date_to" ColumnName="reprint_date_to" />
+                <ScalarProperty Name="reprint_date_from" ColumnName="reprint_date_from" />
+                <ScalarProperty Name="reprint_reason" ColumnName="reprint_reason" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_time_schedule_empl_tbl1" FunctionName="HRIS_ATSModel.Store.sp_time_schedule_empl_tbl1">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_time_schedule_empl_tbl1_Result">
+                <ScalarProperty Name="tse_ctrl_no" ColumnName="tse_ctrl_no" />
+                <ScalarProperty Name="day_nbr" ColumnName="day_nbr" />
+                <ScalarProperty Name="sort_order" ColumnName="sort_order" />
+                <ScalarProperty Name="tse_day_parent" ColumnName="tse_day_parent" />
+                <ScalarProperty Name="day_of_week" ColumnName="day_of_week" />
+                <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
+                <ScalarProperty Name="dtr_date_char" ColumnName="dtr_date_char" />
+                <ScalarProperty Name="holiday_name" ColumnName="holiday_name" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="tse_in_am" ColumnName="tse_in_am" />
+                <ScalarProperty Name="tse_out_am" ColumnName="tse_out_am" />
+                <ScalarProperty Name="tse_in_pm" ColumnName="tse_in_pm" />
+                <ScalarProperty Name="tse_out_pm" ColumnName="tse_out_pm" />
+                <ScalarProperty Name="ts_code" ColumnName="ts_code" />
+                <ScalarProperty Name="day_type" ColumnName="day_type" />
+                <ScalarProperty Name="remarks_details" ColumnName="remarks_details" />
+                <ScalarProperty Name="ts_descr" ColumnName="ts_descr" />
+                <ScalarProperty Name="tse_month" ColumnName="tse_month" />
+                <ScalarProperty Name="tse_year" ColumnName="tse_year" />
+                <ScalarProperty Name="pre_time_in_hrs" ColumnName="pre_time_in_hrs" />
+                <ScalarProperty Name="post_time_out_hrs" ColumnName="post_time_out_hrs" />
+                <ScalarProperty Name="ts_day_equivalent" ColumnName="ts_day_equivalent" />
+                <ScalarProperty Name="approval_status" ColumnName="approval_status" />
+                <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

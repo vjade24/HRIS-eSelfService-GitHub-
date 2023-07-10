@@ -73,7 +73,6 @@ namespace HRIS_eSelfService.Models
         public virtual DbSet<lv_ledger_dtl_tbl> lv_ledger_dtl_tbl { get; set; }
         public virtual DbSet<lv_ledger_earn_history_tbl> lv_ledger_earn_history_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_oth_tbl> lv_ledger_hdr_oth_tbl { get; set; }
-        public virtual DbSet<lv_ledger_hdr_reprint_tbl> lv_ledger_hdr_reprint_tbl { get; set; }
         public virtual DbSet<lv_ledger_hdr_tbl> lv_ledger_hdr_tbl { get; set; }
         public virtual DbSet<lv_ledger_history_tbl> lv_ledger_history_tbl { get; set; }
         public virtual DbSet<monthly_working_hrs_tbl> monthly_working_hrs_tbl { get; set; }
@@ -142,6 +141,7 @@ namespace HRIS_eSelfService.Models
         public virtual DbSet<vw_to_info_daily_rep> vw_to_info_daily_rep { get; set; }
         public virtual DbSet<vw_travel_order_dtr_info> vw_travel_order_dtr_info { get; set; }
         public virtual DbSet<vw_with_absent_perstrans_half> vw_with_absent_perstrans_half { get; set; }
+        public virtual DbSet<lv_ledger_hdr_reprint_tbl> lv_ledger_hdr_reprint_tbl { get; set; }
     
         [DbFunction("HRIS_ATSEntities", "fn_calendar_days")]
         public virtual IQueryable<fn_calendar_days_Result> fn_calendar_days(string p_year, string p_month)
@@ -4501,27 +4501,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl_reg_sched_Result>("sp_time_schedule_empl_tbl_reg_sched", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
         }
     
-        public virtual ObjectResult<sp_time_schedule_empl_tbl1_Result> sp_time_schedule_empl_tbl1(string par_empl_id, string par_month, string par_year, Nullable<System.DateTime> par_effective_date)
-        {
-            var par_empl_idParameter = par_empl_id != null ?
-                new ObjectParameter("par_empl_id", par_empl_id) :
-                new ObjectParameter("par_empl_id", typeof(string));
-    
-            var par_monthParameter = par_month != null ?
-                new ObjectParameter("par_month", par_month) :
-                new ObjectParameter("par_month", typeof(string));
-    
-            var par_yearParameter = par_year != null ?
-                new ObjectParameter("par_year", par_year) :
-                new ObjectParameter("par_year", typeof(string));
-    
-            var par_effective_dateParameter = par_effective_date.HasValue ?
-                new ObjectParameter("par_effective_date", par_effective_date) :
-                new ObjectParameter("par_effective_date", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl1_Result>("sp_time_schedule_empl_tbl1", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
-        }
-    
         public virtual ObjectResult<sp_time_schedule_for_approval_list_Result> sp_time_schedule_for_approval_list(string par_user_id, string par_month, string par_year, string par_show_history)
         {
             var par_user_idParameter = par_user_id != null ?
@@ -4630,7 +4609,7 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_monthly_tbl_list_Result>("sp_transmittal_leave_dtl_monthly_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode, string par_user_id)
+        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
                 new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
@@ -4656,11 +4635,7 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_view_mode", par_view_mode) :
                 new ObjectParameter("par_view_mode", typeof(string));
     
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
         public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
@@ -5501,6 +5476,27 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("p_user_id", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_delete_on_travelorder_empl_dtl_tbl_Result>("sp_delete_on_travelorder_empl_dtl_tbl", p_travel_order_noParameter, p_empl_idParameter, p_user_idParameter);
+        }
+    
+        public virtual ObjectResult<sp_time_schedule_empl_tbl1_Result> sp_time_schedule_empl_tbl1(string par_empl_id, string par_month, string par_year, Nullable<System.DateTime> par_effective_date)
+        {
+            var par_empl_idParameter = par_empl_id != null ?
+                new ObjectParameter("par_empl_id", par_empl_id) :
+                new ObjectParameter("par_empl_id", typeof(string));
+    
+            var par_monthParameter = par_month != null ?
+                new ObjectParameter("par_month", par_month) :
+                new ObjectParameter("par_month", typeof(string));
+    
+            var par_yearParameter = par_year != null ?
+                new ObjectParameter("par_year", par_year) :
+                new ObjectParameter("par_year", typeof(string));
+    
+            var par_effective_dateParameter = par_effective_date.HasValue ?
+                new ObjectParameter("par_effective_date", par_effective_date) :
+                new ObjectParameter("par_effective_date", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl1_Result>("sp_time_schedule_empl_tbl1", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
         }
     }
 }
