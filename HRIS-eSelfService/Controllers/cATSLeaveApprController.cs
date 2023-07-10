@@ -238,5 +238,18 @@ namespace HRIS_eSelfService.Controllers
                 return Json(new { message = message, icon = "error" }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult Retrieve_Justification(string leave_ctrlno, string empl_id)
+        {
+            try
+            {
+                var data = db.leave_application_hdr_justi_tbl.Where(a => a.leave_ctrlno == leave_ctrlno && a.empl_id == empl_id).OrderByDescending(a => a.id).FirstOrDefault();
+                return Json(new { message = "success", data}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

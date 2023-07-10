@@ -345,7 +345,7 @@
     }
 
 </style>
-<script src="~/Angular/ng-cATSLeaveAppr.js"></script>
+<script src="~/Angular/ng-cATSLeaveAppr.js?v1"></script>
 <section ng-app="ng_selfService_App" ng-controller="cATSLeaveAppr_ctrlr">
     <!-- Modal Loading -->
     <div class="modal fade" id="modal_generating_remittance" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" data-backdrop="static" data-keyboard="false" aria-hidden="true" style="margin-top:10%;overflow:hidden">
@@ -1117,12 +1117,32 @@
                                         <th width="15%">DATE APPLIED</th>
                                         <th width="10%">ID NBR</th>
                                         <th width="30%">EMPLOYEE NAME</th>
-                                        <th width="15%">STATUS</th>
-                                        <th width="15%">WORKLIST ACTION</th>
+                                        <th width="10%">STATUS</th>
+                                        <th width="20%">WORKLIST ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_print_preview" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:80% !important">
+            <div class="modal-content  modal-content-add-edit">
+                <div class="modal-header navy-bg text-white">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="modal-title" id="modalLabelSmall">PRINT PREVIEW  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{employee_name_print}}</h3>
+                </div>
+                <div class="modal-body with-background" style="padding:0px !important">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
                         </div>
                     </div>
                 </div>

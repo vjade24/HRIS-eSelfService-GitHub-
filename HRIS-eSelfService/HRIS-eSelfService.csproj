@@ -20,7 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <Use64BitIISExpress />
+    <Use64BitIISExpress>false</Use64BitIISExpress>
     <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -47,7 +47,7 @@
     <Reference Include="CrystalDecisions.VSDesigner, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="Interop.zkemkeeper">
-      <HintPath>..\..\Archive\HRIS-eSelfService (GitHub) 2023-01-18\HRIS-eSelfService\bin\Interop.zkemkeeper.dll</HintPath>
+      <HintPath>..\..\RSP Archieve\HRIS-eSelfService (GitHub)\HRIS-eSelfService\bin\Interop.zkemkeeper.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -241,6 +241,7 @@
     <Compile Include="Controllers\cSSBACPayRegController.cs" />
     <Compile Include="Controllers\cSSBACPayReg_DTLController.cs" />
     <Compile Include="Controllers\cSSCOCApplController.cs" />
+    <Compile Include="Controllers\cSSCTOApplController.cs" />
     <Compile Include="Controllers\cSSFLPlanController.cs" />
     <Compile Include="Controllers\cSSJobDescriptionController.cs" />
     <Compile Include="Controllers\cSSLeaveApplController.cs" />
@@ -4196,6 +4197,39 @@
       <DependentUpon>crySalaryDiff_NOCAFOA.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryAttachment.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryLoanPage1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryLoanPage2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryMandatory.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryOptionalPage1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\cryOptionalPage2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\crySalarySummary.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\crySalarySummaryOld.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\crySalarySummary_2020.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\crySalarySummary_2020_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryCasualReports\crySalary\crySalarySummary_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryCTONew\cryCTONew.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -4319,6 +4353,12 @@
     <Compile Include="Reports\cryJobOrderReports\crySalary\crySalaryMonthly_NOCAFOA.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Reports\cryLeaveJustification\cryLeaveJustification.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryLeaveJustification.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Reports\cryLeavePermission\cryLeaveCancellation.cs">
       <DependentUpon>cryLeaveCancellation.rpt</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -4329,6 +4369,303 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>cryLeaveCancellationx.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay11.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1x.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1x1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay1x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay1_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay21.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2x.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2x1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay2x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay2_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay31.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay3.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3x.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3x1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay3x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay3_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay41.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay4.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4x.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4x1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay4x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay4_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay5.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay51.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5x.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5x1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay5x.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay5_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HEA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_JO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_JO1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HEA_Remit_JO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_RECE.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_RECE1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HEA_Remit_RECE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HZD.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_DIFF.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_DIFF1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HZD_DIFF.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_HZD_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_OCA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_JO.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_JO1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_OCA_Remit_JO.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_RECE.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_RECE1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_OCA_Remit_RECE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_PBB.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB2021.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB20211.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_PBB2021.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_SRA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA_NOCAFOA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA_NOCAFOA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_SRA_NOCAFOA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRI.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRI1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryOthPay_SRI.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_OtherSal.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_OtherSal1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPS_OtherSal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Ovtm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Ovtm1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPS_Ovtm.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_RATA.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_RATA1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPS_RATA.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Subsistence.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Subsistence1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>cryPS_Subsistence.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\cryPayrollSubReport\cryPayrollFooter_A_F.cs">
@@ -4482,6 +4819,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Content Include="Angular\ng-cInternalAudit.js" />
+    <Content Include="Angular\ng-cSSCTOAppl.js" />
     <Content Include="Models\cnHRIS.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>cnHRIS.edmx</DependentUpon>
@@ -6017,6 +6355,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\cInternalAudit\Index.cshtml" />
+    <Content Include="Views\cSSCTOAppl\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -6058,15 +6397,6 @@
       <VersionMinor>3</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="zkemkeeper">
-      <Guid>{FE9DED34-E159-408E-8490-B720A5E632C7}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
@@ -6223,10 +6553,10 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryCTONew.cs</LastGenOutput>
     </Content>
-    <EmbeddedResource Include="Reports\cryJobOrderReports\cryPaySlip\cryPaySlip.rpt">
+    <Content Include="Reports\cryJobOrderReports\cryPaySlip\cryPaySlip.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryPaySlip1.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
     <Content Include="Reports\cryJobOrderReports\crySalary\cryAttachment.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryAttachment1.cs</LastGenOutput>
@@ -6326,26 +6656,6 @@
     <Content Include="Reports\cryOBR\cryOBR_CAFOA.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryOBR_CAFOA.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryOtherPayroll\cryPayslip\cryPS_OtherSal.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryPS_OtherSal.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryOtherPayroll\cryPayslip\cryPS_OtherSalx.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryPS_OtherSalx.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Ovtm.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryPS_Ovtm.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryOtherPayroll\cryPayslip\cryPS_RATA.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryPS_RATA.cs</LastGenOutput>
-    </Content>
-    <Content Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Subsistence.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>cryPS_Subsistence.cs</LastGenOutput>
     </Content>
     <Content Include="Reports\cryOvertimeRequestReport\cryOTSubDatesReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -6643,6 +6953,142 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>cryLeaveCancellation.cs</LastGenOutput>
     </Content>
+    <Content Include="Reports\cryLeaveJustification\cryLeaveJustification.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryLeaveJustification.cs</LastGenOutput>
+    </Content>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay11.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay1x1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay1_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay1_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay21.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay2x1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay2_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay2_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay31.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay3x1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay3_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay3_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay41.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay4x1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay4_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay4_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay5.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5x.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay5x1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay5_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay5_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HEA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_JO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HEA_Remit_JO1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HEA_Remit_RECE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HEA_Remit_RECE1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HZD1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_DIFF.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HZD_DIFF1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_HZD_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_HZD_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_OCA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_JO.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_OCA_Remit_JO1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_OCA_Remit_RECE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_OCA_Remit_RECE1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_PBB1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_PBB2021.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_PBB20211.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_SRA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRA_NOCAFOA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_SRA_NOCAFOA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryOthpay\cryOthPay_SRI.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryOthPay_SRI1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryPayslip\cryPS_OtherSal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPS_OtherSal1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Ovtm.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPS_Ovtm1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryPayslip\cryPS_RATA.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPS_RATA1.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\cryOtherPayroll\cryPayslip\cryPS_Subsistence.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>cryPS_Subsistence1.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Reports\jSonReport.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>jSonReport.cs</LastGenOutput>

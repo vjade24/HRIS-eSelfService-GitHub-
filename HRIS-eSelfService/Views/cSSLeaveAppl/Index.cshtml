@@ -240,7 +240,7 @@
         }
     }
 </style>
-<script src="~/Angular/ng-cSSLeaveAppl.js?v=12"></script>
+<script src="~/Angular/ng-cSSLeaveAppl.js?v=14"></script>
 <section ng-app="ng_selfService_App" ng-controller="cSSLeaveAppl_ctrlr">
 
     <!-- Info Modal -->
@@ -534,13 +534,21 @@
                                                                 <span class="checkmark"></span>
                                                             </label>
                                                         </div>
-                                                        <div class="col-lg-12" ng-show="div_justi_msg">
-                                                            <button class="btn btn-warning btn-block" ng-click="openJustification()"> <i class="fa fa-align-justify"></i> Write Justification</button>
+                                                        <div class="col-lg-8" ng-show="div_justi_msg">
+                                                            <button class="btn btn-warning btn-block" ng-click="openJustification()"> <i class="fa fa-align-justify"></i> Write/View Justification </button>
+                                                        </div>
+                                                        @*<div class="col-lg-4" ng-show="div_justi_msg">
+                                                            <button class="btn btn-primary btn-block" ng-click="btn_print_action(0,'justification_check')"> <i class="fa fa-print"></i> Print </button>
+                                                        </div>*@
+                                                        <div class="col-lg-12" ng-show="div_justi_bottom_msg">
+                                                            <span class="alert-success small font-bold">
+                                                                <i class="fa fa-check-circle"> Justification Successfully Saved</i>
+                                                            </span>
                                                         </div>
                                                         <hr />
                                                     </div>
 
-                                                    <div class="form-group row m-t-sm" style="max-height:20% ; overflow:auto">
+                                                    @*<div class="form-group row m-t-sm" style="max-height:20% ; overflow:auto">
                                                         <div class="col-sm-12">
                                                             <div ng-repeat="lst in leave_oth_info" class="alert alert-success alert-dismissable small font-bold" style="margin-bottom:5px !important">
                                                                 <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
@@ -548,7 +556,7 @@
                                                                 {{lst.leavetype_dtl_descr}}
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="row m-b-xs">
@@ -1096,20 +1104,49 @@
     </div>
 
     <div class="modal fade" id="modal_justification" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content ">
                 <div class="modal-header ">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h2 class="modal-title">Create Justification</h2>
                 </div>
                 <div class="modal-body">
-                    <div class="mail-text h-200">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label class="font-bold"><b> Justification Date:</b></label>
+                            <div class="input-group date" data-provide="datepicker">
+                                <input type="text" ng-model="justi_date" id="justi_date" class="form-control form-control-sm text-center font-bold" maxlength="10" />
+                                <span class="input-group-addon">
+                                    <span class="fa fa-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Justification Reason:</b></label>
+                            <textarea class="form-control" ng-model="justi_reason" rows="5" id="justi_reason" ></textarea>
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Employee Name:</b></label>
+                            <input class="form-control" ng-model="justi_employee_name" />
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Employee Position:</b></label>
+                            <input class="form-control" ng-model="justi_employee_position" />
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Noted By:</b></label>
+                            <input class="form-control" ng-model="justi_noted_by" />
+                        </div>
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Noted By Designation:</b></label>
+                            <input class="form-control" ng-model="justi_noted_desig" />
+                        </div>
+                    </div>
+                    <div class="mail-text h-200" style="display:none">
                         <div id="summernote_justification">
-                            @*<p>May 4, 2023</p><p><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head<br>PHRMDO</p><p><br>Dear Madam:</p><p><br>This is in relation to the late filing of Sick Leave applied for April 3, 2023. I apologize for not submitting the leave application on time.</p><p><br>I hope for your kind consideration.</p><p><br>Thank you.</p><p><br>Very truly yours,<br><br><br><br>VINCENT JADE H. ALIVIO<br>Computer Programmer</p><p><br></p><p>Noted:<br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG Department Head</p>*@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" ng-click="btn_save_justification()"><i class="fa fa-save"></i> Save Justification</button>

@@ -201,11 +201,23 @@
                     {
                         "mData": "worklist_action",
                         "bSortable": false,
-                        "mRender": function (data, type, full, row) {
+                        "mRender": function (data, type, full, row)
+                        {
+                            var with_justi = false
+                            if (full["justification_flag"] == true)
+                            {
+                                with_justi = true
+                            }
+                            else
+                            {
+                                with_justi = false
+                            }
+
                             return '<center><div class="btn-group">' +
                                 '<button id="btn-text_action" type="button" ng-show="ShowEdit" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit"> ' + data + '</button >' +
                                 '<button id="btn-icon_action" type="button" ng-show="ShowEdit" class="btn btn-info btn-sm" ng-click="btn_edit_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-thumbs-up"></i></button >' +
                                 //'<button type="button" ng-show="ShowDelete" class="btn btn-danger btn-sm" ng-click="btn_del_row(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>' +
+                                '<button type="button" ng-show="' + with_justi +'" class="btn btn-primary btn-sm" ng-click="btn_print_action(' + row["row"] + ')" data-toggle="tooltip" data-placement="top" title="With Justification"><i class="fa fa-print"></i> View Justification</button>' +
                                 '</div></center>';
                         }
                     }
@@ -803,5 +815,103 @@
 
             '</table>';
     }
+
+    s.btn_print_action = function (par_row_id)
+    {
+        var application_nbr     = s.datalistgrid[par_row_id].leave_ctrlno;
+        var empl_id             = s.datalistgrid[par_row_id].empl_id;
+        var ReportName          = "CrystalReport"
+        var SaveName            = "Crystal_Report"
+        var ReportType          = "inline"
+        var ReportPath          = ""
+        var sp                  = ""
+        
+        s.employee_name_print = "LEAVE JUSTIFICATION";
+        h.post("../cATSLeaveAppr/Retrieve_Justification", { leave_ctrlno: application_nbr, empl_id: empl_id }).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                if (d.data.data != null)
+                {
+                    ReportPath = "~/Reports/cryLeaveJustification/cryLeaveJustification.rpt";
+                    sp = "sp_leave_application_hdr_justi_rep,par_leave_ctrlno," + application_nbr + ",par_empl_id," + empl_id;
+                    show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+                }
+                else
+                {
+                    swal({ icon: "warning", title: "JUSTIFICATION LETTER NOT FOUND!" });
+                    return;
+                }
+            }
+            else
+            {
+                swal({ icon: "warning", title: d.data.message });
+                return;
+            }
+        })
+    }
+
+    function show_print(ReportName, SaveName, ReportType, ReportPath, sp)
+    {
+        h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
+        {
+                if (d.data.message == "success")
+                {
+                    // *******************************************************
+                    // *** VJA : 2021-07-14 - Validation and Loading hide ****
+                    // *******************************************************
+                    
+                    $("#loading_data").modal({ keyboard: false, backdrop: "static" })
+                    var iframe = document.getElementById('iframe_print_preview');
+                    var iframe_page = $("#iframe_print_preview")[0];
+                    iframe.style.visibility = "hidden";
+
+                    s.embed_link = "../Reports/CrystalViewer.aspx?Params=" + ""
+                        + "&ReportName=" + ReportName
+                        + "&SaveName=" + SaveName
+                        + "&ReportType=" + ReportType
+                        + "&ReportPath=" + ReportPath
+                        + "&id=" + sp //+ parameters
+                    
+
+                    if (!/*@cc_on!@*/0) { //if not IE
+                        iframe.onload = function () {
+                            iframe.style.visibility = "visible";
+                            $("#loading_data").modal("hide")
+                        };
+                    }
+                    else if (iframe_page.innerHTML()) {
+                        // get and check the Title (and H tags if you want)
+                        var ifTitle = iframe_page.contentDocument.title;
+                        if (ifTitle.indexOf("404") >= 0) {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                        else if (ifTitle != "") {
+                            swal("You cannot Preview this Report", "There something wrong!", { icon: "warning" });
+                            iframe.src = "";
+                        }
+                    }
+                    else {
+                        iframe.onreadystatechange = function () {
+                            if (iframe.readyState == "complete") {
+                                iframe.style.visibility = "visible";
+                                $("#loading_data").modal("hide")
+                            }
+                        };
+                    }
+
+                    iframe.src = s.embed_link;
+                    $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
+                    // *******************************************************
+                    // *******************************************************
+                }
+                else
+                {
+                    swal(d.data.message, "", {icon:"warning"});
+                }
+            });
+    }
+
 
 })
