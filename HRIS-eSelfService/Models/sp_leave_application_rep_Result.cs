@@ -24,7 +24,7 @@ namespace HRIS_eSelfService.Models
         public string department_name1 { get; set; }
         public string date_applied { get; set; }
         public string date_applied2 { get; set; }
-        public Nullable<decimal> number_of_days { get; set; }
+        public string number_of_days { get; set; }
         public string inclusive_dates { get; set; }
         public string leavetype_code { get; set; }
         public Nullable<bool> leave_class { get; set; }
@@ -66,5 +66,6 @@ namespace HRIS_eSelfService.Models
         public string hr_disapproval_comment { get; set; }
         public string department_approval_status { get; set; }
         public string hr_approval_status { get; set; }
+        public string report_closing { get; set; }
     }
 }

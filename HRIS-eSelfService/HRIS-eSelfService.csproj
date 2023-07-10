@@ -557,6 +557,9 @@
     <Compile Include="Models\dtr_overrides_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\dtr_overrides_tickets_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\dtr_processed_files_tbl.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
@@ -602,11 +605,20 @@
     <Compile Include="Models\empl_dtr_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\empl_dtr_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\empl_dtr_transmital_update.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\empl_jobfunddescr_dtl_tbl.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\empl_jobfunddescr_hdr_tbl.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\empl_list_dtr_AO.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\empl_taxwithheld_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -623,6 +635,9 @@
     <Compile Include="Models\excludeappointment_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\exc_inc_empl_attendance_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\favoritesmenu_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -633,6 +648,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\fl_plan_hdr_rep_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fn_calendar_days_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\forceleaveplan_tbl.cs">
@@ -650,6 +668,9 @@
     <Compile Include="Models\functions_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_approval_worklist_authorization_slip_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_approval_worklist_authorization_slip_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -658,6 +679,12 @@
     </Compile>
     <Compile Include="Models\func_approval_worklist_fl_plan_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_approval_worklist_force_leave_application_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_approval_worklist_leave_application_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_approval_worklist_leave_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -671,11 +698,23 @@
     <Compile Include="Models\func_approval_worklist_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_approval_worklist_timeschedule_application_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_approval_worklist_time_schedule_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_approval_worklist_travel_order_notif_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_approval_worklist_travel_order_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_as_info_date_new_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_as_info_date_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_current_personnelinformation_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -685,6 +724,18 @@
     </Compile>
     <Compile Include="Models\func_departments_tbl_CURRENT_ROW_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_empl_monthly_entries_new1_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_empl_monthly_entries_new_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_empl_monthly_entries_new_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_empl_monthly_entries_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_get_employee_monthly_entries_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -707,13 +758,22 @@
     <Compile Include="Models\func_get_travelorder_dates_dtl_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_leave_application_cancel_tbl_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_leave_info_date_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_LV_info_date_empl_id_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_LV_info_date_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_lv_ledger_history_notif_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\func_ob_start_end_time_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\func_ot_start_end_time_Result.cs">
+    <Compile Include="Models\func_otrqst_info_date_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_payrollemployeemaster_get_info_empl_jo_Result.cs">
@@ -770,16 +830,22 @@
     <Compile Include="Models\func_ps_salaries_wages_savings_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\func_splitstring_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\func_subdepartments_tbl_CURRENT_ROW_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\func_timeentries_mysql_tbl_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_timeentries_tbl_schedule_regular_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\func_timeentries_tbl_schedule_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_to_info_date_daily_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\func_to_info_date_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\fundcharges_tbl.cs">
@@ -825,6 +891,12 @@
     <Compile Include="Models\leaveappl_hdr_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\leaveledger_convert_toDAys.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\leaveledger_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leavesubtype_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -858,7 +930,25 @@
     <Compile Include="Models\loyaltybonuses_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\lv_days_frac_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_dtl_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_earn_history_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_hdr_oth_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_hdr_reprint_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\lv_ledger_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\lv_ledger_history_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MachineInfo.cs" />
@@ -1283,9 +1373,6 @@
     <Compile Include="Models\sp_addresscombolist_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_addTimeEntries_list_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_add_announcement_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -1415,6 +1502,12 @@
     <Compile Include="Models\sp_approval_worklist_travel_order_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_approved_overrides_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_approved_timeschedule_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_appttransmittal_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -1460,9 +1553,6 @@
     <Compile Include="Models\sp_authorization_slip_report_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_authorization_tbl_list_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_auto_apply_force_leave_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1472,7 +1562,91 @@
     <Compile Include="Models\sp_barangays_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_employee_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_01_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_02_reg_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_03_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_04_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_05_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_06_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_07_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_08_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_10_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_11_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_16_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_17_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_18_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_19_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_20_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_26_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_rerun_july_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_02_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_12_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_13_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_17_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_21_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_22_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_23_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_24_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_batch_generate_dtr_emptype_shift_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_batch_generate_dtr_emptype_TEST_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_batch_payrollemployeemaster_update_CE_Result.cs">
@@ -1532,6 +1706,9 @@
     <Compile Include="Models\sp_certificatetoduty_report_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_checkremove_transmital_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_checkTimeEntries_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1567,9 +1744,6 @@
     </Compile>
     <Compile Include="Models\sp_cnaincentive_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_coc_earnings_hdr_tbl_list_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_common_task_per_jobdescription_add_list_Result.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
@@ -1694,6 +1868,9 @@
     <Compile Include="Models\sp_dtr_descri_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_dtr_descri_rep_test_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_dtr_from_bio_tbl_dates_Result.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
     </Compile>
@@ -1708,9 +1885,6 @@
     </Compile>
     <Compile Include="Models\sp_dtr_from_bio_tbl_update_Result.cs">
       <DependentUpon>cnHRIS_DTR.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_dtr_generate_all_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_dtr_national_dtl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1736,7 +1910,16 @@
     <Compile Include="Models\sp_dtr_transmittal_hdr_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_dtr_transmittal_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_dtr_transmittal_requestedfrom_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_dtr_transmittal_sub_rep2_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_dtr_transmittal_sub_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_edocument_trk_tbl_history_Result.cs">
@@ -1781,9 +1964,6 @@
     <Compile Include="Models\sp_employee_dtr_override_approval_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_employee_dtr_tbl_list1_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_employee_dtr_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1808,9 +1988,6 @@
     <Compile Include="Models\sp_employee_list_dept_ao_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_employee_list_dept_dtr_appr1_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_employee_list_dept_dtr_appr_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -1821,7 +1998,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_dept_travel_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -1831,9 +2008,6 @@
     </Compile>
     <Compile Include="Models\sp_employee_list_overtime_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_employee_list_without_jo11_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_employee_list_without_jo1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -1925,8 +2099,20 @@
     <Compile Include="Models\sp_exclude_qtr_personnel_combolist_jo_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_exc_inc_empl_attendance_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_extract_best_attendance_no_quali_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_extract_best_attendance_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_extract_cafoa_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_extract_lwop_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_extract_monitoring_rep_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -1946,6 +2132,15 @@
     <Compile Include="Models\sp_extract_timeentries_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_extract_trk_leave_appl_lvl1_final_appr_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_extract_trk_leave_appl_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_extract_und_abs_tardi_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_fielddescr_tbl_list2_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -1956,9 +2151,6 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_fl_plan_hdr_rep_tbl_list_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_ForceLogout1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_ForceLogout_Result.cs">
@@ -1985,7 +2177,7 @@
     <Compile Include="Models\sp_force_leave_plan_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_for_approval_authorization_slip_tbl_list_Result.cs">
+    <Compile Include="Models\sp_forgot_punch_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_for_approval_discipline_tbl_Result.cs">
@@ -2018,6 +2210,9 @@
     <Compile Include="Models\sp_fundcharges_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_genearate_empl_dtr_backend_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_generate_empl_dtr_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -2025,6 +2220,9 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_generate_key_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_generate_ovtm_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_generate_payrollemployee_tax_hdr_dtl_Result.cs">
@@ -2038,6 +2236,9 @@
     </Compile>
     <Compile Include="Models\sp_generate_qtr_appointment_jo_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_generate_travel_order_actioned_pa_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_generate_travel_order_daily_pa_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -2090,6 +2291,12 @@
     <Compile Include="Models\sp_get_functions_tbl_api_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_get_leave_transmittal_for_uploading_dtl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_get_leave_transmittal_for_uploading_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_get_next_empl_id_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -2100,7 +2307,7 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_get_personnel_attendance_api_Result.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_get_personnel_names_api_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -2168,9 +2375,6 @@
     <Compile Include="Models\sp_insert_regular_rai_groupings_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_itcdd_dtr_to_hris_dtr_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_jobdescription_task_empl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
     </Compile>
@@ -2195,16 +2399,34 @@
     <Compile Include="Models\sp_latest_retirement_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leaveappl_dtl_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leaveledger_curr_bal2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leaveledger_curr_bal_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leaveledger_dtl_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leaveledger_empl_undertime_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leaveledger_for_posting_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leaveledger_posted_leave_app_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leaveledger_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leaveledger_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leaveledger_unposted_leave_app_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leavesubtype_tbl_list_Result.cs">
@@ -2225,6 +2447,9 @@
     <Compile Include="Models\sp_leave_application_cancel_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_application_coc_earn_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_application_curr_bal_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -2234,13 +2459,25 @@
     <Compile Include="Models\sp_leave_application_for_approval_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_application_hdr_tbl_report_cto_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_application_hdr_tbl_report_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_application_rep2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_application_rep3_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_application_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_application_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_leave_application_sig_empl_pos_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_leave_application_tbl_list1_Result.cs">
@@ -2252,10 +2489,22 @@
     <Compile Include="Models\sp_leave_electric_sig_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_leave_printing_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_leave_search_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_ledgerposting_for_approval_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ledgerposting_notification_hdr_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ledgerposting_notification_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_ledger_info_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_list_of_employees_report_Result.cs">
@@ -2269,6 +2518,33 @@
     </Compile>
     <Compile Include="Models\sp_loyaltybonuses_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_empl_lst_wout_jo_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_empl_lst_wout_jo_yr_mt_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_info2_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_info_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_cancel_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_dtl_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_earn_history_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_generate_earning_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_lv_ledger_posted_unposted_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_menus_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -2291,12 +2567,6 @@
     <Compile Include="Models\sp_monthly_working_hrs_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_mssql_dtr_generate1_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_mssql_dtr_generate_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_municipalities_tbl_list2_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -2305,12 +2575,6 @@
     </Compile>
     <Compile Include="Models\sp_municipalities_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_mysql_dtr_generate1_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_mysql_dtr_generate_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_natureappointment_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -2999,6 +3263,9 @@
     <Compile Include="Models\sp_personnel_learnanddevt_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_personnel_requestovertime_api_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_personnel_tbl_all_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
@@ -3007,6 +3274,9 @@
     </Compile>
     <Compile Include="Models\sp_personnel_tbl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_personnel_timeschedule_api_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_personnel_voluntarywork_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -3374,6 +3644,9 @@
     <Compile Include="Models\sp_servicerecord_tbl_list_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_slvlsp_current_leave_bal_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_slvl_current_leave_bal_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -3455,9 +3728,6 @@
     <Compile Include="Models\sp_time_schedule_empl_tbl1_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_time_schedule_empl_tbl1_Result1.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sp_time_schedule_empl_tbl_copy_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -3488,13 +3758,25 @@
     <Compile Include="Models\sp_transmittal_check_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_transmittal_leave_dtl_monthly_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_transmittal_leave_dtl_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_transmittal_leave_hdr_tbl_list_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_transmittal_leave_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_travelordertype_empl_dtl_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_travelorder_dates_dtl_cancel_tbl_list_Result.cs">
+    <Compile Include="Models\sp_travelorder_dates_dtl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_travelorder_dates_dtl_tbl_list_Result.cs">
+    <Compile Include="Models\sp_travelorder_employee_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_travelorder_empl_dtl_tbl_list_Result.cs">
@@ -3521,13 +3803,31 @@
     <Compile Include="Models\sp_travel_order_approve_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_travel_order_daily_dept_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_daily_pa_rep2_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_daily_pa_rep_2_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_travel_order_daily_pa_rep_actioned_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_daily_pa_rep_check_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_travel_order_daily_pa_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_travel_order_daily_pa_rep_TEST_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_travel_order_daily_rep_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_disapproved_rep_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_travel_order_disapprove_Result.cs">
@@ -3539,10 +3839,19 @@
     <Compile Include="Models\sp_travel_order_pa_checklist_tbl_2_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_travel_order_report_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_travel_order_report_TEST_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sp_tse_empl_addedit_tbl_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_tse_empl_tbl_list1_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_tse_empl_tbl_list_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_unit_combo_list1_Result.cs">
@@ -3553,6 +3862,12 @@
     </Compile>
     <Compile Include="Models\sp_updateInsert_user_in_TRK_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_update_dtr_transmittal_add_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_update_dtr_transmittal_remove_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_update_educsc_apl_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -3570,6 +3885,9 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_update_timeentries_tbl_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_update_TO_status_Result.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_update_workexp_volun_apl_Result.cs">
@@ -3615,7 +3933,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_login_ATS_Result.cs">
-      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+      <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_user_login_KMS_Result.cs">
       <DependentUpon>cnHRIS_KMS.tt</DependentUpon>
@@ -3655,6 +3973,9 @@
     </Compile>
     <Compile Include="Models\sp_user_menu_access_role_list_SS_Result.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_validate_dtr_month_entry_Result.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sp_validate_empl_job_percentage_Result.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
@@ -3711,7 +4032,7 @@
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\taxrate_percentage_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -3779,6 +4100,15 @@
     <Compile Include="Models\transactionsref_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\transmittal_leave_dtl_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\transmittal_leave_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\transmittal_leave_trk_setup_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\travelordertype_empl_dtl_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -3789,6 +4119,12 @@
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\travelorder_hdr_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\travelorder_lvl2_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\travelOrder_pa_checklist_tbl.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\travelpurpose_tbl.cs">
@@ -3862,6 +4198,9 @@
     <Compile Include="Models\vw_approvalworkflow_tbl.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_as_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_authorization_slipt_dtr_info.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
@@ -3907,8 +4246,17 @@
     <Compile Include="Models\vw_employmenttypes_tbl_list.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_empl_dtr_dtl_tbl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_empl_dtr_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_empl_jd_pos.cs">
       <DependentUpon>cnHRIS_HRD.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_empl_time_sched.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_extract_sra.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
@@ -3922,10 +4270,49 @@
     <Compile Include="Models\vw_jo_phic_mar2021_diff.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_leaveadmin_dept_list.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_leaveadmin_tbl_list.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_leaveadmin_user_list.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_leave_application_dtr_info.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_leave_application_hdr_tbl_list_curr_bal.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_leave_application_signatories_tbl_list.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_leave_appl_posting_indv_history.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_earn_compute.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_info_curr.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_info_curr_bal.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_info_curr_vl_sl.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_info_rep.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_lv_ledger_posted_unposted.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_modules_assign_tbl.cs">
@@ -3933,6 +4320,9 @@
     </Compile>
     <Compile Include="Models\vw_national_assignment.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_ot_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_ot_request_dtr_info.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -3950,7 +4340,7 @@
       <DependentUpon>cnHRIS_TRK.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_payrollemployeemaster_asg_tbl.cs">
-      <DependentUpon>cnHRIS.tt</DependentUpon>
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\vw_payrollemployeemaster_ATS.cs">
       <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
@@ -4132,6 +4522,15 @@
     <Compile Include="Models\vw_temp_sss_jo_3MONS.cs">
       <DependentUpon>cnHRIS.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\vw_timeentries_dtr_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_to_info.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_to_info_daily_rep.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\vw_training_empl_tbl_list.cs">
       <DependentUpon>cnHRIS_KMS.tt</DependentUpon>
     </Compile>
@@ -4161,6 +4560,9 @@
     </Compile>
     <Compile Include="Models\vw_vw_personnelnames_tbl_img.cs">
       <DependentUpon>cnHRIS_STAFFING.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vw_with_absent_perstrans_half.cs">
+      <DependentUpon>cnHRIS_ATS.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -4829,6 +5231,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>cnHRIS.edmx</DependentUpon>
       <LastGenOutput>cnHRIS.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\cnHRIS_ATS.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
+      <LastGenOutput>cnHRIS_ATS.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\cnHRIS_ATS.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
+      <LastGenOutput>cnHRIS_ATS.cs</LastGenOutput>
     </Content>
     <Content Include="Reports\cryRegularReports\cryRATA\cryOBR_Breakdown1.cs">
       <SubType>Component</SubType>
@@ -5955,16 +6367,6 @@
     <Content Include="Img-Resources\min.svg" />
     <Content Include="Img-Resources\sec-shdw.svg" />
     <Content Include="Img-Resources\sec.svg" />
-    <Content Include="Models\cnHRIS_ATS.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
-      <LastGenOutput>cnHRIS_ATS.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\cnHRIS_ATS.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
-      <LastGenOutput>cnHRIS_ATS.cs</LastGenOutput>
-    </Content>
     <Content Include="Models\cnHRIS_DTR.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>cnHRIS_DTR.edmx</DependentUpon>
@@ -6100,13 +6502,6 @@
     <Content Include="Models\cnHRIS_TRK.edmx.diagram">
       <DependentUpon>cnHRIS_TRK.edmx</DependentUpon>
     </Content>
-    <EntityDeploy Include="Models\cnHRIS_ATS.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>cnHRIS_ATS.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\cnHRIS_ATS.edmx.diagram">
-      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
-    </Content>
     <EntityDeploy Include="Models\cnHRIS_KMS.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>cnHRIS_KMS.Designer.cs</LastGenOutput>
@@ -6156,6 +6551,13 @@
     </EntityDeploy>
     <Content Include="Models\cnHRIS.edmx.diagram">
       <DependentUpon>cnHRIS.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\cnHRIS_ATS.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>cnHRIS_ATS.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\cnHRIS_ATS.edmx.diagram">
+      <DependentUpon>cnHRIS_ATS.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

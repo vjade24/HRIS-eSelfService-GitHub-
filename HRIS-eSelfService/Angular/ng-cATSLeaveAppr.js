@@ -853,10 +853,10 @@
 
     function show_print(ReportName, SaveName, ReportType, ReportPath, sp)
     {
-        h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
-        {
-                if (d.data.message == "success")
-                {
+        //h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
+        //{
+        //        if (d.data.message == "success")
+        //        {
                     // *******************************************************
                     // *** VJA : 2021-07-14 - Validation and Loading hide ****
                     // *******************************************************
@@ -905,12 +905,38 @@
                     $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
                     // *******************************************************
                     // *******************************************************
-                }
-                else
+            //    }
+            //    else
+            //    {
+            //        swal(d.data.message, "", {icon:"warning"});
+            //    }
+            //});
+    }
+    s.Retrieve_LeaveHistory = function ()
+    {
+        $('#view_details_history').removeClass()
+        $('#view_details_history').addClass('fa fa-spinner fa-spin')
+        s.data_history = [];
+        h.post("../cATSLeaveAppr/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                for (var i = 0; i < d.data.data.length; i++)
                 {
-                    swal(d.data.message, "", {icon:"warning"});
+                    d.data.data[i].create_dttm_descr = moment(d.data.data[i].created_dttm).format("LLLL")
+                    d.data.data[i].create_dttm_ago   = moment(d.data.data[i].created_dttm).fromNow()
                 }
-            });
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+            }
+            else
+            {
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
     }
 
 
