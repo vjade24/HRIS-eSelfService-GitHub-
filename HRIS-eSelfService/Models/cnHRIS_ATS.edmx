@@ -1344,8 +1344,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             </CollectionType>
           </ReturnType>
         </Function>
-<<<<<<< HEAD
-=======
+
         <Function Name="func_lv_ledger_history_notif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
@@ -1364,7 +1363,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             </CollectionType>
           </ReturnType>
         </Function>
->>>>>>> 2f80e6e3caf535472e01374e57df34a0b6be644c
+      
         <Function Name="func_othrs_coc_equevalent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="par_day_of_week" Type="varchar" Mode="In" />
           <Parameter Name="par_ot_val" Type="varchar" Mode="In" />
