@@ -10409,19 +10409,6 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_ACT_Result>("sp_user_login_ACT", par_user_idParameter, par_user_passwordParameter);
         }
     
-        public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
-        {
-            var par_user_idParameter = par_user_id != null ?
-                new ObjectParameter("par_user_id", par_user_id) :
-                new ObjectParameter("par_user_id", typeof(string));
-    
-            var par_user_passwordParameter = par_user_password != null ?
-                new ObjectParameter("par_user_password", par_user_password) :
-                new ObjectParameter("par_user_password", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_ATS_Result>("sp_user_login_ATS", par_user_idParameter, par_user_passwordParameter);
-        }
-    
         public virtual ObjectResult<sp_user_login_PAY_Result> sp_user_login_PAY(string par_user_id, string par_user_password)
         {
             var par_user_idParameter = par_user_id != null ?
@@ -10825,6 +10812,19 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_fl_plan_rep_ctrlno", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_force_leave_plan_annual_sched_rep_with_approved_Result>("sp_force_leave_plan_annual_sched_rep_with_approved", par_yearParameter, par_fl_plan_rep_ctrlnoParameter);
+        }
+    
+        public virtual ObjectResult<sp_user_login_ATS_Result> sp_user_login_ATS(string par_user_id, string par_user_password)
+        {
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            var par_user_passwordParameter = par_user_password != null ?
+                new ObjectParameter("par_user_password", par_user_password) :
+                new ObjectParameter("par_user_password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_user_login_ATS_Result>("sp_user_login_ATS", par_user_idParameter, par_user_passwordParameter);
         }
     }
 }

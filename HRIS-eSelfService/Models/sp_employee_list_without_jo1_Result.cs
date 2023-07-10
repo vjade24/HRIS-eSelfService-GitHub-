@@ -15,5 +15,8 @@ namespace HRIS_eSelfService.Models
     {
         public string empl_id { get; set; }
         public string employee_name { get; set; }
+        public string position_long_title { get; set; }
+        public string department_code { get; set; }
+        public string department_proper_name { get; set; }
     }
 }

@@ -25,12 +25,16 @@ namespace HRIS_eSelfService.Models
         public string leave_subtype_code { get; set; }
         public decimal number_of_days { get; set; }
         public string leaveledger_date { get; set; }
-        public decimal leaveledger_balance_as_of_sl { get; set; }
-        public decimal leaveledger_balance_as_of_vl { get; set; }
-        public decimal leaveledger_balance_as_of_oth { get; set; }
-        public decimal sl_restore_deduct { get; set; }
-        public decimal vl_restore_deduct { get; set; }
-        public decimal oth_restore_deduct { get; set; }
+        public string leaveledger_balance_as_of_vl { get; set; }
+        public string leaveledger_balance_as_of_sl { get; set; }
+        public string leaveledger_balance_as_of_sp { get; set; }
+        public string leaveledger_balance_as_of_fl { get; set; }
+        public string leaveledger_balance_as_of_oth { get; set; }
+        public string vl_restore_deduct { get; set; }
+        public string sl_restore_deduct { get; set; }
+        public string sp_restore_deduct { get; set; }
+        public string fl_restore_deduct { get; set; }
+        public string oth_restore_deduct { get; set; }
         public bool leave_class { get; set; }
         public string leave_descr { get; set; }
         public string details_remarks { get; set; }
