@@ -251,5 +251,18 @@ namespace HRIS_eSelfService.Controllers
                 return Json(new { message }, JsonRequestBehavior.AllowGet);
             }
         }
+        public ActionResult Retrieve_LeaveHistory(string leave_ctrlno, string empl_id)
+        {
+            try
+            {
+                var data = db.func_lv_ledger_history_notif(leave_ctrlno, empl_id).OrderByDescending(a => a.created_dttm).ToList();
+                return Json(new { message = "success", data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

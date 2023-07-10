@@ -1344,7 +1344,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             </CollectionType>
           </ReturnType>
         </Function>
-
         <Function Name="func_lv_ledger_history_notif" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_leave_ctrlno" Type="varchar" Mode="In" />
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
@@ -1363,7 +1362,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             </CollectionType>
           </ReturnType>
         </Function>
-      
         <Function Name="func_othrs_coc_equevalent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="float">
           <Parameter Name="par_day_of_week" Type="varchar" Mode="In" />
           <Parameter Name="par_ot_val" Type="varchar" Mode="In" />
@@ -3655,10 +3653,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="p_appl_remarks" Mode="In" Type="String" />
             <Parameter Name="p_created_by" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
-            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
-            <Parameter Name="p_empl_id" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_travel_order_reviewapproved1" ReturnType="Collection(Boolean)">
             <Parameter Name="p_travel_order_no" Mode="In" Type="String" />
             <Parameter Name="p_approval_status" Mode="In" Type="String" />
@@ -3690,6 +3684,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
             <Parameter Name="par_dept_code" Mode="In" Type="String" />
             <Parameter Name="par_type" Mode="In" Type="String" />
             <Parameter Name="par_user_id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="func_lv_ledger_history_notif" IsComposable="true" ReturnType="Collection(HRIS_ATSModel.func_lv_ledger_history_notif_Result)">
+            <Parameter Name="p_leave_ctrlno" Mode="In" Type="String" />
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
@@ -7025,16 +7023,6 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
         </ComplexType>
-        <ComplexType Name="func_lv_ledger_history_notif_Result">
-          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="10" />
-          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
-          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
-          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
-          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
-          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
-          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
-        </ComplexType>
         <ComplexType Name="sp_generate_travel_order_daily_pa_rep_Result">
           <Property Type="String" Name="query_msg" Nullable="true" MaxLength="35" />
           <Property Type="Int32" Name="success_status" Nullable="false" />
@@ -7091,6 +7079,16 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
           <Property Type="String" Name="approved_status" Nullable="true" MaxLength="1" />
           <Property Type="Boolean" Name="pa_readonly" Nullable="true" />
           <Property Type="Boolean" Name="pa_writeonly" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="func_lv_ledger_history_notif_Result">
+          <Property Type="String" Name="ledger_ctrl_no" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="leave_ctrlno" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="appl_status" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="appl_remarks" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="created_dttm" Nullable="false" Precision="23" />
+          <Property Type="String" Name="created_by" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="employee_name_format_2" Nullable="false" MaxLength="249" />
+          <Property Type="String" Name="trace_code" Nullable="false" MaxLength="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -11158,6 +11156,20 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_travel_order_dtr_info' does not ha
                 <ScalarProperty Name="approved_status" ColumnName="approved_status" />
                 <ScalarProperty Name="pa_readonly" ColumnName="pa_readonly" />
                 <ScalarProperty Name="pa_writeonly" ColumnName="pa_writeonly" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="func_lv_ledger_history_notif" FunctionName="HRIS_ATSModel.Store.func_lv_ledger_history_notif">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.func_lv_ledger_history_notif_Result">
+                <ScalarProperty Name="ledger_ctrl_no" ColumnName="ledger_ctrl_no" />
+                <ScalarProperty Name="leave_ctrlno" ColumnName="leave_ctrlno" />
+                <ScalarProperty Name="appl_status" ColumnName="appl_status" />
+                <ScalarProperty Name="appl_remarks" ColumnName="appl_remarks" />
+                <ScalarProperty Name="created_dttm" ColumnName="created_dttm" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="employee_name_format_2" ColumnName="employee_name_format_2" />
+                <ScalarProperty Name="trace_code" ColumnName="trace_code" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
