@@ -348,11 +348,19 @@ namespace HRIS_eSelfService.Controllers
                                                                     a.leave_ctrlno != appl_nbr
                                                                     ).FirstOrDefault();
 
-                    var dt_chk_tse = db_ats.tse_check_tbl.Where(a => a.empl_id == data.empl_id).FirstOrDefault();
+                    var dt_chk_tse       = db_ats.tse_check_tbl.Where(a => a.empl_id == data.empl_id).FirstOrDefault();
+                    var chk_cancellation = db_ats.leave_application_cancel_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
+
 
                     if (od != null)
                     {
                         message = (message + " *" + data2[x].leave_date_from.ToString("yyyy-MM-dd") + " - " + data2[x].leave_date_to.ToString("yyyy-MM-dd"));
+                    }
+                    if (chk_cancellation != null )
+                    {
+                        message         = "have_cancellation";
+                        message_descr   = " Cancellation of Leave is in-progress!";
+                        //message_descr2  = " Cancellation of Leave is in-progress";
                     }
                     if (dt_chk_tse != null)
                     {

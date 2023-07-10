@@ -1526,7 +1526,7 @@
                                                                 }
                                                             }
 
-                                                            else if (d.data.message == "5_adv_validation") {
+                                                            else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                 if (d.data.message_descr != "") {
                                                                     swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
                                                                 }
@@ -1637,7 +1637,7 @@
                                                             }
                                                         }
 
-                                                        else if (d.data.message == "5_adv_validation") {
+                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
@@ -1853,7 +1853,7 @@
                                                                         }
                                                                     }
 
-                                                                    else if (d.data.message == "5_adv_validation") {
+                                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                         if (d.data.message_descr != "") {
                                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                         }
@@ -1960,7 +1960,7 @@
                                                         }
                                                     }
 
-                                                    else if (d.data.message == "5_adv_validation") {
+                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                         }
@@ -2159,7 +2159,7 @@
                                                                             }
                                                                         }
 
-                                                                        else if (d.data.message == "5_adv_validation") {
+                                                                        else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                             if (d.data.message_descr != "") {
                                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                             }
@@ -2266,7 +2266,7 @@
                                                             }
                                                         }
 
-                                                        else if (d.data.message == "5_adv_validation") {
+                                                        else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
