@@ -809,14 +809,19 @@ ng_selfService_App.controller("cSSPHICPayReg_DTL_ctrl", function ($scope, $compi
         var var_date            = new Date(s.payroll_year + "-" + s.payroll_month + "-01");
         var var_tax_eff_date    = new Date("2021-03-30");
 
-        if (var_date > var_tax_eff_date)
+        if (var_date > var_tax_eff_date && var_date < new Date("2023-07-01"))
         {
             $('#lbl_wtax_1_3perc').text('W/H Tax 1% Amt.:')
+            $('#lbl_wtax_8_5vatperc').text('W/H Tax 8% Amt.:')
         }
         else
         {
             $('#lbl_wtax_1_3perc').text('W/H Tax 3% Amt.:')
+            $('#lbl_wtax_8_5vatperc').text('W/H Tax 5%VAT Amt.:')
         }
+
+
+
 
     }
 });

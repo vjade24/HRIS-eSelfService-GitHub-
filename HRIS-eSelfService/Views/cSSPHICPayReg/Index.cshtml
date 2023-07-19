@@ -1,11 +1,11 @@
 ﻿
-<script src="~/Angular/ng-cSSPHICPayReg.js"></script>
+<script src="~/Angular/ng-cSSPHICPayReg.js?v1"></script>
 <section ng-app="ng_eSelfService_App" ng-controller="cSSPHICPayReg_ctrl">
 
 
     <div class="modal fade" id="modal_print_option" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content animated flipInY modal-content-add-edit">
+            <div class="modal-content modal-content-add-edit">
                 <div class="modal-header bg-primary text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -75,7 +75,7 @@
                 <div class="modal-body with-background" style="padding:0px !important">
                     <div class="row">
                         <div class="col-lg-12">
-                            <iframe style="width:100% !important;height:500px !important;border:0px none;" id="iframe_print_preview"></iframe>
+                            <iframe style="width:100% !important;height:70% !important;border:0px none;" id="iframe_print_preview"></iframe>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
     @*---ADD MODAL-----*@
     <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-md">
-            <div class="modal-content animated flipInY modal-content-add-edit">
+            <div class="modal-content modal-content-add-edit">
                 <div class="modal-header modal-header-add-edit text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -292,17 +292,17 @@
                             </div>
 
 
-                            <div class="col-lg-2" style="margin-top:5px">
-                                @*<div class="btn-group pull-right">
+                            @*<div class="col-lg-2" style="margin-top:5px">
+                                <div class="btn-group pull-right">
                                         <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-block"><i class="fa fa-print"></i>  Print Option <span class="caret"></span></button>
                                         <ul class="dropdown-menu">
                                             <li><a ng-click="btn_print_brkdwn()">PHIC Breakdown</a></li>
                                             <li><a ng-click="btn_print_all_reg()">Print All Registry</a></li>
                                         </ul>
-                                    </div>*@
+                                    </div>
 
                                 <button class="btn btn-primary" style="display:block;width:96%;float:right !important" ng-click="btn_print_brkdwn()" ng-show="false"> <i class="fa fa-print"></i> Print Breakdown</button>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="row" style="margin-top:5px;">
                             <div class="col-lg-12 table-resposive">

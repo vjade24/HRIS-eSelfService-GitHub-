@@ -593,38 +593,38 @@ ng_selfService_App.controller("cSSPHICPayReg_ctrl", function ($scope, $compile, 
     //*********************************************//
     //*** VJA - 02/29/2020 - Button to Print Breakdown
     //*********************************************//
-    s.btn_print_brkdwn = function ()
-    {
-        h.post("../cSSPHICPayReg/PrintBreakdownReports",
-            {
-                 p_payroll_year      : s.ddl_year
-                ,p_payroll_month     : s.ddl_month
-                ,p_department_code   : s.ddl_department
+    //s.btn_print_brkdwn = function ()
+    //{
+    //    h.post("../cSSPHICPayReg/PrintBreakdownReports",
+    //        {
+    //             p_payroll_year      : s.ddl_year
+    //            ,p_payroll_month     : s.ddl_month
+    //            ,p_department_code   : s.ddl_department
 
-            }).then(function (d)
-            {
-                if (d.data.message == "sucess") {
-                    var controller = "Reports";
-                    var action = "Index";
-                    var ReportName = "";
-                    var SaveName = "Crystal_Report";
-                    var ReportType = "inline";
-                    var ReportPath = "~/Reports/cryPHIC/cryPHICBreakdown.rpt";
-                    var sp = "sp_payrollregistry_phic_share_brkdwn_rep,p_payroll_year," + s.ddl_year + ",p_payroll_month," + s.ddl_month + ",p_department_code," + s.ddl_department
+    //        }).then(function (d)
+    //        {
+    //            if (d.data.message == "sucess") {
+    //                var controller = "Reports";
+    //                var action = "Index";
+    //                var ReportName = "";
+    //                var SaveName = "Crystal_Report";
+    //                var ReportType = "inline";
+    //                var ReportPath = "~/Reports/cryPHIC/cryPHICBreakdown.rpt";
+    //                var sp = "sp_payrollregistry_phic_share_brkdwn_rep,p_payroll_year," + s.ddl_year + ",p_payroll_month," + s.ddl_month + ",p_department_code," + s.ddl_department
 
-                    location.href = "../" + controller + "/" + action + "?ReportName=" + ReportName
-                        + "&SaveName=" + SaveName
-                        + "&ReportType=" + ReportType
-                        + "&ReportPath=" + ReportPath
-                        + "&Sp=" + sp
-                }
-                else
-                {
-                    swal("No Data Found !", "", "warning")
-                }
+    //                location.href = "../" + controller + "/" + action + "?ReportName=" + ReportName
+    //                    + "&SaveName=" + SaveName
+    //                    + "&ReportType=" + ReportType
+    //                    + "&ReportPath=" + ReportPath
+    //                    + "&Sp=" + sp
+    //            }
+    //            else
+    //            {
+    //                swal("No Data Found !", "", "warning")
+    //            }
                 
-            })
-    }
+    //        })
+    //}
     //***************************************************************************//
     //*** VJA - 2020-04-03 - Occure when save button is clicked and save/edit data
     //***************************************************************************//
