@@ -17,9 +17,9 @@
         s.ddl_year = new Date().getFullYear().toString();
         s.ddl_month = moment((new Date())).format("MM");
         $("#modal_generating_remittance").modal();
-        $('#slvl_radio0').addClass('sl-vl-radio-display-none');
-        $('#slvl_radio1').addClass('sl-vl-radio-display-none');
-        $('#txtb_specify_div').addClass('sl-vl-radio-display-none');
+        //$('#slvl_radio0').addClass('sl-vl-radio-display-none');
+        //$('#slvl_radio1').addClass('sl-vl-radio-display-none');
+        //$('#txtb_specify_div').addClass('sl-vl-radio-display-none');
         //**********************************************
         // Initialize data during page loads
         //**********************************************
@@ -409,6 +409,42 @@
         //         s.sp_less_this_leave = s.total_equiv_tot;
         //     }
         // }
+
+        // **************************************************************************
+        // *** Display the Radio button, checkboxes for Sick leave and Vacatio Leave
+        // **************************************************************************
+        if (s.ddl_leave_type == "SL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Out Patient');
+            $('#slvl_radio1_text').html('In Hospital');
+        }
+        else if (s.ddl_leave_type == "VL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+        }
+        // ************************************************************** 
+        else if (s.ddl_leave_type == "FL" || s.ddl_leave_type == "SP") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+        }
+        // ************************************************************** 
+        else {
+            $('#slvl_radio0').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').addClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('');
+            $('#slvl_radio1_text').html('');
+        }
+        // **************************************************************************
+        // **************************************************************************
 
         s.datalistgrid[row_id].leave_class == true ? $("#x1").prop("checked", true) : $("#x0").prop("checked", true);
         if ($("#x1").prop("checked"))
