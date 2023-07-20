@@ -2891,8 +2891,8 @@
         {
             if (ValidateFields3())
             {
-                if (Check_Between_Dates($('#start').val(), $('#end').val()) == false)
-                {
+                //if (Check_Between_Dates($('#start').val(), $('#end').val()) == false)
+                //{
                     s.show_btn_add_date = true;
                     s.datalistgrid2 = s.datalistgrid2.delete(s.temp_dt_row_id);
                     s.oTable2.fnClearTable();
@@ -2924,11 +2924,11 @@
 
                     $('#leave_dtl_modal').modal("hide");
                     clearentry2();
-                }
-                else
-                {
-                    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
-                }
+                //}
+                //else
+                //{
+                //    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
+                //}
             }
         }
         catch (err)
