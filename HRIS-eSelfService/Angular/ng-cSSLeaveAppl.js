@@ -36,21 +36,22 @@
     s.available_leave       = 0;
     s.show_btn_add_date     = true;
     s.ShowFLP               = false;
-    s.div_cto               = false;
-    s.lbl_days_hrs_equi     = "Days Equivalent:"
+    s.lbl_days_hrs_equi     = "Total Deduct per day:"
 
-    s.txtb_cto_remarks      = "08:00AM-5:00PM";
-    $('#txtb_cto_remarks').val("08:00AM-5:00PM");
-    s.show_refresh_bal = true;
-    s.show_cancel_button = false;
-    s.show_final_approved = true;
+    //s.div_cto               = false;
+    //s.txtb_cto_remarks      = "08:00AM-5:00PM";
+    //$('#txtb_cto_remarks').val("08:00AM-5:00PM");
+    s.show_refresh_bal      = true;
+    s.show_cancel_button    = false;
+    s.show_final_approved   = true;
     s.cancellation_calendar = null;
-    s.leave_cancel_type = "";
+    s.leave_cancel_type     = "";
 
-    s.div_justi_msg = false;
-    s.div_show_transfer_date = false;
-    s.div_justi_bottom_msg = false
-    var justi_flag = document.getElementById("justification_flag");
+    s.div_justi_msg             = false;
+    s.div_show_transfer_date    = false;
+    s.div_justi_bottom_msg      = false
+    var justi_flag              = document.getElementById("justification_flag");
+
     init()
     //**********************************************
     // Initialize data during page loads ***********
@@ -91,7 +92,7 @@
                     s.holidays_list     = d.data.holiDate;
                     s.statusList        = d.data.status;
                     s.txtb_empl_id      = d.data.user_info.empl_id;
-                    s.txtb_dept_name = d.data.dept_name;
+                    s.txtb_dept_name    = d.data.dept_name;
 
                     s.cancellation_calendar = d.data.cancellation_calendar;
                     
@@ -160,16 +161,16 @@
                     $("#modal_generating_remittance").modal("hide");
                     $('#txtb_year_selected').val(new Date().getFullYear().toString());
 
-                    if ($('#ddl_leave_type option:selected').val()    == "SL"
-                        || $('#ddl_leave_type option:selected').val() == "VL"
-                        || $('#ddl_leave_type option:selected').val() == "FL")
-                    {
-                        s.show_vl = true;
-                    }
-                    else
-                    {
-                        s.show_vl = false;
-                    }
+                    //if ($('#ddl_leave_type option:selected').val()    == "SL"
+                    //    || $('#ddl_leave_type option:selected').val() == "VL"
+                    //    || $('#ddl_leave_type option:selected').val() == "FL")
+                    //{
+                    //    s.show_vl = true;
+                    //}
+                    //else
+                    //{
+                    //    s.show_vl = false;
+                    //}
 
                     //**********************************************
                     //  Balance as of - All 
@@ -194,8 +195,6 @@
                         d.data.fl_plan_lst[i].flp_application_date_descr = moment(d.data.fl_plan_lst[i].flp_application_date).format("MMMM DD, YYYY")
                     }
 
-                    
-
                     $('#modal_loading').modal("hide");
                 }
                 else
@@ -205,7 +204,8 @@
                 }
             });
         }
-        catch (err) {
+        catch (err)
+        {
             swal({ icon: "warning", title: err.message });
         }
     }
@@ -389,8 +389,9 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
@@ -408,8 +409,9 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
@@ -427,8 +429,9 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
@@ -446,8 +449,8 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"]
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
                                         + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
@@ -467,8 +470,9 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
@@ -486,8 +490,9 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
@@ -739,7 +744,7 @@
                                     lv_status_descr = "Final Approved"
                                 }
 
-                                cell.prepend("<div class='holiday' data-toggle='tooltip' data-placement='top' title='(" + lv_status_descr + ") - CANCELLATION'><i class='fa fa-send text-danger'></i><small style='color:white;'>  (" + lv_status_descr + ") CANCELLATION</small></div>");
+                                cell.prepend("<div style='position:absolute;z-index:9999;bottom:5px;font-size:10px;' data-toggle='tooltip' data-placement='top' title='(" + lv_status_descr + ") - CANCELLATION'><i class='fa fa-send text-danger'></i><small style='color:white;'>  (" + lv_status_descr + ") CANCELLATION</small></div>");
                             }
                         }
                         
@@ -805,43 +810,43 @@
 
         try
         {
-            var ss_date = ""
-            var ee_date = ""
-            var data    = []
-            s.div_cto   = false;
-            if (s.ddl_leave_type == "CTO")
-            {
-                if (s.save_mode == "ADD")
-                {
-                    if (s.datalistgrid2.length <= 1)
-                    {
-                        s.datalistgrid2 = [];
+            //var ss_date = ""
+            //var ee_date = ""
+            //var data    = []
+            //s.div_cto   = false;
+            //if (s.ddl_leave_type == "CTO")
+            //{
+            //    if (s.save_mode == "ADD")
+            //    {
+            //        if (s.datalistgrid2.length <= 1)
+            //        {
+            //            s.datalistgrid2 = [];
 
 
-                        ss_date = s.start_date;
-                        ee_date = s.end_date;
+            //            ss_date = s.start_date;
+            //            ee_date = s.end_date;
                         
-                        data =
-                        {
-                            leave_date_from         : ss_date
-                            , leave_date_to         : ee_date
-                            , date_num_day          : s.total_equiv_tot * 1
-                            , date_num_day_total    : s.total_equiv_tot * 8
-                            , cto_remarks           : s.txtb_cto_remarks
-                        };
+            //            data =
+            //            {
+            //                leave_date_from         : ss_date
+            //                , leave_date_to         : ee_date
+            //                , date_num_day          : s.total_equiv_tot * 1
+            //                , date_num_day_total    : s.total_equiv_tot * 8
+            //                , cto_remarks           : s.txtb_cto_remarks
+            //            };
 
-                        s.datalistgrid2.push(data);
-                        s.oTable2.fnClearTable();
-                        s.oTable2.fnAddData(s.datalistgrid2);
+            //            s.datalistgrid2.push(data);
+            //            s.oTable2.fnClearTable();
+            //            s.oTable2.fnAddData(s.datalistgrid2);
                         
-                    }
-                }
+            //        }
+            //    }
 
-                s.div_cto           = true;
-                s.txtb_day_equiv    = "1";
-                s.lbl_days_hrs_equi = "Days Equivalent:"
-                s.day_num_day_total_func();
-            }
+            //    s.div_cto           = true;
+            //    s.txtb_day_equiv    = "1";
+            //    s.lbl_days_hrs_equi = "Leave deduct per day:"
+            //    s.day_num_day_total_func();
+            //}
             
             h.post("../cSSLeaveAppl/GetLeaveSubType",
             {
@@ -1176,27 +1181,26 @@
     //************************************//
     //********* Open Add Modal ***********//
     //************************************//
-    s.btn_open_modal = function () {
+    s.btn_open_modal = function ()
+    {
         try
         {
             s.show_refresh_bal = true;
             s.datalistgrid2 = [];
             s.oTable2.fnClearTable();
             s.oTable2.fnAddData(s.datalistgrid2);
-            
             s.temp_approval_status = "N";
+            s.tot_nbr_days = 0;
 
             if (s.log_in_as_AO == true)
             {
                 if (ValidateFields2())
                 {
-                    s.tot_nbr_days = 0;
                     open_modal();
                 }
             }
             else
             {
-                s.tot_nbr_days = 0;
                 open_modal();
             }
         }
@@ -1213,8 +1217,6 @@
         {
             clearentry2();
             s.temp_approval_status  = "N";
-            //btn                     = document.getElementById('submit');
-            //btn.innerHTML           = '<i class="fa fa-paper-plane-o"></i> Submit';
             s.div_justi_msg         = false;
             s.div_justi_bottom_msg  = false;
             justi_flag.checked      = false;
@@ -1222,21 +1224,19 @@
             s.dis_submit            = false;
             s.dis_plan_date         = false;
 
+            s.oTable2.fnClearTable();
+            s.datalistgrid2 = [];
+            s.oTable2.fnAddData([]);
+
             if (s.log_in_as_AO == true)
             {
                 if (ValidateFields2())
                 {
-                    s.oTable2.fnClearTable();
-                    s.datalistgrid2 = [];
-                    s.oTable2.fnAddData([]);
                     open_modal();
                 }
             }
             else
             {
-                s.oTable2.fnClearTable();
-                s.datalistgrid2 = [];
-                s.oTable2.fnAddData([]);
                 open_modal();
             }
         }
@@ -1248,8 +1248,12 @@
 
     s.btn_open_dtl_modal = function ()
     {
+        if ($('#ddl_leave_type option:selected').val() == "")
+        {
+            swal("Leave Type is Required!", { icon: "warning" })
+            return;
+        }
         clearentry2();
-
         s.show_btn_add_date = true;
         $('#leave_dtl_modal').modal({ backdrop: 'static', keyboard: false });
     }
@@ -1263,34 +1267,31 @@
             if (ValidateFields3())
             {
                 if (Check_Between_Dates($('#start').val(), $('#end').val()) == false) {
-                    var e_date      = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
-                    var s_date      = new Date(moment($('#start').val()).format('YYYY-MM-DD'));
-                    var date_diff   = new Date(e_date - s_date);
-                    s.tot_nbr_days  = date_diff / 1000 / 60 / 60 / 24;
+                    //var e_date      = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
+                    //var s_date      = new Date(moment($('#start').val()).format('YYYY-MM-DD'));
+                    //var date_diff   = new Date(e_date - s_date);
+                    //s.tot_nbr_days  = date_diff / 1000 / 60 / 60 / 24;
 
                     var ss_date = moment($('#start').val()).format('YYYY-MM-DD');
                     var ee_date = moment($('#end').val()).format('YYYY-MM-DD');
-                    
+
                     var data =
                     {
-                        leave_date_from    : ss_date
-                        ,leave_date_to     : ee_date
-                        ,date_num_day      : $("#txtb_day_equiv").val()
-                        ,date_num_day_total: $("#txtb_day_equiv_tot").val()
+                        leave_date_from: ss_date
+                        , leave_date_to: ee_date
+                        , date_num_day: $("#txtb_day_equiv").val()
+                        , date_num_day_total: $("#txtb_day_equiv_tot").val()
                     }
-                    
+
 
                     s.datalistgrid2.push(data)
                     s.oTable2.fnClearTable();
                     s.oTable2.fnAddData(s.datalistgrid2);
-                    
+
                     $('#datalist_grid2').removeClass('selected');
                     var table = $('#datalist_grid2').DataTable();
-                    table.rows((s.datalistgrid2.length - 1))
-                        .nodes()
-                        .to$()
-                        .addClass('selected');
-                    
+                    table.rows((s.datalistgrid2.length - 1)).nodes().to$().addClass('selected');
+
                     s.selectLeaveType();
                     s.leave_computation_edited();
 
@@ -1301,6 +1302,10 @@
                     }, 300);
 
                     $('#leave_dtl_modal').modal("hide");
+                }
+                else
+                {
+                    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
                 }
             }
         }
@@ -1462,6 +1467,10 @@
                                                                         $('#main_modal').modal("hide");
                                                                         swal("Current Record has been Successfully Resubmitted!", { icon: "success", title: "Successfully Resubmitted!" });
                                                                         s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                        if (data.justification_flag == true)
+                                                                        {
+                                                                            s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                        }
                                                                     }
                                                                     else {
                                                                         swal(d.data.message, { icon: "warning", });
@@ -1528,6 +1537,9 @@
                                                                 $('#main_modal').modal("hide");
                                                                 swal("Current Record has been Successfully Resubmitted!", { icon: "success", title: "Successfully Resubmitted!" });
                                                                 s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                if (data.justification_flag == true) {
+                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                }
                                                             }
                                                             else {
                                                                 swal(d.data.message, { icon: "warning", });
@@ -1701,6 +1713,9 @@
                                                                                 $('#main_modal').modal("hide");
                                                                                 swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
                                                                                 s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                                if (data.justification_flag == true) {
+                                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                                }
                                                                             }
                                                                             else {
                                                                                 swal(d.data.message, { icon: "warning", });
@@ -1764,6 +1779,9 @@
                                                                 $('#main_modal').modal("hide");
                                                                 swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
                                                                 s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                if (data.justification_flag == true) {
+                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                }
                                                             }
                                                             else {
                                                                 swal(d.data.message, { icon: "warning", });
@@ -1920,6 +1938,9 @@
                                                                                     $('#main_modal').modal("hide");
                                                                                     swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
                                                                                     s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                                    if (data.justification_flag == true) {
+                                                                                        s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                                    }
                                                                                 }
                                                                                 else {
                                                                                     swal(d.data.message, { icon: "warning", });
@@ -1985,6 +2006,9 @@
                                                                     $('#main_modal').modal("hide");
                                                                     swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
                                                                     s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                    if (data.justification_flag == true) {
+                                                                        s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                    }
                                                                 }
                                                                 else {
                                                                     swal(d.data.message, { icon: "warning", });
@@ -2849,63 +2873,62 @@
     s.btn_edit_action1 = function (row_id)
     {
         clearentry2();
-
         $('#start').val(s.datalistgrid2[row_id].leave_date_from);
         $('#end').val(s.datalistgrid2[row_id].leave_date_to);
-        s.start                 = s.datalistgrid2[row_id].leave_date_from;
-        s.end                   = s.datalistgrid2[row_id].leave_date_to;
-        s.txtb_day_equiv        = s.datalistgrid2[row_id].date_num_day;
-        s.txtb_day_equiv_tot    = s.datalistgrid2[row_id].date_num_day_total;
-        s.txtb_cto_remarks      = s.datalistgrid2[row_id].cto_remarks;
-
+        $('#txtb_day_equiv').val(s.datalistgrid2[row_id].date_num_day);
+        $('#txtb_day_equiv_tot').val(s.datalistgrid2[row_id].date_num_day_total);
+        $('#txtb_cto_remarks').val(s.datalistgrid2[row_id].cto_remarks);
         s.show_btn_add_date     = false;
         s.temp_dt_row_id        = row_id;
-        
         $('#leave_dtl_modal').modal({ backdrop: 'static', keyboard: false });
-
     }
     //************************************// 
     //*** Button for Edit Action ********//   
     //**********************************// 
     s.btn_update = function ()
     {
-
         try
         {
             if (ValidateFields3())
             {
-
-                s.show_btn_add_date = true;
-                s.datalistgrid2 = s.datalistgrid2.delete(s.temp_dt_row_id);
-                s.oTable2.fnClearTable();
-                if (s.datalistgrid2.length != 0)
+                if (Check_Between_Dates($('#start').val(), $('#end').val()) == false)
                 {
+                    s.show_btn_add_date = true;
+                    s.datalistgrid2 = s.datalistgrid2.delete(s.temp_dt_row_id);
+                    s.oTable2.fnClearTable();
+                    if (s.datalistgrid2.length != 0)
+                    {
+                        s.oTable2.fnAddData(s.datalistgrid2);
+                    }
+
+                    var data =
+                    {
+                         leave_date_from    : $("#start").val()
+                        ,leave_date_to      : $("#end").val()
+                        ,date_num_day       : $("#txtb_day_equiv").val()
+                        ,date_num_day_total : $("#txtb_day_equiv_tot").val()
+                        ,cto_remarks        : $("#txtb_cto_remarks").val()
+                    }
+                    s.datalistgrid2.push(data)
+                    s.oTable2.fnClearTable();
                     s.oTable2.fnAddData(s.datalistgrid2);
-                }
 
-                var data =
-                {
-                     leave_date_from    : $("#start").val()
-                    ,leave_date_to      : $("#end").val()
-                    ,date_num_day       : $("#txtb_day_equiv").val()
-                    ,date_num_day_total : $("#txtb_day_equiv_tot").val()
-                    ,cto_remarks        : $("#txtb_cto_remarks").val()
-                }
-                s.datalistgrid2.push(data)
-                s.oTable2.fnClearTable();
-                s.oTable2.fnAddData(s.datalistgrid2);
-
-                $('#datalist_grid2').removeClass('selected');
-                var table = $('#datalist_grid2').DataTable();
-                table.rows(s.temp_dt_row_id).nodes().to$().addClass('selected');
-
-                setTimeout(function ()
-                {
                     $('#datalist_grid2').removeClass('selected');
-                }, 1000);
+                    var table = $('#datalist_grid2').DataTable();
+                    table.rows(s.temp_dt_row_id).nodes().to$().addClass('selected');
 
-                $('#leave_dtl_modal').modal("hide");
-                clearentry2();
+                    setTimeout(function ()
+                    {
+                        $('#datalist_grid2').removeClass('selected');
+                    }, 1000);
+
+                    $('#leave_dtl_modal').modal("hide");
+                    clearentry2();
+                }
+                else
+                {
+                    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
+                }
             }
         }
         catch (err)
@@ -2940,9 +2963,9 @@
     //**********************************// 
     s.day_num_day_total_func = function ()
     {
-        var dt1 = new Date($("#start").val());
-        var dt2 = new Date($("#end").val());
-        var date_diff = 0;
+        var dt1         = new Date($("#start").val());
+        var dt2         = new Date($("#end").val());
+        var date_diff   = 0;
 
         if ($("#start").val() == $("#end").val())
         {
@@ -2952,31 +2975,8 @@
         {
             date_diff = 1 + Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
         }
-
-        var result = 0;
-
-        if ($('#ddl_leave_type').val() == "CTO")
-        {
-            if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
-            {
-                s.txtb_day_equiv_tot = (date_diff * 4);
-                result = (s.txtb_day_equiv_tot / 4);
-            }
-            else
-            {
-                s.txtb_day_equiv_tot = (date_diff * 8);
-                result = (s.txtb_day_equiv_tot / 8);
-            }
-
-            
-        }
-        else
-        {
-            result = s.txtb_day_equiv_tot / date_diff;
-            s.txtb_day_equiv_tot = date_diff;
-        }
-        s.txtb_day_equiv = currency(result)
-
+        $('#txtb_day_equiv_tot').val(date_diff)
+        $('#txtb_day_equiv').val("1")
     }
     //************************************// 
     //*** Clear Entry 1 *****************//
@@ -3052,14 +3052,11 @@
     //**********************************//
     function clearentry2()
     {
-        s.start = "";
-        s.end   = "";
         $('#start').val("")
         $('#end').val("")
-
-        s.txtb_day_equiv        = "";
-        s.txtb_day_equiv_tot    = "";
-        s.txtb_cto_remarks = "08:00AM-5:00PM";
+        $('#txtb_day_equiv').val('');
+        $('#txtb_day_equiv_tot').val('');
+        $('#txtb_cto_remarks').val('');
         $('#txtb_cto_remarks').val("08:00AM-5:00PM");
     }
     //************************************// 
@@ -3247,24 +3244,24 @@
         }
         
             
-        if ($('#ddl_leave_type option:selected').val() == "CTO")
-        {
-            if ($('#txtb_cto_remarks').val() == "") {
-                ValidationResultColor3("txtb_cto_remarks", true);
-                $('#id_datebrk').click();
-                return_val = false;
-            }
-            if ($('#chk_cto').prop("checked") == true
-                || parseFloat($('#txtb_day_equiv_tot').val()) < 8
-                || $('#txtb_cto_remarks').val() == ""
-            ) {
-                if ($('#txtb_cto_remarks').val() == "") {
-                    ValidationResultColor3("txtb_cto_remarks", true);
-                    $('#id_datebrk').click();
-                    return_val = false;
-                }
-            }
-        }
+        //if ($('#ddl_leave_type option:selected').val() == "CTO")
+        //{
+        //    if ($('#txtb_cto_remarks').val() == "") {
+        //        ValidationResultColor3("txtb_cto_remarks", true);
+        //        $('#id_datebrk').click();
+        //        return_val = false;
+        //    }
+        //    if ($('#chk_cto').prop("checked") == true
+        //        || parseFloat($('#txtb_day_equiv_tot').val()) < 8
+        //        || $('#txtb_cto_remarks').val() == ""
+        //    ) {
+        //        if ($('#txtb_cto_remarks').val() == "") {
+        //            ValidationResultColor3("txtb_cto_remarks", true);
+        //            $('#id_datebrk').click();
+        //            return_val = false;
+        //        }
+        //    }
+        //}
 
 
         var e_date = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
@@ -3369,31 +3366,31 @@
     //**********************************//
     //*** Half Day - For CTO **********//
     //********************************// 
-    s.chck_halfday = function ()
-    {
-        if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
-        {
-            s.txtb_day_equiv     = 0.5
-            s.txtb_day_equiv_tot = 4
-        }
-        else
-        {
-            s.txtb_day_equiv     = 1
-            s.txtb_day_equiv_tot = 8
-        }
-        s.day_num_day_total_func();
-    }
-    function currency(d) {
+    //s.chck_halfday = function ()
+    //{
+    //    if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
+    //    {
+    //        s.txtb_day_equiv     = 0.5
+    //        s.txtb_day_equiv_tot = 4
+    //    }
+    //    else
+    //    {
+    //        s.txtb_day_equiv     = 1
+    //        s.txtb_day_equiv_tot = 8
+    //    }
+    //    s.day_num_day_total_func();
+    //}
+    //function currency(d) {
 
-        var retdata = ""
-        if (d == null || d == "" || d == undefined) {
-            return retdata = "0.00"
-        }
-        else {
-            retdata = parseFloat(d).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-            return retdata
-        }
-    }
+    //    var retdata = ""
+    //    if (d == null || d == "" || d == undefined) {
+    //        return retdata = "0.00"
+    //    }
+    //    else {
+    //        retdata = parseFloat(d).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+    //        return retdata
+    //    }
+    //}
 
     //***********************************************************//
     //*** - 02/27/2020 - Reject or Check if Date
@@ -3783,7 +3780,6 @@
                 }
                 
                 s.Retrieve_CancelList($('#ddl_name option:selected').val(), s.edit_leave_ctrlno)
-                
             }
             else
             {

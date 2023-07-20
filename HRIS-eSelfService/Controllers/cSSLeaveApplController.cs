@@ -289,9 +289,7 @@ namespace HRIS_eSelfService.Controllers
 
                 string creator = (flpDtlLst[0].created_by_user == Session["user_id"].ToString()) ? "true" : "false";
 
-                var user_is_reviewer = db_dev.transactionsapprover_tbl.Where(a => a.transaction_code == "002" &&
-                                                                          a.empl_id == Session["empl_id"].ToString() &&
-                                                                          a.workflow_authority == "true");
+                var user_is_reviewer = db_dev.transactionsapprover_tbl.Where(a => a.transaction_code == "002" && a.empl_id == Session["empl_id"].ToString() && a.workflow_authority == "true");
                 var reviewer = (user_is_reviewer != null) ? "true" : "false";
 
                 var lv_hdr             = db_ats.leave_application_hdr_tbl.Where(a => a.leave_ctrlno == p_leave_ctrlno).FirstOrDefault();
@@ -360,7 +358,6 @@ namespace HRIS_eSelfService.Controllers
                     {
                         message         = "have_cancellation";
                         message_descr   = " Cancellation of Leave is in-progress!";
-                        //message_descr2  = " Cancellation of Leave is in-progress";
                     }
                     if (dt_chk_tse != null)
                     {
@@ -705,31 +702,33 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
                     }
-                    if ((data.leave_type_code  == "SL" || data.leave_type_code == "SP" || data.leave_type_code == "PS") )
+                    if (data.leave_type_code  == "SL" || data.leave_type_code == "SP" || data.leave_type_code == "PS")
                     {
                         var justi = db_ats.leave_application_hdr_justi_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
                         
                         if (dt_chk_tse == null)
                         {
-                            var day_diff = 5;
                             System.DateTime date_applied        = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
                             System.DateTime date_leave_date_to  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
+                            var day_diff = (date_applied - date_leave_date_to).TotalDays; ;
 
                             for (int i = 0; i < (date_applied - date_leave_date_to).TotalDays; i++)
                             {
-                                if (date_leave_date_to.AddDays(i).DayOfWeek.ToString() == "Sunday" ||
-                                    date_leave_date_to.AddDays(i).DayOfWeek.ToString() == "Saturday")
+                                DateTime leave_date_to_loop =  date_leave_date_to.AddDays(i);
+                                if (leave_date_to_loop.DayOfWeek.ToString() == "Sunday" ||
+                                    leave_date_to_loop.DayOfWeek.ToString() == "Saturday")
                                 {
-                                    day_diff = day_diff + 1;
+                                    day_diff = day_diff - 1;
                                 }
-                                //var is_holiday = db_dev.holidays_tbl.Where(a => a.holiday_date == date_leave_date_to.AddDays(i).Date).FirstOrDefault();
-                                //if (is_holiday != null)
-                                //{
-                                //    day_diff = day_diff + 1;
-                                //}
+
+                                var is_holiday = db_dev.holidays_tbl.Where(a => a.holiday_date == leave_date_to_loop).FirstOrDefault();
+                                if (is_holiday != null)
+                                {
+                                    day_diff = day_diff - 1;
+                                }
                             }
                             
-                            if (day_diff > 7 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi ==null))
+                            if (day_diff > 5 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi ==null))
                             {
                                 message         = "5_adv_validation";
                                 message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
@@ -742,6 +741,16 @@ namespace HRIS_eSelfService.Controllers
                             System.DateTime date_applied        = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
                             System.DateTime date_leave_date_to  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
                             var day_diff = (date_applied - date_leave_date_to).TotalDays;
+                            for (int i = 0; i < (date_applied - date_leave_date_to).TotalDays; i++)
+                            {
+                                DateTime leave_date_to_loop = date_leave_date_to.AddDays(i);
+                                var is_holiday = db_dev.holidays_tbl.Where(a => a.holiday_date == leave_date_to_loop).FirstOrDefault();
+                                if (is_holiday != null)
+                                {
+                                    day_diff = day_diff - 1;
+                                }
+                            }
+
                             if (day_diff > 5 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi == null))
                             {
                                 message = "5_adv_validation";

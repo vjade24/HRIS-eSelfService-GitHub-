@@ -655,8 +655,8 @@
                                                             <tr>
                                                                 <th width="40%">DATE FROM</th>
                                                                 <th width="40%">DATE TO</th>
-                                                                <th width="20%">DAY EQUIVALENT</th>
-                                                                <th width="20%">TOTAL EQUIVALENT</th>
+                                                                <th width="20%">TTL. DEDUCT PER DAY</th>
+                                                                <th width="20%">TTL. DAYS LEAVE</th>
                                                                 <th width="20%">ACTIONS</th>
                                                             </tr>
                                                         </thead>
@@ -676,7 +676,7 @@
                                                 <div class="col-lg-4 b-r">
                                                     <div class="ibox float-e-margins">
                                                         <div class="ibox-title">
-                                                            <h3> <span class="fa fa-paperclip"></span> LEAVE BALANCES</h3>
+                                                            <h5> <span class="fa fa-paperclip"></span> LEAVE BALANCES</h5>
                                                         </div>
                                                         <div class="ibox-content" ng-repeat="lst in lst_all_bal">
                                                             <div class="row">
@@ -691,7 +691,7 @@
                                                         </div>        
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="ibox-title">
                                                         <h5> <span class="fa fa-paperclip"></span> Force Leave Plan</h5>
                                                     </div>
@@ -778,7 +778,7 @@
                                                         </div>
                                                     </div>
                                                 </div>*@
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-5">
                                                     <div class="ibox float-e-margins">
                                                         <div class="ibox-title">
                                                             <h5> <span class="fa fa-paperclip"></span> LEAVE CANCELLATION</h5>
@@ -936,7 +936,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
+                                <input type="text" id="start" ng-model="start" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                 <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                 </span>
@@ -948,43 +948,41 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10" disabled onchange="calculate_total_equi()" />
+                                <input type="text" id="end" ng-model="end" class="form-control form-control-sm text-center font-bold" maxlength="10" />
                                 <span class="input-group-addon">
                                     <span class="fa fa-calendar"></span>
                                 </span>
                             </div>
                             <label id="lbl_end_req" class="lbl_required"></label>
                         </div>
-                        <div class="col-lg-12" style="display:none">
+                        <div class="col-lg-12" >
                             <label class="font-bold"><b>{{lbl_days_hrs_equi}} </b></label>
                         </div>
-                        <div class="col-lg-12" style="display:none">
-                            <div class="input-group date">
-                                <input class="form-control text-center" id="txtb_day_equiv" ng-model="txtb_day_equiv" disabled />
+                        <div class="col-lg-12" >
+                            <div class="input-group">
+                                <input class="form-control text-center" id="txtb_day_equiv" ng-model="txtb_day_equiv" />
                                 <span class="input-group-addon">
                                     <span class="fa fa-pencil"></span>
                                 </span>
                                 <label id="lbl_txtb_day_equiv_req" class="lbl_required"></label>
                             </div>
                         </div>
-                        <div class="col-lg-12" ng-show="div_cto">
+                        @*<div class="col-lg-12" ng-show="div_cto">
                             <label class="font-bold"><b>Time Coverage:</b></label>
                         </div>
                         <div class="col-lg-12" ng-show="div_cto">
-                            @*<input class="form-control" id="txtb_cto_remarks" ng-model="txtb_cto_remarks" maxlength="50" placeholder="Ex. 08:00AM - 12:00PM" />*@
                             <select class="form-control" id="txtb_cto_remarks" ng-model="txtb_cto_remarks" ng-change="chck_halfday()">
                                 <option value="08:00AM-5:00PM" selected>08:00AM-5:00PM</option>
                                 <option value="08:00AM-12:00PM">08:00AM-12:00PM (half day)</option>
                                 <option value="01:00PM-5:00PM">01:00PM-5:00PM (half day)</option>
                             </select>
-
                             <label id="lbl_txtb_cto_remarks_req" class="lbl_required"></label>
+                        </div>*@
+                        <div class="col-lg-12">
+                            <label class="font-bold"><b> Total Days Leave:</b></label>
                         </div>
                         <div class="col-lg-12">
-                            <label class="font-bold"><b> Total Equivalent:</b></label>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="input-group date">
+                            <div class="input-group">
                                 <input class="form-control text-center" id="txtb_day_equiv_tot" ng-model="txtb_day_equiv_tot" />
                                 <label id="lbl_txtb_day_equiv_tot_req" class="lbl_required"></label>
                                 <span class="input-group-addon">
@@ -1123,7 +1121,7 @@
                         </div>
                         <div class="col-lg-12">
                             <label class="font-bold"><b> Justification Reason:</b></label>
-                            <textarea class="form-control" ng-model="justi_reason" rows="5" id="justi_reason" ></textarea>
+                            <textarea class="form-control" ng-model="justi_reason" rows="8" id="justi_reason" ></textarea>
                         </div>
                         <div class="col-lg-12">
                             <label class="font-bold"><b> Employee Name:</b></label>
