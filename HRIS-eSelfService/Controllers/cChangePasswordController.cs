@@ -432,7 +432,7 @@ namespace HRIS_eSelfService.Controllers
                                         };
                             float dd = 0.8f;
                             var ia = new System.Drawing.Imaging.ImageAttributes();
-                            ia.SetColorMatrix(new System.Drawing.Imaging.ColorMatrix(gray_matrix));
+                            //ia.SetColorMatrix(new System.Drawing.Imaging.ColorMatrix(gray_matrix));
                             ia.SetThreshold(dd); // Change this threshold as needed
 
                             var rc = new Rectangle(0, 0, SourceImage.Width, SourceImage.Height);
@@ -611,7 +611,7 @@ namespace HRIS_eSelfService.Controllers
                                         };
                         float dd = 0.8f;
                         var ia = new System.Drawing.Imaging.ImageAttributes();
-                        ia.SetColorMatrix(new System.Drawing.Imaging.ColorMatrix(gray_matrix));
+                        //ia.SetColorMatrix(new System.Drawing.Imaging.ColorMatrix(gray_matrix));
                         ia.SetThreshold(dd); // Change this threshold as needed
 
                         var rc = new Rectangle(0, 0, SourceImage.Width, SourceImage.Height);

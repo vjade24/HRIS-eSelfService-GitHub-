@@ -22,5 +22,21 @@ namespace HRIS_eSelfService.Models
         public string approval_status_descr { get; set; }
         public Nullable<bool> posting_status { get; set; }
         public string approval_id { get; set; }
+        public string reviewed_comment { get; set; }
+        public string user_id_reviewer { get; set; }
+        public string level1_approval_comment { get; set; }
+        public string user_id_level1_approver { get; set; }
+        public string level2_approval_comment { get; set; }
+        public string user_id_level2_approver { get; set; }
+        public string final_approval_comment { get; set; }
+        public string user_id_final_approver { get; set; }
+        public string disapproval_comment { get; set; }
+        public string user_id_disapprover { get; set; }
+        public string cancel_pending_comment { get; set; }
+        public string user_id_cancel_pending { get; set; }
+        public string cancelled_comment { get; set; }
+        public string created_by_user { get; set; }
+        public string worklist_action { get; set; }
+        public string next_status { get; set; }
     }
 }

@@ -35,5 +35,6 @@ namespace HRIS_eSelfService.Models
         public string posted_by_user { get; set; }
         public Nullable<System.DateTime> created_dttm { get; set; }
         public Nullable<System.DateTime> updated_dttm { get; set; }
+        public string remarks { get; set; }
     }
 }

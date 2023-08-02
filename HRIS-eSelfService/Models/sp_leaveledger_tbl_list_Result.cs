@@ -13,19 +13,37 @@ namespace HRIS_eSelfService.Models
     
     public partial class sp_leaveledger_tbl_list_Result
     {
+        public string sequence_no { get; set; }
         public string ledger_ctrl_no { get; set; }
         public string empl_id { get; set; }
         public string leavetype_code { get; set; }
         public string leavetype_descr { get; set; }
         public string leavesubtype_code { get; set; }
         public string leavesubtype_descr { get; set; }
+        public string date_applied { get; set; }
         public string leaveledger_date { get; set; }
         public string leaveledger_period { get; set; }
         public string leaveledger_particulars { get; set; }
-        public Nullable<decimal> leaveledger_earn { get; set; }
-        public Nullable<decimal> leaveledger_abs_und_wp { get; set; }
-        public Nullable<decimal> leaveledger_balance_as_of { get; set; }
-        public Nullable<decimal> leaveledger_abs_und_wop { get; set; }
+        public string leaveledger_balance_as_of_vl { get; set; }
+        public string leaveledger_restore_deduct_vl { get; set; }
+        public string leaveledger_abs_und_wp_vl { get; set; }
+        public string leaveledger_abs_und_wop_vl { get; set; }
+        public string leaveledger_balance_as_of_sl { get; set; }
+        public string leaveledger_restore_deduct_sl { get; set; }
+        public string leaveledger_abs_und_wp_sl { get; set; }
+        public string leaveledger_abs_und_wop_sl { get; set; }
+        public string leaveledger_balance_as_of_sp { get; set; }
+        public string leaveledger_restore_deduct_sp { get; set; }
+        public string leaveledger_abs_und_wp_sp { get; set; }
+        public string leaveledger_abs_und_wop_sp { get; set; }
+        public string leaveledger_balance_as_of_fl { get; set; }
+        public string leaveledger_restore_deduct_fl { get; set; }
+        public string leaveledger_abs_und_wp_fl { get; set; }
+        public string leaveledger_abs_und_wop_fl { get; set; }
+        public string leaveledger_balance_as_of_oth { get; set; }
+        public string leaveledger_restore_deduct_oth { get; set; }
+        public string leaveledger_abs_und_wp_oth { get; set; }
+        public string leaveledger_abs_und_wop_oth { get; set; }
         public string leaveledger_action { get; set; }
         public string leaveledger_action_descr { get; set; }
         public string leaveledger_action_taken { get; set; }
@@ -36,5 +54,7 @@ namespace HRIS_eSelfService.Models
         public string approval_status_descr { get; set; }
         public string approval_id { get; set; }
         public string leave_ctrlno { get; set; }
+        public string sig_name3_ovrd { get; set; }
+        public string sig_pos3_ovrd { get; set; }
     }
 }

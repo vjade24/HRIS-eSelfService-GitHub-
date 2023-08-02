@@ -36,21 +36,22 @@
     s.available_leave       = 0;
     s.show_btn_add_date     = true;
     s.ShowFLP               = false;
-    s.div_cto               = false;
-    s.lbl_days_hrs_equi     = "Days Equivalent:"
+    s.lbl_days_hrs_equi     = "Total Deduct per day:"
 
-    s.txtb_cto_remarks      = "08:00AM-5:00PM";
-    $('#txtb_cto_remarks').val("08:00AM-5:00PM");
-    s.show_refresh_bal = true;
-    s.show_cancel_button = false;
-    s.show_final_approved = true;
+    //s.div_cto               = false;
+    //s.txtb_cto_remarks      = "08:00AM-5:00PM";
+    //$('#txtb_cto_remarks').val("08:00AM-5:00PM");
+    s.show_refresh_bal      = true;
+    s.show_cancel_button    = false;
+    s.show_final_approved   = true;
     s.cancellation_calendar = null;
-    s.leave_cancel_type = "";
+    s.leave_cancel_type     = "";
 
-    s.div_justi_msg = false;
-    s.div_show_transfer_date = false;
-    s.div_justi_bottom_msg = false
-    var justi_flag = document.getElementById("justification_flag");
+    s.div_justi_msg             = false;
+    s.div_show_transfer_date    = false;
+    s.div_justi_bottom_msg      = false
+    var justi_flag              = document.getElementById("justification_flag");
+
     init()
     //**********************************************
     // Initialize data during page loads ***********
@@ -91,7 +92,7 @@
                     s.holidays_list     = d.data.holiDate;
                     s.statusList        = d.data.status;
                     s.txtb_empl_id      = d.data.user_info.empl_id;
-                    s.txtb_dept_name = d.data.dept_name;
+                    s.txtb_dept_name    = d.data.dept_name;
 
                     s.cancellation_calendar = d.data.cancellation_calendar;
                     
@@ -160,16 +161,16 @@
                     $("#modal_generating_remittance").modal("hide");
                     $('#txtb_year_selected').val(new Date().getFullYear().toString());
 
-                    if ($('#ddl_leave_type option:selected').val()    == "SL"
-                        || $('#ddl_leave_type option:selected').val() == "VL"
-                        || $('#ddl_leave_type option:selected').val() == "FL")
-                    {
-                        s.show_vl = true;
-                    }
-                    else
-                    {
-                        s.show_vl = false;
-                    }
+                    //if ($('#ddl_leave_type option:selected').val()    == "SL"
+                    //    || $('#ddl_leave_type option:selected').val() == "VL"
+                    //    || $('#ddl_leave_type option:selected').val() == "FL")
+                    //{
+                    //    s.show_vl = true;
+                    //}
+                    //else
+                    //{
+                    //    s.show_vl = false;
+                    //}
 
                     //**********************************************
                     //  Balance as of - All 
@@ -194,8 +195,6 @@
                         d.data.fl_plan_lst[i].flp_application_date_descr = moment(d.data.fl_plan_lst[i].flp_application_date).format("MMMM DD, YYYY")
                     }
 
-                    
-
                     $('#modal_loading').modal("hide");
                 }
                 else
@@ -205,7 +204,8 @@
                 }
             });
         }
-        catch (err) {
+        catch (err)
+        {
             swal({ icon: "warning", title: err.message });
         }
     }
@@ -389,14 +389,13 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
-                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
                                         + "<li ng-show='" + justification_flag+"'><a ng-click='btn_print_justi(" + row["row"] + ")'>Print Justification Letter</a></li>"
                                         + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
@@ -410,14 +409,15 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")'>Print Permission Form</a></li>"
-                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")'>Print Justification Letter</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"leave\")'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'> <a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"justification\")'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "R") {
@@ -429,14 +429,15 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")')'>Print Permission Form</a></li>"
-                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")')'>Print Justification Letter</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"leave\")'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'> <a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"justification\")'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 else if (full["approval_status"].toString() == "F") {
@@ -448,14 +449,15 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ",\"leave\")')'>Print Permission Form</a></li>"
-                                        + "<li ng-show='" + justification_flag + "'><a ng-click='btn_print_action(" + row["row"] + ",\"justification\")')'>Print Justification Letter</a></li>"
+                                        + "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"leave\")'>Print Permission Form</a></li>"
+                                        + "<li ng-show='" + justification_flag + "'> <a ng-click='btn_print_action(\"" + full["leave_ctrlno"] + "\",\"" + full["empl_id"] + "\",\"" + full["leave_type_code"] +"\",\"justification\")'>Print Justification Letter</a></li>"
                                         + "</ul></div>";
                                 }
                                 if (full["approval_status"].toString() == "C") {
@@ -468,14 +470,14 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
                                         + "<li style='display:" + enable_button + "'><a ng-click='btn_del_all(" + row["row"] + ")'>Delete</a></li>"
-                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
                                         + "<li ><a ng-click='btn_cancelled(" + row["row"] + ")'>Cancel Application</a></li>"
                                         + "</ul></div>";
                                 }
@@ -488,13 +490,13 @@
                                         + full["employee_name"] 
                                         + "</small><br/>"
                                         + full["leavetype_descr"] + leave_sub_type
-                                        + "</small><br/>"
-                                        + full["approval_status_descr"] + posting_status
+                                        + "</small>"
+                                        //+ full["approval_status_descr"]
+                                        + posting_status
                                         + (full["appl_status"].toString() == "" ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-primary smaller'> <i class='fa fa-info-circle'></i> " + full["appl_status"] + " </span>")
                                         + (full["justification_flag"] == false ? "" : "<br/><span style='font-size:70% !important;border: 1px solid blanchedalmond;margin-top:5px' class='badge badge-warning smaller'> <i class='fa fa-info-circle'></i> With Justification </span>")
                                         + "<span class='pull-right' ng-show='" + show_creator + "'>By: " + full["created_by_user"].replace('U', '#') + "</span></h4></div></span> <ul class='dropdown-menu'><li>"
                                         + "<a ng-click='btn_edit_action(" + row["row"] + ",\"hdr\")'>" + edit_text + "</a></li>"
-                                        //+ "<li style='display:" + enable_button + "'><a ng-click='btn_print_action(" + row["row"] + ")'>Print Permission Form</a></li>"
                                         + "</ul></div>";
                                 }
 
@@ -742,7 +744,7 @@
                                     lv_status_descr = "Final Approved"
                                 }
 
-                                cell.prepend("<div class='holiday' data-toggle='tooltip' data-placement='top' title='(" + lv_status_descr + ") - CANCELLATION'><i class='fa fa-send text-danger'></i><small style='color:white;'>  (" + lv_status_descr + ") CANCELLATION</small></div>");
+                                cell.prepend("<div style='position:absolute;z-index:9999;bottom:5px;font-size:10px;' data-toggle='tooltip' data-placement='top' title='(" + lv_status_descr + ") - CANCELLATION'><i class='fa fa-send text-danger'></i><small style='color:white;'>  (" + lv_status_descr + ") CANCELLATION</small></div>");
                             }
                         }
                         
@@ -808,43 +810,43 @@
 
         try
         {
-            var ss_date = ""
-            var ee_date = ""
-            var data    = []
-            s.div_cto   = false;
-            if (s.ddl_leave_type == "CTO")
-            {
-                if (s.save_mode == "ADD")
-                {
-                    if (s.datalistgrid2.length <= 1)
-                    {
-                        s.datalistgrid2 = [];
+            //var ss_date = ""
+            //var ee_date = ""
+            //var data    = []
+            //s.div_cto   = false;
+            //if (s.ddl_leave_type == "CTO")
+            //{
+            //    if (s.save_mode == "ADD")
+            //    {
+            //        if (s.datalistgrid2.length <= 1)
+            //        {
+            //            s.datalistgrid2 = [];
 
 
-                        ss_date = s.start_date;
-                        ee_date = s.end_date;
+            //            ss_date = s.start_date;
+            //            ee_date = s.end_date;
                         
-                        data =
-                        {
-                            leave_date_from         : ss_date
-                            , leave_date_to         : ee_date
-                            , date_num_day          : s.total_equiv_tot * 1
-                            , date_num_day_total    : s.total_equiv_tot * 8
-                            , cto_remarks           : s.txtb_cto_remarks
-                        };
+            //            data =
+            //            {
+            //                leave_date_from         : ss_date
+            //                , leave_date_to         : ee_date
+            //                , date_num_day          : s.total_equiv_tot * 1
+            //                , date_num_day_total    : s.total_equiv_tot * 8
+            //                , cto_remarks           : s.txtb_cto_remarks
+            //            };
 
-                        s.datalistgrid2.push(data);
-                        s.oTable2.fnClearTable();
-                        s.oTable2.fnAddData(s.datalistgrid2);
+            //            s.datalistgrid2.push(data);
+            //            s.oTable2.fnClearTable();
+            //            s.oTable2.fnAddData(s.datalistgrid2);
                         
-                    }
-                }
+            //        }
+            //    }
 
-                s.div_cto           = true;
-                s.txtb_day_equiv    = "1";
-                s.lbl_days_hrs_equi = "Days Equivalent:"
-                s.day_num_day_total_func();
-            }
+            //    s.div_cto           = true;
+            //    s.txtb_day_equiv    = "1";
+            //    s.lbl_days_hrs_equi = "Leave deduct per day:"
+            //    s.day_num_day_total_func();
+            //}
             
             h.post("../cSSLeaveAppl/GetLeaveSubType",
             {
@@ -1080,7 +1082,7 @@
             s.oTable2.fnClearTable();
 
             btn = document.getElementById('submit');
-            btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit All';
+            btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit and Print';
             s.dis_submit = false;
 
             s.data_history = [];
@@ -1179,27 +1181,26 @@
     //************************************//
     //********* Open Add Modal ***********//
     //************************************//
-    s.btn_open_modal = function () {
+    s.btn_open_modal = function ()
+    {
         try
         {
             s.show_refresh_bal = true;
             s.datalistgrid2 = [];
             s.oTable2.fnClearTable();
             s.oTable2.fnAddData(s.datalistgrid2);
-            
             s.temp_approval_status = "N";
+            s.tot_nbr_days = 0;
 
             if (s.log_in_as_AO == true)
             {
                 if (ValidateFields2())
                 {
-                    s.tot_nbr_days = 0;
                     open_modal();
                 }
             }
             else
             {
-                s.tot_nbr_days = 0;
                 open_modal();
             }
         }
@@ -1216,8 +1217,6 @@
         {
             clearentry2();
             s.temp_approval_status  = "N";
-            btn                     = document.getElementById('submit');
-            btn.innerHTML           = '<i class="fa fa-paper-plane-o"></i> Submit';
             s.div_justi_msg         = false;
             s.div_justi_bottom_msg  = false;
             justi_flag.checked      = false;
@@ -1225,21 +1224,19 @@
             s.dis_submit            = false;
             s.dis_plan_date         = false;
 
+            s.oTable2.fnClearTable();
+            s.datalistgrid2 = [];
+            s.oTable2.fnAddData([]);
+
             if (s.log_in_as_AO == true)
             {
                 if (ValidateFields2())
                 {
-                    s.oTable2.fnClearTable();
-                    s.datalistgrid2 = [];
-                    s.oTable2.fnAddData([]);
                     open_modal();
                 }
             }
             else
             {
-                s.oTable2.fnClearTable();
-                s.datalistgrid2 = [];
-                s.oTable2.fnAddData([]);
                 open_modal();
             }
         }
@@ -1251,8 +1248,12 @@
 
     s.btn_open_dtl_modal = function ()
     {
+        if ($('#ddl_leave_type option:selected').val() == "")
+        {
+            swal("Leave Type is Required!", { icon: "warning" })
+            return;
+        }
         clearentry2();
-
         s.show_btn_add_date = true;
         $('#leave_dtl_modal').modal({ backdrop: 'static', keyboard: false });
     }
@@ -1266,34 +1267,31 @@
             if (ValidateFields3())
             {
                 if (Check_Between_Dates($('#start').val(), $('#end').val()) == false) {
-                    var e_date      = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
-                    var s_date      = new Date(moment($('#start').val()).format('YYYY-MM-DD'));
-                    var date_diff   = new Date(e_date - s_date);
-                    s.tot_nbr_days  = date_diff / 1000 / 60 / 60 / 24;
+                    //var e_date      = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
+                    //var s_date      = new Date(moment($('#start').val()).format('YYYY-MM-DD'));
+                    //var date_diff   = new Date(e_date - s_date);
+                    //s.tot_nbr_days  = date_diff / 1000 / 60 / 60 / 24;
 
                     var ss_date = moment($('#start').val()).format('YYYY-MM-DD');
                     var ee_date = moment($('#end').val()).format('YYYY-MM-DD');
-                    
+
                     var data =
                     {
-                        leave_date_from    : ss_date
-                        ,leave_date_to     : ee_date
-                        ,date_num_day      : $("#txtb_day_equiv").val()
-                        ,date_num_day_total: $("#txtb_day_equiv_tot").val()
+                        leave_date_from: ss_date
+                        , leave_date_to: ee_date
+                        , date_num_day: $("#txtb_day_equiv").val()
+                        , date_num_day_total: $("#txtb_day_equiv_tot").val()
                     }
-                    
+
 
                     s.datalistgrid2.push(data)
                     s.oTable2.fnClearTable();
                     s.oTable2.fnAddData(s.datalistgrid2);
-                    
+
                     $('#datalist_grid2').removeClass('selected');
                     var table = $('#datalist_grid2').DataTable();
-                    table.rows((s.datalistgrid2.length - 1))
-                        .nodes()
-                        .to$()
-                        .addClass('selected');
-                    
+                    table.rows((s.datalistgrid2.length - 1)).nodes().to$().addClass('selected');
+
                     s.selectLeaveType();
                     s.leave_computation_edited();
 
@@ -1304,6 +1302,10 @@
                     }, 300);
 
                     $('#leave_dtl_modal').modal("hide");
+                }
+                else
+                {
+                    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
                 }
             }
         }
@@ -1464,57 +1466,17 @@
                                                                         s.FilterPageGrid();
                                                                         $('#main_modal').modal("hide");
                                                                         swal("Current Record has been Successfully Resubmitted!", { icon: "success", title: "Successfully Resubmitted!" });
+                                                                        s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                        if (data.justification_flag == true)
+                                                                        {
+                                                                            s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                        }
                                                                     }
                                                                     else {
                                                                         swal(d.data.message, { icon: "warning", });
                                                                     }
                                                                 });
                                                             }
-                                                            //else if (d.data.message == "confim_save")
-                                                            //{
-                                                            //        if (d.data.message_descr != "") {
-                                                            //            swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                            //                icon: "warning",
-                                                            //                buttons: {
-
-                                                            //                    defeat: {
-                                                            //                        value: "defeat",
-                                                            //                        text: "Close",
-                                                            //                        className: "btn-danger"
-                                                            //                    },
-                                                            //                    continue_anyway: {
-                                                            //                        text: "OK, Continue and Submit Anyway",
-                                                            //                        value: "continue_anyway",
-                                                            //                    },
-                                                            //                },
-                                                            //            }).then((value) => {
-                                                            //                switch (value) {
-                                                            //                    case "continue_anyway":
-                                                            //                        h.post("../cSSLeaveAppl/Save2", {
-                                                            //                             data   : data
-                                                            //                            ,data2  : data2
-                                                            //                            ,data3  : data3
-                                                            //                        }).then(function (d) {
-                                                            //                            if (d.data.message == "success")
-                                                            //                            {
-                                                            //                                s.FilterPageGrid();
-                                                            //                                $('#main_modal').modal("hide");
-                                                            //                                swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                            //                            }
-                                                            //                            else
-                                                            //                            {
-                                                            //                                swal(d.data.message, { icon: "warning", });
-                                                            //                            }
-                                                            //                        });
-                                                            //                        break;
-
-                                                            //                    default:
-                                                            //                        swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                            //                }
-                                                            //            });
-
-                                                            //        }
-                                                            //    }
                                                             else if (d.data.message == "cto_validation") {
                                                                 if (d.data.message_descr != "") {
                                                                     swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1526,7 +1488,7 @@
                                                                 }
                                                             }
 
-                                                            else if (d.data.message == "5_adv_validation") {
+                                                            else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                 if (d.data.message_descr != "") {
                                                                     swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr , { icon: "warning" })
                                                                 }
@@ -1551,7 +1513,7 @@
                                                                 swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                             }
                                                         });
-                                                        btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                        btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                         break;
                                                     default:
                                                         swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
@@ -1574,57 +1536,16 @@
                                                                 s.FilterPageGrid();
                                                                 $('#main_modal').modal("hide");
                                                                 swal("Current Record has been Successfully Resubmitted!", { icon: "success", title: "Successfully Resubmitted!" });
+                                                                s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                if (data.justification_flag == true) {
+                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                }
                                                             }
                                                             else {
                                                                 swal(d.data.message, { icon: "warning", });
                                                             }
                                                         });
                                                     }
-                                                    //else if (d.data.message == "confim_save")
-                                                    //{
-                                                    //        if (d.data.message_descr != "") {
-                                                    //            swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                    //                icon: "warning",
-                                                    //                buttons: {
-
-                                                    //                    defeat: {
-                                                    //                        value: "defeat",
-                                                    //                        text: "Close",
-                                                    //                        className: "btn-danger"
-                                                    //                    },
-                                                    //                    continue_anyway: {
-                                                    //                        text: "OK, Continue and Submit Anyway",
-                                                    //                        value: "continue_anyway",
-                                                    //                    },
-                                                    //                },
-                                                    //            }).then((value) => {
-                                                    //                switch (value) {
-                                                    //                    case "continue_anyway":
-                                                    //                        h.post("../cSSLeaveAppl/Save2", {
-                                                    //                             data   : data
-                                                    //                            ,data2  : data2
-                                                    //                            ,data3  : data3
-                                                    //                        }).then(function (d) {
-                                                    //                            if (d.data.message == "success")
-                                                    //                            {
-                                                    //                                s.FilterPageGrid();
-                                                    //                                $('#main_modal').modal("hide");
-                                                    //                                swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                    //                            }
-                                                    //                            else
-                                                    //                            {
-                                                    //                                swal(d.data.message, { icon: "warning", });
-                                                    //                            }
-                                                    //                        });
-                                                    //                        break;
-
-                                                    //                    default:
-                                                    //                        swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                    //                }
-                                                    //            });
-
-                                                    //        }
-                                                    //    }
                                                         else if (d.data.message == "cto_validation")
                                                         {
                                                             if (d.data.message_descr != "") {
@@ -1637,7 +1558,7 @@
                                                             }
                                                         }
 
-                                                        else if (d.data.message == "5_adv_validation") {
+                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
@@ -1662,7 +1583,7 @@
                                                             swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                         }
                                                 });
-                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                         }
                                     })
                                 }
@@ -1688,7 +1609,7 @@
                                     if (s.save_mode == "ADD")
                                     {
                                             btn = document.getElementById('submit');
-                                            btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Submit';
+                                            btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Submit and Print';
 
                                             var oth     = 0;
                                             var oth_bal = 0;
@@ -1791,57 +1712,16 @@
                                                                                 s.FilterPageGrid();
                                                                                 $('#main_modal').modal("hide");
                                                                                 swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
+                                                                                s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                                if (data.justification_flag == true) {
+                                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                                }
                                                                             }
                                                                             else {
                                                                                 swal(d.data.message, { icon: "warning", });
                                                                             }
                                                                         });
                                                                     }
-                                                                    //else if (d.data.message == "confim_save")
-                                                                    //{
-                                                                    //    if (d.data.message_descr != "") {
-                                                                    //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                                    //            icon: "warning",
-                                                                    //            buttons: {
-
-                                                                    //                defeat: {
-                                                                    //                    value: "defeat",
-                                                                    //                    text: "Close",
-                                                                    //                    className: "btn-danger"
-                                                                    //                },
-                                                                    //                continue_anyway: {
-                                                                    //                    text: "OK, Continue and Submit Anyway",
-                                                                    //                    value: "continue_anyway",
-                                                                    //                },
-                                                                    //            },
-                                                                    //        }).then((value) => {
-                                                                    //            switch (value) {
-                                                                    //                case "continue_anyway":
-                                                                    //                    h.post("../cSSLeaveAppl/Save2", {
-                                                                    //                         data   : data
-                                                                    //                        ,data2  : data2
-                                                                    //                        ,data3  : data3
-                                                                    //                    }).then(function (d) {
-                                                                    //                        if (d.data.message == "success")
-                                                                    //                        {
-                                                                    //                            s.FilterPageGrid();
-                                                                    //                            $('#main_modal').modal("hide");
-                                                                    //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                                    //                        }
-                                                                    //                        else
-                                                                    //                        {
-                                                                    //                            swal(d.data.message, { icon: "warning", });
-                                                                    //                        }
-                                                                    //                    });
-                                                                    //                    break;
-
-                                                                    //                default:
-                                                                    //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                                    //            }
-                                                                    //        });
-
-                                                                    //    }
-                                                                    //}
                                                                     else if (d.data.message == "cto_validation") {
                                                                         if (d.data.message_descr != "") {
                                                                             swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1853,7 +1733,7 @@
                                                                         }
                                                                     }
 
-                                                                    else if (d.data.message == "5_adv_validation") {
+                                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                         if (d.data.message_descr != "") {
                                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                         }
@@ -1877,7 +1757,7 @@
                                                                         swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                                     }
                                                                 });
-                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                                 break;
                                                             default:
                                                                 swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
@@ -1898,57 +1778,16 @@
                                                                 s.FilterPageGrid();
                                                                 $('#main_modal').modal("hide");
                                                                 swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
+                                                                s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                if (data.justification_flag == true) {
+                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                }
                                                             }
                                                             else {
                                                                 swal(d.data.message, { icon: "warning", });
                                                             }
                                                         });
                                                     }
-                                                    //else if (d.data.message == "confim_save")
-                                                    //{
-                                                    //    if (d.data.message_descr != "") {
-                                                    //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                    //            icon: "warning",
-                                                    //            buttons: {
-
-                                                    //                defeat: {
-                                                    //                    value: "defeat",
-                                                    //                    text: "Close",
-                                                    //                    className: "btn-danger"
-                                                    //                },
-                                                    //                continue_anyway: {
-                                                    //                    text: "OK, Continue and Submit Anyway",
-                                                    //                    value: "continue_anyway",
-                                                    //                },
-                                                    //            },
-                                                    //        }).then((value) => {
-                                                    //            switch (value) {
-                                                    //                case "continue_anyway":
-                                                    //                    h.post("../cSSLeaveAppl/Save2", {
-                                                    //                         data   : data
-                                                    //                        ,data2  : data2
-                                                    //                        ,data3  : data3
-                                                    //                    }).then(function (d) {
-                                                    //                        if (d.data.message == "success")
-                                                    //                        {
-                                                    //                            s.FilterPageGrid();
-                                                    //                            $('#main_modal').modal("hide");
-                                                    //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                    //                        }
-                                                    //                        else
-                                                    //                        {
-                                                    //                            swal(d.data.message, { icon: "warning", });
-                                                    //                        }
-                                                    //                    });
-                                                    //                    break;
-
-                                                    //                default:
-                                                    //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                    //            }
-                                                    //        });
-
-                                                    //    }
-                                                    //}
                                                     else if (d.data.message == "cto_validation") {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -1960,7 +1799,7 @@
                                                         }
                                                     }
 
-                                                    else if (d.data.message == "5_adv_validation") {
+                                                    else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                         if (d.data.message_descr != "") {
                                                             swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                         }
@@ -1984,7 +1823,7 @@
                                                         swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                     }
                                                 });
-                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                             }
 
                                         })   
@@ -1992,7 +1831,7 @@
                                     if (s.save_mode == "EDIT")
                                     {
                                         btn = document.getElementById('submit');
-                                        btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Submit';
+                                        btn.innerHTML = '<i class = "fa fa-spinner fa-spin"></i> Submit and Print';
 
                                         if ((d.data.available_leave[0] + s.getDtlDataLength) >= s.datalistgrid2.length) {
                                             var oth     = 0;
@@ -2098,56 +1937,17 @@
                                                                                     s.FilterPageGrid();
                                                                                     $('#main_modal').modal("hide");
                                                                                     swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
+                                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                                    if (data.justification_flag == true) {
+                                                                                        s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                                    }
                                                                                 }
                                                                                 else {
                                                                                     swal(d.data.message, { icon: "warning", });
                                                                                 }
-                                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                                             });
                                                                         }
-                                                                        //else if (d.data.message == "confim_save")
-                                                                        //{
-                                                                        //    if (d.data.message_descr != "") {
-                                                                        //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                                        //            icon: "warning",
-                                                                        //            buttons: {
-
-                                                                        //                defeat: {
-                                                                        //                    value: "defeat",
-                                                                        //                    text: "Close",
-                                                                        //                    className: "btn-danger"
-                                                                        //                },
-                                                                        //                continue_anyway: {
-                                                                        //                    text: "OK, Continue and Submit Anyway",
-                                                                        //                    value: "continue_anyway",
-                                                                        //                },
-                                                                        //            },
-                                                                        //        }).then((value) => {
-                                                                        //            switch (value) {
-                                                                        //                case "continue_anyway":
-                                                                        //                    h.post("../cSSLeaveAppl/Save2", {
-                                                                        //                        data: data
-                                                                        //                        , data2: data2
-                                                                        //                        , data3: data3
-                                                                        //                    }).then(function (d) {
-                                                                        //                        if (d.data.message == "success") {
-                                                                        //                            s.FilterPageGrid();
-                                                                        //                            $('#main_modal').modal("hide");
-                                                                        //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                                        //                        }
-                                                                        //                        else {
-                                                                        //                            swal(d.data.message, { icon: "warning", });
-                                                                        //                        }
-                                                                        //                    });
-                                                                        //                    break;
-
-                                                                        //                default:
-                                                                        //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                                        //            }
-                                                                        //        });
-
-                                                                        //    }
-                                                                        //}
                                                                         else if (d.data.message == "cto_validation") {
                                                                             if (d.data.message_descr != "") {
                                                                                 swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -2159,7 +1959,7 @@
                                                                             }
                                                                         }
 
-                                                                        else if (d.data.message == "5_adv_validation") {
+                                                                        else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                                             if (d.data.message_descr != "") {
                                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                                             }
@@ -2183,7 +1983,7 @@
                                                                             swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                                         }
                                                                     });
-                                                                    btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                                    btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                                     break;
 
                                                                 default:
@@ -2205,56 +2005,17 @@
                                                                     s.FilterPageGrid();
                                                                     $('#main_modal').modal("hide");
                                                                     swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
+                                                                    s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "leave");
+                                                                    if (data.justification_flag == true) {
+                                                                        s.btn_print_action(data.leave_ctrlno, data.empl_id, data.leave_type_code, "justification");
+                                                                    }
                                                                 }
                                                                 else {
                                                                     swal(d.data.message, { icon: "warning", });
                                                                 }
-                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                                btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                             });
                                                         }
-                                                        //else if (d.data.message == "confim_save")
-                                                        //{
-                                                        //    if (d.data.message_descr != "") {
-                                                        //        swal($("#ddl_leave_type option:selected").text() + d.data.message_descr2, d.data.message_descr, {
-                                                        //            icon: "warning",
-                                                        //            buttons: {
-
-                                                        //                defeat: {
-                                                        //                    value: "defeat",
-                                                        //                    text: "Close",
-                                                        //                    className: "btn-danger"
-                                                        //                },
-                                                        //                continue_anyway: {
-                                                        //                    text: "OK, Continue and Submit Anyway",
-                                                        //                    value: "continue_anyway",
-                                                        //                },
-                                                        //            },
-                                                        //        }).then((value) => {
-                                                        //            switch (value) {
-                                                        //                case "continue_anyway":
-                                                        //                    h.post("../cSSLeaveAppl/Save2", {
-                                                        //                        data: data
-                                                        //                        , data2: data2
-                                                        //                        , data3: data3
-                                                        //                    }).then(function (d) {
-                                                        //                        if (d.data.message == "success") {
-                                                        //                            s.FilterPageGrid();
-                                                        //                            $('#main_modal').modal("hide");
-                                                        //                            swal("New Record has been Successfully Submitted!", { icon: "success", title: "Successfully Submitted!" });
-                                                        //                        }
-                                                        //                        else {
-                                                        //                            swal(d.data.message, { icon: "warning", });
-                                                        //                        }
-                                                        //                    });
-                                                        //                    break;
-
-                                                        //                default:
-                                                        //                    swal("Cancel Request!", "Your Request is already Cancelled!", { icon: "warning" });
-                                                        //            }
-                                                        //        });
-
-                                                        //    }
-                                                        //}
                                                         else if (d.data.message == "cto_validation") {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", $("#ddl_leave_type option:selected").text() + d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
@@ -2266,7 +2027,7 @@
                                                             }
                                                         }
 
-                                                        else if (d.data.message == "5_adv_validation") {
+                                                        else if (d.data.message == "5_adv_validation" || d.data.message == "have_cancellation" ) {
                                                             if (d.data.message_descr != "") {
                                                                 swal("You cannot save this Application!", d.data.message_descr2 + ' \n \n ' + d.data.message_descr, { icon: "warning" })
                                                             }
@@ -2290,7 +2051,7 @@
                                                             swal(d.data.message, { icon: "warning", title: "Already set a schedule for this date!" });
                                                         }
                                                     });
-                                                    btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit';
+                                                    btn.innerHTML = '<i class="fa fa-paper-plane-o"> </i> Submit and Print';
                                                 }
                                             })
                                         }
@@ -2368,12 +2129,12 @@
 
             if (s.datalistgrid3[row_id].approval_status == "C")
             {
-                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Re-Submit All';
+                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Re-Submit and Print';
                 s.resubmit = "TRUE"
             }
             else
             {
-                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit';
+                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit and Print';
                 s.resubmit = "FALSE"
             }
 
@@ -2582,11 +2343,11 @@
             var btn = document.getElementById('submit');
 
             if (s.datalistgrid[row_id].approval_status == "C") {
-                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Re-Submit All';
+                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Re-Submit and Print';
                 s.resubmit = "TRUE"
             }
             else {
-                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit';
+                btn.innerHTML = '<i class="fa fa-paper-plane-o"></i> Submit and Print';
                 s.resubmit = "FALSE"
             }
             
@@ -2966,17 +2727,18 @@
     //************************************// 
     //*** Print Action Click              
     //**********************************// 
-    s.btn_print_action = function (par_row_id,report_type)
+    s.btn_print_action = function (p_leave_ctrlno, p_empl_id, p_leave_type_code,report_type)
     {
-        if (s.datalistgrid3[par_row_id].approval_status == "N" ||
-            s.datalistgrid3[par_row_id].approval_status == "C" )
-        {
-            swal("You cannot Print this Leave application", "You have to submit your Leave application", { icon: "warning" });
-            return;
-        }
+        //if (s.datalistgrid3[par_row_id].approval_status == "N" ||
+        //    s.datalistgrid3[par_row_id].approval_status == "C" )
+        //{
+        //    swal("You cannot Print this Leave application", "You have to submit your Leave application", { icon: "warning" });
+        //    return;
+        //}
 
-        var application_nbr     = s.datalistgrid3[par_row_id].leave_ctrlno;
-        var empl_id             = s.datalistgrid3[par_row_id].empl_id;
+        var application_nbr     = p_leave_ctrlno;
+        var empl_id             = p_empl_id;
+        var leave_type_code     = p_leave_type_code;
         var ReportName          = "CrystalReport"
         var SaveName            = "Crystal_Report"
         var ReportType          = "inline"
@@ -2986,7 +2748,7 @@
         if (report_type == "leave")
         {
             s.employee_name_print = "LEAVE APPLICATION";
-            if (s.datalistgrid3[par_row_id].leave_type_code == "CTO")
+            if (leave_type_code == "CTO")
             {
                 //ReportPath = "~/Reports/cryCTO/cryCTO.rpt";
                 ReportPath = "~/Reports/cryCTONew/cryCTONew.rpt";
@@ -3004,7 +2766,7 @@
         {
             s.employee_name_print = "LEAVE JUSTIFICATION";
 
-            var can_print = false;
+
             if (report_type == "justification_check")
             {
                 h.post("../cSSLeaveAppl/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id }).then(function (d)
@@ -3111,63 +2873,62 @@
     s.btn_edit_action1 = function (row_id)
     {
         clearentry2();
-
         $('#start').val(s.datalistgrid2[row_id].leave_date_from);
         $('#end').val(s.datalistgrid2[row_id].leave_date_to);
-        s.start                 = s.datalistgrid2[row_id].leave_date_from;
-        s.end                   = s.datalistgrid2[row_id].leave_date_to;
-        s.txtb_day_equiv        = s.datalistgrid2[row_id].date_num_day;
-        s.txtb_day_equiv_tot    = s.datalistgrid2[row_id].date_num_day_total;
-        s.txtb_cto_remarks      = s.datalistgrid2[row_id].cto_remarks;
-
+        $('#txtb_day_equiv').val(s.datalistgrid2[row_id].date_num_day);
+        $('#txtb_day_equiv_tot').val(s.datalistgrid2[row_id].date_num_day_total);
+        $('#txtb_cto_remarks').val(s.datalistgrid2[row_id].cto_remarks);
         s.show_btn_add_date     = false;
         s.temp_dt_row_id        = row_id;
-        
         $('#leave_dtl_modal').modal({ backdrop: 'static', keyboard: false });
-
     }
     //************************************// 
     //*** Button for Edit Action ********//   
     //**********************************// 
     s.btn_update = function ()
     {
-
         try
         {
             if (ValidateFields3())
             {
+                //if (Check_Between_Dates($('#start').val(), $('#end').val()) == false)
+                //{
+                    s.show_btn_add_date = true;
+                    s.datalistgrid2 = s.datalistgrid2.delete(s.temp_dt_row_id);
+                    s.oTable2.fnClearTable();
+                    if (s.datalistgrid2.length != 0)
+                    {
+                        s.oTable2.fnAddData(s.datalistgrid2);
+                    }
 
-                s.show_btn_add_date = true;
-                s.datalistgrid2 = s.datalistgrid2.delete(s.temp_dt_row_id);
-                s.oTable2.fnClearTable();
-                if (s.datalistgrid2.length != 0)
-                {
+                    var data =
+                    {
+                         leave_date_from    : $("#start").val()
+                        ,leave_date_to      : $("#end").val()
+                        ,date_num_day       : $("#txtb_day_equiv").val()
+                        ,date_num_day_total : $("#txtb_day_equiv_tot").val()
+                        ,cto_remarks        : $("#txtb_cto_remarks").val()
+                    }
+                    s.datalistgrid2.push(data)
+                    s.oTable2.fnClearTable();
                     s.oTable2.fnAddData(s.datalistgrid2);
-                }
 
-                var data =
-                {
-                     leave_date_from    : $("#start").val()
-                    ,leave_date_to      : $("#end").val()
-                    ,date_num_day       : $("#txtb_day_equiv").val()
-                    ,date_num_day_total : $("#txtb_day_equiv_tot").val()
-                    ,cto_remarks        : $("#txtb_cto_remarks").val()
-                }
-                s.datalistgrid2.push(data)
-                s.oTable2.fnClearTable();
-                s.oTable2.fnAddData(s.datalistgrid2);
-
-                $('#datalist_grid2').removeClass('selected');
-                var table = $('#datalist_grid2').DataTable();
-                table.rows(s.temp_dt_row_id).nodes().to$().addClass('selected');
-
-                setTimeout(function ()
-                {
                     $('#datalist_grid2').removeClass('selected');
-                }, 1000);
+                    var table = $('#datalist_grid2').DataTable();
+                    table.rows(s.temp_dt_row_id).nodes().to$().addClass('selected');
 
-                $('#leave_dtl_modal').modal("hide");
-                clearentry2();
+                    setTimeout(function ()
+                    {
+                        $('#datalist_grid2').removeClass('selected');
+                    }, 1000);
+
+                    $('#leave_dtl_modal').modal("hide");
+                    clearentry2();
+                //}
+                //else
+                //{
+                //    swal({ icon: "warning", title: "LEAVE DATES ARE CONFLICT!" });
+                //}
             }
         }
         catch (err)
@@ -3202,9 +2963,9 @@
     //**********************************// 
     s.day_num_day_total_func = function ()
     {
-        var dt1 = new Date($("#start").val());
-        var dt2 = new Date($("#end").val());
-        var date_diff = 0;
+        var dt1         = new Date($("#start").val());
+        var dt2         = new Date($("#end").val());
+        var date_diff   = 0;
 
         if ($("#start").val() == $("#end").val())
         {
@@ -3214,31 +2975,8 @@
         {
             date_diff = 1 + Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
         }
-
-        var result = 0;
-
-        if ($('#ddl_leave_type').val() == "CTO")
-        {
-            if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
-            {
-                s.txtb_day_equiv_tot = (date_diff * 4);
-                result = (s.txtb_day_equiv_tot / 4);
-            }
-            else
-            {
-                s.txtb_day_equiv_tot = (date_diff * 8);
-                result = (s.txtb_day_equiv_tot / 8);
-            }
-
-            
-        }
-        else
-        {
-            result = s.txtb_day_equiv_tot / date_diff;
-            s.txtb_day_equiv_tot = date_diff;
-        }
-        s.txtb_day_equiv = currency(result)
-
+        $('#txtb_day_equiv_tot').val(date_diff)
+        $('#txtb_day_equiv').val("1")
     }
     //************************************// 
     //*** Clear Entry 1 *****************//
@@ -3314,14 +3052,11 @@
     //**********************************//
     function clearentry2()
     {
-        s.start = "";
-        s.end   = "";
         $('#start').val("")
         $('#end').val("")
-
-        s.txtb_day_equiv        = "";
-        s.txtb_day_equiv_tot    = "";
-        s.txtb_cto_remarks = "08:00AM-5:00PM";
+        $('#txtb_day_equiv').val('');
+        $('#txtb_day_equiv_tot').val('');
+        $('#txtb_cto_remarks').val('');
         $('#txtb_cto_remarks').val("08:00AM-5:00PM");
     }
     //************************************// 
@@ -3509,24 +3244,24 @@
         }
         
             
-        if ($('#ddl_leave_type option:selected').val() == "CTO")
-        {
-            if ($('#txtb_cto_remarks').val() == "") {
-                ValidationResultColor3("txtb_cto_remarks", true);
-                $('#id_datebrk').click();
-                return_val = false;
-            }
-            if ($('#chk_cto').prop("checked") == true
-                || parseFloat($('#txtb_day_equiv_tot').val()) < 8
-                || $('#txtb_cto_remarks').val() == ""
-            ) {
-                if ($('#txtb_cto_remarks').val() == "") {
-                    ValidationResultColor3("txtb_cto_remarks", true);
-                    $('#id_datebrk').click();
-                    return_val = false;
-                }
-            }
-        }
+        //if ($('#ddl_leave_type option:selected').val() == "CTO")
+        //{
+        //    if ($('#txtb_cto_remarks').val() == "") {
+        //        ValidationResultColor3("txtb_cto_remarks", true);
+        //        $('#id_datebrk').click();
+        //        return_val = false;
+        //    }
+        //    if ($('#chk_cto').prop("checked") == true
+        //        || parseFloat($('#txtb_day_equiv_tot').val()) < 8
+        //        || $('#txtb_cto_remarks').val() == ""
+        //    ) {
+        //        if ($('#txtb_cto_remarks').val() == "") {
+        //            ValidationResultColor3("txtb_cto_remarks", true);
+        //            $('#id_datebrk').click();
+        //            return_val = false;
+        //        }
+        //    }
+        //}
 
 
         var e_date = new Date(moment($('#end').val()).format('YYYY-MM-DD'));
@@ -3631,31 +3366,31 @@
     //**********************************//
     //*** Half Day - For CTO **********//
     //********************************// 
-    s.chck_halfday = function ()
-    {
-        if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
-        {
-            s.txtb_day_equiv     = 0.5
-            s.txtb_day_equiv_tot = 4
-        }
-        else
-        {
-            s.txtb_day_equiv     = 1
-            s.txtb_day_equiv_tot = 8
-        }
-        s.day_num_day_total_func();
-    }
-    function currency(d) {
+    //s.chck_halfday = function ()
+    //{
+    //    if ($('#txtb_cto_remarks').val() != "08:00AM-5:00PM")
+    //    {
+    //        s.txtb_day_equiv     = 0.5
+    //        s.txtb_day_equiv_tot = 4
+    //    }
+    //    else
+    //    {
+    //        s.txtb_day_equiv     = 1
+    //        s.txtb_day_equiv_tot = 8
+    //    }
+    //    s.day_num_day_total_func();
+    //}
+    //function currency(d) {
 
-        var retdata = ""
-        if (d == null || d == "" || d == undefined) {
-            return retdata = "0.00"
-        }
-        else {
-            retdata = parseFloat(d).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
-            return retdata
-        }
-    }
+    //    var retdata = ""
+    //    if (d == null || d == "" || d == undefined) {
+    //        return retdata = "0.00"
+    //    }
+    //    else {
+    //        retdata = parseFloat(d).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+    //        return retdata
+    //    }
+    //}
 
     //***********************************************************//
     //*** - 02/27/2020 - Reject or Check if Date
@@ -4045,7 +3780,6 @@
                 }
                 
                 s.Retrieve_CancelList($('#ddl_name option:selected').val(), s.edit_leave_ctrlno)
-                
             }
             else
             {
@@ -4063,7 +3797,8 @@
             swal("You cannot Proceed this transaction!", "Type of Cancellation, Reason, Approved by and Approve by Designation is required!",{ icon: "warning" });
             return;
         }
-
+        //console.log(s.datalist_grid_cancell)
+        //return;
         for (var i = 0; i < s.datalist_grid_cancell.length; i++)
         {
             if (s.datalist_grid_cancell[i].reason.toString() == "" && (s.datalist_grid_cancell[i].cancel_flag == true || s.datalist_grid_cancell[i].cancel_flag == "Y"))
@@ -4073,26 +3808,30 @@
             }
             else
             {
-                var data = {
-                    leave_ctrlno            : s.txtb_appl_nbr
-                    ,empl_id                : s.txtb_empl_id  
-                    ,approved_by            : s.approved_by          
-                    ,approved_by_desig      : s.approved_by_desig    
-                    ,leave_cancel_status    : "S"
-                }
-                h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
+                if (s.datalist_grid_cancell[i].cancel_flag == true || s.datalist_grid_cancell[i].cancel_flag == "Y")
                 {
-                    if (d.data.message == "success")
-                    {
-                        swal("Successfully Submitted!", { icon: "success" });
-                        $('#modal_cancellation').modal("hide");
-                        s.btn_print_cancel();
+                    var data = {
+                        leave_ctrlno            : s.txtb_appl_nbr
+                        ,empl_id                : s.txtb_empl_id  
+                        ,approved_by            : s.approved_by          
+                        ,approved_by_desig      : s.approved_by_desig    
+                        ,leave_cancel_status    : "S"
                     }
-                    else
+                    h.post("../cSSLeaveAppl/Submit_Cancel", { data: data}).then(function (d)
                     {
-                        swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
-                    }
-                })
+                        if (d.data.message == "success")
+                        {
+                            swal("Successfully Submitted!", { icon: "success" });
+                            $('#modal_cancellation').modal("hide");
+                            s.btn_print_cancel();
+                        }
+                        else
+                        {
+                            swal("You cannot Proceed this transaction!", "Select atleast one (1) date to cancel!", { icon: "warning" });
+                        }
+                    })
+                }
+
             }
         }
     }

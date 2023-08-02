@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Angular/ng-cSSPHICPayReg_DTL.js"></script>
+<script src="~/Angular/ng-cSSPHICPayReg_DTL.js?v1"></script>
 <section ng-app="ng_eSelfService_App" ng-controller="cSSPHICPayReg_DTL_ctrl">
 
     <div class="modal fade" id="modal_loading">
@@ -42,7 +42,7 @@
     @*---ADD MODAL-----*@
     <div class="modal fade" id="main_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content animated flipInY modal-content-add-edit">
+            <div class="modal-content modal-content-add-edit">
                 <div class="modal-header modal-header-add-edit text-white">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -148,7 +148,8 @@
                             <label id="lbl_txtb_wtax_5perc_req" class="lbl_required"></label>
                         </div>
                         <div class="col-lg-3" style="margin-top:5px;">
-                            <span class="pull-left font-bold" style="padding-top: 5px;"><b> W/H Tax 8% Amt.:</b></span>
+                            <span class="pull-left font-bold" style="padding-top: 5px;font-weight:bold" ng-model="lbl_wtax_8_5vatperc" id="lbl_wtax_8_5vatperc"><b> </b></span>
+                            @*<span class="pull-left font-bold" style="padding-top: 5px;"><b> W/H Tax 8% Amt.:</b></span>*@
                         </div>
                         <div class="col-lg-3" style="margin-top:5px;">
 

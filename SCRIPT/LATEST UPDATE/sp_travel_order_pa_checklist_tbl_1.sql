@@ -108,7 +108,7 @@ DECLARE @par_period_to_covered_sp DATE
   ,approval_status	
   ,department_code	
   ,approval_id	
-  ,travel_datefiled_original	
+  ,CONVERT(VARCHAR(50),travel_datefiled_original) AS travel_datefiled_original   
   ,approved_status	
   ,@v_pa_readonly  AS pa_readonly                             
   ,@v_pa_writeonly AS pa_writeonly    

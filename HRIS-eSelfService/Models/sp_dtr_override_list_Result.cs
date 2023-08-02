@@ -63,5 +63,6 @@ namespace HRIS_eSelfService.Models
         public string override_status { get; set; }
         public string override_status_descr { get; set; }
         public string transmitted_flag { get; set; }
+        public Nullable<int> ticket_number { get; set; }
     }
 }

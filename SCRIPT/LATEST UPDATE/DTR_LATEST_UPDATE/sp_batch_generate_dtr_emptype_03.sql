@@ -1,3 +1,6 @@
+
+-- EXEC sp_batch_generate_dtr_emptype_03 '2023','06','9985','JO','03','U8672'
+
 ALTER PROCEDURE sp_batch_generate_dtr_emptype_03      
  @p_dtr_year    VARCHAR(04),        
  @p_dtr_month   VARCHAR(02),        
@@ -374,7 +377,8 @@ AS
   -- OT        
           
   SET @v_first_row = 0        
-  --DECLARE c_DTR CURSOR FOR       
+  --DECLARE c_DTR CURSOR FOR  
+       
   INSERT INTO @v_table_adj_cal         
   SELECT DISTINCT        
    ROW_NUMBER() OVER(ORDER BY A.empl_id, B.dtr_date ASC   ) AS row_nbr         
@@ -612,7 +616,8 @@ AS
   -- ,@v_frst_qcna_posted_ddtm         
   -- ,@v_sec_qcna_posted_ddtm        
   -- ,@v_frst_qcna_posted_by         
-  -- ,@v_sec_qcna_posted_by          
+  -- ,@v_sec_qcna_posted_by    
+        
   SELECT @cnt_cal_max = (SELECT COUNT(A.empl_id) FROM @v_table_adj_cal A)       
   DECLARE @t_compute    BIT        
         
@@ -638,7 +643,9 @@ AS
       
   SET @v_empl_id_tmp = ''        
   SET @v_dtr_date_tmp = CONVERT(DATE,'')         
-        
+  
+ 
+         
    WHILE @cnt_cal <= @cnt_cal_max      
   --WHILE  @@FETCH_STATUS = 0        
   BEGIN        
@@ -803,7 +810,7 @@ AS
    -----------------------------------------------------        
    --TRANSFER TIME IN PM TO TIME OUT AM FOR SPECIAL CASE 2021-12-24      
          
-   IF @v_dtr_date IN (CONVERT(DATE,'2021-12-24'),CONVERT(DATE,'2021-12-31'),CONVERT(DATE,'2022-04-13'))      
+ IF @v_dtr_date IN (CONVERT(DATE,'2021-12-24'),CONVERT(DATE,'2021-12-31'),CONVERT(DATE,'2022-04-13'))      
  BEGIN      
   IF @d_time_in_pm <> '' AND @d_time_out_am = ''      
    BEGIN      
@@ -1873,7 +1880,30 @@ END
          SET @d_time_ot_payable   = @v_time_ot_payable_am        
          SET @v_time_ot_minute   = DATEDIFF(mi,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@d_time_out_am_ot))        
              
-       END        
+       END 
+
+	    -- CALCULATE OVERTIME FOR HALF DAY OT FOR AM TIME ENTRIES IF PM TIME ENTRIES ARE INCOMPLETE --Added by marvin Olita
+	   ELSE IF (@d_time_in_am <> '' AND @d_time_out_am <> ''        
+       AND ((@d_time_in_pm = '' AND @d_time_out_pm <> '') OR (@d_time_in_pm <> '' AND @d_time_out_pm = ''))) AND @v_otr_exist = 'Y'        
+       BEGIN        
+         SET @d_time_in_am_ot = @d_time_in_am        
+         SET @d_time_out_am_ot = @d_time_out_am        
+             
+         IF CONVERT(TIME,@d_time_in_am) < CONVERT(TIME,@v_OTR_s_time) 
+          BEGIN        
+           SET @d_time_in_am_ot = @v_OTR_s_time        
+          END        
+        
+         IF CONVERT(TIME,@d_time_out_am) > CONVERT(TIME,@v_reg_am_end_time)
+          BEGIN        
+           SET @d_time_out_am_ot = @v_reg_am_end_time        
+          END        
+             
+         SET @v_time_ot_payable_am = DATEDIFF(mi,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@d_time_out_am_ot))/60.00        
+         SET @d_time_ot_payable   = @v_time_ot_payable_am        
+         SET @v_time_ot_minute   = DATEDIFF(mi,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@d_time_out_am_ot))        
+             
+       END               
           
       --CALCULATE OVERTIME FOR HALF DAY OT FOR PM TIME ENTRIES        
      ELSE IF @d_time_in_am = '' AND @d_time_out_am = ''        
@@ -1896,8 +1926,33 @@ END
         SET @v_time_ot_payable_pm = DATEDIFF(mi,CONVERT(TIME,@d_time_in_pm_ot),CONVERT(TIME,@d_time_out_pm_ot))/60.00        
         SET @d_time_ot_payable   = @v_time_ot_payable_pm        
         SET @v_time_ot_minute   = DATEDIFF(mi,CONVERT(TIME,@d_time_in_pm_ot),CONVERT(TIME,@d_time_out_pm_ot))         
+       END 
+	   
+	   
+	          
+       -- CALCULATE OVERTIME FOR HALF DAY OT FOR AM TIME ENTRIES IF AM TIME ENTRIES ARE INCOMPLETE    --Added by marvin Olita  
+     ELSE IF  @d_time_in_pm <> '' AND @d_time_out_pm <> ''   
+	      AND ((@d_time_in_am = '' AND @d_time_out_am <> '') OR (@d_time_in_am <> '' AND @d_time_out_am = ''))     
+       BEGIN        
+        
+        SET @d_time_in_pm_ot = @d_time_in_pm        
+        SET @d_time_out_pm_ot = @d_time_out_pm   
+                
+        IF CONVERT(TIME,@d_time_in_pm) < CONVERT(TIME,@v_reg_pm_start_time)   
+          BEGIN        
+           SET @d_time_in_pm_ot = @v_reg_pm_start_time        
+          END        
+        
+        IF CONVERT(TIME,@d_time_out_pm) > CONVERT(TIME,@v_OTR_e_time)       
+         BEGIN        
+        SET @d_time_out_pm_ot = @v_OTR_e_time        
+         END        
+        
+        SET @v_time_ot_payable_pm = DATEDIFF(mi,CONVERT(TIME,@d_time_in_pm_ot),CONVERT(TIME,@d_time_out_pm_ot))/60.00        
+        SET @d_time_ot_payable   = @v_time_ot_payable_pm        
+        SET @v_time_ot_minute   = DATEDIFF(mi,CONVERT(TIME,@d_time_in_pm_ot),CONVERT(TIME,@d_time_out_pm_ot))         
        END        
-            
+                  
            
     END        
         
@@ -1929,8 +1984,9 @@ END
   -- SET @TIME_0T_PM = IIF(DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm) < 120 and DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm) < 120,DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm),DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm)-60)          
                
         
-    IF DATEDIFF(mi,@v_actual_time_out_pm,@over_time_request_out) >= 0        
-    BEGIN        
+   IF DATEDIFF(mi,@v_actual_time_out_pm,@over_time_request_out) >= 0        
+   BEGIN
+          
    SET @TIME_0T_PM = (SELECT CASE         
    WHEN DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm) <= 180 -- if less than 3 hours        
    THEN DATEDIFF(mi,@v_reg_pm_end_time,@v_actual_time_out_pm)        
@@ -1998,7 +2054,7 @@ END
           
    --BREAKFAST        
    IF CONVERT(TIME,@d_time_in_am_ot) < CONVERT(TIME,@v_breakfast_break_end) AND ISNULL(@d_time_in_am_ot,'') <> ''       
- AND  CONVERT(TIME,@v_OTR_s_time) < @d_time_in_am_ot      
+   AND  CONVERT(TIME,@v_OTR_s_time) < @d_time_in_am_ot      
     BEGIN        
      SET @d_time_ot_payable = @d_time_ot_payable - IIF(DATEDIFF(MINUTE,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@v_breakfast_break_end)) / 60.00 > 1,DATEDIFF(MINUTE,CONVERT(TIME,@v_breakfast_break_start),CONVERT(TIME,@v_breakfast_break_end)) / 60.00,DATEDIFF(MINUTE,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@v_breakfast_break_end)) / 60.00)        
      SET @v_time_ot_minute  = @v_time_ot_minute - IIF(DATEDIFF(MINUTE,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@v_breakfast_break_end)) > 1,DATEDIFF(MINUTE,CONVERT(TIME,@v_breakfast_break_start),CONVERT(TIME,@v_breakfast_break_end)),DATEDIFF(MINUTE,CONVERT(TIME,@d_time_in_am_ot),CONVERT(TIME,@v_breakfast_break_end)))        
@@ -2021,7 +2077,16 @@ END
         
    SET @d_time_ot_payable = IIF(@d_time_ot_payable < @v_time_ot_payable_minimum,0.00,@d_time_ot_payable)        
    SET @d_time_ot_hris    = IIF(@d_time_ot_payable > 0,CONVERT(VARCHAR(02),(CONVERT(INT,@d_time_ot_payable) * 60)/60) + 'h ' + IIF(@v_time_ot_minute % 60 > 0,CONVERT(VARCHAR(02),@v_time_ot_minute % 60)  + 'm',''),'')        
-          
+       
+   --SELECT 
+   -- @d_time_ot_hris   AS time_ot_hris
+   --,@d_time_ot_payable AS time_ot_payable
+   --,@v_time_ot_payable_minimum AS time_ot_payable_minimum 
+	   
+	 
+        
+
+
    IF @d_time_ot_payable >= @v_time_ot_payable_minimum        
     BEGIN        
      SET @t_remarks_OT    = 'OT, ' + @d_time_ot_hris        
@@ -2031,7 +2096,12 @@ END
      SET @t_remarks_OT = ''        
     END        
         
-          
+   -- SELECT 
+   -- @d_time_ot_hris   AS time_ot_hris
+   --,@d_time_ot_payable AS time_ot_payable
+   --,@v_time_ot_payable_minimum AS time_ot_payable_minimum 
+   --,@t_remarks_OT AS remarks_OT
+	 
    --------- COMPUTE OT ------------        
    -------------------------------------------------------------------------        
    -- SECOND CALCULATION FOR ORVERTIME END        
@@ -2380,8 +2450,8 @@ END
     END        
         
         
-  IF @v_dtr_date  IN (CONVERT(DATE,'2021-12-24'),CONVERT(DATE,'2021-12-31'),CONVERT(DATE,'2022-04-13')) AND (@v_dept_code1 NOT IN ('21','22','23','24'))  -- FOR NO TIME IN PM AND TIME OUT PM      
-    AND @v_lv_exist <> 'Y'        
+ IF @v_dtr_date  IN (CONVERT(DATE,'2021-12-24'),CONVERT(DATE,'2021-12-31'),CONVERT(DATE,'2022-04-13')) AND (@v_dept_code1 NOT IN ('21','22','23','24'))  -- FOR NO TIME IN PM AND TIME OUT PM      
+ AND @v_lv_exist <> 'Y'        
  AND @v_to_exist <> 'Y' --LAST 2021-12-27      
  AND (@d_time_in_am <> '' AND @d_time_out_am <> ''      
    AND @d_time_in_pm = '' AND @d_time_out_pm = '')      
@@ -2438,8 +2508,8 @@ END
       --BEGIN        
       --  SET @d_remarks_details  = 'HALF DAY-PM'          
       --END        
-     SET @v_check_entries = 1        
-      END        
+         SET @v_check_entries = 1        
+     END        
         
    ELSE IF @d_time_in_am = '' AND @d_time_out_am = ''        
       AND @d_time_in_pm <> '' AND @d_time_out_pm <> ''        
@@ -2449,7 +2519,7 @@ END
       --BEGIN        
       --  SET @d_remarks_details  = 'HALF DAY-AM'          
       --END        
-     SET @v_check_entries = 1        
+            SET @v_check_entries = 1        
       END        
            
    ELSE IF @d_time_in_am <> '' AND @d_time_out_am <> ''        
@@ -2506,13 +2576,20 @@ END
       BEGIN        
              
         --SET @d_remarks_details  = '????????'  --REMOVE DAY OFF QUESTIONED MARK        
-        SET @d_remarks_details  = @t_remarks_HL + ''          
+        SET @d_remarks_details  = @t_remarks_HL + ' ' + @t_remarks_OT   -- added Marvin- To display Holiday with OT AM with incomplete pm entries         
         SET @d_under_Time  = 0         
-        SET @d_under_Time_remarks  = ''        
+        SET @d_under_Time_remarks  = '' 
+		       
       END        
      ELSE        
-      BEGIN        
-       SET @d_remarks_details = @t_remarks_HL +IIF(@t_remarks_HL <> '' AND @t_remarks_TO <> '',',','')+@t_remarks_TO + ' ' + @t_remarks_OT        
+      BEGIN     
+	       
+		  -- EXEC sp_batch_generate_dtr_emptype_03 '2023','06','9985','JO','03','U8672'
+	     
+           SET @d_remarks_details = @t_remarks_HL +IIF(@t_remarks_HL <> '' AND @t_remarks_TO <> '',',','')+@t_remarks_TO + ' ' + @t_remarks_OT  
+	    
+	      
+		       
       END        
              
     END        

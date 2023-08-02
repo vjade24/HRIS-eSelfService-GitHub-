@@ -38,5 +38,6 @@ namespace HRIS_eSelfService.Models
         public string dept_sec_div_descr { get; set; }
         public string leave_subtype_code { get; set; }
         public string leave_subtype_dtl_code { get; set; }
+        public string leave_descr { get; set; }
     }
 }

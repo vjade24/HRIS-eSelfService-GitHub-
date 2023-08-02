@@ -15,10 +15,12 @@ namespace HRIS_eSelfService.Models
     {
         public string tse_ctrl_no { get; set; }
         public string day_nbr { get; set; }
+        public string sort_order { get; set; }
         public string tse_day_parent { get; set; }
         public string day_of_week { get; set; }
         public Nullable<System.DateTime> dtr_date { get; set; }
         public string dtr_date_char { get; set; }
+        public string holiday_name { get; set; }
         public string empl_id { get; set; }
         public string tse_in_am { get; set; }
         public string tse_out_am { get; set; }

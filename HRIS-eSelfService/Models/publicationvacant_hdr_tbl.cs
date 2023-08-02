@@ -21,5 +21,7 @@ namespace HRIS_eSelfService.Models
         public Nullable<System.DateTime> publish_from { get; set; }
         public Nullable<System.DateTime> publish_to { get; set; }
         public string posted_in { get; set; }
+        public Nullable<System.DateTime> posted_from { get; set; }
+        public Nullable<System.DateTime> posted_to { get; set; }
     }
 }

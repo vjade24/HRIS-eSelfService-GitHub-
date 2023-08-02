@@ -21,6 +21,7 @@ namespace HRIS_eSelfService.Models
         public string title { get; set; }
         public string employee_name { get; set; }
         public string position_short_title { get; set; }
+        public string position_long_title { get; set; }
         public string department_short_name { get; set; }
         public string letter_salutation { get; set; }
         public string letter_body1 { get; set; }

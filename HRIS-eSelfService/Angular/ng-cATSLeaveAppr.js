@@ -17,9 +17,9 @@
         s.ddl_year = new Date().getFullYear().toString();
         s.ddl_month = moment((new Date())).format("MM");
         $("#modal_generating_remittance").modal();
-        $('#slvl_radio0').addClass('sl-vl-radio-display-none');
-        $('#slvl_radio1').addClass('sl-vl-radio-display-none');
-        $('#txtb_specify_div').addClass('sl-vl-radio-display-none');
+        //$('#slvl_radio0').addClass('sl-vl-radio-display-none');
+        //$('#slvl_radio1').addClass('sl-vl-radio-display-none');
+        //$('#txtb_specify_div').addClass('sl-vl-radio-display-none');
         //**********************************************
         // Initialize data during page loads
         //**********************************************
@@ -409,6 +409,42 @@
         //         s.sp_less_this_leave = s.total_equiv_tot;
         //     }
         // }
+
+        // **************************************************************************
+        // *** Display the Radio button, checkboxes for Sick leave and Vacatio Leave
+        // **************************************************************************
+        if (s.ddl_leave_type == "SL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Out Patient');
+            $('#slvl_radio1_text').html('In Hospital');
+        }
+        else if (s.ddl_leave_type == "VL") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+        }
+        // ************************************************************** 
+        else if (s.ddl_leave_type == "FL" || s.ddl_leave_type == "SP") {
+            $('#slvl_radio0').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').removeClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').removeClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('Within Philippines');
+            $('#slvl_radio1_text').html('Abroad');
+        }
+        // ************************************************************** 
+        else {
+            $('#slvl_radio0').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio1').addClass('sl-vl-radio-display-none');
+            $('#txtb_specify_div').addClass('sl-vl-radio-display-none');
+            $('#slvl_radio0_text').html('');
+            $('#slvl_radio1_text').html('');
+        }
+        // **************************************************************************
+        // **************************************************************************
 
         s.datalistgrid[row_id].leave_class == true ? $("#x1").prop("checked", true) : $("#x0").prop("checked", true);
         if ($("#x1").prop("checked"))
@@ -853,10 +889,10 @@
 
     function show_print(ReportName, SaveName, ReportType, ReportPath, sp)
     {
-        h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
-        {
-                if (d.data.message == "success")
-                {
+        //h.post("../cSSLeaveAppl/setPageHistory").then(function (d)
+        //{
+        //        if (d.data.message == "success")
+        //        {
                     // *******************************************************
                     // *** VJA : 2021-07-14 - Validation and Loading hide ****
                     // *******************************************************
@@ -905,12 +941,38 @@
                     $('#modal_print_preview').modal({ backdrop: 'static', keyboard: false });
                     // *******************************************************
                     // *******************************************************
-                }
-                else
+            //    }
+            //    else
+            //    {
+            //        swal(d.data.message, "", {icon:"warning"});
+            //    }
+            //});
+    }
+    s.Retrieve_LeaveHistory = function ()
+    {
+        $('#view_details_history').removeClass()
+        $('#view_details_history').addClass('fa fa-spinner fa-spin')
+        s.data_history = [];
+        h.post("../cATSLeaveAppr/Retrieve_LeaveHistory", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                s.data_history = d.data.data
+                for (var i = 0; i < d.data.data.length; i++)
                 {
-                    swal(d.data.message, "", {icon:"warning"});
+                    d.data.data[i].create_dttm_descr = moment(d.data.data[i].created_dttm).format("LLLL")
+                    d.data.data[i].create_dttm_ago   = moment(d.data.data[i].created_dttm).fromNow()
                 }
-            });
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+            }
+            else
+            {
+                $('#view_details_history').removeClass()
+                $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
     }
 
 
