@@ -1340,7 +1340,7 @@
                 {
                     swal("Could not save this application!" + " " + $('#ddl_leave_type option:selected').text(), { icon: "warning", title: "You cannot Apply below 1 day for" + " " + $('#ddl_leave_type option:selected').text() });
                 }
-                else if ($('#ddl_leave_type option:selected').val() == "VL" && $("input[type='radio'][name='sl_vl']:checked").val() == true && $('#txtb_specify').val() == "")
+                else if ($('#ddl_leave_type option:selected').val() == "VL" && $("input[type='radio'][name='sl_vl']:checked").val() == true && $('#txtb_specify').val().trim() == "")
                 {
                     swal("Could not save this application!" + " " + $('#ddl_leave_type option:selected').text(), { icon: "warning", title: "Please Specify the Location if Abroad"  });
                 }
@@ -2219,6 +2219,27 @@
                     {
                         d.data.lv_cancellation_lst[i].leave_cancel_date_descr   = moment(d.data.lv_cancellation_lst[i].leave_cancel_date).format("MMMM DD, YYYY")
                         d.data.lv_cancellation_lst[i].leave_transfer_date_descr = moment(d.data.lv_cancellation_lst[i].leave_transfer_date).format("MMMM DD, YYYY")
+
+                        if (d.data.lv_cancellation_lst[i].leave_cancel_status == "N")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "New"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "S")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Submitted"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "C")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Cancel Pending"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "F")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Final Approved"
+                        }
+                        else
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr= "No Status"
+                        }
                     }
 
                     if (d.data.flpDtlLst.length > 0)
@@ -2426,6 +2447,33 @@
                     s.oTable2.fnClearTable();
                     s.datalistgrid2     = d.data.flpDtlLst;
                     s.getDtlDataLength  = d.data.flpDtlLst.length;
+
+                    s.lv_cancellation_lst = d.data.lv_cancellation_lst
+                    for (var i = 0; i < d.data.lv_cancellation_lst.length; i++) {
+                        d.data.lv_cancellation_lst[i].leave_cancel_date_descr = moment(d.data.lv_cancellation_lst[i].leave_cancel_date).format("MMMM DD, YYYY")
+                        d.data.lv_cancellation_lst[i].leave_transfer_date_descr = moment(d.data.lv_cancellation_lst[i].leave_transfer_date).format("MMMM DD, YYYY")
+                        
+                        if (d.data.lv_cancellation_lst[i].leave_cancel_status == "N")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "New"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "S")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Submitted"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "C")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Cancel Pending"
+                        }
+                        else if (d.data.lv_cancellation_lst[i].leave_cancel_status == "F")
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr = "Final Approved"
+                        }
+                        else
+                        {
+                            d.data.lv_cancellation_lst[i].leave_cancel_status_descr= "No Status"
+                        }
+                    }
 
                     if (d.data.flpDtlLst.length > 0) {
                         s.oTable2.fnAddData(d.data.flpDtlLst);
@@ -4154,6 +4202,9 @@
 
     s.retrieve_cancel_type = function (type)
     {
+        $('#leave_transfer_date').val('')
+        s.reason = "";
+
         s.div_show_transfer_date = false;
         if (type == "FL_TRNFR")
         {
