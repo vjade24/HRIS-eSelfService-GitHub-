@@ -6,6 +6,8 @@
     s.rowLen    = "10";
     s.ddl_search_empl_name_list = []
 
+    s.row_index_otf = "";
+    var justi_flag = document.getElementById("justification_flag");
     function minusOne(id) {
         $("#" + id).text(localStorage["minus_leave"])
     }
@@ -344,7 +346,8 @@
     //**********************************// 
     s.btn_edit_action = function (row_id) {
         clearentry();
-
+        s.row_index_otf = ""
+        s.row_index_otf = row_id
         h.post("../cATSLeaveAppr/GetLeaveSubType", {
             par_leave_type: s.datalistgrid[row_id].leave_type_code
             , par_empl_id: ""
@@ -369,7 +372,16 @@
         s.txtb_comments             = s.datalistgrid[row_id].leave_comments;
         //s.txtb_remarks              = s.datalistgrid[row_id].details_remarks;
 
-        s.txtb_date_bal_asof        = s.datalistgrid[row_id].leaveledger_date;
+        s.txtb_date_bal_asof = s.datalistgrid[row_id].leaveledger_date;
+
+        s.div_justi_msg = false
+        s.div_justi_bottom_msg = false;
+        justi_flag.checked = false
+        if (s.datalistgrid[row_id].justification_flag == true)
+        {
+                justi_flag.checked =true
+                s.div_justi_msg = true
+        }
 
         s.sl_current_balance        = s.datalistgrid[row_id].leaveledger_balance_as_of_sl.toFixed(3);
         s.vl_current_balance        = s.datalistgrid[row_id].leaveledger_balance_as_of_vl.toFixed(3);
@@ -481,8 +493,7 @@
                 btn.innerHTML = '<i class="fa fa-thumbs-up"></i> ' + ' Approve';
             }
         }
-
-        console.log(s.datalistgrid[row_id])
+        
         if (s.datalistgrid[row_id].next_status == "L")
         {
             s.show_cancel = true;
@@ -618,6 +629,9 @@
             , approval_status   : s.next_status
             , details_remarks   : s.txtb_remarks
             , approval_id       : s.temp_approval_id
+            , leave_type_code   : s.ddl_leave_type
+            , date_applied      : $("#txtb_date_applied").val()
+            , empl_id           : s.txtb_empl_id
         }
         
         h.post("../cATSLeaveAppr/ApprReviewerAction", {
@@ -638,12 +652,35 @@
                     btn.innerHTML = '<i class="fa fa-thumbs-up"> </i> ' + ' Approve';
                 }
                 s.FilterPageGrid();
+                if (d.data.justi != null)
+                {
+                    s.btn_print_action(s.row_index_otf);
+                }
                 $('#main_modal').modal("hide");
                 swal({ icon: "success", title: s.swal_title });
 
             }
-            else {
-                swal(d.data.message, { icon: "warning", });
+            else
+            {
+                swal(d.data.message_descr2, d.data.message_descr, { icon: "warning", });
+                if (s.next_status == "C") {
+                    btn.innerHTML = '<i class="fa fa-ban"> </i> Cancel Pending';
+                }
+                else if (s.next_status == "D") {
+                    btn.innerHTML = '<i class="fa fa-thumbs-down"> </i> Disapprove';
+                }
+                else if (s.next_status == "L") {
+                    btn.innerHTML = '<i class="fa fa-ban"> </i> Cancel Leave';
+                }
+                else if (s.next_status == "R") {
+                    btn.innerHTML = '<i class="fa fa-ban"> </i> Review';
+                }
+                else if (s.next_status == "F") {
+                    btn.innerHTML = '<i class="fa fa-ban"> </i> Final Approve';
+                }
+                else {
+                    btn.innerHTML = '<i class="fa fa-thumbs-up"> </i> ' + ' Approve';
+                }
             }
         });
     }
@@ -970,6 +1007,107 @@
             {
                 $('#view_details_history').removeClass()
                 $('#view_details_history').addClass('fa fa-arrow-down')
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
+
+    s.func_checked = function ()
+    {
+        if (justi_flag.checked == true)
+        {
+            s.div_justi_msg = true;
+        } else
+        {
+            s.div_justi_msg = false;
+        }
+    }
+
+    s.openJustification = function ()
+    {
+        //$('#modal_justification').modal({ backdrop: 'static', keyboard: false });
+        if ($('#ddl_leave_type option:selected').val() == "")
+        {
+            swal({ icon: "warning", title: "LEAVE TYPE IS REQUIRED!" });
+            return;
+        }
+        h.post("../cATSLeaveAppr/Retrieve_Justification", { leave_ctrlno: s.txtb_appl_nbr, empl_id: s.txtb_empl_id}).then(function (d)
+        {
+            
+            if (d.data.message == "success")
+            {
+                const datenow_str = new Date();
+                if (d.data.data == null)
+                {
+                    $('#summernote_justification').summernote();
+                    //var myHtml = $('.note-editable')
+                    //myHtml.html("")
+                    //myHtml.prepend("<p>" + moment(datenow_str).format("LL") + "</p><p><br><br><br><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br><br><br><br>Dear Madam:</p><p><br><br><br>This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.</p><p><br><br>I hope for your kind consideration.</p><p><br><br>Thank you.</p><p><br><br>Very truly yours,<br><br><br><br><br>" + d.data.employee_name + "<br><br>(Position)</p><p><br><br></p><p>Noted:<br><br>" + d.data.approved_name + "<br><br>" + d.data.approved_by_desig + "</p>")
+                    s.justi_date               = moment(datenow_str).format("YYYY-MM-DD")
+                    s.justi_reason             = ""
+                    s.justi_employee_name      = d.data.employee_name
+                    s.justi_employee_position  = "(Position)"
+                    s.justi_noted_by           = d.data.approved_name
+                    s.justi_noted_desig        = d.data.approved_by_desig
+                    $('#justi_reason').attr('placeholder', "This is in relation to the late filing of " + $('#ddl_leave_type option:selected').text() + " applied for " + moment(datenow_str).format("LL") + ". I apologize for not submitting the leave application on time.\n\n I hope for your kind consideration.")
+
+                }
+                else
+                {
+                    
+                    $('#summernote_justification').summernote();
+                    var myHtml = $('.note-editable')
+                    myHtml.html("")
+                    myHtml.prepend(d.data.data.summernote_descr)
+                    s.justi_date               = moment(d.data.data.justi_date).format("YYYY-MM-DD")
+                    s.justi_reason             = d.data.data.justi_reason
+                    s.justi_employee_name      = d.data.data.justi_employee_name
+                    s.justi_employee_position  = d.data.data.justi_employee_position
+                    s.justi_noted_by           = d.data.data.justi_noted_by
+                    s.justi_noted_desig        = d.data.data.justi_noted_desig
+                }
+
+                $('#modal_justification').modal({ backdrop: 'static', keyboard: false });
+            }
+            else
+            {
+                swal({ icon: "warning", title: d.data.message });
+            }
+        })
+    }
+
+    s.btn_save_justification = function ()
+    {
+        //var myHtml = $('.note-editable')[0].innerHTML
+
+        var myHtml = $('.note-editable')
+        myHtml.html("")
+        myHtml.prepend("<p>" + moment($('#justi_date').val()).format("LL") + "</p><p><br><br><br><br>LARA ZAPHIRE KRISTY N. BERMEJO<br>PG DEPARTMENT HEAD<br>PHRMDO</p><p><br><br><br><br>Dear Madam:</p><p><br><br><br>" + s.justi_reason + "</p><p><br><br><br><br>Very truly yours,<br><br><br><br><br>" + s.justi_employee_name + "<br>" + s.justi_employee_position + "</p><p><br><br></p><p>Noted:<br><br><br><br>" + s.justi_noted_by + "<br>" + s.justi_noted_desig + "</p>")
+        
+        var data = {
+                 leave_ctrlno               : s.txtb_appl_nbr
+                ,empl_id                    : s.txtb_empl_id
+                ,summernote_descr           : $('.note-editable')[0].innerHTML
+                ,justi_date                 : $('#justi_date').val()
+                ,justi_reason               : s.justi_reason
+                ,justi_employee_name        : s.justi_employee_name
+                ,justi_employee_position    : s.justi_employee_position
+                ,justi_noted_by             : s.justi_noted_by
+                ,justi_noted_desig          : s.justi_noted_desig
+
+        }
+        //console.log(data)
+        //return;
+        h.post("../cATSLeaveAppr/Save_Justification", { data: data}).then(function (d)
+        {
+            if (d.data.message == "success")
+            {
+                $('#modal_justification').modal("hide");
+                //swal("Justification Letter Successfully Saved!", { icon: "success", });
+                s.div_justi_bottom_msg = true
+            }
+            else
+            {
                 swal({ icon: "warning", title: d.data.message });
             }
         })

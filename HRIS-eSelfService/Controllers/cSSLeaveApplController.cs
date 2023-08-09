@@ -706,11 +706,18 @@ namespace HRIS_eSelfService.Controllers
                     {
                         var justi = db_ats.leave_application_hdr_justi_tbl.Where(a => a.empl_id == data.empl_id && a.leave_ctrlno == data.leave_ctrlno).FirstOrDefault();
                         
+                        System.DateTime date_applied        = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
+                        System.DateTime date_leave_date_to  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
+
+                        if (p_action_mode == "RESUBMIT")
+                        {
+                            date_applied = DateTime.Now;
+                        }
+
+                        var day_diff = (date_applied - date_leave_date_to).TotalDays; 
+
                         if (dt_chk_tse == null)
                         {
-                            System.DateTime date_applied        = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
-                            System.DateTime date_leave_date_to  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
-                            var day_diff = (date_applied - date_leave_date_to).TotalDays; ;
 
                             for (int i = 0; i < (date_applied - date_leave_date_to).TotalDays; i++)
                             {
@@ -728,19 +735,16 @@ namespace HRIS_eSelfService.Controllers
                                 }
                             }
                             
-                            if (day_diff > 5 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi ==null))
+                            if (day_diff > 5 && (p_action_mode == "SUBMIT" || p_action_mode == "RESUBMIT") && (data.justification_flag == false || justi ==null))
                             {
                                 message         = "5_adv_validation";
-                                message_descr   = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
+                                message_descr   = "Date Applied: " + DateTime.Parse(date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
                                 message_descr2  = " You have to Submit Justification letter.";
                             }
 
                         }
                         else
                         {
-                            System.DateTime date_applied        = new System.DateTime(DateTime.Parse(data.date_applied.ToString()).Year, DateTime.Parse(data.date_applied.ToString()).Month, DateTime.Parse(data.date_applied.ToString()).Day);
-                            System.DateTime date_leave_date_to  = new System.DateTime(leave_date_to.Year, leave_date_to.Month, leave_date_to.Day);
-                            var day_diff = (date_applied - date_leave_date_to).TotalDays;
                             for (int i = 0; i < (date_applied - date_leave_date_to).TotalDays; i++)
                             {
                                 DateTime leave_date_to_loop = date_leave_date_to.AddDays(i);
@@ -751,10 +755,10 @@ namespace HRIS_eSelfService.Controllers
                                 }
                             }
 
-                            if (day_diff > 5 && p_action_mode == "SUBMIT" && (data.justification_flag == false || justi == null))
+                            if (day_diff > 5 && (p_action_mode == "SUBMIT" || p_action_mode == "RESUBMIT") && (data.justification_flag == false || justi == null))
                             {
                                 message = "5_adv_validation";
-                                message_descr = "Date Applied: " + DateTime.Parse(data.date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
+                                message_descr = "Date Applied: " + DateTime.Parse(date_applied.ToString()).ToLongDateString() + "\n Application Nbr.: " + data.leave_ctrlno + "\n Date Application from :" + leave_date_from.ToLongDateString() + "\n Date Application to: " + leave_date_to.ToLongDateString();
                                 message_descr2 = " You have to Submit Justification letter.";
                             }
                         }
