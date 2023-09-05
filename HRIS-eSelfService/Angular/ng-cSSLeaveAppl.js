@@ -3871,7 +3871,7 @@
                         {
                             swal("Successfully Submitted!", { icon: "success" });
                             $('#modal_cancellation').modal("hide");
-                            s.btn_print_cancel();
+                            s.btn_print_cancel(s.txtb_empl_id, s.txtb_appl_nbr);
                         }
                         else
                         {
@@ -3906,7 +3906,7 @@
     }
 
 
-    s.btn_print_cancel = function ()
+    s.btn_print_cancel = function (par_empl_id, par_application_nbr)
     {
         // if (s.leave_cancel_status_descr == "New" ||
         //     s.leave_cancel_status_descr == "Cancel Pending" ||
@@ -3916,8 +3916,8 @@
         //     return;
         // }
         
-        var application_nbr     = s.txtb_appl_nbr
-        var empl_id             = s.txtb_empl_id
+        var application_nbr     = par_application_nbr
+        var empl_id             = par_empl_id
         var ReportName          = "CrystalReport"
         var SaveName            = "Crystal_Report"
         var ReportType          = "inline"

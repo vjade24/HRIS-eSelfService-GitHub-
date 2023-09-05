@@ -795,7 +795,8 @@
                                                                         <br />
                                                                         Reason: {{lst.reason}} ({{lst.leave_cancel_type}})
                                                                         <br />
-                                                                        Status: {{lst.leave_cancel_status_descr}} 
+                                                                        Status: {{lst.leave_cancel_status_descr}}
+                                                                        <button ng-click="btn_print_cancel(lst.empl_id,lst.leave_ctrlno)">Print</button>
                                                                     </small>
                                                                     <hr style="margin-top:5px;margin-bottom:2px;padding:0px;" />
                                                                 </div>
@@ -1096,7 +1097,7 @@
                     <div ng-show="show_final_approved">
                         <button type="button" class="btn btn-primary" ng-show="!show_pending_submit" ng-click="btn_submit_cancel()"><i class="fa fa-send"></i> Submit and Print  Cancellation</button>
                         <button type="button" class="btn btn-danger" ng-show="show_pending_submit" ng-click="btn_submit_cancel_pending()"><i class="fa fa-send"></i> Cancel Pending</button>
-                        <button type="button" class="btn btn-success" ng-show="show_pending_submit" ng-click="btn_print_cancel()"><i class="fa fa-print"></i> Print</button>
+                        <button type="button" class="btn btn-success" ng-show="show_pending_submit" ng-click="btn_print_cancel(txtb_empl_id,txtb_appl_nbr)"><i class="fa fa-print"></i> Print</button>
                     </div>
                 </div>
             </div>
