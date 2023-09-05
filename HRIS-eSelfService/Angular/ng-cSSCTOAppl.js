@@ -1127,6 +1127,7 @@
                                 , leave_date_to         : e_date
                                 , date_num_day          : "1"
                                 , date_num_day_total    : s.tot_nbr_days * 8
+                                , cto_remarks           : s.txtb_cto_remarks
                             }
                             s.start_date = s_date
                             s.datalistgrid2.push(data)
@@ -1265,7 +1266,8 @@
                         leave_date_from    : ss_date
                         ,leave_date_to     : ee_date
                         ,date_num_day      : $("#txtb_day_equiv").val()
-                        ,date_num_day_total: $("#txtb_day_equiv_tot").val()
+                        , date_num_day_total: $("#txtb_day_equiv_tot").val()
+                        , cto_remarks       : s.txtb_cto_remarks
                     }
                     
 
@@ -1616,7 +1618,8 @@
                                                 , commutation                   : $('#commutation').val()
                                             }
 
-                                            for (var x = 0; x < s.datalistgrid2.length; x++) {
+                                            for (var x = 0; x < s.datalistgrid2.length; x++)
+                                            {
                                                 data2.push({
                                                     leave_ctrlno            : data.leave_ctrlno
                                                     , leave_date_from       : s.datalistgrid2[x].leave_date_from
