@@ -28,6 +28,7 @@ namespace HRIS_eSelfService.Controllers
     {
         HRIS_DEVEntities db_dev = new HRIS_DEVEntities();
         HRIS_ATSEntities db_ats = new HRIS_ATSEntities();
+        HRIS_DEVEntities db_pay = new HRIS_DEVEntities();
         User_Menu um = new User_Menu();
         //*********************************************************************//
         // Created By : JRV - Created Date : 05/09/2020
@@ -451,8 +452,29 @@ namespace HRIS_eSelfService.Controllers
                             && trans_ref == null
                             && isCheckBool(par_emergency) == false)
                         {
-                            par_status = trans_ref2[0].auto_status;
-                            db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
+                            var requestor_empl_id = par_data_header.travel_requestor_empl_id;
+                            var level1approver = db_pay.transactionsapprover_tbl.Where(a => a.empl_id == requestor_empl_id && a.transaction_code == "003" && a.workflow_authority == "1").FirstOrDefault();
+                            if (level1approver == null)
+                            {
+                                par_status = trans_ref2[0].auto_status;
+                                db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
+                            }
+                            else
+                            {
+                                var department_code = par_data_header.department_code;
+                                var pg_head_empl_id = db_pay.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault().empl_id;
+                                if (department_code == "02" || department_code == "26")
+                                {
+                                    par_status = "R";
+                                    db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Reviewed");
+                                }
+                                else
+                                {
+                                    par_status = trans_ref2[0].auto_status;
+                                    db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
+                                }
+                            }
+
                         }
 
                         else if (trans_ref2[0].auto_status == "F" 
