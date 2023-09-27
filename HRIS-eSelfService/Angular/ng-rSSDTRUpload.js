@@ -9,8 +9,10 @@
     s.ddl_entry_type3       = "1";
     s.empl_id               = "";
     var btn                 = null;
-    s.prevValues            = null;
-    
+    s.prevValues = null;
+
+    s.biometrics_location = []
+
     function init()
     {
         $("#ddl_upload_type").val("1")

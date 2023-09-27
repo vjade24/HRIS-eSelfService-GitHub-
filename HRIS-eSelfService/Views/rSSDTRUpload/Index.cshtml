@@ -356,6 +356,7 @@
                                     <ul class="nav nav-tabs" id="tab_dtr_up">
                                         <li id="tab1" class="active"><a data-toggle="tab" href="#tab-1"><b>Upload Data</b></a></li>
                                         <li id="tab2" class=""><a data-toggle="tab" href="#tab-2"><b>Employee DTR Data</b></a></li>
+                                        <li id="tab3" class=""><a data-toggle="tab" href="#tab-3"><b>Extract Biometrics data</b></a></li>
                                     </ul>
                                     <div class="tab-content">
                                         <div id="tab-1" class="tab-pane active" style="padding-bottom:0px;margin-bottom:0px;">
@@ -470,6 +471,75 @@
                                                     <div class="col-sm-2">
                                                         <button id="dtr_generation_empl" class="btn btn-warning btn-block pull-right" ng-click="btn_generate_empl()"><i class="fa fa-cogs"></i> Generate DTR</button>
                                                     </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <hr style="margin-top:10px;margin-bottom:10px" />
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                                                            <div class="table-resposive">
+                                                                <table id="datalist_grid2" ng-model="datalist_grid2" class="table_div table table-striped table-bordered table-hover table-responsive" style="width:100% !important;">
+                                                                    <thead>
+                                                                        <tr sstyle="background-color: #1AB394 !important;">
+                                                                            <th width="15%">DATE</th>
+                                                                            <th width="10%">AM IN</th>
+                                                                            <th width="10%">AM OUT</th>
+                                                                            <th width="10%">PM IN</th>
+                                                                            <th width="10%">PM OUT</th>
+                                                                            <th width="35%">REMARKS</th>
+                                                                            <th width="10%">ACTION</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="tab-3" class="tab-pane">
+                                            <div class="panel-body" style="min-height:70% !important;">
+                                                <div class="row">
+                                                    <div class="col-sm-2" style="padding-top:5px">
+                                                        <label>Biometrics Location :</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <select class="select2_demo_3 form-control" id="ddl_bioloc" ng-model="ddl_bioloc" ng-change="FilterPageGrid3()" style="width:100%;">
+                                                            <option value="">--Select Here--</option>
+                                                            <option ng-repeat="lst in biometrics_location" value="{{lst.MachineNumber}}">{{lst.bio_location}}</option>
+                                                        </select>
+                                                        
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button id="dtr_print" class="btn btn-primary btn-block pull-right" ng-click="btn_bio_extract()"><i class="fa fa-print"></i> Extract</button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row" style="padding-top:5px;">
+                                                    
+                                                        <div class="col-sm-2" style="padding-top:5px">
+                                                            <label>Extract Period From:</label>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" class="form-control text-left" data-provide="datepicker" id="extract_period_from" ng-model="extract_period_from">
+                                                            <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                                        </div>
+                                                   
+                                                    <div class="col-sm-2" style="padding-top:5px">
+                                                        <label>Extract Period To:</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input type="text" class="form-control text-left" data-provide="datepicker" id="extract_period_to" ng-model="extract_period_to">
+                                                        <span class="fa fa-calendar pull-right" style="margin-top:-25px;padding-right:10px;"></span>
+                                                       
+                                                    </div>
+
+                                                    @*<div class="col-sm-2">
+                                                        <button id="dtr_generation_empl" class="btn btn-warning btn-block pull-right" ng-click="btn_generate_empl()"><i class="fa fa-cogs"></i> Generate DTR</button>
+                                                    </div>*@
                                                 </div>
 
                                                 <div class="row">
