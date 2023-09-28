@@ -4324,40 +4324,40 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
 
 
-    $('#datalist_grid_check').on('mouseover', '.hver', function () {
+    //$('#datalist_grid_check').on('mouseover', '.hver', function () {
 
-        var tr = $(this).closest('tr');
-        var row = $('#datalist_grid_check').DataTable().row(tr);
+    //    var tr = $(this).closest('tr');
+    //    var row = $('#datalist_grid_check').DataTable().row(tr);
 
-        row.child(format_check(row.data())).show();
-        tr.addClass('shown');
-
-
-    }).on('mouseout', '.hver', function () {
-
-        var tr = $(this).closest('tr');
-        var row = $('#datalist_grid_check').DataTable().row(tr);
-        row.child.hide();
-        tr.removeClass('shown');
-
-    });
-
-    $('#datalist_grid_check_actioned').on('mouseover', '.hver', function () {
-
-        var tr = $(this).closest('tr');
-        var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
-        row.child(format_check(row.data())).show();
-        tr.addClass('shown');
+    //    row.child(format_check(row.data())).show();
+    //    tr.addClass('shown');
 
 
-    }).on('mouseout', '.hver', function () {
+    //}).on('mouseout', '.hver', function () {
 
-        var tr = $(this).closest('tr');
-        var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
-        row.child.hide();
-        tr.removeClass('shown');
+    //    var tr = $(this).closest('tr');
+    //    var row = $('#datalist_grid_check').DataTable().row(tr);
+    //    row.child.hide();
+    //    tr.removeClass('shown');
 
-    });
+    //});
+
+    //$('#datalist_grid_check_actioned').on('mouseover', '.hver', function () {
+
+    //    var tr = $(this).closest('tr');
+    //    var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
+    //    row.child(format_check(row.data())).show();
+    //    tr.addClass('shown');
+
+
+    //}).on('mouseout', '.hver', function () {
+
+    //    var tr = $(this).closest('tr');
+    //    var row = $('#datalist_grid_check_actioned').DataTable().row(tr);
+    //    row.child.hide();
+    //    tr.removeClass('shown');
+
+    //});
 
 
 })
