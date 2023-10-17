@@ -120,7 +120,7 @@ namespace HRIS_eSelfService.Controllers
 
                
                 location = Server.MapPath("../DTR_Upload/");
-                
+                // location = @"Y:\dtr_upload\";
 
                 var process_biodata_2dtr_stg = new object();
 
@@ -260,7 +260,7 @@ namespace HRIS_eSelfService.Controllers
             string pathx = "";
             
             string path = Server.MapPath("~/DTR_Upload/");
-
+            // string path = @"Y:\dtr_upload\";
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -272,16 +272,19 @@ namespace HRIS_eSelfService.Controllers
 
                 //empl_directory = "DTR-" + DateTime.Now.ToString("yyyy-MM-dd");
                 project_path     = Server.MapPath("~/DTR_Upload");
-                current_path     = "";
+                // project_path = @"Y:\dtr_upload\";
+                current_path = "";
 
                 if (!Directory.Exists(System.IO.Path.Combine(project_path)))
                 {
                     System.IO.Directory.CreateDirectory(System.IO.Path.Combine(project_path));
                     current_path = Server.MapPath("~/DTR_Upload/");
+                    // current_path = @"Y:\dtr_upload\";
                 }
                 else
                 {
                     current_path = Server.MapPath("~/DTR_Upload/");
+                    // current_path = @"Y:\dtr_upload\";
                 }
                 postedFile.SaveAs(current_path + "/" + postedFile.FileName.ToString());
                 pathx = "../DTR_Upload/" + postedFile.FileName.ToString();

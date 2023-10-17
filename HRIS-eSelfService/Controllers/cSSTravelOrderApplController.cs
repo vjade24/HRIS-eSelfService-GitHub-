@@ -319,6 +319,7 @@ namespace HRIS_eSelfService.Controllers
             return travel_order_number;
         }
 
+
         //*********************************************************************//
         // Created By   : JORGE RUSTOM VILLANUEVA
         // Created Date : 04/13/2020
@@ -329,46 +330,49 @@ namespace HRIS_eSelfService.Controllers
             try
             {
                 db_ats.Database.CommandTimeout = int.MaxValue;
-                string travel_order_no  = "";
-                string message          = "";
+                string user_id = Session["user_id"].ToString();
+                string empl_id = Session["empl_id"].ToString();
+                string travel_order_no = "";
+                string message = "";
+                bool to_empl_with_creator_ao = false;
                 travel_order_no = GetTravelOrderNumber();
+
+                var department_code = par_data_header.department_code;
+                var requestor_empl_id = par_data_header.travel_requestor_empl_id;
 
                 if (par_action == "ADD")
                 {
-                    travelorder_hdr_tbl travelorder_hdr_tbl     = new travelorder_hdr_tbl();
+                    travelorder_hdr_tbl travelorder_hdr_tbl = new travelorder_hdr_tbl();
                     //travel_order_ldnf_tbl travel_order_ldnf_tbl = new travel_order_ldnf_tbl();
 
                     if (par_status == "N")
                     {
 
-
-
-                        travelorder_hdr_tbl.travel_order_no             = isCheckString(travel_order_no);
-                        travelorder_hdr_tbl.travel_datefiled            = isCheckDate(par_data_header.travel_datefiled.ToString());
-                        travelorder_hdr_tbl.travel_datefiled_original   = DateTime.Now;
-                        travelorder_hdr_tbl.travel_form_type            = isCheckString(par_data_header.travel_form_type);
-                        travelorder_hdr_tbl.travel_place_visit          = isCheckString(par_data_header.travel_place_visit);
-                        travelorder_hdr_tbl.travel_purpose              = isCheckString(par_data_header.travel_purpose);
-                        travelorder_hdr_tbl.travel_requestor_empl_id    = isCheckString(par_data_header.travel_requestor_empl_id);
-                        travelorder_hdr_tbl.travel_type_code            = isCheckString(par_data_header.travel_type_code);
-                        travelorder_hdr_tbl.travel_details              = isCheckString(par_data_header.travel_details);
-                        travelorder_hdr_tbl.travel_with_claims          = isCheckBool(par_data_header.travel_with_claims.ToString());
-                       
-                        travelorder_hdr_tbl.approval_status             = isCheckString(par_status);
-                        travelorder_hdr_tbl.posting_status              = isCheckBool(par_data_header.posting_status.ToString());
-                        travelorder_hdr_tbl.approval_id                 = "";
-                        travelorder_hdr_tbl.department_code             = isCheckString(par_data_header.department_code);
-                        travelorder_hdr_tbl.travel_justification        = isCheckString(par_data_header.travel_justification);
-                        travelorder_hdr_tbl.updated_by_user             = "";
-                        travelorder_hdr_tbl.updated_dttm                = isCheckDate("1900-01-01");
-                        travelorder_hdr_tbl.recappr_empl                = isCheckString(par_data_header.recappr_empl);
-                        travelorder_hdr_tbl.firstappr_empl_id             = isCheckString(par_data_header.firstappr_empl_id);
-                        travelorder_hdr_tbl.finalappro_empl_id          = isCheckString(par_data_header.finalappro_empl_id);
-                        travelorder_hdr_tbl.ldnf                      = isCheckBool(par_ldnf);
-                        travelorder_hdr_tbl.to_emergency              = isCheckBool(par_emergency);
-                        travelorder_hdr_tbl.late_justification         = isCheckString(par_late_justi);
+                        travelorder_hdr_tbl.travel_order_no = isCheckString(travel_order_no);
+                        travelorder_hdr_tbl.travel_datefiled = isCheckDate(par_data_header.travel_datefiled.ToString());
+                        travelorder_hdr_tbl.travel_datefiled_original = DateTime.Now;
+                        travelorder_hdr_tbl.travel_form_type = isCheckString(par_data_header.travel_form_type);
+                        travelorder_hdr_tbl.travel_place_visit = isCheckString(par_data_header.travel_place_visit);
+                        travelorder_hdr_tbl.travel_purpose = isCheckString(par_data_header.travel_purpose);
+                        travelorder_hdr_tbl.travel_requestor_empl_id = isCheckString(par_data_header.travel_requestor_empl_id);
+                        travelorder_hdr_tbl.travel_type_code = isCheckString(par_data_header.travel_type_code);
+                        travelorder_hdr_tbl.travel_details = isCheckString(par_data_header.travel_details);
+                        travelorder_hdr_tbl.travel_with_claims = isCheckBool(par_data_header.travel_with_claims.ToString());
+                        travelorder_hdr_tbl.approval_status = isCheckString(par_status);
+                        travelorder_hdr_tbl.posting_status = isCheckBool(par_data_header.posting_status.ToString());
+                        travelorder_hdr_tbl.approval_id = "";
+                        travelorder_hdr_tbl.department_code = isCheckString(par_data_header.department_code);
+                        travelorder_hdr_tbl.travel_justification = isCheckString(par_data_header.travel_justification);
+                        travelorder_hdr_tbl.updated_by_user = "";
+                        travelorder_hdr_tbl.updated_dttm = isCheckDate("1900-01-01");
+                        travelorder_hdr_tbl.recappr_empl = isCheckString(par_data_header.recappr_empl);
+                        travelorder_hdr_tbl.firstappr_empl_id = isCheckString(par_data_header.firstappr_empl_id);
+                        travelorder_hdr_tbl.finalappro_empl_id = isCheckString(par_data_header.finalappro_empl_id);
+                        travelorder_hdr_tbl.ldnf = isCheckBool(par_ldnf);
+                        travelorder_hdr_tbl.to_emergency = isCheckBool(par_emergency);
+                        travelorder_hdr_tbl.late_justification = isCheckString(par_late_justi);
                         db_ats.travelorder_hdr_tbl.Add(travelorder_hdr_tbl);
-                        
+
 
                         if (par_data_empl != null)
                         {
@@ -377,12 +381,13 @@ namespace HRIS_eSelfService.Controllers
 
                             if (check_exists_empl.Count > 0)
                             {
-                      
+
                                 var delete_empl = db_ats.travelorder_empl_dtl_tbl.RemoveRange(db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == travel_order_no));
                             }
 
                             for (var x = 0; x < par_data_empl.Count; x++)
                             {
+
                                 par_data_empl[x].travel_order_no = travel_order_no;
                                 db_ats.travelorder_empl_dtl_tbl.Add(par_data_empl[x]);
                             }
@@ -423,20 +428,27 @@ namespace HRIS_eSelfService.Controllers
                             }
                         }
 
-                        
+
 
 
                     }
 
                     else if (par_status == "S")
                     {
+                        var par_status_descr = "";
+
+
+                        var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "003").ToList();
+                        var pg_head_empl_id = db_dev.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault().empl_id;
                         var app_id = db_dev.sp_insert_transaction_to_approvalworkflow_tbl(Session["user_id"].ToString(), Session["empl_id"].ToString(), "003").ToList();
-                        par_data_header.approval_id     = app_id[0].ToString();
+
+                        par_data_header.approval_id = app_id[0].ToString();
 
                         var trans_ref = db_dev.transactionsapprover_tbl.Where(a => a.empl_id == par_data_header.travel_requestor_empl_id
                                                         && a.transaction_code == "003"
                                                         && a.workflow_authority == "0"
                                                         && a.with_self_service_approval == true).FirstOrDefault();
+
 
                         if (trans_ref != null)
                         {
@@ -444,41 +456,43 @@ namespace HRIS_eSelfService.Controllers
                             db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Reviewed");
                         }
 
-                        string user_id = Session["user_id"].ToString();
-                        var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "003").ToList();
+                        if (par_data_empl != null && trans_ref2[0].auto_status == "1")
+                        {
+                            var empl_creator_ao = 0;
+                            for (var x = 0; x < par_data_empl.Count; x++)
+                            {
+                                if (requestor_empl_id == par_data_empl[x].empl_id && (department_code == "02" || department_code == "26"))
+                                {
+                                    empl_creator_ao += 1;
+                                }
+                            }
+                            if (empl_creator_ao > 0)
+                            {
+                                par_status = "R";
+                                par_status_descr = "Auto-reviewed";
+                                to_empl_with_creator_ao = true;
+                            }
+                        }
+
+
 
                         if (trans_ref2[0].auto_status != "F"
-                            && trans_ref2[0].auto_status != "" 
+                            && trans_ref2[0].auto_status != ""
                             && trans_ref == null
                             && isCheckBool(par_emergency) == false)
                         {
-                            var requestor_empl_id = par_data_header.travel_requestor_empl_id;
-                            var level1approver = db_pay.transactionsapprover_tbl.Where(a => a.empl_id == requestor_empl_id && a.transaction_code == "003" && a.workflow_authority == "1").FirstOrDefault();
-                            if (level1approver == null)
+                            if (to_empl_with_creator_ao == true)
+                            {
+                                db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, par_status_descr);
+                            }
+                            else
                             {
                                 par_status = trans_ref2[0].auto_status;
                                 db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
                             }
-                            else
-                            {
-                                var department_code = par_data_header.department_code;
-                                var pg_head_empl_id = db_pay.departments_tbl.Where(a => a.department_code == department_code).FirstOrDefault().empl_id;
-                                if (department_code == "02" || department_code == "26")
-                                {
-                                    par_status = "R";
-                                    db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Reviewed");
-                                }
-                                else
-                                {
-                                    par_status = trans_ref2[0].auto_status;
-                                    db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
-                                }
-                            }
-
                         }
-
-                        else if (trans_ref2[0].auto_status == "F" 
-                            && trans_ref2[0].auto_status != "" 
+                        else if (trans_ref2[0].auto_status == "F"
+                            && trans_ref2[0].auto_status != ""
                             && trans_ref == null
                             && isCheckBool(par_emergency) == false)
                         {
@@ -486,8 +500,8 @@ namespace HRIS_eSelfService.Controllers
                             db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Level 1 Approved");
                         }
 
-                        else if (trans_ref2[0].auto_status == "1" 
-                            && trans_ref2[0].auto_status != "" 
+                        else if (trans_ref2[0].auto_status == "1"
+                            && trans_ref2[0].auto_status != ""
                             && trans_ref == null
                             && isCheckBool(par_emergency) == true
                             && (isCheckString(par_data_header.department_code) != "21"
@@ -496,7 +510,8 @@ namespace HRIS_eSelfService.Controllers
                                             && isCheckString(par_data_header.department_code) != "24"
                                             && isCheckString(par_data_header.department_code) != "20"
                                             && isCheckString(par_data_header.department_code) != "11"
-                                            && isCheckString(par_data_header.department_code) != "12")) {
+                                            && isCheckString(par_data_header.department_code) != "12"))
+                        {
                             par_status = "F";
                             db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Final Approved");
                         }
@@ -517,31 +532,31 @@ namespace HRIS_eSelfService.Controllers
                             db_dev.sp_update_transaction_in_approvalworkflow_tbl(par_data_header.approval_id, Session["user_id"].ToString(), par_status, "Level 1 Approved");
                         }
 
-                        travelorder_hdr_tbl.travel_order_no             = isCheckString(travel_order_no);
+                        travelorder_hdr_tbl.travel_order_no = isCheckString(travel_order_no);
 
-                     
-                        travelorder_hdr_tbl.travel_datefiled            = isCheckDate(par_data_header.travel_datefiled.ToString());
-                        travelorder_hdr_tbl.travel_datefiled_original   = DateTime.Now;
-                        travelorder_hdr_tbl.travel_form_type            = isCheckString(par_data_header.travel_form_type);
-                        travelorder_hdr_tbl.travel_place_visit          = isCheckString(par_data_header.travel_place_visit);
-                        travelorder_hdr_tbl.travel_purpose              = isCheckString(par_data_header.travel_purpose);
-                        travelorder_hdr_tbl.travel_requestor_empl_id    = isCheckString(par_data_header.travel_requestor_empl_id);
-                        travelorder_hdr_tbl.travel_type_code            = isCheckString(par_data_header.travel_type_code);
-                        travelorder_hdr_tbl.travel_details              = isCheckString(par_data_header.travel_details);
-                        travelorder_hdr_tbl.travel_with_claims          = isCheckBool(par_data_header.travel_with_claims.ToString());
-                        travelorder_hdr_tbl.travel_justification        = isCheckString(par_data_header.travel_justification);
-                        travelorder_hdr_tbl.approval_status             = isCheckString(par_status);
-                        travelorder_hdr_tbl.posting_status              = isCheckBool(par_data_header.posting_status.ToString());
-                        travelorder_hdr_tbl.approval_id                 = isCheckString(par_data_header.approval_id);
-                        travelorder_hdr_tbl.department_code             = isCheckString(par_data_header.department_code);
-                        travelorder_hdr_tbl.updated_by_user             = "";
-                        travelorder_hdr_tbl.updated_dttm                = isCheckDate("1900-01-01");
-                        travelorder_hdr_tbl.recappr_empl                = isCheckString(par_data_header.recappr_empl);
-                        travelorder_hdr_tbl.firstappr_empl_id           = isCheckString(par_data_header.firstappr_empl_id);
-                        travelorder_hdr_tbl.finalappro_empl_id          = isCheckString(par_data_header.finalappro_empl_id);
-                        travelorder_hdr_tbl.ldnf                        = isCheckBool(par_ldnf);
-                        travelorder_hdr_tbl.to_emergency                = isCheckBool(par_emergency);
-                        travelorder_hdr_tbl.late_justification          = isCheckString(par_late_justi);
+
+                        travelorder_hdr_tbl.travel_datefiled = isCheckDate(par_data_header.travel_datefiled.ToString());
+                        travelorder_hdr_tbl.travel_datefiled_original = DateTime.Now;
+                        travelorder_hdr_tbl.travel_form_type = isCheckString(par_data_header.travel_form_type);
+                        travelorder_hdr_tbl.travel_place_visit = isCheckString(par_data_header.travel_place_visit);
+                        travelorder_hdr_tbl.travel_purpose = isCheckString(par_data_header.travel_purpose);
+                        travelorder_hdr_tbl.travel_requestor_empl_id = isCheckString(par_data_header.travel_requestor_empl_id);
+                        travelorder_hdr_tbl.travel_type_code = isCheckString(par_data_header.travel_type_code);
+                        travelorder_hdr_tbl.travel_details = isCheckString(par_data_header.travel_details);
+                        travelorder_hdr_tbl.travel_with_claims = isCheckBool(par_data_header.travel_with_claims.ToString());
+                        travelorder_hdr_tbl.travel_justification = isCheckString(par_data_header.travel_justification);
+                        travelorder_hdr_tbl.approval_status = isCheckString(par_status);
+                        travelorder_hdr_tbl.posting_status = isCheckBool(par_data_header.posting_status.ToString());
+                        travelorder_hdr_tbl.approval_id = isCheckString(par_data_header.approval_id);
+                        travelorder_hdr_tbl.department_code = isCheckString(par_data_header.department_code);
+                        travelorder_hdr_tbl.updated_by_user = "";
+                        travelorder_hdr_tbl.updated_dttm = isCheckDate("1900-01-01");
+                        travelorder_hdr_tbl.recappr_empl = isCheckString(par_data_header.recappr_empl);
+                        travelorder_hdr_tbl.firstappr_empl_id = isCheckString(par_data_header.firstappr_empl_id);
+                        travelorder_hdr_tbl.finalappro_empl_id = isCheckString(par_data_header.finalappro_empl_id);
+                        travelorder_hdr_tbl.ldnf = isCheckBool(par_ldnf);
+                        travelorder_hdr_tbl.to_emergency = isCheckBool(par_emergency);
+                        travelorder_hdr_tbl.late_justification = isCheckString(par_late_justi);
                         db_ats.travelorder_hdr_tbl.Add(travelorder_hdr_tbl);
 
 
@@ -550,14 +565,17 @@ namespace HRIS_eSelfService.Controllers
                         //travel_order_ldnf_tbl.to_emergency = isCheckBool(par_emergency);
                         //db_ats.travel_order_ldnf_tbl.Add(travel_order_ldnf_tbl);
                         //ADD DATA TO EMPLOYEES DETAILS
+
                         if (par_data_empl != null)
                         {
                             for (var x = 0; x < par_data_empl.Count; x++)
                             {
+
                                 par_data_empl[x].travel_order_no = travel_order_no;
                                 par_data_empl[x].rcrd_status = par_status;
                                 db_ats.travelorder_empl_dtl_tbl.Add(par_data_empl[x]);
                             }
+
                         }
 
                         if (par_data_dates != null)
@@ -570,7 +588,7 @@ namespace HRIS_eSelfService.Controllers
                                 db_ats.travelorder_dates_dtl_tbl.Add(par_data_dates[x]);
                             }
                         }
-                        
+
 
 
                     }
@@ -590,7 +608,7 @@ namespace HRIS_eSelfService.Controllers
                         {
                             db_dev.sp_update_transaction_in_approvalworkflow_tbl(travelorder_hdr_tbl.approval_id, Session["user_id"].ToString(), par_status, par_data_header.travel_details);
                         }
-                        
+
 
                         var delete_dates = db_ats.travelorder_dates_dtl_tbl.RemoveRange(db_ats.travelorder_dates_dtl_tbl.Where(a => a.travel_order_no == par_data_header.travel_order_no));
                         var delete_empl = db_ats.travelorder_empl_dtl_tbl.RemoveRange(db_ats.travelorder_empl_dtl_tbl.Where(a => a.travel_order_no == par_data_header.travel_order_no));
@@ -602,11 +620,11 @@ namespace HRIS_eSelfService.Controllers
                         travelorder_hdr_tbl.travel_type_code = isCheckString(par_data_header.travel_type_code);
                         travelorder_hdr_tbl.travel_details = isCheckString(par_data_header.travel_details);
                         travelorder_hdr_tbl.travel_with_claims = isCheckBool(par_data_header.travel_with_claims.ToString());
-                        travelorder_hdr_tbl.posting_status  = isCheckBool(par_data_header.posting_status.ToString());
+                        travelorder_hdr_tbl.posting_status = isCheckBool(par_data_header.posting_status.ToString());
 
-                        travelorder_hdr_tbl.ldnf                = isCheckBool(par_ldnf);
-                        travelorder_hdr_tbl.to_emergency        = isCheckBool(par_emergency);
-                        travelorder_hdr_tbl.late_justification  = isCheckString(par_late_justi);
+                        travelorder_hdr_tbl.ldnf = isCheckBool(par_ldnf);
+                        travelorder_hdr_tbl.to_emergency = isCheckBool(par_emergency);
+                        travelorder_hdr_tbl.late_justification = isCheckString(par_late_justi);
                         //if (travel_order_ldnf_tbl == null)
                         //{
 
@@ -633,8 +651,10 @@ namespace HRIS_eSelfService.Controllers
                         travelorder_hdr_tbl.finalappro_empl_id = isCheckString(par_data_header.finalappro_empl_id);
                         if (par_status == "S")
                         {
+
+
                             travelorder_hdr_tbl.approval_status = isCheckString(par_status);
-                            var app_id = db_dev.sp_insert_transaction_to_approvalworkflow_tbl(Session["user_id"].ToString(), Session["empl_id"].ToString(), "003").ToList();
+                            var app_id = db_dev.sp_insert_transaction_to_approvalworkflow_tbl(user_id, empl_id, "003").ToList();
                             travelorder_hdr_tbl.approval_id = app_id[0].ToString();
                             validate_approval_status = "S";
                         }
@@ -651,7 +671,7 @@ namespace HRIS_eSelfService.Controllers
                                 par_status = "R";
                                 validate_approval_status = "R";
 
-                                string user_id = Session["user_id"].ToString();
+
                                 var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "003").ToList();
                                 if (trans_ref2[0].auto_status != "")
                                 {
@@ -665,7 +685,6 @@ namespace HRIS_eSelfService.Controllers
                         }
                         else
                         {
-                            string user_id = Session["user_id"].ToString();
                             var trans_ref2 = db_ats.sp_ss_auto_approval(user_id, "003").ToList();
                             if (trans_ref2[0].auto_status != "")
                             {
@@ -687,13 +706,14 @@ namespace HRIS_eSelfService.Controllers
                                         validate_approval_status = "F";
                                         db_dev.sp_update_transaction_in_approvalworkflow_tbl(travelorder_hdr_tbl.approval_id, Session["user_id"].ToString(), "F", "Final Approved");
                                     }
-                                    else{
+                                    else
+                                    {
                                         travelorder_hdr_tbl.approval_status = isCheckString(trans_ref2[0].auto_status);
                                         par_status = trans_ref2[0].auto_status;
                                         validate_approval_status = trans_ref2[0].auto_status;
                                         db_dev.sp_update_transaction_in_approvalworkflow_tbl(travelorder_hdr_tbl.approval_id, Session["user_id"].ToString(), par_status, trans_ref2[0].auto_remarks);
                                     }
-                                    
+
                                 }
                             }
                         }
@@ -741,13 +761,13 @@ namespace HRIS_eSelfService.Controllers
 
                     }
 
-                    
+
 
                     else
                     {
                         message = "fail";
                     }
-                    
+
                 }
 
 
@@ -761,7 +781,7 @@ namespace HRIS_eSelfService.Controllers
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
-        
+
         //*********************************************************************//
         // Created By   : Joseph M. Tombo Jr. 
         // Created Date : 03/13/2020
