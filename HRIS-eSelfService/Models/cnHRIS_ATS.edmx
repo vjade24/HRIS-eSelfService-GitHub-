@@ -2226,6 +2226,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_to_info' does not have a primary k
         <EntityType Name="vw_to_info">
           <Key>
             <PropertyRef Name="TO_travel_type_abbrv" />
+            <PropertyRef Name="travel_order_no" />
           </Key>
           <Property Name="dtr_date" Type="varchar" MaxLength="10" />
           <Property Name="empl_id" Type="varchar" MaxLength="8" />
@@ -2236,6 +2237,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_to_info' does not have a primary k
           <Property Name="TO_travel_endtime" Type="varchar" MaxLength="5" />
           <Property Name="TO_travel_endtime_ampm" Type="varchar" MaxLength="5" />
           <Property Name="TO_travel_type_abbrv" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="travel_order_no" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'HRIS_ATS.dbo.vw_to_info_daily_rep' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2625,10 +2627,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <Function Name="func_get_date_applied_leave_application_oth" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
           <Parameter Name="application_nbr" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="func_get_date_applied_leave_application2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+        <Function Name="func_get_date_applied_leave_application2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar(max)">
           <Parameter Name="application_nbr" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="func_get_date_applied_leave_application2_lwop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+        <Function Name="func_get_date_applied_leave_application2_lwop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar(max)">
           <Parameter Name="application_nbr" Type="varchar" Mode="In" />
           <Parameter Name="nbr_lwop" Type="int" Mode="In" />
         </Function>
@@ -2795,13 +2797,14 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <CollectionType>
               <RowType>
                 <Property Name="ledger_ctrl_no" Type="varchar" MaxLength="10" Nullable="false" />
-                <Property Name="leave_ctrlno" Type="varchar" MaxLength="8" Nullable="false" />
+                <Property Name="leave_ctrlno" Type="varchar" MaxLength="10" Nullable="false" />
                 <Property Name="appl_status" Type="varchar" MaxLength="255" Nullable="false" />
                 <Property Name="appl_remarks" Type="varchar" MaxLength="255" Nullable="false" />
                 <Property Name="created_dttm" Type="datetime" Nullable="false" />
                 <Property Name="created_by" Type="varchar" MaxLength="30" Nullable="false" />
                 <Property Name="employee_name_format_2" Type="varchar" MaxLength="249" Nullable="false" />
-                <Property Name="trace_code" Type="varchar" MaxLength="2" Nullable="false" />
+                <Property Name="trace_code" Type="varchar" MaxLength="1" Nullable="false" />
+                <Property Name="empl_photo_img" Type="varbinary(max)" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -2950,6 +2953,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <Property Name="to_time_in_pm" Type="varchar" MaxLength="5" />
                 <Property Name="to_time_out_pm" Type="varchar" MaxLength="5" />
                 <Property Name="to_remarks" Type="varchar" MaxLength="100" />
+                <Property Name="travel_order_no" Type="varchar" MaxLength="10" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -3526,6 +3530,10 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         </Function>
         <Function Name="sp_employee_list_dept_position" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_employee_list_dept_position_2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="p_empl_id" Type="varchar" Mode="In" />
+          <Parameter Name="p_department_code" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_employee_list_dtr_AO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_user_id" Type="varchar" Mode="In" />
@@ -4138,6 +4146,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_department_code" Type="varchar" Mode="In" />
           <Parameter Name="par_employment_type" Type="varchar" Mode="In" />
           <Parameter Name="par_view_mode" Type="varchar" Mode="In" />
+          <Parameter Name="par_user_id" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_transmittal_leave_hdr_tbl_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_created_year" Type="varchar" Mode="In" />
@@ -4292,6 +4301,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Parameter Name="par_year" Type="varchar" Mode="In" />
           <Parameter Name="par_month" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_travelorder_recommending_final_approver" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_travelorder_search_list" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="par_empl_id" Type="varchar" Mode="In" />
           <Parameter Name="par_year" Type="varchar" Mode="In" />
@@ -5055,7 +5065,8 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
     [vw_to_info].[TO_travel_starttime_ampm] AS [TO_travel_starttime_ampm], 
     [vw_to_info].[TO_travel_endtime] AS [TO_travel_endtime], 
     [vw_to_info].[TO_travel_endtime_ampm] AS [TO_travel_endtime_ampm], 
-    [vw_to_info].[TO_travel_type_abbrv] AS [TO_travel_type_abbrv]
+    [vw_to_info].[TO_travel_type_abbrv] AS [TO_travel_type_abbrv], 
+    [vw_to_info].[travel_order_no] AS [travel_order_no]
     FROM [dbo].[vw_to_info] AS [vw_to_info]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="vw_to_info_daily_rep" EntityType="Self.vw_to_info_daily_rep" store:Type="Views" store:Schema="dbo">
@@ -7615,6 +7626,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
         <EntityType Name="vw_to_info">
           <Key>
             <PropertyRef Name="TO_travel_type_abbrv" />
+            <PropertyRef Name="travel_order_no" />
           </Key>
           <Property Name="dtr_date" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="empl_id" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
@@ -7625,6 +7637,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Name="TO_travel_endtime" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="TO_travel_endtime_ampm" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="TO_travel_type_abbrv" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="travel_order_no" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="vw_to_info_daily_rep">
           <Key>
@@ -9068,6 +9081,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_department_code" Mode="In" Type="String" />
             <Parameter Name="par_employment_type" Mode="In" Type="String" />
             <Parameter Name="par_view_mode" Mode="In" Type="String" />
+            <Parameter Name="par_user_id" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_transmittal_leave_hdr_tbl_list" ReturnType="Collection(HRIS_ATSModel.sp_transmittal_leave_hdr_tbl_list_Result)">
             <Parameter Name="par_created_year" Mode="In" Type="String" />
@@ -9314,6 +9328,11 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
             <Parameter Name="par_year" Mode="In" Type="String" />
             <Parameter Name="par_effective_date" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <FunctionImport Name="sp_employee_list_dept_position_2" ReturnType="Collection(HRIS_ATSModel.sp_employee_list_dept_position_2_Result)">
+            <Parameter Name="p_empl_id" Mode="In" Type="String" />
+            <Parameter Name="p_department_code" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_travelorder_recommending_final_approver" ReturnType="Collection(HRIS_ATSModel.sp_travelorder_recommending_final_approver_Result)" />
         </EntityContainer>
         <ComplexType Name="astype_tbl_list_Result">
           <Property Type="String" Name="astype_code" Nullable="false" MaxLength="2" />
@@ -12937,6 +12956,17 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <Property Type="String" Name="approval_status" Nullable="false" MaxLength="1" />
           <Property Type="String" Name="approval_status_descr" Nullable="true" MaxLength="30" />
         </ComplexType>
+        <ComplexType Name="sp_employee_list_dept_position_2_Result">
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="211" />
+          <Property Type="String" Name="position_title1" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="user_id" Nullable="true" MaxLength="9" />
+        </ComplexType>
+        <ComplexType Name="sp_travelorder_recommending_final_approver_Result">
+          <Property Type="String" Name="department_code" Nullable="true" MaxLength="2" />
+          <Property Type="String" Name="empl_id" Nullable="false" MaxLength="8" />
+          <Property Type="String" Name="employee_name" Nullable="true" MaxLength="210" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14916,6 +14946,7 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
           <EntitySetMapping Name="vw_to_info">
             <EntityTypeMapping TypeName="HRIS_ATSModel.vw_to_info">
               <MappingFragment StoreEntitySet="vw_to_info">
+                <ScalarProperty Name="travel_order_no" ColumnName="travel_order_no" />
                 <ScalarProperty Name="dtr_date" ColumnName="dtr_date" />
                 <ScalarProperty Name="empl_id" ColumnName="empl_id" />
                 <ScalarProperty Name="travel_date" ColumnName="travel_date" />
@@ -19981,6 +20012,25 @@ warning 6002: The table/view 'HRIS_ATS.dbo.vw_with_absent_perstrans_half' does n
                 <ScalarProperty Name="ts_day_equivalent" ColumnName="ts_day_equivalent" />
                 <ScalarProperty Name="approval_status" ColumnName="approval_status" />
                 <ScalarProperty Name="approval_status_descr" ColumnName="approval_status_descr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_employee_list_dept_position_2" FunctionName="HRIS_ATSModel.Store.sp_employee_list_dept_position_2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_employee_list_dept_position_2_Result">
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
+                <ScalarProperty Name="position_title1" ColumnName="position_title1" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_travelorder_recommending_final_approver" FunctionName="HRIS_ATSModel.Store.sp_travelorder_recommending_final_approver">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HRIS_ATSModel.sp_travelorder_recommending_final_approver_Result">
+                <ScalarProperty Name="department_code" ColumnName="department_code" />
+                <ScalarProperty Name="empl_id" ColumnName="empl_id" />
+                <ScalarProperty Name="employee_name" ColumnName="employee_name" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

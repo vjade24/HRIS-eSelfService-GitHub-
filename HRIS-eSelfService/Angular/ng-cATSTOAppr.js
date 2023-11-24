@@ -204,12 +204,12 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
                 init_table_data5([]);
                 init_table_data6([]); //CHECK LIST
                 init_table_data7([]);
-                s.dept_list = d.data.dept_list;
-                s.empl_type_list = d.data.employment_type;
+
+                // s.empl_type_list = d.data.employment_type;
                 s.appr_status = d.data.status;
                 s.travel_type_list = d.data.travel_type_list
-                s.empl_name_list = d.data.empl_name_search
-                s.ddl_search_empl_name_list = d.data.empl_name_search
+
+
 
                 s.isDisAbledType = true
                 s.travel_type_list_dtl = d.data.travel_type_list
@@ -261,8 +261,8 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
             //data_analytics()
 
             initMorris()
-
             s.getMorrisOffline()
+
 
 
             if (localStorage["minus_travel_order"] > 0) {
@@ -288,6 +288,35 @@ ng_selfService_App.controller("cATSTOAppr_Ctrl", function (commonScript, $scope,
 
 
         });
+        var ls_data = []
+        if (localStorage.getItem('empl_name_search') == null || localStorage.getItem('empl_name_search') == "undefined") {
+            h.post("../cATSTOAppr/Empl_name_search").then(function (d) {
+                s.empl_name_list = d.data.empl_name_search
+                s.ddl_search_empl_name_list = d.data.empl_name_search
+                localStorage['empl_name_search'] = JSON.stringify(d.data.empl_name_search);
+            })
+        }
+        else {
+            ls_data = JSON.parse(localStorage['empl_name_search']);
+            s.empl_name_list = ls_data
+            s.ddl_search_empl_name_list = ls_data
+        }
+
+        var ls_data_2 = []
+        if (localStorage.getItem('dept_list') == null || localStorage.getItem('dept_list') == "undefined") {
+            h.post("../cATSTOAppr/Dept_list").then(function (d) {
+                s.dept_list = d.data.dept_list;
+                localStorage['dept_list'] = JSON.stringify(d.data.dept_list);
+
+            })
+        }
+        else {
+            ls_data_2 = JSON.parse(localStorage['dept_list']);
+            s.dept_list = ls_data_2
+
+        }
+
+
     }
     init()
 

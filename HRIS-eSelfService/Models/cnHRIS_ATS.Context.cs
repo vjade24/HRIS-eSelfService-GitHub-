@@ -4609,7 +4609,7 @@ namespace HRIS_eSelfService.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_monthly_tbl_list_Result>("sp_transmittal_leave_dtl_monthly_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
         }
     
-        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode)
+        public virtual ObjectResult<sp_transmittal_leave_dtl_tbl_list_Result> sp_transmittal_leave_dtl_tbl_list(string par_doc_ctrl_nbr, Nullable<System.DateTime> par_approved_period_from, Nullable<System.DateTime> par_approved_period_to, string par_department_code, string par_employment_type, string par_view_mode, string par_user_id)
         {
             var par_doc_ctrl_nbrParameter = par_doc_ctrl_nbr != null ?
                 new ObjectParameter("par_doc_ctrl_nbr", par_doc_ctrl_nbr) :
@@ -4635,7 +4635,11 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_view_mode", par_view_mode) :
                 new ObjectParameter("par_view_mode", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter);
+            var par_user_idParameter = par_user_id != null ?
+                new ObjectParameter("par_user_id", par_user_id) :
+                new ObjectParameter("par_user_id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_transmittal_leave_dtl_tbl_list_Result>("sp_transmittal_leave_dtl_tbl_list", par_doc_ctrl_nbrParameter, par_approved_period_fromParameter, par_approved_period_toParameter, par_department_codeParameter, par_employment_typeParameter, par_view_modeParameter, par_user_idParameter);
         }
     
         public virtual ObjectResult<sp_transmittal_leave_hdr_tbl_list_Result> sp_transmittal_leave_hdr_tbl_list(string par_created_year, string par_created_month)
@@ -5497,6 +5501,24 @@ namespace HRIS_eSelfService.Models
                 new ObjectParameter("par_effective_date", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_time_schedule_empl_tbl1_Result>("sp_time_schedule_empl_tbl1", par_empl_idParameter, par_monthParameter, par_yearParameter, par_effective_dateParameter);
+        }
+    
+        public virtual ObjectResult<sp_employee_list_dept_position_2_Result> sp_employee_list_dept_position_2(string p_empl_id, string p_department_code)
+        {
+            var p_empl_idParameter = p_empl_id != null ?
+                new ObjectParameter("p_empl_id", p_empl_id) :
+                new ObjectParameter("p_empl_id", typeof(string));
+    
+            var p_department_codeParameter = p_department_code != null ?
+                new ObjectParameter("p_department_code", p_department_code) :
+                new ObjectParameter("p_department_code", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_employee_list_dept_position_2_Result>("sp_employee_list_dept_position_2", p_empl_idParameter, p_department_codeParameter);
+        }
+    
+        public virtual ObjectResult<sp_travelorder_recommending_final_approver_Result> sp_travelorder_recommending_final_approver()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_travelorder_recommending_final_approver_Result>("sp_travelorder_recommending_final_approver");
         }
     }
 }

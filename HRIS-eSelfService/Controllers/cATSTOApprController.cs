@@ -77,8 +77,9 @@ namespace HRIS_eSelfService.Controllers
             var sp_approval_worklist_travel_order = db_ats.sp_approval_worklist_travel_order(Session["user_id"].ToString().Trim(), par_department_code, par_to_year, par_to_month, par_employment_type).ToList();
             return JSON(new { message = "success", sp_approval_worklist_travel_order }, JsonRequestBehavior.AllowGet);
         }
-        
-        
+
+
+
         //*********************************************************************//
         // Created By   : Joseph M. Tombo Jr.
         // Created Date : 06/03/2020
@@ -93,10 +94,10 @@ namespace HRIS_eSelfService.Controllers
                 string user_id = Session["user_id"].ToString();
                 var btn_enabled_4HR = false;
                 var user_dept = Session["department_code"].ToString();
-                if(user_dept == "03" || user_dept == "01")
+                if (user_dept == "03" || user_dept == "01")
                 {
                     btn_enabled_4HR = false;
-                  
+
                 }
                 else
                 {
@@ -111,8 +112,8 @@ namespace HRIS_eSelfService.Controllers
                 {
                     check_dept_init = "";
                 }
-                var employment_type  = db_dev.sp_employmenttypes_tbl_list().ToList();
-                var dept_list        = db_dev.vw_departments_tbl_list.ToList();
+
+
                 var sp_approval_worklist_travel_order = db_ats.sp_approval_worklist_travel_order(Session["user_id"].ToString().Trim(), check_dept_init, (DateTime.Now.ToString("yyyy")), (DateTime.Now.ToString("MM")), "").ToList();
                 var travel_type_list = db_ats.traveltype_tbl.ToList();
                 //var empl_name = db_ats.sp_employee_list_all(empl_id).ToList();
@@ -128,11 +129,44 @@ namespace HRIS_eSelfService.Controllers
                 {
                     pa_approver = "";
                 }
-
-
-                var empl_name_search = db_ats.sp_travelorder_search_names((DateTime.Now.ToString("yyyy")), (DateTime.Now.ToString("MM"))).ToList();
                 var reason_tbl = db_ats.to_disapprove_reason_tbl.OrderByDescending(a => a.no_use).FirstOrDefault();
-                return JSON(new { message = "success", empl_name_search, dept_list, employment_type, sp_approval_worklist_travel_order, travel_type_list, dept_code, btn_enabled_4HR, empl_id, current_date, reason_tbl, pa_approver}, JsonRequestBehavior.AllowGet);
+                return JSON(new { message = "success", sp_approval_worklist_travel_order, travel_type_list, dept_code, btn_enabled_4HR, empl_id, current_date, reason_tbl, pa_approver }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //*********************************************************************//
+        // Created By   : marvin OLITA. 
+        // Created Date : 10/20/2023
+        // Description  : 
+        //*********************************************************************//
+        public ActionResult Empl_name_search()
+        {
+            try
+            {
+                var empl_name_search = db_ats.sp_travelorder_search_names((DateTime.Now.ToString("yyyy")), (DateTime.Now.ToString("MM"))).ToList();
+                return JSON(new { message = "success", empl_name_search }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message.ToString();
+                return Json(new { message = message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //*********************************************************************//
+        // Created By   : marvin OLITA. 
+        // Created Date : 10/20/2023
+        // Description  : 
+        //*********************************************************************//
+        public ActionResult Dept_list()
+        {
+            try
+            {
+                var dept_list = db_dev.vw_departments_tbl_list.ToList();
+                return JSON(new { message = "success", dept_list }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

@@ -82,10 +82,9 @@ namespace HRIS_eSelfService.Controllers
                 //Updated By: Joseph M. Tombo Jr 02/24/2020
                 var data = db.sp_user_login_SS(username.Trim(), Cmn.EncryptString(password.Trim(), Cmn.CONST_WORDENCRYPTOR)).FirstOrDefault();
                 var cmt = db.user_cmt_tbl.Where(a => a.user_id == username.Trim()).ToList();
-
                 var dep = db.departments_tbl.Where(a => a.department_code == data.department_code).FirstOrDefault();
-
               
+               
                 if (data.change_password == false)
                 {
                     if (data.log_in_flag == "Y")
@@ -103,11 +102,9 @@ namespace HRIS_eSelfService.Controllers
                         Session["budget_code"]      = data.budget_code;
                         Session["department_code"]  = data.department_code;
                         Session["employment_type"]  = data.employment_type;
-
                         Session["log_in_as_AO"]      = data.log_in_as_AO;
-
                         Session["department_short_name"] = dep != null ? dep.department_short_name:""; //UPDATED BY JOSEPH
-
+                        Session["department_name1"] = dep != null ? dep.department_name1 : ""; //UPDATED BY MARVIN
 
                         var pa_data = db_ats.to_final_approver_tbl.Where(a => a.user_id == data.user_id).FirstOrDefault();
                         if (pa_data != null)
@@ -120,7 +117,7 @@ namespace HRIS_eSelfService.Controllers
 
                             Session["pa_approver"] = "";
                         }
-
+                        
                     }
 
                     change_pass                 = data.change_password.ToString();

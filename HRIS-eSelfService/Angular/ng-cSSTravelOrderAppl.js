@@ -200,8 +200,20 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
 
                     s.travel_order_requestor            = d.data.empl_name
-                    s.travel_order_requestor_empl_id    = d.data.empl_id
-                    holiDate                            = d.data.holiDate;
+                    s.travel_order_requestor_empl_id = d.data.empl_id
+
+                    if (localStorage.getItem('holiDate') == null || localStorage.getItem('holiDate') == "undefined") {
+                        h.post("../cSSTravelOrderAppl/Holidays").then(function (d) {
+                            holiDate = d.data.holiDate
+                            localStorage['holiDate'] = JSON.stringify(d.data.holiDate);
+                            initialize_calendar();
+                        })
+                    }
+                    else {
+                        ls_array = JSON.parse(localStorage['holiDate']);
+                        holiDate = ls_array
+                        initialize_calendar();
+                    }
                    
                    
                     s.txtb_travel_department_dspl       = d.data.department_list.department_name1
@@ -241,22 +253,22 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                     }
                    
                     //s.travel_type_list                  = d.data.travel_type_list
-                    s.employees_list                    = d.data.empl_name_list
-                    s.employees_list_header             = d.data.empl_name_list
+                    //s.employees_list                    = d.data.empl_name_list
+                    //s.employees_list_header             = d.data.empl_name_list
                     
                     s.ddl_name_header = d.data.empl_id
 					
-                    initialize_calendar();
+                    
                     
                     if (d.data.sp_dtr_transmittal_addressto_list.length > 0)
                     {
                         s.ddl_address_to_list1 = d.data.sp_dtr_transmittal_addressto_list
-                        if (d.data.dept_code == "18") {
+                        if (d.data.dept_code == "18" || d.data.dept_code == "19") {
 
-                            var dta = d.data.sp_dtr_transmittal_addressto_list.filter(function (k,v) {
-                                return k.empl_id == "9224" || k.empl_id == "7610" 
+                            var dta = d.data.sp_dtr_transmittal_addressto_list.filter(function (k, v) {
+                                return k.empl_id == "9224" || k.empl_id == "7610"
                             })
-                         
+
                             s.ddl_address_to_list = dta
 
                         }
@@ -318,6 +330,32 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                   
 
                     $("#loading_data").modal("hide")
+                    if (d.data.log_in_as_AO.toUpperCase() == "TRUE") {
+                        var ls_array = []
+                        if (localStorage.getItem('empl_name_list') == null || localStorage.getItem('empl_name_list') == "undefined") {
+                            h.post("../cSSTravelOrderAppl/empl_name_list", { empl_id: d.data.empl_id }).then(function (d) {
+                                s.employees_list = d.data.empl_name_list
+                                s.employees_list_header = d.data.empl_name_list
+                                localStorage['empl_name_list'] = JSON.stringify(d.data.empl_name_list);
+                            })
+                        }
+                        else {
+                            ls_array = JSON.parse(localStorage['empl_name_list']);
+                            s.employees_list = ls_array
+                            s.employees_list_header = ls_array
+                        }
+
+                    }
+                    else {
+                        var obj = {
+                            empl_id: d.data.empl_id
+                            , employee_name: d.data.empl_name
+                            , position_title1: d.data.position_title1
+                        }
+                        s.employees_list.push(obj)
+                        s.employees_list_header.push(obj)
+                    }
+
 
                 }
                 else
@@ -932,19 +970,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                   
 
                     jQuery('.fc-today-button').addClass("xxbtn_today_text");
-                    $('.fc-prev-button').click(function () {
-                        $('.popover').popover('hide')
-                        s.getEmployeeInfoHeader()
-                    });
-
-                    $('.fc-next-button').click(function () {
-                        $('.popover').popover('hide')
-                        s.getEmployeeInfoHeader()
-                    });
-
-                    $('.fc-today-button').click(function () {
-                        $('.popover').popover('hide')
-                    });
+                    
 
                 },
                 select: function (start, end, jsEvent, event) {
@@ -1065,6 +1091,19 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
                 s.par_month = date_value[1]
                 s.par_year  = date_value[0]
 
+            });
+            $('.fc-prev-button').click(function () {
+                $('.popover').popover('hide')
+                s.getEmployeeInfoHeader()
+            });
+
+            $('.fc-next-button').click(function () {
+                $('.popover').popover('hide')
+                s.getEmployeeInfoHeader()
+            });
+
+            $('.fc-today-button').click(function () {
+                $('.popover').popover('hide')
             });
         }
         catch (err) {
@@ -1440,12 +1479,7 @@ ng_selfService_App.controller("cSSTravelOrderAppl_Ctrl", function (commonScript,
 
 
                 }
-
-
             })
-
-       
-       
     }
 
     s.getEmployeeInfo = function ()
@@ -3688,7 +3722,7 @@ function RemoveClass(value, field) {
 //24
 
 ng_selfService_App.directive('ngLdnf', ["commonScript", function (cs) {
-   
+
     //************************************// 
     //*** this directive remove the required warning if fields is not empty
     //************************************// 
@@ -3697,26 +3731,35 @@ ng_selfService_App.directive('ngLdnf', ["commonScript", function (cs) {
         link: function (scope, elem, attrs) {
             elem.on('click', function () {
                 var dep = scope.txtb_travel_department_dspl_hid
+
+
+
                 if (elem[0].checked) {
-                    if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
+                    if (dep == "02" || dep == "18" || dep == "12" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24" || dep == "26") {
+                        console.log(dep)
+                        console.log(elem[0].checked)
                         scope.withrecommending = true
-                       
-                        $("#rec_approver").prop("hidden", false)
+                        $("#rec_approver").removeClass("hidden")
+
+
                     }
                     else {
+
                         scope.withrecommending = false
-                        $("#rec_approver").prop("hidden",true)
+                        $("#rec_approver").addClass("hidden")
                     }
                     scope.withLdnf = true
                 } else {
                     scope.withrecommending = false
                     scope.withLdnf = false
-                    $("#rec_approver").prop("hidden", false)
+                    $("#rec_approver").addClass("hidden")
                 }
             })
         }
     }
 }])
+
+
 
 ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) {
 
@@ -3731,18 +3774,18 @@ ng_selfService_App.directive('withRecommending', ["commonScript", function (cs) 
                 if (scope.withLdnf) {
                     if (dep == "02" || dep == "18" || dep == "19" || dep == "20" || dep == "21" || dep == "22" || dep == "23" || dep == "24") {
                         scope.withrecommending = true
-                        $("#rec_approver").prop("hidden", false)
+                        $("#rec_approver").removeClass("hidden")
                     }
                     else {
                         scope.withrecommending = false
-                        $("#rec_approver").prop("hidden", true)
+                        $("#rec_approver").addClass("hidden")
                     }
                 }
                 else {
                     scope.withrecommending = false
-                    $("#rec_approver").prop("hidden", false)
+                    $("#rec_approver").addClass("hidden")
                 }
-               
+
             })
         }
     }

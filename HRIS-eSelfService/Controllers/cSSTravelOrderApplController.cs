@@ -98,8 +98,8 @@ namespace HRIS_eSelfService.Controllers
                 string dept_code                        = Session["department_code"].ToString();
                 string log_in_as_AO                     = Session["log_in_as_AO"].ToString();
                 var department_list                     = db_dev.vw_departments_tbl_list.Where(a => a.department_code == dept_code).FirstOrDefault();
-                var holiDate                            = db_dev.sp_holidays_tbl_list(Int32.Parse(DateTime.Now.Year.ToString())).ToList();
-                var sp_dtr_transmittal_addressto_list   = db_ats.sp_dtr_transmittal_addressto_list().ToList();
+               
+                var sp_dtr_transmittal_addressto_list   = db_ats.sp_travelorder_recommending_final_approver().ToList();
                 int int_month = DateTime.Now.Month;
                 string string_month = "";
                 if (int_month >= 10)
@@ -125,8 +125,9 @@ namespace HRIS_eSelfService.Controllers
 
                 // var empl_name_list              = db_dev.sp_employee_list_dept_travel(dept_code);
                 //var empl_name_list = db_dev.sp_employee_list_dept(empl_id); --REMOVE NO POSITION TITLE
-                var empl_name_list = db_ats.sp_employee_list_dept_position(empl_id);
-                return JSON(new { message       = "success", empl_name_list, department_list, um, travel_type_list, sp_travelorder_hdr_tbl_list, status, empl_name, empl_id, dept_code, holiDate, sp_travelorder_hdr_tbl_calendar_list, sp_dtr_transmittal_addressto_list, current_date, emergencypurpose }, JsonRequestBehavior.AllowGet);
+                //var empl_name_list = db_ats.sp_employee_list_dept_position(empl_id);
+               
+                return JSON(new { message       = "success", department_list, um, travel_type_list, sp_travelorder_hdr_tbl_list, status, empl_name, empl_id, dept_code, sp_travelorder_hdr_tbl_calendar_list, sp_dtr_transmittal_addressto_list, current_date, emergencypurpose }, JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException e)
             {
@@ -134,6 +135,44 @@ namespace HRIS_eSelfService.Controllers
                 return Json(new { message = message }, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public ActionResult Holidays() // ADDED BY MARVIN
+        {
+            try
+            {
+                var holiDate = db_dev.sp_holidays_tbl_list(Int32.Parse(DateTime.Now.Year.ToString())).ToList();
+                return JSON(new { icon = "success", holiDate }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { icon = "error", message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult empl_name_list(string empl_id)
+        {
+            try
+            {
+                string dept_code = Session["department_code"].ToString();
+                var empl_name_list = db_ats.sp_employee_list_dept_position_2(empl_id, dept_code);
+                return JSON(new { icon = "success", empl_name_list }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                string message = e.Message;
+                return Json(new { icon = "error", message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        //public ActionResult empl_name_list(string empl_id)
+        //{
+        //    if(empl_id == "8276")
+        //    {
+
+        //    }
+        //}
+
+
         //*********************************************************************//
         // Created By   : Joseph M. Tombo Jr. 
         // Created Date : 03/02/2020
